@@ -54,3 +54,4 @@
 *.pcache filter=lfs diff=lfs merge=lfs
 *.vf filter=lfs diff=lfs merge=lfs
 *.3ds filter=lfs diff=lfs merge=lfs
+*.tgz filter=lfs diff=lfs merge=lfs
