@@ -260,6 +260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224255301}
   - component: {fileID: 224255300}
+  - component: {fileID: 224255302}
   m_Layer: 0
   m_Name: ProjectileSpawnHandler
   m_TagString: Untagged
@@ -282,6 +283,7 @@ MonoBehaviour:
   _projectile: {fileID: 4291132892925457062, guid: 4a73e17714837444f978bbf9a34d981b,
     type: 3}
   _spawnGuide: {fileID: 10145067}
+  _inGameInputManager: {fileID: 224255302}
 --- !u!4 &224255301
 Transform:
   m_ObjectHideFlags: 0
@@ -297,6 +299,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &224255302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224255299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d0f34550a47c1a40ad15fb4120ca8a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _inputType: 0
 --- !u!1001 &270053130
 PrefabInstance:
   m_ObjectHideFlags: 0
