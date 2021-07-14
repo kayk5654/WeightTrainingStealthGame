@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Microsoft.MixedReality.Toolkit.Input;
 /// <summary>
 /// manages various input to control in-game objects;
 /// keyboard, air-tap, exercise movement, etc.
@@ -32,6 +33,8 @@ public class InGameInputManager : MonoBehaviour
 
     // event called when the player stops keeping the lowest posture
     public event EventHandler _onStoptHold;
+
+    //private provider
 
     /// <summary>
     /// initialization of input type
