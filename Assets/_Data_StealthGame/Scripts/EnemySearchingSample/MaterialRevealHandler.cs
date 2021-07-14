@@ -12,6 +12,7 @@ public class MaterialRevealHandler : MonoBehaviour
     [SerializeField, Tooltip("reveal speed")]
     private float _speed;
 
+    // _revealOrigin should be contained in a static class in the future development
     [Tooltip("origin of reveal area")]
     public Vector3 _revealOrigin;
 

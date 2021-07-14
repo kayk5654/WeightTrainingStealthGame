@@ -13,6 +13,8 @@ public class ProjectileBase : MonoBehaviour
     // a coroutine to delete this projectile when it lost attack target
     protected IEnumerator _destroySelfSequence;
 
+    protected MaterialRevealHandler _materialRevealHandler;
+
     /// <summary>
     /// initialization
     /// </summary>
@@ -34,11 +36,16 @@ public class ProjectileBase : MonoBehaviour
     }
 
     /// <summary>
-    /// detect collison on the target object
+    /// detect collision on the scene object
     /// </summary>
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        
+        // kick revealing feature for testing
+        _materialRevealHandler._revealOrigin = transform.position;
+        _materialRevealHandler.TestRevealing();
+
+        // destroy itself
+        Destroy(this.gameObject);
     }
 
     /// <summary>
@@ -57,6 +64,15 @@ public class ProjectileBase : MonoBehaviour
     public void SetSpawnPosition(Vector3 position)
     {
         _spawnPosition = position;
+    }
+
+    /// <summary>
+    /// initialize reference of MaterialRevealHandler
+    /// </summary>
+    /// <param name="handler"></param>
+    public void SetMaterialRevealHandler(MaterialRevealHandler handler)
+    {
+        _materialRevealHandler = handler;
     }
 
     /// <summary>
