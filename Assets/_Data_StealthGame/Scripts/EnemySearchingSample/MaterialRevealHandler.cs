@@ -118,7 +118,7 @@ public class MaterialRevealHandler : MonoBehaviour
     /// <summary>
     /// reset material
     /// </summary>
-    private void ResetMaterial()
+    public void ResetMaterial()
     {
         if(_revealSequence != null)
         {
