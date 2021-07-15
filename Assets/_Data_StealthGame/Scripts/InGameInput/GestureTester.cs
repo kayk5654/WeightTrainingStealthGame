@@ -26,7 +26,13 @@ namespace Microsoft.MixedReality.Toolkit.Examples
 
         private void OnEnable()
         {
+            CoreServices.InputSystem?.RegisterHandler<IMixedRealityGestureHandler>(this);
             HideRails();
+        }
+
+        private void OnDisable()
+        {
+            CoreServices.InputSystem?.UnregisterHandler<IMixedRealityGestureHandler>(this);
         }
 
         public void OnGestureStarted(InputEventData eventData)

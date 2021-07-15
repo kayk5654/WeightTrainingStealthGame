@@ -20,6 +20,7 @@ public class ProjectileSpawnHandler : MonoBehaviour
     [SerializeField, Tooltip("scene material control")]
     private MaterialRevealHandler _materialRevealHandler;
 
+
     /// <summary>
     /// initialization
     /// </summary>
@@ -33,6 +34,17 @@ public class ProjectileSpawnHandler : MonoBehaviour
     /// it'll be called as a callback of input
     /// </summary>
     private void Spawn(object sender, EventArgs e)
+    {
+        ProjectileBase projectile = Instantiate(_projectile, _spawnGuide.position, _spawnGuide.rotation, null);
+        projectile.SetMoveDirection(_spawnGuide.forward);
+        projectile.SetSpawnPosition(_spawnGuide.position);
+        projectile.SetMaterialRevealHandler(_materialRevealHandler);
+    }
+
+    /// <summary>
+    /// for test using a pressable button
+    /// </summary>
+    public void Spawn()
     {
         ProjectileBase projectile = Instantiate(_projectile, _spawnGuide.position, _spawnGuide.rotation, null);
         projectile.SetMoveDirection(_spawnGuide.forward);

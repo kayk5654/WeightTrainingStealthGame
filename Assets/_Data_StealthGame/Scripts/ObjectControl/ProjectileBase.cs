@@ -15,12 +15,24 @@ public class ProjectileBase : MonoBehaviour
 
     protected MaterialRevealHandler _materialRevealHandler;
 
+    [SerializeField, Tooltip("particles to emit when this projectile dies")]
+    private DeathParticlesController _deathParticlesController;
+
     /// <summary>
     /// initialization
     /// </summary>
     protected virtual void Start()
     {
 
+    }
+
+    /// <summary>
+    /// emit particles when this projectile dies
+    /// </summary>
+    private void OnDestroy()
+    {
+        _deathParticlesController.transform.parent = null;
+        _deathParticlesController.EmitParticles();
     }
 
     /// <summary>
