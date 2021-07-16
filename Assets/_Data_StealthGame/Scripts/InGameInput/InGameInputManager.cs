@@ -36,20 +36,14 @@ public class InGameInputManager : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        switch (_inputType)
+        // for debugging, use keyboard on the editor
+        // on hololens2, use button instead of keyboard
+#if !UNITY_EDITOR
+        if(_inputType == InputType.keyboard)
         {
-            case InputType.keyboard:
-                break;
-
-            case InputType.exercise:
-                break;
-
-            case InputType.button:
-                break;
-
-            default:
-                break;
+            _inputType = InputType.button;
         }
+#endif
     }
 
 
