@@ -30,21 +30,18 @@ public class ProjectileSpawnHandler : MonoBehaviour
     }
 
     /// <summary>
+    /// disable callback
+    /// </summary>
+    private void OnDisable()
+    {
+        _inGameInputManager._onPush -= Spawn;
+    }
+
+    /// <summary>
     /// spawn projectile by any action
     /// it'll be called as a callback of input
     /// </summary>
     private void Spawn(object sender, EventArgs e)
-    {
-        ProjectileBase projectile = Instantiate(_projectile, _spawnGuide.position, _spawnGuide.rotation, null);
-        projectile.SetMoveDirection(_spawnGuide.forward);
-        projectile.SetSpawnPosition(_spawnGuide.position);
-        projectile.SetMaterialRevealHandler(_materialRevealHandler);
-    }
-
-    /// <summary>
-    /// for test using a pressable button
-    /// </summary>
-    public void Spawn()
     {
         ProjectileBase projectile = Instantiate(_projectile, _spawnGuide.position, _spawnGuide.rotation, null);
         projectile.SetMoveDirection(_spawnGuide.forward);

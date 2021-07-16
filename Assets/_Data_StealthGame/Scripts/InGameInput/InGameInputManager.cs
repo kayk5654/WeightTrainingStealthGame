@@ -15,15 +15,12 @@ public class InGameInputManager : MonoBehaviour
     private enum InputType
     {
         keyboard,
-        airTap,
         exercise,
+        button,
     }
 
     [SerializeField, Tooltip("type of input to control in-game objects")]
     private InputType _inputType;
-
-    // actual input to control in-game objects
-    //private IInGameInput _inGameInput;
 
     // event called when the movement to push player's body up is detected
     public event EventHandler _onPush;
@@ -32,9 +29,7 @@ public class InGameInputManager : MonoBehaviour
     public event EventHandler _onStartHold;
 
     // event called when the player stops keeping the lowest posture
-    public event EventHandler _onStoptHold;
-
-    //private provider
+    public event EventHandler _onStopHold;
 
     /// <summary>
     /// initialization of input type
@@ -46,10 +41,10 @@ public class InGameInputManager : MonoBehaviour
             case InputType.keyboard:
                 break;
 
-            case InputType.airTap:
+            case InputType.exercise:
                 break;
 
-            case InputType.exercise:
+            case InputType.button:
                 break;
 
             default:
@@ -75,11 +70,8 @@ public class InGameInputManager : MonoBehaviour
 
                 if (Input.GetKeyUp(KeyCode.Alpha2))
                 {
-                    _onStoptHold(this, EventArgs.Empty);
+                    _onStopHold(this, EventArgs.Empty);
                 }
-                break;
-
-            case InputType.airTap:
                 break;
 
             case InputType.exercise:
@@ -88,5 +80,32 @@ public class InGameInputManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    /// <summary>
+    /// execute _onPush fron a button in the scene
+    /// </summary>
+    public void CallOnPush()
+    {
+        if(_inputType != InputType.button) { return; }
+        _onPush(this, EventArgs.Empty);
+    }
+
+    /// <summary>
+    /// execute _onStartHold fron a button in the scene
+    /// </summary>
+    public void CallOnStartHold()
+    {
+        if (_inputType != InputType.button) { return; }
+        _onStartHold(this, EventArgs.Empty);
+    }
+
+    /// <summary>
+    /// execute _onStopHold fron a button in the scene
+    /// </summary>
+    public void CallOnStopHold()
+    {
+        if (_inputType != InputType.button) { return; }
+        _onStopHold(this, EventArgs.Empty);
     }
 }
