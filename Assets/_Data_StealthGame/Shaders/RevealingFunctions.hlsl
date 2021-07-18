@@ -39,10 +39,8 @@ float GetFeatherAroundFadingBorder(float distanceFromCenterPoint, float4 revealA
 }
 
 // sample a texture with uv patterns with different tiling and offset parameters
-float4 SampleTextureWidhDoubledUv(float4 tilingOffset1, float4 tilingOffset2, float2 uv, Texture2D texture2d)
+float4 SampleTextureWidhDoubledUv(float4 tilingOffset1, float4 tilingOffset2, float2 uv, Texture2D texture2d, SamplerState sampler_texture2d)
 {
-	SAMPLER(sampler_texture2d);
-	
 	half4 sampledTexture1 = SAMPLE_TEXTURE2D(texture2d, sampler_texture2d, uv * tilingOffset1.xy + tilingOffset1.zw);
 	half4 sampledTexture2 = SAMPLE_TEXTURE2D(texture2d, sampler_texture2d, uv * tilingOffset2.xy + tilingOffset2.zw);
 

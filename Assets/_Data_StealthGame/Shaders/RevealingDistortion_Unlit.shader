@@ -105,6 +105,11 @@
 
                 AlphaDiscard(alpha, _Cutoff);
 
+                // apply noise pattern with doubled texture sampling
+                float doubledNoise = SampleTextureWidhDoubledUv(_NoiseTilingOffset1, _NoiseTilingOffset2, uv, _NoiseTex, sampler_linear_repeat).r;
+
+                color.rgb = lerp(color.rgb, _EmissionColor.rgb, doubledNoise);
+
 #ifdef _ALPHAPREMULTIPLY_ON
                 color *= alpha;
 #endif
