@@ -1,8 +1,9 @@
 
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-#include "Packages/com.unity.render-pipelines.universal/Shaders/UnlitInput.hlsl"
+//#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+//#include "Packages/com.unity.render-pipelines.universal/Shaders/UnlitInput.hlsl"
 
 // macros for each platforms
+/*
 #if defined(SHADER_API_D3D11)
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/API/D3D11.hlsl"
 #elif defined(SHADER_API_METAL)
@@ -20,7 +21,7 @@
 #else
 #error unsupported shader api
 #endif
-
+*/
 // functions for revealing distortion shaders
 
 // get fading border for revealing effect
