@@ -37,6 +37,7 @@
             #pragma multi_compile_instancing
 
             #include "Packages/com.unity.render-pipelines.universal/Shaders/UnlitInput.hlsl"
+            #include "RevealingFunctions.hlsl"
 
             struct Attributes
             {
