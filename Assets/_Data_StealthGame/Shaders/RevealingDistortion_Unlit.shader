@@ -38,6 +38,7 @@
 
             #include "Packages/com.unity.render-pipelines.universal/Shaders/UnlitInput.hlsl"
             #include "RevealingFunctions.hlsl"
+            #include "ShaderCalculationHelper.hlsl"
 
             struct Attributes
             {
@@ -50,6 +51,7 @@
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
+                float3 worldPos : TEXCOORD1;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
             };
@@ -80,6 +82,7 @@
 
                 output.vertex = vertexInput.positionCS;
                 output.uv = TRANSFORM_TEX(input.uv, _Albedo);
+                output.worldPos = vertexInput.positionWS;
                 return output;
             }
 
@@ -93,6 +96,13 @@
                 half4 texColor = SAMPLE_TEXTURE2D(_Albedo, sampler_linear_repeat, uv);
                 half3 color = texColor.rgb *_Color.rgb;
                 half alpha = texColor.z * _Color.a;
+
+                // calculate distance from revealing center
+                float distortion = SAMPLE_TEXTURE2D(_DistortionTex, sampler_linear_repeat, uv).r;
+
+
+                alpha *= GetFadingBorder(fitRange(distortion, 0, 1, -0.2, 0.2) + distance(input.worldPos, _RevealArea.xyz), _RevealArea, _Feather);
+
                 AlphaDiscard(alpha, _Cutoff);
 
 #ifdef _ALPHAPREMULTIPLY_ON
