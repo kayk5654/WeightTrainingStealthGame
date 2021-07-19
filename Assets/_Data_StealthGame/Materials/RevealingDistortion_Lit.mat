@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RevealingDistortion_Unlit
-  m_Shader: {fileID: 4800000, guid: 87287992a6f5dc549a021ee151fe0ded, type: 3}
+  m_Name: RevealingDistortion_Lit
+  m_Shader: {fileID: 4800000, guid: cdda0ffe3e7a85344bf46d596a7a124f, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
