@@ -91,24 +91,32 @@
                 UNITY_SETUP_INSTANCE_ID(input);
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
                 
-                // sample the texture
                 half2 uv = input.uv;
+
+                // uv scroll
+                float2 scrolledUv = uv + float2(_Time.x * 0.1, 0);
+
+                // sample the texture
+                
                 half4 texColor = SAMPLE_TEXTURE2D(_Albedo, sampler_linear_repeat, uv);
                 half3 color = texColor.rgb *_Color.rgb;
                 half alpha = texColor.z * _Color.a;
 
                 // calculate distance from revealing center
-                float distortion = SAMPLE_TEXTURE2D(_DistortionTex, sampler_linear_repeat, uv).r;
-
-
-                alpha *= GetFadingBorder(fitRange(distortion, 0, 1, -0.2, 0.2) + distance(input.worldPos, _RevealArea.xyz), _RevealArea, _Feather);
+                float distortion = SAMPLE_TEXTURE2D(_DistortionTex, sampler_linear_repeat, scrolledUv).r;
+                float distortedDistanceFromCenterPoint = fitRange(distortion, 0, 1, -0.2, 0.2) + distance(input.worldPos, _RevealArea.xyz);
+                alpha *= GetFadingBorder(distortedDistanceFromCenterPoint, _RevealArea, _Feather);
 
                 AlphaDiscard(alpha, _Cutoff);
 
                 // apply noise pattern with doubled texture sampling
                 float doubledNoise = SampleTextureWidhDoubledUv(_NoiseTilingOffset1, _NoiseTilingOffset2, uv, _NoiseTex, sampler_linear_repeat).r;
 
-                color.rgb = lerp(color.rgb, _EmissionColor.rgb, doubledNoise);
+                // calculate feather for emission
+                float featherAroundFadingBorder = GetFeatherAroundFadingBorder(distortedDistanceFromCenterPoint, _RevealArea, _Feather);
+                float emissionLerpFactor = saturate(saturate(pow(doubledNoise.r * 2, 4)) + featherAroundFadingBorder);
+
+                color.rgb = lerp(color.rgb, _EmissionColor.rgb, emissionLerpFactor);
 
 #ifdef _ALPHAPREMULTIPLY_ON
                 color *= alpha;
