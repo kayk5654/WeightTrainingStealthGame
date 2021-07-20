@@ -29,6 +29,8 @@
             
             #pragma prefer_hlslcc gles
             #pragma exclude_renderers d3d11_9x
+            #pragma vertex vert
+            #pragma fragment frag
 
             // Material Keywords
             #pragma shader_feature_local_fragment _EMISSION
@@ -64,7 +66,6 @@
                 float4 positionOS : POSITION;
                 float4 normalOS : NORMAL;
                 float2 uv : TEXCOORD0;
-                float4 color : COLOR;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -122,28 +123,8 @@
                 return specularSmoothness;
             }
 
-            //  SurfaceData & InputData
-            void InitalizeSurfaceData(Varyings IN, out SurfaceData surfaceData) {
-                surfaceData = (SurfaceData)0; // avoids "not completely initalized" errors
-
-                half4 baseMap = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv);
-
-#ifdef _ALPHATEST_ON
-                // Alpha Clipping
-                clip(baseMap.a - _Cutoff);
-#endif
-
-                half4 diffuse = baseMap * _BaseColor * IN.color;
-                surfaceData.albedo = diffuse.rgb;
-                surfaceData.normalTS = SampleNormal(IN.uv, TEXTURE2D_ARGS(_BumpMap, sampler_BumpMap));
-                surfaceData.emission = SampleEmission(IN.uv, _EmissionColor.rgb, TEXTURE2D_ARGS(_EmissionMap, sampler_EmissionMap));
-                surfaceData.occlusion = 1.0; // unused
-
-                half4 specular = SampleSpecularSmoothness(IN.uv, diffuse.a, _SpecColor, TEXTURE2D_ARGS(_SpecGlossMap, sampler_SpecGlossMap));
-                surfaceData.specular = specular.rgb;
-                surfaceData.smoothness = specular.a * _Smoothness;
-            }
-
+            // InputData
+            
             void InitializeInputData(Varyings input, half3 normalTS, out InputData inputData) {
                 inputData = (InputData)0; // avoids "not completely initalized" errors
 
@@ -175,8 +156,8 @@
 #endif
 
                 inputData.bakedGI = SAMPLE_GI(input.lightmapUV, input.vertexSH, inputData.normalWS);
-                inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.positionCS);
-                inputData.shadowMask = SAMPLE_SHADOWMASK(input.lightmapUV);
+                //inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.positionCS);
+                //inputData.shadowMask = SAMPLE_SHADOWMASK(input.lightmapUV);
             }
 
             Varyings vert (Attributes input)
@@ -194,7 +175,7 @@
                 output.uv = TRANSFORM_TEX(input.uv, _Albedo);
                 output.positionWS = vertexInput.positionWS;
 
-                half3 viewDirWS = GetWorldSpaceViewDir(vertexInput.positionWS);
+                half3 viewDirWS = GetCameraPositionWS() - vertexInput.positionWS;
                 half3 vertexLight = VertexLighting(vertexInput.positionWS, normalInput.normalWS);
                 half fogFactor = ComputeFogFactor(vertexInput.positionCS.z);
 
@@ -214,8 +195,6 @@
 #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
                 output.shadowCoord = GetShadowCoord(vertexInput);
 #endif
-                output.color = input.color;
-
                 return output;
             }
 
@@ -224,14 +203,6 @@
                 UNITY_SETUP_INSTANCE_ID(input);
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
                 
-                // Setup SurfaceData
-                SurfaceData surfaceData;
-                InitalizeSurfaceData(IN, surfaceData);
-
-                // Setup InputData
-                InputData inputData;
-                InitializeInputData(IN, surfaceData.normalTS, inputData);
-
                 half2 uv = input.uv;
 
                 // uv scroll
@@ -247,7 +218,10 @@
                 float distortedDistanceFromCenterPoint = fitRange(distortion, 0, 1, -0.2, 0.2) + distance(input.positionWS, _RevealArea.xyz);
                 alpha *= GetFadingBorder(distortedDistanceFromCenterPoint, _RevealArea, _Feather);
 
-                AlphaDiscard(alpha, _Cutoff);
+                if (alpha < 0.1) 
+                {
+                    //discard;
+                }
 
                 // apply noise pattern with doubled texture sampling
                 float doubledNoise = SampleTextureWidhDoubledUv(_NoiseTilingOffset1, _NoiseTilingOffset2, uv, _NoiseTex, sampler_linear_repeat).r;
@@ -256,15 +230,20 @@
                 float featherAroundFadingBorder = GetFeatherAroundFadingBorder(distortedDistanceFromCenterPoint, _RevealArea, _Feather);
                 float emissionLerpFactor = saturate(saturate(pow(doubledNoise.r * 2, 4)) + featherAroundFadingBorder);
 
-                color.rgb = lerp(color.rgb, _EmissionColor.rgb, emissionLerpFactor);
+                half3 normalTS = SampleNormal(uv, TEXTURE2D_ARGS(_BumpMap, sampler_BumpMap));
+                half3 emission = _EmissionColor.rgb * emissionLerpFactor;
+                half4 specular = SampleSpecularSmoothness(uv, alpha, half4(1,1,1,1), TEXTURE2D_ARGS(_SpecGlossMap, sampler_SpecGlossMap));
+                half smoothness = specular.a;
 
+                // Setup InputData
+                InputData inputData;
+                InitializeInputData(input, normalTS, inputData);
 
                 // simple lighting
-                half4 lighting = UniversalFragmentBlinnPhong(inputData, surfaceData.albedo, half4(surfaceData.specular, 1),
-                    surfaceData.smoothness, surfaceData.emission, surfaceData.alpha);
+                half4 lighting = UniversalFragmentBlinnPhong(inputData, color, specular, smoothness, emission, alpha);
 
 
-                return half4(color, alpha);
+                return lighting;
             }
             ENDHLSL
         }

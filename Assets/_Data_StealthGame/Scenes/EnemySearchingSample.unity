@@ -4028,6 +4028,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 6f5585c9fc7aacf428b1b719d080df95, type: 2}
   - {fileID: 2100000, guid: 08e52d6e2bac00c438e9750ffd3209e1, type: 2}
   - {fileID: 2100000, guid: b1bc453fb06d9474a9cd8d74b55a9599, type: 2}
+  - {fileID: 2100000, guid: 864a5c06cd8daed4f8b861ed428f653e, type: 2}
   _speed: 0.4
   _revealOrigin: {x: 0, y: 0, z: 1.8}
 --- !u!1001 &2144994622
