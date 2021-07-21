@@ -8,7 +8,7 @@
         [MainColor] _BaseColor("BaseColor", Color) = (1,1,1,1)
         [MainTexture] _BaseMap("Albedo", 2D) = "white" {}
 
-        _Cutoff("Alpha Cutoff", Range(0.0, 1.0)) = 0.5
+        _Cutoff("Alpha Cutoff", Range(0.0, 1.0)) = 0.1
 
         _Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
         _GlossMapScale("Smoothness Scale", Range(0.0, 1.0)) = 1.0
@@ -29,17 +29,17 @@
         _OcclusionStrength("Strength", Range(0.0, 1.0)) = 1.0
         _OcclusionMap("Occlusion", 2D) = "white" {}
 
-        _EmissionColor("EmissionColor", Color) = (0,0,0)
+        [HDR]_EmissionColor("EmissionColor", Color) = (0,0,0)
         _EmissionMap("Emission", 2D) = "white" {}
 
         // Blending state
         [HideInInspector] _Surface("__surface", Float) = 0.0
         [HideInInspector] _Blend("__blend", Float) = 0.0
         [HideInInspector] _AlphaClip("__clip", Float) = 0.0
-        [HideInInspector] _SrcBlend("__src", Float) = 1.0
-        [HideInInspector] _DstBlend("__dst", Float) = 0.0
-        [HideInInspector] _ZWrite("__zw", Float) = 1.0
-        [HideInInspector] _Cull("__cull", Float) = 2.0
+        //[HideInInspector] _SrcBlend("__src", Float) = 1.0
+        //[HideInInspector] _DstBlend("__dst", Float) = 0.0
+        //[HideInInspector] _ZWrite("__zw", Float) = 1.0
+        //[HideInInspector] _Cull("__cull", Float) = 2.0
 
         _ReceiveShadows("Receive Shadows", Float) = 1.0
         // Editmode props
@@ -71,9 +71,9 @@
             Name "ForwardLit"
             Tags{"LightMode" = "UniversalForward"}
 
-            Blend[_SrcBlend][_DstBlend]
-            ZWrite[_ZWrite]
-            Cull[_Cull]
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZWrite On
+            Cull Back
 
             HLSLPROGRAM
         // Required to compile gles 2.0 with standard SRP library
@@ -260,7 +260,7 @@
             // calculate distance from revealing center
             float distortion = SAMPLE_TEXTURE2D(_DistortionTex, sampler_linear_repeat, scrolledUv).r;
             float distortedDistanceFromCenterPoint = fitRange(distortion, 0, 1, -0.2, 0.2) + distance(input.positionWS, _RevealArea.xyz);
-            surfaceData.alpha *= GetFadingBorder(distortedDistanceFromCenterPoint, _RevealArea, _Feather);
+            float fadeAlpha = GetFadingBorder(distortedDistanceFromCenterPoint, _RevealArea, _Feather);
 
             // apply noise pattern with doubled texture sampling
             float doubledNoise = SampleTextureWidhDoubledUv(_NoiseTilingOffset1, _NoiseTilingOffset2, input.uv, _NoiseTex, sampler_linear_repeat).r;
@@ -268,12 +268,13 @@
             // calculate feather for emission
             float featherAroundFadingBorder = GetFeatherAroundFadingBorder(distortedDistanceFromCenterPoint, _RevealArea, _Feather);
             float emissionLerpFactor = saturate(saturate(pow(doubledNoise.r * 2, 4)) + featherAroundFadingBorder);
-            surfaceData.emission *= emissionLerpFactor;
 
             InputData inputData;
             InitializeInputData(input, surfaceData.normalTS, inputData);
 
-            half4 color = UniversalFragmentPBR(inputData, surfaceData.albedo, surfaceData.metallic, surfaceData.specular, surfaceData.smoothness, surfaceData.occlusion, surfaceData.emission, surfaceData.alpha);
+            half4 color = UniversalFragmentPBR(inputData, surfaceData.albedo, surfaceData.metallic, surfaceData.specular, surfaceData.smoothness, surfaceData.occlusion, _EmissionColor * emissionLerpFactor, surfaceData.alpha * fadeAlpha);
+
+            clip(fadeAlpha - _Cutoff);
 
             color.rgb = MixFog(color.rgb, inputData.fogCoord);
             return color;
