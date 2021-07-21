@@ -8,8 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Shader Graphs_RevealingDistortion_Lit
-  m_Shader: {fileID: -6465566751694194690, guid: e2b1f7c0f131e6242ace2fa2813cb006,
-    type: 3}
+  m_Shader: {fileID: 4800000, guid: cdda0ffe3e7a85344bf46d596a7a124f, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -20,12 +19,32 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Albedo:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _AlbedoTex:
         m_Texture: {fileID: 2800000, guid: d2fa93943f83cb84886ab60b22a4ff40, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: d2fa93943f83cb84886ab60b22a4ff40, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: 0bf7c0c2d598a2b45a1797afa0120811, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DistortionTex:
         m_Texture: {fileID: 2800000, guid: 79fa18fc5bcc80944bd4ac70177b6082, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseTex:
@@ -36,15 +55,43 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 2800000, guid: 53063995366b7c543b61501c29b176b5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTextureWithDoubledUv_356AD9C_Texture2D831E0580_3114723815:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 2800000, guid: 02779ad732991ce4c9dff269ea5b63fd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - Feather: 0.08
+    - _AlphaClip: 0
+    - _Blend: 0
+    - _BumpScale: 1
+    - _Cutoff: 0.1
+    - _EnvironmentReflections: 1
+    - _Feather: 0.1
+    - _GlossMapScale: 1
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _Surface: 0
+    - _WorkflowMode: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0.23529412, g: 1.7333333, b: 0.78431374, a: 0}
+    - _NoiseTilingOffset1: {r: 1, g: 1, b: 0, a: 0}
+    - _NoiseTilingOffset2: {r: 1, g: 1, b: 0, a: 0}
     - _NoiseTllingOffset1: {r: 3.61, g: 8.42, b: 0, a: 0}
     - _NoiseTllingOffset1_1: {r: 0.72, g: 2.21, b: 1.3, a: 0.6}
-    - _RevealArea: {r: 0, g: 0, b: 1.8, a: 3.0077338}
+    - _RevealArea: {r: 0, g: 0, b: 1.8, a: 1.8229342}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

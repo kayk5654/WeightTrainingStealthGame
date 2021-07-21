@@ -1,4 +1,4 @@
-﻿Shader "Universal Render Pipeline/Lit"
+﻿Shader "StealthGame/RevealingDistortion_Lit"
 {
     Properties
     {
