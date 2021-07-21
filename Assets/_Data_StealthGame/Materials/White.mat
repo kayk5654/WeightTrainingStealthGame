@@ -219,7 +219,7 @@ Material:
     - _ProximityLightCenterColorOverride: {r: 1, g: 0, b: 0, a: 0}
     - _ProximityLightMiddleColorOverride: {r: 0, g: 1, b: 0, a: 0.5}
     - _ProximityLightOuterColorOverride: {r: 0, g: 0, b: 1, a: 1}
-    - _RevealArea: {r: 0, g: 0, b: 1.8, a: 1.8229342}
+    - _RevealArea: {r: 0, g: 0, b: 1.8, a: 3.0040421}
     - _RimColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _RoundCornersRadius: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
