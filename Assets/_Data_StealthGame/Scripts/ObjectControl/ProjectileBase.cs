@@ -5,6 +5,9 @@ using UnityEngine;
 /// </summary>
 public class ProjectileBase : MonoBehaviour
 {
+    // identify projectile
+    protected int _id;
+    
     // move direction for calculation
     protected Vector3 _moveDirection;
 
@@ -13,7 +16,7 @@ public class ProjectileBase : MonoBehaviour
     // a coroutine to delete this projectile when it lost attack target
     protected IEnumerator _destroySelfSequence;
 
-    protected MaterialRevealHandler _materialRevealHandler;
+    protected RevealAreaHandler _revealAreaHandler;
 
     [SerializeField, Tooltip("particles to emit when this projectile dies")]
     private DeathParticlesController _deathParticlesController;
@@ -53,8 +56,7 @@ public class ProjectileBase : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // kick revealing feature for testing
-        _materialRevealHandler._revealOrigin = transform.position;
-        _materialRevealHandler.TestRevealing();
+        _revealAreaHandler.Reveal(_id, transform.position);
 
         // destroy itself
         Destroy(this.gameObject);
@@ -82,9 +84,18 @@ public class ProjectileBase : MonoBehaviour
     /// initialize reference of MaterialRevealHandler
     /// </summary>
     /// <param name="handler"></param>
-    public void SetMaterialRevealHandler(MaterialRevealHandler handler)
+    public void SetRevealAreaHandler(RevealAreaHandler handler)
     {
-        _materialRevealHandler = handler;
+        _revealAreaHandler = handler;
+    }
+
+    /// <summary>
+    /// set id of this projectile
+    /// </summary>
+    /// <param name="id"></param>
+    public void SetId(int id)
+    {
+        _id = id;
     }
 
     /// <summary>

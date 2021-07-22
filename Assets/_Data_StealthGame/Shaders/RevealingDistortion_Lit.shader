@@ -279,10 +279,12 @@
             float distortedDistanceFromCenterPoint = 0;
             float fadeAlpha = 0;
             [unroll(256)]
-            for (int i = 0; i < revealAreaNum; i++)
+            for (int i = 0; i < _revealAreaNum; i++)
             {
+                if (_revealAreaBuffer[i]._id < 0) { continue; }
+                
                 distortedDistanceFromCenterPoint = fitRange(distortion, 0, 1, -0.2, 0.2) + distance(input.positionWS, _revealAreaBuffer[i]._origin);
-                fadeAlpha += GetFadingBorder(distortedDistanceFromCenterPoint, float4(_revealAreaBuffer[i]._origin, _revealAreaBuffer[i]._range), _Feather);
+                fadeAlpha += GetFadingBorder(distortedDistanceFromCenterPoint, float4(_revealAreaBuffer[i]._origin, _revealAreaBuffer[i]._range), _Feather) * _revealAreaBuffer[i]._alpha;
 
             }
 

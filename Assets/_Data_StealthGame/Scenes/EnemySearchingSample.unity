@@ -300,7 +300,7 @@ MonoBehaviour:
     type: 3}
   _spawnGuide: {fileID: 10145067}
   _inGameInputManager: {fileID: 224255302}
-  _materialRevealHandler: {fileID: 2109490474}
+  _revealAreaHandler: {fileID: 1736547006}
 --- !u!4 &224255301
 Transform:
   m_ObjectHideFlags: 0
@@ -3162,6 +3162,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 71fc8f37409b905469a5a22d9de99054, type: 3}
   _maxRevealAreaNum: 256
+  _maxRange: 0.8
+  _speed: 0.1
 --- !u!4 &1736547007
 Transform:
   m_ObjectHideFlags: 0
@@ -4064,7 +4066,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2109490472}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 356c38578953fa04a9dbf3f3f3c7549b, type: 3}
   m_Name: 

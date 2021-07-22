@@ -18,7 +18,10 @@ public class ProjectileSpawnHandler : MonoBehaviour
     private InGameInputManager _inGameInputManager;
 
     [SerializeField, Tooltip("scene material control")]
-    private MaterialRevealHandler _materialRevealHandler;
+    private RevealAreaHandler _revealAreaHandler;
+
+    // id to set each projectiles
+    private int _nextId = 0;
 
 
     /// <summary>
@@ -44,8 +47,10 @@ public class ProjectileSpawnHandler : MonoBehaviour
     private void Spawn(object sender, EventArgs e)
     {
         ProjectileBase projectile = Instantiate(_projectile, _spawnGuide.position, _spawnGuide.rotation, null);
+        projectile.SetId(_nextId);
         projectile.SetMoveDirection(_spawnGuide.forward);
         projectile.SetSpawnPosition(_spawnGuide.position);
-        projectile.SetMaterialRevealHandler(_materialRevealHandler);
+        projectile.SetRevealAreaHandler(_revealAreaHandler);
+        _nextId++;
     }
 }

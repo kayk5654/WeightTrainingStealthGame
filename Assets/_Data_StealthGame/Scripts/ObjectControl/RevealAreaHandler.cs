@@ -14,6 +14,12 @@ public class RevealAreaHandler : MonoBehaviour
     [SerializeField, Tooltip("max number of reveal area")]
     private int _maxRevealAreaNum = 256;
 
+    [SerializeField, Tooltip("max rarious of a single reveal area")]
+    private float _maxRange = 0.8f;
+
+    [SerializeField, Tooltip("reveal speed")]
+    private float _speed = 0.1f;
+
     // kernel name of CalculateRevealArea() on RevealAreaControl.compute
     private string _calculateRevealAreaKernelName = "CalculateRevealArea";
 
@@ -38,6 +44,14 @@ public class RevealAreaHandler : MonoBehaviour
     // wait for end of frame in the coroutine
     private WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
 
+    // buffer index to set next reveal area
+    private int _nextBufferIndex = 0;
+
+    // store data of reveal areas to copy to the compute buffer
+    private RevealArea[] _revealAreas;
+
+    // coroutines to control reveal areas
+    private List<IEnumerator> _revealCoroutines = new List<IEnumerator>();
 
     /// <summary>
     /// initialization
@@ -49,13 +63,15 @@ public class RevealAreaHandler : MonoBehaviour
         
         RevealArea initRevealArea = new RevealArea()
         {
-            _id = 0,
+            _id = -1,
             _origin = Vector3.zero,
             _range = 0,
             _alpha = 1
         };
 
-        _revealAreaBuffer.SetData(Enumerable.Repeat(initRevealArea, _maxRevealAreaNum).ToArray());
+        _revealAreas = Enumerable.Repeat(initRevealArea, _maxRevealAreaNum).ToArray();
+
+        _revealAreaBuffer.SetData(_revealAreas);
 
         // set max number of reveal area
         _computeShader.SetInt(ItemConfig._revealAreaNumName, _maxRevealAreaNum);
@@ -68,6 +84,13 @@ public class RevealAreaHandler : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        // debug
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ResetRevealAreas();
+        }
+        
+        _revealAreaBuffer.SetData(_revealAreas);
         _computeShader.SetBuffer(_calculateRevealAraeKernelIndex, _revealAreaBufferName, _revealAreaBuffer);
         _computeShader.Dispatch(_calculateRevealAraeKernelIndex, _maxRevealAreaNum, 1, 1);
     }
@@ -82,28 +105,13 @@ public class RevealAreaHandler : MonoBehaviour
 
     /// <summary>
     /// reveal material
+    /// id is set by projectile
     /// </summary>
-    private void Reveal()
+    public void Reveal(int id, Vector3 origin)
     {
-        StartCoroutine(RevealSequence(3.0f));
-    }
-
-    /// <summary>
-    ///  set origin of the reveal area 
-    /// </summary>
-    /// <param name="origin"></param>
-    private void SetRevealOrigin(Vector3 origin)
-    {
-        Vector4 tempVector;
-        /*
-        foreach (Material mat in _materials)
-        {
-            tempVector = mat.GetVector(_revealAreaProperty);
-            tempVector.x = origin.x;
-            tempVector.y = origin.y;
-            tempVector.z = origin.z;
-            mat.SetVector(_revealAreaProperty, tempVector);
-        }*/
+        IEnumerator revealSequence = RevealSequence(id, origin);
+        _revealCoroutines.Add(revealSequence);
+        StartCoroutine(revealSequence);
     }
 
     /// <summary>
@@ -111,23 +119,51 @@ public class RevealAreaHandler : MonoBehaviour
     /// </summary>
     /// <param name="maxRange"></param>
     /// <returns></returns>
-    private IEnumerator RevealSequence(float maxRange)
+    private IEnumerator RevealSequence(int id, Vector3 origin)
     {
-        /*
-        Vector4 tempVector = _materials[0].GetVector(_revealAreaProperty);
+        int bufferIndex = _nextBufferIndex;
 
-        while (tempVector.w < maxRange)
+        // set origin
+        _revealAreas[bufferIndex]._id = id;
+        _revealAreas[bufferIndex]._origin = origin;
+        _nextBufferIndex++;
+
+        // expand reveal area
+        while(_revealAreas[bufferIndex]._range < _maxRange)
         {
-            foreach (Material mat in _materials)
-            {
-                //tempVector = mat.GetVector(_revealAreaProperty);
-                //tempVector.w += Time.deltaTime * _speed;
-                //mat.SetVector(_revealAreaProperty, tempVector);
-            }
-
+            _revealAreas[bufferIndex]._range += Time.deltaTime * _speed;
             yield return waitForEndOfFrame;
         }
-        */
-        yield return waitForEndOfFrame;
+
+        _revealAreas[bufferIndex]._range = _maxRange;
+    }
+
+    /// <summary>
+    /// reset all reveal areas
+    /// </summary>
+    public void ResetRevealAreas()
+    {
+        // stop all reveal coroutines
+        for(int i = 0; i < _revealCoroutines.Count; i++)
+        {
+            StopCoroutine(_revealCoroutines[i]);
+            _revealCoroutines[i] = null;
+        }
+        _revealCoroutines.Clear();
+
+        // revert state of reveal areas
+        for(int i = 0; i < _revealAreas.Length; i++)
+        {
+            _revealAreas[i]._id = -1;
+            _revealAreas[i]._origin = Vector3.zero;
+            _revealAreas[i]._range = 0;
+            _revealAreas[i]._alpha = 1;
+        }
+
+        _nextBufferIndex = 0;
+
+        // set reverted state on the buffer
+        _revealAreaBuffer.SetData(_revealAreas);
+        _computeShader.SetBuffer(_calculateRevealAraeKernelIndex, _revealAreaBufferName, _revealAreaBuffer);
     }
 }

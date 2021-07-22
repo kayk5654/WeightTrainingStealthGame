@@ -12,7 +12,7 @@ struct RevealArea
 
 // buffer for revealing area
 RWStructuredBuffer<RevealArea> _revealAreaBuffer;
-// number of reeval area
+// max number of reeval area
 uint _revealAreaNum;
 
 #define SIMULATION_BLOCK_SIZE 256
@@ -21,5 +21,11 @@ uint _revealAreaNum;
 [numthreads(SIMULATION_BLOCK_SIZE, 1, 1)]
 void CalculateRevealArea(uint3 id : SV_DispatchThreadID) 
 {
+    for (int i = 0; i < _revealAreaNum; i++) 
+    {
+        // skip unassigned reveal area
+        if (_revealAreaBuffer[i]._id == -1) { continue; }
 
+
+    }
 }
