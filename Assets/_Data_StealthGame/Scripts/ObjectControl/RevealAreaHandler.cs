@@ -12,10 +12,10 @@ public class RevealAreaHandler : MonoBehaviour
     private ComputeShader _computeShader;
 
     [SerializeField, Tooltip("max number of reveal area")]
-    private int _maxRevealAreaNum = 256;
+    private int _maxRevealAreaNum = 128;
 
     [SerializeField, Tooltip("max rarious of a single reveal area")]
-    private float _maxRange = 0.8f;
+    private float _maxRange = 0.3f;
 
     [SerializeField, Tooltip("reveal speed")]
     private float _speed = 0.1f;
