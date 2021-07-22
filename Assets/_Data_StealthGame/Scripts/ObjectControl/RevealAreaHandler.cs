@@ -20,6 +20,9 @@ public class RevealAreaHandler : MonoBehaviour
     [SerializeField, Tooltip("reveal speed")]
     private float _speed = 0.1f;
 
+    [SerializeField, Tooltip("material to control")]
+    private Material[] _materials;
+
     // kernel name of CalculateRevealArea() on RevealAreaControl.compute
     private string _calculateRevealAreaKernelName = "CalculateRevealArea";
 
@@ -77,6 +80,12 @@ public class RevealAreaHandler : MonoBehaviour
         _computeShader.SetInt(ItemConfig._revealAreaNumName, _maxRevealAreaNum);
         Shader.SetGlobalInt(ItemConfig._revealAreaNumName, _maxRevealAreaNum);
         _calculateRevealAraeKernelIndex = _computeShader.FindKernel(_calculateRevealAreaKernelName);
+
+        // set compute buffer on materials 
+        foreach (Material material in _materials)
+        {
+            material.SetBuffer(_revealAreaBufferName, _revealAreaBuffer);
+        }
     }
 
     /// <summary>

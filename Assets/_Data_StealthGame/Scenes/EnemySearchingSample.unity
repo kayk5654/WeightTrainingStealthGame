@@ -3161,9 +3161,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _computeShader: {fileID: 7200000, guid: 71fc8f37409b905469a5a22d9de99054, type: 3}
-  _maxRevealAreaNum: 256
-  _maxRange: 0.8
+  _maxRevealAreaNum: 128
+  _maxRange: 0.3
   _speed: 0.1
+  _materials:
+  - {fileID: 2100000, guid: 864a5c06cd8daed4f8b861ed428f653e, type: 2}
 --- !u!4 &1736547007
 Transform:
   m_ObjectHideFlags: 0
