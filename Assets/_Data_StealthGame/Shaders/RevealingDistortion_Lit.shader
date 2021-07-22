@@ -170,6 +170,19 @@
         float4 _NoiseTilingOffset1;
         float4 _NoiseTilingOffset2;
         SAMPLER(sampler_linear_repeat);
+        int revealAreaNum = 256;
+
+        // single reveal area structure
+        struct RevealArea
+        {
+            int _id; // identify areas from c# scripts
+            float3 _origin; // origin of the reveal area
+            float _range; // current radious of the reveal area
+            float _alpha; // phase of fading out of the reveal area
+        };
+
+        // buffer for revealing area
+        StructuredBuffer< RevealArea> _revealAreaBuffer;
 
         void InitializeInputData(Varyings input, half3 normalTS, out InputData inputData)
         {
@@ -259,8 +272,19 @@
 
             // calculate distance from revealing center
             float distortion = SAMPLE_TEXTURE2D(_DistortionTex, sampler_linear_repeat, scrolledUv).r;
-            float distortedDistanceFromCenterPoint = fitRange(distortion, 0, 1, -0.2, 0.2) + distance(input.positionWS, _RevealArea.xyz);
-            float fadeAlpha = GetFadingBorder(distortedDistanceFromCenterPoint, _RevealArea, _Feather);
+            //float distortedDistanceFromCenterPoint = fitRange(distortion, 0, 1, -0.2, 0.2) + distance(input.positionWS, _RevealArea.xyz);
+            //float fadeAlpha = GetFadingBorder(distortedDistanceFromCenterPoint, _RevealArea, _Feather);
+            
+            // calculate total revealing fade
+            float distortedDistanceFromCenterPoint = 0;
+            float fadeAlpha = 0;
+            [unroll(256)]
+            for (int i = 0; i < revealAreaNum; i++)
+            {
+                distortedDistanceFromCenterPoint = fitRange(distortion, 0, 1, -0.2, 0.2) + distance(input.positionWS, _revealAreaBuffer[i]._origin);
+                fadeAlpha += GetFadingBorder(distortedDistanceFromCenterPoint, float4(_revealAreaBuffer[i]._origin, _revealAreaBuffer[i]._range), _Feather);
+
+            }
 
             // apply noise pattern with doubled texture sampling
             float doubledNoise = SampleTextureWidhDoubledUv(_NoiseTilingOffset1, _NoiseTilingOffset2, input.uv, _NoiseTex, sampler_linear_repeat).r;

@@ -17,6 +17,8 @@ struct RevealArea
 // buffer for revealing area
 RWStructuredBuffer<RevealArea> _revealAreaBuffer;
 
+uint _revealAreaNum;
+
 [numthreads(8,8,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
@@ -28,7 +30,7 @@ void CSMain (uint3 id : SV_DispatchThreadID)
 #define SIMULATION_BLOCK_SIZE 256
 
 // calculate reveal area expansion
-[numthreads(SIMULATION_BLOCK_SIZE, 1, 1)]
+[numthreads(_revealAreaNum, 1, 1)]
 void CalculateRevealArea(uint3 id : SV_DispatchThreadID) 
 {
 

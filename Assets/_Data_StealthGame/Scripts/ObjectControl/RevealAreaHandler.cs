@@ -29,6 +29,10 @@ public class RevealAreaHandler : MonoBehaviour
     private void Start()
     {
         _revealAreaBuffer = new ComputeBuffer(_maxRevealAreaNum, Marshal.SizeOf(typeof(RevealArea)));
+        
+        // set max number of reveal area
+        _computeShader.SetInt("_revealAreaNum", _maxRevealAreaNum);
+        Shader.SetGlobalInt("revealAreaNum", _maxRevealAreaNum);
     }
 
     private void Update()
