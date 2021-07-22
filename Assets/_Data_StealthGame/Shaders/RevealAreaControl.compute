@@ -1,9 +1,5 @@
 ﻿// Each #kernel tells which function to compile; you can have many kernels
-#pragma kernel CSMain
-
-// Create a RenderTexture with enableRandomWrite flag and set it
-// with cs.SetTexture
-RWTexture2D<float4> Result;
+#pragma kernel CalculateRevealArea
 
 // structure of single revealing area
 struct RevealArea 
@@ -16,21 +12,13 @@ struct RevealArea
 
 // buffer for revealing area
 RWStructuredBuffer<RevealArea> _revealAreaBuffer;
-
+// number of reeval area
 uint _revealAreaNum;
-
-[numthreads(8,8,1)]
-void CSMain (uint3 id : SV_DispatchThreadID)
-{
-    // TODO: insert actual code here!
-
-    Result[id.xy] = float4(id.x & id.y, (id.x & 15)/15.0, (id.y & 15)/15.0, 0.0);
-}
 
 #define SIMULATION_BLOCK_SIZE 256
 
 // calculate reveal area expansion
-[numthreads(_revealAreaNum, 1, 1)]
+[numthreads(SIMULATION_BLOCK_SIZE, 1, 1)]
 void CalculateRevealArea(uint3 id : SV_DispatchThreadID) 
 {
 

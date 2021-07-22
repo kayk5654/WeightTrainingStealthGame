@@ -9,4 +9,7 @@ public static class ItemConfig
 
     // maximum distance projectiles can travel
     public static float _maxProjectileDistance = 6.0f;
+
+    // global shader variable for reveal area number
+    public static string _revealAreaNumName = "_revealAreaNum";
 }

@@ -170,7 +170,7 @@
         float4 _NoiseTilingOffset1;
         float4 _NoiseTilingOffset2;
         SAMPLER(sampler_linear_repeat);
-        int revealAreaNum = 256;
+        int _revealAreaNum = 256;
 
         // single reveal area structure
         struct RevealArea
