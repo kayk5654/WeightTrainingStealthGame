@@ -281,9 +281,25 @@
             // calculate total revealing fade
             float distortedDistanceFromCenterPoint = 0;
             float fadeAlpha = 0;
+            uint length = 0;
+            uint stride = 0;
+            _revealAreaBuffer.GetDimensions(length, stride);
+            if(length > 0)
+            {
+                [unroll(128)]
+                for (uint i = 0; i < length; i++)
+                {
+                    if (_revealAreaBuffer[i]._id < 0) { continue; }
 
+                    distortedDistanceFromCenterPoint = fitRange(distortion, 0, 1, -0.2, 0.2) + distance(input.positionWS, _revealAreaBuffer[i]._origin);
+                    fadeAlpha += GetFadingBorder(distortedDistanceFromCenterPoint, float4(_revealAreaBuffer[i]._origin, _revealAreaBuffer[i]._range), _Feather) * _revealAreaBuffer[i]._alpha;
+
+                }
+            }
+            /*
 #ifdef _READ_REVEAL_AREA
             // to prevent error, reading reveal area buffer is enabled in runtime
+
             [unroll(128)]
             for (int i = 0; i < _revealAreaNum; i++)
             {
@@ -294,7 +310,7 @@
 
             }
 #endif
-
+*/
             // apply noise pattern with doubled texture sampling
             float doubledNoise = SampleTextureWidhDoubledUv(_NoiseTilingOffset1, _NoiseTilingOffset2, input.uv, _NoiseTex, sampler_linear_repeat).r;
 
