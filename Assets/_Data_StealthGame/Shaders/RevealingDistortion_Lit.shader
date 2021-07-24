@@ -79,8 +79,8 @@
         // Required to compile gles 2.0 with standard SRP library
         // All shaders must be compiled with HLSLcc and currently only gles is not using HLSLcc by default
         #pragma prefer_hlslcc gles
-        #pragma exclude_renderers d3d11_9x
-        #pragma target 2.0
+        //#pragma exclude_renderers d3d11_9x
+        #pragma target 5.0
 
         // -------------------------------------
         // Material Keywords
@@ -173,7 +173,7 @@
         float4 _NoiseTilingOffset1;
         float4 _NoiseTilingOffset2;
         SAMPLER(sampler_linear_repeat);
-        int _revealAreaNum = 256;
+        int _revealAreaNum = 128;
 
         // single reveal area structure
         struct RevealArea
