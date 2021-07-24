@@ -96,6 +96,9 @@
         #pragma shader_feature _ENVIRONMENTREFLECTIONS_OFF
         #pragma shader_feature _SPECULAR_SETUP
         #pragma shader_feature _RECEIVE_SHADOWS_OFF
+        
+        // enable reveal area reading while the app is running
+        #pragma shader_feature _READ_REVEAL_AREA
 
         // -------------------------------------
         // Universal Pipeline keywords
@@ -278,7 +281,10 @@
             // calculate total revealing fade
             float distortedDistanceFromCenterPoint = 0;
             float fadeAlpha = 0;
-            [unroll(256)]
+
+#ifdef _READ_REVEAL_AREA
+            // to prevent error, reading reveal area buffer is enabled in runtime
+            [unroll(128)]
             for (int i = 0; i < _revealAreaNum; i++)
             {
                 if (_revealAreaBuffer[i]._id < 0) { continue; }
@@ -287,6 +293,7 @@
                 fadeAlpha += GetFadingBorder(distortedDistanceFromCenterPoint, float4(_revealAreaBuffer[i]._origin, _revealAreaBuffer[i]._range), _Feather) * _revealAreaBuffer[i]._alpha;
 
             }
+#endif
 
             // apply noise pattern with doubled texture sampling
             float doubledNoise = SampleTextureWidhDoubledUv(_NoiseTilingOffset1, _NoiseTilingOffset2, input.uv, _NoiseTex, sampler_linear_repeat).r;

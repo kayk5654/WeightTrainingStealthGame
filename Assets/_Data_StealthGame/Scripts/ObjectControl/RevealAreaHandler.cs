@@ -85,6 +85,7 @@ public class RevealAreaHandler : MonoBehaviour
         foreach (Material material in _materials)
         {
             material.SetBuffer(_revealAreaBufferName, _revealAreaBuffer);
+            material.EnableKeyword(ItemConfig._revealAreaShaderKeyword);
         }
     }
 
@@ -110,6 +111,10 @@ public class RevealAreaHandler : MonoBehaviour
     private void OnDestroy()
     {
         _revealAreaBuffer.Release();
+        foreach (Material material in _materials)
+        {
+            material.DisableKeyword(ItemConfig._revealAreaShaderKeyword);
+        }
     }
 
     /// <summary>

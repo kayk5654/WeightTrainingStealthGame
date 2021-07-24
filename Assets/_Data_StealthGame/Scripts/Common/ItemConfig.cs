@@ -12,4 +12,7 @@ public static class ItemConfig
 
     // global shader variable for reveal area number
     public static string _revealAreaNumName = "_revealAreaNum";
+
+    // shader keyword to read reveal area
+    public static string _revealAreaShaderKeyword = "_READ_REVEAL_AREA";
 }
