@@ -12,7 +12,7 @@ public class RevealAreaHandler : MonoBehaviour
     private ComputeShader _computeShader;
 
     [SerializeField, Tooltip("max number of reveal area")]
-    private int _maxRevealAreaNum = 128;
+    private int _maxRevealAreaNum = 64;
 
     [SerializeField, Tooltip("max rarious of a single reveal area")]
     private float _maxRange = 0.3f;
@@ -85,7 +85,6 @@ public class RevealAreaHandler : MonoBehaviour
         foreach (Material material in _materials)
         {
             material.SetBuffer(_revealAreaBufferName, _revealAreaBuffer);
-            material.EnableKeyword(ItemConfig._revealAreaShaderKeyword);
         }
     }
 
@@ -111,10 +110,6 @@ public class RevealAreaHandler : MonoBehaviour
     private void OnDestroy()
     {
         _revealAreaBuffer.Release();
-        foreach (Material material in _materials)
-        {
-            material.DisableKeyword(ItemConfig._revealAreaShaderKeyword);
-        }
     }
 
     /// <summary>
@@ -141,6 +136,10 @@ public class RevealAreaHandler : MonoBehaviour
         _revealAreas[bufferIndex]._id = id;
         _revealAreas[bufferIndex]._origin = origin;
         _nextBufferIndex++;
+        if(_nextBufferIndex >= _maxRevealAreaNum)
+        {
+            _nextBufferIndex = 0;
+        }
 
         // expand reveal area
         while(_revealAreas[bufferIndex]._range < _maxRange)
