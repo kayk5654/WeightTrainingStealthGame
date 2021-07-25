@@ -47,7 +47,6 @@
 
         [Header(RevealingParameters)]
         _Feather("Feather", Range(0,1)) = 0.1
-        _RevealArea("RevealArea", Vector) = (0,0,0,0)
         _NoiseTex("NoiseTex", 2D) = "white"{}
         _DistortionTex("DistortionTex", 2D) = "grey"{}
         _NoiseTilingOffset1("NoiseTilingOffset1", Vector) = (1,1,0,0)
@@ -164,7 +163,6 @@
         };
 
         half _Feather;
-        float4 _RevealArea;
         TEXTURE2D(_NoiseTex);
         TEXTURE2D(_DistortionTex);
         float4 _NoiseTilingOffset1;
@@ -272,8 +270,6 @@
 
             // calculate distance from revealing center
             float distortion = SAMPLE_TEXTURE2D(_DistortionTex, sampler_linear_repeat, scrolledUv).r;
-            //float distortedDistanceFromCenterPoint = fitRange(distortion, 0, 1, -0.2, 0.2) + distance(input.positionWS, _RevealArea.xyz);
-            //float fadeAlpha = GetFadingBorder(distortedDistanceFromCenterPoint, _RevealArea, _Feather);
             
             // apply noise pattern with doubled texture sampling
             float doubledNoise = SampleTextureWidhDoubledUv(_NoiseTilingOffset1, _NoiseTilingOffset2, input.uv, _NoiseTex, sampler_linear_repeat).r;
@@ -283,6 +279,7 @@
             float fadeAlpha = 0;
             float featherAroundFadingBorder = 0;
             float emissionLerpFactor = 0;
+            float4 revealArea;
             uint length = 0;
             uint stride = 0;
             _revealAreaBuffer.GetDimensions(length, stride);
@@ -292,15 +289,15 @@
                 for (uint i = 0; i < length; i++)
                 {
                     if (_revealAreaBuffer[i]._id < 0) { continue; }
+                    // pack relative reveal area in the structured buffer
+                    revealArea = float4(_revealAreaBuffer[i]._origin, _revealAreaBuffer[i]._range);
 
                     // calculate total revealing fade
                     distortedDistanceFromCenterPoint = fitRange(distortion, 0, 1, -0.2, 0.2) + distance(input.positionWS, _revealAreaBuffer[i]._origin);
-                    fadeAlpha += GetFadingBorder(distortedDistanceFromCenterPoint, float4(_revealAreaBuffer[i]._origin, _revealAreaBuffer[i]._range), _Feather) * _revealAreaBuffer[i]._alpha;
+                    fadeAlpha += GetFadingBorder(distortedDistanceFromCenterPoint, revealArea, _Feather) * _revealAreaBuffer[i]._alpha;
 
                     // calculate feather for emission
-                    featherAroundFadingBorder += GetFeatherAroundFadingBorder(distortedDistanceFromCenterPoint, _RevealArea, _Feather);
-                    
-
+                    featherAroundFadingBorder += GetFeatherAroundFadingBorder(distortedDistanceFromCenterPoint, revealArea, _Feather);
                 }
                 
                 // clip alpha
@@ -311,8 +308,6 @@
                 emissionLerpFactor = saturate(saturate(pow(doubledNoise.r * 2, 4)) + featherAroundFadingBorder);
             }
             
-            
-
             InputData inputData;
             InitializeInputData(input, surfaceData.normalTS, inputData);
 

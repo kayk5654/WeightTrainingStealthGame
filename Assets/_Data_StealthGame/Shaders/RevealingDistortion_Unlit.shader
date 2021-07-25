@@ -97,7 +97,6 @@
                 float2 scrolledUv = uv + float2(_Time.x * 0.1, 0);
 
                 // sample the texture
-                
                 half4 texColor = SAMPLE_TEXTURE2D(_Albedo, sampler_linear_repeat, uv);
                 half3 color = texColor.rgb *_Color.rgb;
                 half alpha = texColor.z * _Color.a;
