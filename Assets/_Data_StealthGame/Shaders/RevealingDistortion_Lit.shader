@@ -168,7 +168,6 @@
         float4 _NoiseTilingOffset1;
         float4 _NoiseTilingOffset2;
         SAMPLER(sampler_linear_repeat);
-        int _revealAreaNum = 128;
 
         // single reveal area structure
         struct RevealArea
@@ -266,7 +265,7 @@
             InitializeStandardLitSurfaceData(input.uv, surfaceData);
 
             // uv scroll
-            float2 scrolledUv = input.uv + float2(_Time.x * 0.1, 0);
+            float2 scrolledUv = input.uv + float2(_Time.x, 0);
 
             // calculate distance from revealing center
             float distortion = SAMPLE_TEXTURE2D(_DistortionTex, sampler_linear_repeat, scrolledUv).r;
@@ -295,16 +294,13 @@
                     // calculate total revealing fade
                     distortedDistanceFromCenterPoint = fitRange(distortion, 0, 1, -0.2, 0.2) + distance(input.positionWS, _revealAreaBuffer[i]._origin);
                     fadeAlpha += GetFadingBorder(distortedDistanceFromCenterPoint, revealArea, _Feather) * _revealAreaBuffer[i]._alpha;
-
-                    // calculate feather for emission
-                    featherAroundFadingBorder += GetFeatherAroundFadingBorder(distortedDistanceFromCenterPoint, revealArea, _Feather);
                 }
                 
                 // clip alpha
                 fadeAlpha = saturate(fadeAlpha);
                 
                 // calculate feather for emission
-                featherAroundFadingBorder = saturate(featherAroundFadingBorder);
+                featherAroundFadingBorder = 1 - fadeAlpha;
                 emissionLerpFactor = saturate(saturate(pow(doubledNoise.r * 2, 4)) + featherAroundFadingBorder);
             }
             
