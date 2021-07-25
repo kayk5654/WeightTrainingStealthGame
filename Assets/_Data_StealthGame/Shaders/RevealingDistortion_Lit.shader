@@ -275,9 +275,14 @@
             //float distortedDistanceFromCenterPoint = fitRange(distortion, 0, 1, -0.2, 0.2) + distance(input.positionWS, _RevealArea.xyz);
             //float fadeAlpha = GetFadingBorder(distortedDistanceFromCenterPoint, _RevealArea, _Feather);
             
-            // calculate total revealing fade
+            // apply noise pattern with doubled texture sampling
+            float doubledNoise = SampleTextureWidhDoubledUv(_NoiseTilingOffset1, _NoiseTilingOffset2, input.uv, _NoiseTex, sampler_linear_repeat).r;
+
+            // calculate revealing area
             float distortedDistanceFromCenterPoint = 0;
             float fadeAlpha = 0;
+            float featherAroundFadingBorder = 0;
+            float emissionLerpFactor = 0;
             uint length = 0;
             uint stride = 0;
             _revealAreaBuffer.GetDimensions(length, stride);
@@ -288,17 +293,25 @@
                 {
                     if (_revealAreaBuffer[i]._id < 0) { continue; }
 
+                    // calculate total revealing fade
                     distortedDistanceFromCenterPoint = fitRange(distortion, 0, 1, -0.2, 0.2) + distance(input.positionWS, _revealAreaBuffer[i]._origin);
                     fadeAlpha += GetFadingBorder(distortedDistanceFromCenterPoint, float4(_revealAreaBuffer[i]._origin, _revealAreaBuffer[i]._range), _Feather) * _revealAreaBuffer[i]._alpha;
 
-                }
-            }
-            // apply noise pattern with doubled texture sampling
-            float doubledNoise = SampleTextureWidhDoubledUv(_NoiseTilingOffset1, _NoiseTilingOffset2, input.uv, _NoiseTex, sampler_linear_repeat).r;
+                    // calculate feather for emission
+                    featherAroundFadingBorder += GetFeatherAroundFadingBorder(distortedDistanceFromCenterPoint, _RevealArea, _Feather);
+                    
 
-            // calculate feather for emission
-            float featherAroundFadingBorder = GetFeatherAroundFadingBorder(distortedDistanceFromCenterPoint, _RevealArea, _Feather);
-            float emissionLerpFactor = saturate(saturate(pow(doubledNoise.r * 2, 4)) + featherAroundFadingBorder);
+                }
+                
+                // clip alpha
+                fadeAlpha = saturate(fadeAlpha);
+                
+                // calculate feather for emission
+                featherAroundFadingBorder = saturate(featherAroundFadingBorder);
+                emissionLerpFactor = saturate(saturate(pow(doubledNoise.r * 2, 4)) + featherAroundFadingBorder);
+            }
+            
+            
 
             InputData inputData;
             InitializeInputData(input, surfaceData.normalTS, inputData);
