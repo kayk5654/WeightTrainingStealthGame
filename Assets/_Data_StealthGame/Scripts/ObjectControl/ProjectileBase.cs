@@ -18,6 +18,8 @@ public class ProjectileBase : MonoBehaviour
 
     protected RevealAreaHandler _revealAreaHandler;
 
+    protected MaterialRevealHandler _materialRevealHandler;
+
     [SerializeField, Tooltip("particles to emit when this projectile dies")]
     private DeathParticlesController _deathParticlesController;
 
@@ -56,7 +58,17 @@ public class ProjectileBase : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // kick revealing feature for testing
-        _revealAreaHandler.Reveal(_id, transform.position);
+        if (_revealAreaHandler)
+        {
+            _revealAreaHandler.Reveal(_id, transform.position);
+        }
+
+        if (_materialRevealHandler)
+        {
+            // for checking the material of the shark, setting origin is temporarily disabled
+            _materialRevealHandler._revealOrigin = transform.position;
+            _materialRevealHandler.TestRevealing();
+        }
 
         // destroy itself
         Destroy(this.gameObject);
@@ -87,6 +99,11 @@ public class ProjectileBase : MonoBehaviour
     public void SetRevealAreaHandler(RevealAreaHandler handler)
     {
         _revealAreaHandler = handler;
+    }
+
+    public void SetMaterialRevealHandler(MaterialRevealHandler handler)
+    {
+        _materialRevealHandler = handler;
     }
 
     /// <summary>

@@ -20,6 +20,9 @@ public class ProjectileSpawnHandler : MonoBehaviour
     [SerializeField, Tooltip("scene material control")]
     private RevealAreaHandler _revealAreaHandler;
 
+    [SerializeField, Tooltip("scene material control without compute buffer")]
+    private MaterialRevealHandler _materialRevealHandler;
+
     // id to set each projectiles
     private int _nextId = 0;
 
@@ -50,7 +53,15 @@ public class ProjectileSpawnHandler : MonoBehaviour
         projectile.SetId(_nextId);
         projectile.SetMoveDirection(_spawnGuide.forward);
         projectile.SetSpawnPosition(_spawnGuide.position);
-        projectile.SetRevealAreaHandler(_revealAreaHandler);
+        if (_revealAreaHandler)
+        {
+            projectile.SetRevealAreaHandler(_revealAreaHandler);
+        }
+        
+        if (_materialRevealHandler)
+        {
+            projectile.SetMaterialRevealHandler(_materialRevealHandler);
+        }
         _nextId++;
     }
 }
