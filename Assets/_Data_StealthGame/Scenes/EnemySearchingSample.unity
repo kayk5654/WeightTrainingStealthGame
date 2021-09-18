@@ -4296,6 +4296,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SphereNode_001
       objectReference: {fileID: 0}
+    - target: {fileID: 7461887316988992090, guid: 3175150c1c0b77c4488035d0f29bc18b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6ed0a14447353f44db1bdb05a3a18013, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3175150c1c0b77c4488035d0f29bc18b, type: 3}
 --- !u!1 &2073498825

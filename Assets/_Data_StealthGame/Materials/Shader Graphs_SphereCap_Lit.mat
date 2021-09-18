@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_SphereNode_Lit
-  m_Shader: {fileID: -6465566751694194690, guid: e143f47a23ecae84b93d06ae0339d24f,
+  m_Name: Shader Graphs_SphereCap_Lit
+  m_Shader: {fileID: -6465566751694194690, guid: a9adca1a104ad3d4186aa85ea16a9a48,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -20,9 +20,7 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs: []
-    m_Floats:
-    - _AutoRotate: 1
-    - _Speed: 100
+    m_Floats: []
     m_Colors:
-    - _BaseColor: {r: 0.19517618, g: 0.51392263, b: 0.9622641, a: 0}
-    - _Rotation: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseColor: {r: 0.19517623, g: 0.51392263, b: 0.9622642, a: 0}
+    - _EmitAreaColor: {r: 0, g: 7.3772106, b: 1.4335991, a: 0}
