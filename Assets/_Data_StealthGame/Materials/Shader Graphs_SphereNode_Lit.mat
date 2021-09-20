@@ -24,5 +24,5 @@ Material:
     - _AutoRotate: 1
     - _Speed: 100
     m_Colors:
-    - _BaseColor: {r: 0.19517618, g: 0.51392263, b: 0.9622641, a: 0}
+    - _BaseColor: {r: 0.19607839, g: 0.75992775, b: 0.9607843, a: 0}
     - _Rotation: {r: 0, g: 0, b: 0, a: 0}
