@@ -25,4 +25,5 @@ Material:
     - _Speed: 100
     m_Colors:
     - _BaseColor: {r: 0.19607839, g: 0.75992775, b: 0.9607843, a: 0}
+    - _EmitAreaColor: {r: 0, g: 7.3772106, b: 3.0470862, a: 0}
     - _Rotation: {r: 0, g: 0, b: 0, a: 0}
