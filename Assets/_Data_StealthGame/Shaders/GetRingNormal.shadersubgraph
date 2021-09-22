@@ -137,7 +137,23 @@
         }
     ],
     "m_Groups": [],
-    "m_StickyNotes": [],
+    "m_StickyNotes": [
+        {
+            "m_GuidSerialized": "3c4f4654-d060-46ee-8b13-6058f7c35058",
+            "m_Title": "Normal calculation",
+            "m_Content": "Calculate tangent space, unpacked normal vector",
+            "m_TextSize": 0,
+            "m_Theme": 0,
+            "m_Position": {
+                "serializedVersion": "2",
+                "x": 828.6790771484375,
+                "y": -317.79443359375,
+                "width": 200.0,
+                "height": 160.0
+            },
+            "m_GroupGuidSerialized": "00000000-0000-0000-0000-000000000000"
+        }
+    ],
     "m_SerializableEdges": [
         {
             "typeInfo": {
