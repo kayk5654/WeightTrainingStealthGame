@@ -19,7 +19,19 @@ Material:
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _NormalTex:
+        m_Texture: {fileID: 2800000, guid: 49db80089bf138142a6ca06cda15451f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionTex:
+        m_Texture: {fileID: 2800000, guid: ff1d983abe770d54fbab56c603e76f42, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RoughnessTex:
+        m_Texture: {fileID: 2800000, guid: 0e2e6ef29c08c704692379e1eaf80f39, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AutoRotate: 1
     - _Speed: 100
@@ -27,3 +39,4 @@ Material:
     - _BaseColor: {r: 0.19607839, g: 0.75992775, b: 0.9607843, a: 0}
     - _EmitAreaColor: {r: 0, g: 1.486665, b: 0.6149034, a: 0}
     - _Rotation: {r: 0, g: 0, b: 0, a: 0}
+    - _TilingOffset: {r: 3, g: 4, b: 1.42, a: 0}
