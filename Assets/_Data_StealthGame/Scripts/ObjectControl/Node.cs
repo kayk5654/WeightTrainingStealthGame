@@ -80,10 +80,10 @@ public class Node : MonoBehaviour
             // duplicate node caps for each connections
             if (i > 0)
             {
-                Transform newNode = Instantiate(_nodeCaps[0].gameObject, _nodeCaps[0].parent).transform;
-                newNode.LookAt(connectableNodes[i].transform);
-                _nodeCaps.Add(newNode);
-                newNode.gameObject.SetActive(true);
+                Transform newNodeCap = Instantiate(_nodeCaps[0].gameObject, _nodeCaps[0].parent).transform;
+                newNodeCap.LookAt(connectableNodes[i].transform);
+                _nodeCaps.Add(newNodeCap);
+                newNodeCap.gameObject.SetActive(true);
             }
             else
             {

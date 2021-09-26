@@ -67,6 +67,7 @@ public class NodesManager : MonoBehaviour
             positionTemp.y = Random.Range(_spawnArea.bounds.min.y, _spawnArea.bounds.max.y);
             positionTemp.z = Random.Range(_spawnArea.bounds.min.z, _spawnArea.bounds.max.z);
             newNode.position = positionTemp;
+            newNode.rotation = Quaternion.Euler(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
             newNode.SetParent(this.transform);
             _nodes[i] = newNode.GetComponent<Node>();
             _nodes[i]._nodesManager = this;
