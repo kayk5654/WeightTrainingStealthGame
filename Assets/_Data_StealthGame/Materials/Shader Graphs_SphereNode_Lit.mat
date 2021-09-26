@@ -21,7 +21,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _IridescenceTex:
-        m_Texture: {fileID: 2800000, guid: 8b104a0b6ebfae740ad6e9aa131c529d, type: 3}
+        m_Texture: {fileID: 2800000, guid: ea14259fc382c234b97764c15b5fb420, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTex:
