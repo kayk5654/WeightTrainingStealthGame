@@ -33,3 +33,4 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0.19607836, g: 0.75992775, b: 0.96078426, a: 0}
     - _EmitAreaColor: {r: 2.9286947, g: 14.343096, b: 12.4482765, a: 0}
+    - _NearTintColor: {r: 0.68077064, g: 0.47641504, b: 1, a: 1}
