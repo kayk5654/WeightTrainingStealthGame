@@ -1,0 +1,43 @@
+﻿// Control connection and movement of nodes
+#pragma kernel UpdateNodePosition
+
+// structure of node
+struct Node
+{
+    int _id; // identify each nodes
+    float3 _position; // position of a node
+    float4 _rotation; // rotation of a node
+
+};
+
+// structure of connection between nodes
+struct Connection
+{
+    int _id; // identify each connections
+    int _connectNode1; // node to connect
+    int _connectNode2; // node to connect
+};
+
+// buffer for nodes
+RWStructuredBuffer<Node> _nodesBuffer;
+
+// buffer for connections
+RWStructuredBuffer<Connection> _connectionBuffer;
+
+// max number of nodes
+uint _nodeCount;
+
+#define SIMULATION_BLOCK_SIZE 32
+
+// calculate reveal area expansion
+[numthreads(SIMULATION_BLOCK_SIZE, 1, 1)]
+void UpdateNodePosition(uint3 id : SV_DispatchThreadID)
+{
+    for (int i = 0; i < _nodeCount; i++)
+    {
+        // skip unassigned reveal area
+        if (_nodesBuffer[i]._id == -1) { continue; }
+
+
+    }
+}

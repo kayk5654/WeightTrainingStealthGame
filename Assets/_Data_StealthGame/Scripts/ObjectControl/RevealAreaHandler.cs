@@ -32,6 +32,9 @@ public class RevealAreaHandler : MonoBehaviour
     // buffer name of _revealAreaBuffer on RevealAreaControl.compute
     private string _revealAreaBufferName = "_revealAreaBuffer";
 
+    // parameter name of reveal area number
+    private string _revealAreaNumName = "_revealAreaNum";
+
     // structure of single revealing area
     public struct RevealArea
     {
@@ -77,8 +80,8 @@ public class RevealAreaHandler : MonoBehaviour
         _revealAreaBuffer.SetData(_revealAreas);
 
         // set max number of reveal area
-        _computeShader.SetInt(ItemConfig._revealAreaNumName, _maxRevealAreaNum);
-        Shader.SetGlobalInt(ItemConfig._revealAreaNumName, _maxRevealAreaNum);
+        _computeShader.SetInt(_revealAreaNumName, _maxRevealAreaNum);
+        Shader.SetGlobalInt(_revealAreaNumName, _maxRevealAreaNum);
         _calculateRevealAraeKernelIndex = _computeShader.FindKernel(_calculateRevealAreaKernelName);
 
         // set compute buffer on materials 

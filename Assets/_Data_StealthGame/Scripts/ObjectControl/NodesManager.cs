@@ -1,11 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.InteropServices;
+
+/// <summary>
+/// data of single node
+/// </summary>
+public struct Node_ComputeShader
+{
+    // identify each nodes
+    public int _id;
+    // position of a node
+    public Vector3 _position;
+    // rotation of a node
+    public Quaternion _rotation;
+}
+
+/// <summary>
+/// data of connection between nodes
+/// </summary>
+public struct Connection_ComputeShader
+{
+    // identify each connections
+    int _id;
+    // node to connect
+    int _connectNode1;
+    // node to connect
+    int _connectNode2;
+}
+
 /// <summary>
 /// manages connected nodes
 /// </summary>
 public class NodesManager : MonoBehaviour
 {
+    [SerializeField, Tooltip("compute shader for node control")]
+    private ComputeShader __nodeConnectionControl;
+
     [SerializeField, Tooltip("nodes without light")]
     private GameObject _nodePrefab;
 
@@ -27,14 +58,27 @@ public class NodesManager : MonoBehaviour
     [SerializeField, Tooltip("connecting range")]
     private float _range = 1f;
 
+    // buffer for nodes
+    private ComputeBuffer _nodesBuffer;
+
+    // buffer for connections
+    private ComputeBuffer _connectionBuffer;
+
+    // parameter name of _nodeCount
+    private string _nodeCountParamName = "_nodeCount";
 
     /// <summary>
     /// initialization
     /// </summary>
     private void Start()
     {
+        // test on cpu
         SpawnNodes();
         StartConnect();
+
+        // test on gpu
+        InitializeBuffers();
+        InitializeParams();
     }
 
     /// <summary>
@@ -46,12 +90,17 @@ public class NodesManager : MonoBehaviour
         {
             Destroy(_nodes[i].gameObject);
         }
+
+        // test on gpu
+        ReleaseBuffers();
     }
 
     private void Update()
     {
         
     }
+
+    #region Test on CPU
 
     /// <summary>
     /// generate nodes
@@ -85,6 +134,12 @@ public class NodesManager : MonoBehaviour
         _nodes[0].Connect();
     }
 
+    /// <summary>
+    /// let nodes to find their neighbours
+    /// </summary>
+    /// <param name="origin"></param>
+    /// <param name="range"></param>
+    /// <returns></returns>
     public Node[] GetConnectableNodes(Vector3 origin, float range)
     {
         List<Node> connectableNodes = new List<Node>();
@@ -99,4 +154,37 @@ public class NodesManager : MonoBehaviour
 
         return connectableNodes.ToArray();
     }
+
+    #endregion
+
+    #region Test on GPU
+
+    /// <summary>
+    /// initialize compute buffers
+    /// </summary>
+    private void InitializeBuffers()
+    {
+        _nodesBuffer = new ComputeBuffer(_nodeCount, Marshal.SizeOf(typeof(Node_ComputeShader)));
+        // temporarily test with 3 times of node count
+        _connectionBuffer = new ComputeBuffer(_nodeCount * 3, Marshal.SizeOf(typeof(Connection_ComputeShader)));
+    }
+
+    /// <summary>
+    /// initialize parameters of compute shader
+    /// </summary>
+    private void InitializeParams()
+    {
+        __nodeConnectionControl.SetInt(_nodeCountParamName, _nodeCount);
+    }
+
+    /// <summary>
+    /// release compute buffers
+    /// </summary>
+    private void ReleaseBuffers()
+    {
+        _nodesBuffer.Dispose();
+        _connectionBuffer.Dispose();
+    }
+
+    #endregion
 }
