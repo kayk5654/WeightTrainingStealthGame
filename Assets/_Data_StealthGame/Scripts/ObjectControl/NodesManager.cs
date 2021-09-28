@@ -13,7 +13,7 @@ public struct Node_ComputeShader
     // position of a node
     public Vector3 _position;
     // rotation of a node
-    public Quaternion _rotation;
+    public Vector4 _rotation;
 }
 
 /// <summary>
@@ -64,6 +64,12 @@ public class NodesManager : MonoBehaviour
     // buffer for connections
     private ComputeBuffer _connectionBuffer;
 
+    // data to set _nodesBuffer
+    private Node_ComputeShader[] _nodesBufferData;
+
+    // data to set _connectionBuffer
+    private Connection_ComputeShader[] _connectionBufferData;
+
     // parameter name of _nodeCount
     private string _nodeCountParamName = "_nodeCount";
 
@@ -73,12 +79,13 @@ public class NodesManager : MonoBehaviour
     private void Start()
     {
         // test on cpu
-        SpawnNodes();
-        StartConnect();
+        //SpawnNodes();
+        //StartConnect();
 
         // test on gpu
         InitializeBuffers();
         InitializeParams();
+        SpawnNodes_GPU();
     }
 
     /// <summary>
@@ -186,5 +193,38 @@ public class NodesManager : MonoBehaviour
         _connectionBuffer.Dispose();
     }
 
+
+    /// <summary>
+    /// generate nodes
+    /// </summary>
+    private void SpawnNodes_GPU()
+    {
+        _nodes = new Node[_nodeCount];
+        Vector3 positionTemp = Vector3.zero;
+        _nodesBufferData = new Node_ComputeShader[_nodeCount];
+        for (int i = 0; i < _nodeCount; i++)
+        {
+            // instantiate node in the scene
+            Transform newNode = Instantiate(_nodePrefab).transform;
+            positionTemp.x = Random.Range(_spawnArea.bounds.min.x, _spawnArea.bounds.max.x);
+            positionTemp.y = Random.Range(_spawnArea.bounds.min.y, _spawnArea.bounds.max.y);
+            positionTemp.z = Random.Range(_spawnArea.bounds.min.z, _spawnArea.bounds.max.z);
+            newNode.position = positionTemp;
+            newNode.rotation = Quaternion.Euler(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
+            newNode.SetParent(this.transform);
+            _nodes[i] = newNode.GetComponent<Node>();
+            _nodes[i]._nodesManager = this;
+            _nodes[i]._lineMaterial = _lineMaterial;
+            _nodes[i]._speed = _speed * Random.Range(0.5f, 1.2f);
+
+            // set data for compute buffer
+            _nodesBufferData[i]._id = i;
+            _nodesBufferData[i]._position = newNode.position;
+            _nodesBufferData[i]._rotation =  new Vector4(newNode.rotation.x, newNode.rotation.y, newNode.rotation.z, newNode.rotation.w);
+            
+        }
+
+        _nodesBuffer.SetData(_nodesBufferData);
+    }
     #endregion
 }
