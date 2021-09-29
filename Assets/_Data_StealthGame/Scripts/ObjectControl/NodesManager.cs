@@ -35,7 +35,7 @@ public struct Connection_ComputeShader
 public class NodesManager : MonoBehaviour
 {
     [SerializeField, Tooltip("compute shader for node control")]
-    private ComputeShader __nodeConnectionControl;
+    private ComputeShader _nodeConnectionControl;
 
     [SerializeField, Tooltip("nodes without light")]
     private GameObject _nodePrefab;
@@ -58,11 +58,14 @@ public class NodesManager : MonoBehaviour
     [SerializeField, Tooltip("connecting range")]
     private float _range = 1f;
 
+    [SerializeField, Tooltip("range of neighbour nodes which affects single node's behaviour")]
+    private float _neighbourRadious = 0.4f;
+
     // buffer for nodes
-    private ComputeBuffer _nodesBuffer;
+    private ComputeBuffer[] _nodesBuffers;
 
     // buffer for connections
-    private ComputeBuffer _connectionBuffer;
+    private ComputeBuffer[] _connectionBuffers;
 
     // data to set _nodesBuffer
     private Node_ComputeShader[] _nodesBufferData;
@@ -71,7 +74,37 @@ public class NodesManager : MonoBehaviour
     private Connection_ComputeShader[] _connectionBufferData;
 
     // parameter name of _nodeCount
-    private string _nodeCountParamName = "_nodeCount";
+    private string _nodeCountName = "_nodeCount";
+
+    // parameter name of _neighbourRadious
+    private string _neighbourRadiousName = "_neighbourRadious";
+
+    // parameter name of _deltaTime
+    private string _deltatimeName = "_deltaTime";
+
+    // name of node buffer on compute shader for reading
+    private string _nodeBufferName_Read = "_nodesBufferRead";
+
+    // name of node buffer on compute shader for writing
+    private string _nodeBufferName_Write = "_nodesBufferWrite";
+
+    // name of connection buffer on compute shader for reading
+    private string _connectionBufferName_Read = "_connectionBufferRead";
+
+    // name of connection buffer on compute shader for writing
+    private string _connectionBufferName_Write = "_connectionBufferWrite";
+
+    // kernel name of UpdateNodePosition()
+    private string _updateNodePosKernelName = "UpdateNodePosition";
+
+    // kernel info of UpdateNodePosition()
+    private KernelParamsHandler _updateNodePosKernel;
+
+    // index of buffers for reading
+    private const int READ = 0;
+
+    // index of buffers for writing
+    private const int WRITE = 1;
 
     /// <summary>
     /// initialization
@@ -89,9 +122,9 @@ public class NodesManager : MonoBehaviour
     }
 
     /// <summary>
-    /// delete nodes without light
+    /// delete nodes
     /// </summary>
-    private void OnDisable()
+    private void OnDestroy()
     {
         for(int i = 0; i < _nodes.Length; i++)
         {
@@ -104,7 +137,7 @@ public class NodesManager : MonoBehaviour
 
     private void Update()
     {
-        
+        SimulateNodes_GPU();
     }
 
     #region Test on CPU
@@ -171,9 +204,16 @@ public class NodesManager : MonoBehaviour
     /// </summary>
     private void InitializeBuffers()
     {
-        _nodesBuffer = new ComputeBuffer(_nodeCount, Marshal.SizeOf(typeof(Node_ComputeShader)));
-        // temporarily test with 3 times of node count
-        _connectionBuffer = new ComputeBuffer(_nodeCount * 3, Marshal.SizeOf(typeof(Connection_ComputeShader)));
+        // create 2 compute buffers for each purpose to avoid conflict 
+        _nodesBuffers = new ComputeBuffer[2];
+        _connectionBuffers = new ComputeBuffer[2];
+
+        for(int i = 0; i < _nodesBuffers.Length; i++)
+        {
+            _nodesBuffers[i] = new ComputeBuffer(_nodeCount, Marshal.SizeOf(typeof(Node_ComputeShader)));
+            // temporarily test with 3 times of node count
+            _connectionBuffers[i] = new ComputeBuffer(_nodeCount * 3, Marshal.SizeOf(typeof(Connection_ComputeShader)));
+        }
     }
 
     /// <summary>
@@ -181,7 +221,12 @@ public class NodesManager : MonoBehaviour
     /// </summary>
     private void InitializeParams()
     {
-        __nodeConnectionControl.SetInt(_nodeCountParamName, _nodeCount);
+        // contain data of kernel in KernelParamsHandler
+        _updateNodePosKernel = new KernelParamsHandler(_nodeConnectionControl, _updateNodePosKernelName, _nodeCount, 1, 1);
+
+        // set constant parameters for simulation
+        _nodeConnectionControl.SetFloat(_neighbourRadiousName, _neighbourRadious);
+        _nodeConnectionControl.SetInt(_nodeCountName, _nodeCount);
     }
 
     /// <summary>
@@ -189,8 +234,11 @@ public class NodesManager : MonoBehaviour
     /// </summary>
     private void ReleaseBuffers()
     {
-        _nodesBuffer.Dispose();
-        _connectionBuffer.Dispose();
+        for (int i = 0; i < _nodesBuffers.Length; i++)
+        {
+            _nodesBuffers[i].Release();
+            _connectionBuffers[i].Release();
+        }
     }
 
 
@@ -224,7 +272,41 @@ public class NodesManager : MonoBehaviour
             
         }
 
-        _nodesBuffer.SetData(_nodesBufferData);
+        // contain data of nodes in the compute buffer
+        _nodesBuffers[READ].SetData(_nodesBufferData);
+        _nodeConnectionControl.SetBuffer(_updateNodePosKernel._index, _nodeBufferName_Read, _nodesBuffers[READ]);
+
+        // empty buffer data array?
+        _nodesBufferData = null;
+
+    }
+
+    /// <summary>
+    /// simulate nodes' behaviour
+    /// </summary>
+    private void SimulateNodes_GPU()
+    {
+        _nodeConnectionControl.SetFloat(_deltatimeName, Time.deltaTime);
+        _nodeConnectionControl.SetBuffer(_updateNodePosKernel._index, _nodeBufferName_Read, _nodesBuffers[READ]);
+        _nodeConnectionControl.SetBuffer(_updateNodePosKernel._index, _nodeBufferName_Write, _nodesBuffers[WRITE]);
+        _nodeConnectionControl.Dispatch(_updateNodePosKernel._index, _updateNodePosKernel._x, _updateNodePosKernel._y, _updateNodePosKernel._z);
+
+        // update nodes in the scene
+
+
+        // swap buffers
+        SwapBuffers(_nodesBuffers);
+    }
+
+    /// <summary>
+    /// swap compute buffers for reading and writing
+    /// </summary>
+    /// <param name="buffers"></param>
+    private void SwapBuffers(ComputeBuffer[] buffers)
+    {
+        ComputeBuffer temp = buffers[READ];
+        buffers[READ] = buffers[WRITE];
+        buffers[WRITE] = temp;
     }
     #endregion
 }

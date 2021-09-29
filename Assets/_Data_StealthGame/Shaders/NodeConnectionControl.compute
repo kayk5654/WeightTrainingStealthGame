@@ -18,26 +18,76 @@ struct Connection
     int _connectNode2; // node to connect
 };
 
-// buffer for nodes
-RWStructuredBuffer<Node> _nodesBuffer;
+// buffer for nodes (for reading)
+StructuredBuffer<Node> _nodesBufferRead;
 
-// buffer for connections
-RWStructuredBuffer<Connection> _connectionBuffer;
+// buffer for nodes (for writing)
+RWStructuredBuffer<Node> _nodesBufferWrite;
+
+// buffer for connections (for reading)
+StructuredBuffer <Connection> _connectionBufferRead;
+
+// buffer for connections (for writing)
+RWStructuredBuffer<Connection> _connectionBufferWrite;
 
 // max number of nodes
 uint _nodeCount;
 
-#define SIMULATION_BLOCK_SIZE 32
+// range of neighbour nodes which affects single node's behaviour
+float _neighbourRadious;
 
-// calculate reveal area expansion
+// delta time
+float _deltaTime;
+
+// size of thread group
+#define SIMULATION_BLOCK_SIZE 128
+
+// calculate new node position
 [numthreads(SIMULATION_BLOCK_SIZE, 1, 1)]
 void UpdateNodePosition(uint3 id : SV_DispatchThreadID)
 {
+    // get position of this node
+    float3 thisNodePos = _nodesBufferRead[id.x]._position;
+
+    // sum of velocity to separate nodes
+    float3 separateVelSum = float3(0, 0, 0);
+
+    // number of neighbour nodes for calculation of saparation velocity
+    int separateNodeCount = 0;
+    
+    // calculate influence of other nodes
     for (int i = 0; i < _nodeCount; i++)
     {
-        // skip unassigned reveal area
-        if (_nodesBuffer[i]._id == -1) { continue; }
+        // another node's position
+        float3 otherNodePos = _nodesBufferRead[i]._position;
+
+        // distance between this node and another node
+        float dist = distance(thisNodePos, otherNodePos);
+
+        if (dist > 0.0 && dist <= _neighbourRadious)
+        {
+            // if another node is close, apply force to take distance from another node
+
+            // direction from another node to this node
+            float3 otherToThisNodeVector = normalize(thisNodePos - otherNodePos);
+
+            // apply level of influence depending on the distance
+            otherToThisNodeVector /= dist;
+
+            // add velocity to separate from another node
+            separateVelSum += otherToThisNodeVector;
+
+            // increment neighbour nodes number
+            separateNodeCount++;
+        }
+
+        // calculate separation velocity
+        float3 separateVel = float3(0, 0, 0);
+
+        separateVel = separateVelSum / separateNodeCount;
 
 
+        // write updated position
+        _nodesBufferWrite[id.x]._position = thisNodePos + separateVel * _deltaTime;
     }
 }
