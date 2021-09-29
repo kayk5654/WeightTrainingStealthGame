@@ -261,6 +261,7 @@ public class NodesManager : MonoBehaviour
             newNode.rotation = Quaternion.Euler(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
             newNode.SetParent(this.transform);
             _nodes[i] = newNode.GetComponent<Node>();
+            _nodes[i]._id = i;
             _nodes[i]._nodesManager = this;
             _nodes[i]._lineMaterial = _lineMaterial;
             _nodes[i]._speed = _speed * Random.Range(0.5f, 1.2f);
@@ -277,7 +278,7 @@ public class NodesManager : MonoBehaviour
         _nodeConnectionControl.SetBuffer(_updateNodePosKernel._index, _nodeBufferName_Read, _nodesBuffers[READ]);
 
         // empty buffer data array?
-        _nodesBufferData = null;
+        //_nodesBufferData = null;
 
     }
 
@@ -292,7 +293,11 @@ public class NodesManager : MonoBehaviour
         _nodeConnectionControl.Dispatch(_updateNodePosKernel._index, _updateNodePosKernel._x, _updateNodePosKernel._y, _updateNodePosKernel._z);
 
         // update nodes in the scene
-
+        _nodesBuffers[WRITE].GetData(_nodesBufferData);
+        for(int i = 0; i < _nodes.Length; i++)
+        {
+            _nodes[i].SetSimulatedData(_nodesBufferData[i]);
+        }
 
         // swap buffers
         SwapBuffers(_nodesBuffers);

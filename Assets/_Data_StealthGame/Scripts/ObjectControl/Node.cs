@@ -10,6 +10,8 @@ public class Node : MonoBehaviour
 
     public float _range = 1f;
 
+    public int _id;
+
     private bool _isConencted;
 
     private LineRenderer[] _lines;
@@ -137,5 +139,16 @@ public class Node : MonoBehaviour
         newNodeCap.LookAt(lookAtTarget);
         newNodeCap.gameObject.SetActive(true);
         _nodeCaps.Add(newNodeCap);
+    }
+
+    /// <summary>
+    /// set simulated result on the NodeConnectionControl.compute
+    /// </summary>
+    public void SetSimulatedData(Node_ComputeShader nodeData)
+    {
+        if(nodeData._id != _id) { return; }
+        transform.position = nodeData._position;
+        transform.rotation = new Quaternion(nodeData._rotation.x, nodeData._rotation.y, nodeData._rotation.z, nodeData._rotation.w);
+
     }
 }
