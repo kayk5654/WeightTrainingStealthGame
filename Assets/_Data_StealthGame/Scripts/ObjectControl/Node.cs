@@ -6,30 +6,40 @@ using UnityEngine;
 /// </summary>
 public class Node : MonoBehaviour
 {
+    // reference of NodesManager
     public NodesManager _nodesManager;
 
+    [Tooltip("range to search neighbours to connect")]
     public float _range = 1f;
 
+    [Tooltip("id of each nodes")]
     public int _id;
 
+    // whether this node is already connected to others
     private bool _isConencted;
 
+    // lines to connect to other nodes
     private LineRenderer[] _lines;
 
+    // speed to extend lines to connect
     public float _speed = 1f;
 
+    // width of lines to connect
     private float _lineWidth = 0.006f;
 
+    // material of lines
     public Material _lineMaterial;
 
     [SerializeField, Tooltip("node mesh")]
     private MeshRenderer _mainMeshRenderer;
 
+    // material of node mesh
     private Material _nodeMaterial;
 
     [SerializeField, Tooltip("node cap")]
     private List<Transform> _nodeCaps = new List<Transform>();
 
+    // for corouines
     WaitForEndOfFrame _waitForEndOfFrame;
 
     /// <summary>
