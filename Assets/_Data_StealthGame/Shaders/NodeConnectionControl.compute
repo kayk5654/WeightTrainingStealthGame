@@ -39,6 +39,8 @@ float _neighbourRadious;
 // delta time
 float _deltaTime;
 
+
+
 // size of thread group
 #define SIMULATION_BLOCK_SIZE 256
 
@@ -49,7 +51,7 @@ groupshared Node _nodeData[SIMULATION_BLOCK_SIZE];
 [numthreads(SIMULATION_BLOCK_SIZE, 1, 1)]
 void UpdateNodePosition
 (
-    uint3 DTid : SV_DispatchThreadID, // identifier of specific thread
+    uint3 DTid : SV_DispatchThreadID, // global thread index (= Gid.x * SIMULATION_BLOCK_SIZE + GTid.x)
     uint3 Gid : SV_GroupID, // identifier of a group
     uint3 GTid : SV_GroupThreadID, // thread id in a group
     uint GI : SV_GroupIndex // one-dimensional group thread id (0-255)
@@ -105,35 +107,6 @@ void UpdateNodePosition
         GroupMemoryBarrierWithGroupSync();
     }
     
-    /*
-    // calculate influence of other nodes
-    for (uint i = 0; i < _nodeCount; i++)
-    {
-        // another node's position
-        float3 otherNodePos = _nodesBufferRead[i]._position;
-
-        // distance between this node and another node
-        float dist = distance(thisNodePos, otherNodePos);
-
-        if (dist > 0.0 && dist <= _neighbourRadious)
-        {
-            // if another node is close, apply force to take distance from another node
-
-            // direction from another node to this node
-            float3 otherToThisNodeVector = normalize(thisNodePos - otherNodePos);
-
-            // apply level of influence depending on the distance
-            otherToThisNodeVector /= dist;
-
-            // add velocity to separate from another node
-            separateVelSum += otherToThisNodeVector;
-
-            // increment neighbour nodes number
-            separateNodeCount++;
-        }
-    }
-    */
-
     // calculate separation velocity
     float3 separateVel = float3(0, 0, 0);
 
