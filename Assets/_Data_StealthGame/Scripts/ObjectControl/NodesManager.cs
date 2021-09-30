@@ -271,6 +271,7 @@ public class NodesManager : MonoBehaviour
             _nodesBufferData[i]._position = newNode.position;
             _nodesBufferData[i]._rotation =  new Vector4(newNode.rotation.x, newNode.rotation.y, newNode.rotation.z, newNode.rotation.w);
             
+            
         }
 
         // contain data of nodes in the compute buffer

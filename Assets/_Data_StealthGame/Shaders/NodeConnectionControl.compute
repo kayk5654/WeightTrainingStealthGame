@@ -56,7 +56,7 @@ void UpdateNodePosition(uint3 id : SV_DispatchThreadID)
     int separateNodeCount = 0;
     
     // calculate influence of other nodes
-    for (int i = 0; i < _nodeCount; i++)
+    for (uint i = 0; i < _nodeCount; i++)
     {
         // another node's position
         float3 otherNodePos = _nodesBufferRead[i]._position;
@@ -84,7 +84,7 @@ void UpdateNodePosition(uint3 id : SV_DispatchThreadID)
         // calculate separation velocity
         float3 separateVel = float3(0, 0, 0);
 
-        separateVel = separateVelSum / separateNodeCount;
+        separateVel = separateNodeCount > 0 ? separateVelSum / separateNodeCount : separateVelSum;
 
 
         // write updated position

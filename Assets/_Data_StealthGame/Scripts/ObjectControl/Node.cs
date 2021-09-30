@@ -157,6 +157,7 @@ public class Node : MonoBehaviour
     public void SetSimulatedData(Node_ComputeShader nodeData)
     {
         if(nodeData._id != _id) { return; }
+        //Debug.Log("nodeID: " + _id + " / updated position: " + nodeData._position);
         transform.position = nodeData._position;
         transform.rotation = new Quaternion(nodeData._rotation.x, nodeData._rotation.y, nodeData._rotation.z, nodeData._rotation.w);
 

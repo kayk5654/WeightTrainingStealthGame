@@ -1507,7 +1507,7 @@ MonoBehaviour:
   _lineMaterial: {fileID: 2100000, guid: 244df7de04ae73340bd74b0dcd6a5166, type: 2}
   _speed: 1
   _range: 0.6
-  _neighbourRadious: 0.4
+  _neighbourRadious: 1.4
 --- !u!1001 &842598998
 PrefabInstance:
   m_ObjectHideFlags: 0
