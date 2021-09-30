@@ -63,7 +63,49 @@ void UpdateNodePosition
 
     // number of neighbour nodes for calculation of saparation velocity
     int separateNodeCount = 0;
+
+
+    // calculate by each thread groups
+    for (uint blockId = 0; blockId < _nodeCount; blockId += SIMULATION_BLOCK_SIZE)
+    {
+        // contain data of nodes in the shared memory
+        _nodeData[GI] = _nodesBufferRead[blockId + GI];
+
+        // wait for group syncing
+        GroupMemoryBarrierWithGroupSync();
+
+        // calculate influence of other nodes
+        for (uint i = 0; i < SIMULATION_BLOCK_SIZE; i++)
+        {
+            // another node's position
+            float3 otherNodePos = _nodesBufferRead[i]._position;
+
+            // distance between this node and another node
+            float dist = distance(thisNodePos, otherNodePos);
+
+            if (dist > 0.0 && dist <= _neighbourRadious)
+            {
+                // if another node is close, apply force to take distance from another node
+
+                // direction from another node to this node
+                float3 otherToThisNodeVector = normalize(thisNodePos - otherNodePos);
+
+                // apply level of influence depending on the distance
+                otherToThisNodeVector /= dist;
+
+                // add velocity to separate from another node
+                separateVelSum += otherToThisNodeVector;
+
+                // increment neighbour nodes number
+                separateNodeCount++;
+            }
+        }
+
+        // wait for group syncing
+        GroupMemoryBarrierWithGroupSync();
+    }
     
+    /*
     // calculate influence of other nodes
     for (uint i = 0; i < _nodeCount; i++)
     {
@@ -90,6 +132,7 @@ void UpdateNodePosition
             separateNodeCount++;
         }
     }
+    */
 
     // calculate separation velocity
     float3 separateVel = float3(0, 0, 0);

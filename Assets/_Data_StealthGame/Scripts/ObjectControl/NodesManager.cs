@@ -231,7 +231,7 @@ public class NodesManager : MonoBehaviour
     {
         // calculate thread group size
         int nodeKernelThreadGroupSize = Mathf.CeilToInt((float)_nodeCount / (float) SIMULATION_BLOCK_SIZE);
-        int connectionKernelThreadGroupSize = Mathf.CeilToInt(_maxConnectionNum / SIMULATION_BLOCK_SIZE);
+        int connectionKernelThreadGroupSize = Mathf.CeilToInt((float) _maxConnectionNum / (float) SIMULATION_BLOCK_SIZE);
 
         // contain data of kernel in KernelParamsHandler
         _updateNodePosKernel = new KernelParamsHandler(_nodeConnectionControl, _updateNodePosKernelName, nodeKernelThreadGroupSize, 1, 1);
