@@ -40,14 +40,23 @@ float _neighbourRadious;
 float _deltaTime;
 
 // size of thread group
-#define SIMULATION_BLOCK_SIZE 128
+#define SIMULATION_BLOCK_SIZE 256
+
+// shared memory to contain node data
+groupshared Node _nodeData[SIMULATION_BLOCK_SIZE];
 
 // calculate new node position
 [numthreads(SIMULATION_BLOCK_SIZE, 1, 1)]
-void UpdateNodePosition(uint3 id : SV_DispatchThreadID)
+void UpdateNodePosition
+(
+    uint3 DTid : SV_DispatchThreadID, // identifier of specific thread
+    uint3 Gid : SV_GroupID, // identifier of a group
+    uint3 GTid : SV_GroupThreadID, // thread id in a group
+    uint GI : SV_GroupIndex // one-dimensional group thread id (0-255)
+)
 {
     // get position of this node
-    float3 thisNodePos = _nodesBufferRead[id.x]._position;
+    float3 thisNodePos = _nodesBufferRead[DTid.x]._position;
 
     // sum of velocity to separate nodes
     float3 separateVelSum = float3(0, 0, 0);
@@ -80,14 +89,13 @@ void UpdateNodePosition(uint3 id : SV_DispatchThreadID)
             // increment neighbour nodes number
             separateNodeCount++;
         }
-
-        // calculate separation velocity
-        float3 separateVel = float3(0, 0, 0);
-
-        separateVel = separateNodeCount > 0 ? separateVelSum / separateNodeCount : separateVelSum;
-
-
-        // write updated position
-        _nodesBufferWrite[id.x]._position = thisNodePos + separateVel * _deltaTime;
     }
+
+    // calculate separation velocity
+    float3 separateVel = float3(0, 0, 0);
+
+    separateVel = separateNodeCount > 0 ? separateVelSum / (float)separateNodeCount : separateVelSum;
+
+    // write updated position
+    _nodesBufferWrite[DTid.x]._position = thisNodePos + separateVel * _deltaTime;
 }

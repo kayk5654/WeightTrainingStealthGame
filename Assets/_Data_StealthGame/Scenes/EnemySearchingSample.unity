@@ -1504,6 +1504,7 @@ MonoBehaviour:
     type: 3}
   _spawnArea: {fileID: 423316854}
   _nodeCount: 30
+  _maxConnectionNum: 90
   _lineMaterial: {fileID: 2100000, guid: 244df7de04ae73340bd74b0dcd6a5166, type: 2}
   _speed: 1
   _range: 0.6

@@ -117,6 +117,13 @@ public class Node : MonoBehaviour
         yield return null;
     }
 
+    /// <summary>
+    /// connect to another node by extending a line
+    /// </summary>
+    /// <param name="line"></param>
+    /// <param name="node"></param>
+    /// <param name="speed"></param>
+    /// <returns></returns>
     private IEnumerator SingleConnectionSequence(LineRenderer line, Node node, float speed)
     {
         node.SpawnNodeCapForReceiving(transform);
@@ -135,6 +142,10 @@ public class Node : MonoBehaviour
         node.Connect();
     }
 
+    /// <summary>
+    /// get whether this node is connected to others
+    /// </summary>
+    /// <returns></returns>
     public bool GetIsConnected()
     {
         return _isConencted;

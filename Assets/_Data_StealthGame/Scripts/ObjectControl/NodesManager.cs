@@ -44,7 +44,10 @@ public class NodesManager : MonoBehaviour
     private BoxCollider _spawnArea;
 
     [SerializeField, Tooltip("number of nodes")]
-    private int _nodeCount = 100;
+    private int _nodeCount = 30;
+
+    [SerializeField, Tooltip("max number of connection between nodes")]
+    private int _maxConnectionNum = 90;
 
     // array of _nodeWithoutLight instances
     private Node[] _nodes;
@@ -60,7 +63,7 @@ public class NodesManager : MonoBehaviour
 
     [SerializeField, Tooltip("range of neighbour nodes which affects single node's behaviour")]
     private float _neighbourRadious = 0.4f;
-
+    
     // buffer for nodes
     private ComputeBuffer[] _nodesBuffers;
 
@@ -105,6 +108,11 @@ public class NodesManager : MonoBehaviour
 
     // index of buffers for writing
     private const int WRITE = 1;
+
+    // thread size of a thread group
+    private const int SIMULATION_BLOCK_SIZE = 256;
+
+    
 
     /// <summary>
     /// initialization
@@ -212,7 +220,7 @@ public class NodesManager : MonoBehaviour
         {
             _nodesBuffers[i] = new ComputeBuffer(_nodeCount, Marshal.SizeOf(typeof(Node_ComputeShader)));
             // temporarily test with 3 times of node count
-            _connectionBuffers[i] = new ComputeBuffer(_nodeCount * 3, Marshal.SizeOf(typeof(Connection_ComputeShader)));
+            _connectionBuffers[i] = new ComputeBuffer(_maxConnectionNum, Marshal.SizeOf(typeof(Connection_ComputeShader)));
         }
     }
 
@@ -221,8 +229,12 @@ public class NodesManager : MonoBehaviour
     /// </summary>
     private void InitializeParams()
     {
+        // calculate thread group size
+        int nodeKernelThreadGroupSize = Mathf.CeilToInt((float)_nodeCount / (float) SIMULATION_BLOCK_SIZE);
+        int connectionKernelThreadGroupSize = Mathf.CeilToInt(_maxConnectionNum / SIMULATION_BLOCK_SIZE);
+
         // contain data of kernel in KernelParamsHandler
-        _updateNodePosKernel = new KernelParamsHandler(_nodeConnectionControl, _updateNodePosKernelName, _nodeCount, 1, 1);
+        _updateNodePosKernel = new KernelParamsHandler(_nodeConnectionControl, _updateNodePosKernelName, nodeKernelThreadGroupSize, 1, 1);
 
         // set constant parameters for simulation
         _nodeConnectionControl.SetFloat(_neighbourRadiousName, _neighbourRadious);
