@@ -1,6 +1,8 @@
 ﻿// Control connection and movement of nodes
 #pragma kernel UpdateNodePosition
 
+#pragma kernel InitializeConnection
+
 // structure of node
 struct Node
 {
@@ -114,4 +116,37 @@ void UpdateNodePosition
 
     // write updated position
     _nodesBufferWrite[DTid.x]._position = thisNodePos + separateVel * _deltaTime;
+}
+
+// calculate initial connection between nodes
+[numthreads(SIMULATION_BLOCK_SIZE, 1, 1)]
+void InitializeConnection
+(
+    uint3 DTid : SV_DispatchThreadID, // global thread index (= Gid.x * SIMULATION_BLOCK_SIZE + GTid.x)
+) 
+{
+    // get position of this node
+    float3 thisNodePos = _nodesBufferRead[DTid.x]._position;
+    
+    // calculate influence of other nodes
+    // max connection per node is limited
+    for (uint i = 0; i < _nodeCount; i++)
+    {
+        // another node's position
+        float3 otherNodePos = _nodesBufferRead[i]._position;
+
+        // distance between this node and another node
+        float dist = distance(thisNodePos, otherNodePos);
+
+        if (dist > 0.0 && dist <= _neighbourRadious)
+        {
+            // if another node is closer than the threshold, connect those nodes
+
+            // if the same combination of nodes is found,
+            // this connection isn't stored in the buffer at the final implementation
+            // but doubled connection is temprarily accepted while development
+
+
+        }
+    }
 }

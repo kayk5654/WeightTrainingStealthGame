@@ -1502,6 +1502,8 @@ MonoBehaviour:
     type: 3}
   _nodePrefab: {fileID: 7947004599680539123, guid: a542aa676b662a14684ac10f094eebdc,
     type: 3}
+  _connectionPrefab: {fileID: 5835073924209826630, guid: a1cc412cfb5761b46a3c9a5dd99f7e97,
+    type: 3}
   _spawnArea: {fileID: 423316854}
   _nodeCount: 30
   _maxConnectionNum: 90

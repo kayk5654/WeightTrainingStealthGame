@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
+using System.Linq;
 
 /// <summary>
 /// data of single node
@@ -22,11 +23,11 @@ public struct Node_ComputeShader
 public struct Connection_ComputeShader
 {
     // identify each connections
-    int _id;
+    public int _id;
     // node to connect
-    int _connectNode1;
+    public int _connectNode1;
     // node to connect
-    int _connectNode2;
+    public int _connectNode2;
 }
 
 /// <summary>
@@ -37,8 +38,11 @@ public class NodesManager : MonoBehaviour
     [SerializeField, Tooltip("compute shader for node control")]
     private ComputeShader _nodeConnectionControl;
 
-    [SerializeField, Tooltip("nodes without light")]
+    [SerializeField, Tooltip("node to instantiate")]
     private GameObject _nodePrefab;
+
+    [SerializeField, Tooltip("connection to instantiate")]
+    private Connection _connectionPrefab;
 
     [SerializeField, Tooltip("area to spawn nodes")]
     private BoxCollider _spawnArea;
@@ -49,8 +53,11 @@ public class NodesManager : MonoBehaviour
     [SerializeField, Tooltip("max number of connection between nodes")]
     private int _maxConnectionNum = 90;
 
-    // array of _nodeWithoutLight instances
+    // array of _node instances
     private Node[] _nodes;
+
+    // array of connection instances
+    private List<Connection> _connections;
 
     [SerializeField, Tooltip("material of line")]
     private Material _lineMaterial;
@@ -100,8 +107,14 @@ public class NodesManager : MonoBehaviour
     // kernel name of UpdateNodePosition()
     private string _updateNodePosKernelName = "UpdateNodePosition";
 
+    // kernel name of InitializeConnection()
+    private string _initConnectionKernelName = "InitializeConnection";
+
     // kernel info of UpdateNodePosition()
     private KernelParamsHandler _updateNodePosKernel;
+
+    // kernel info of InitializeConnection()
+    private KernelParamsHandler _initConnectionKernel;
 
     // index of buffers for reading
     private const int READ = 0;
@@ -127,6 +140,7 @@ public class NodesManager : MonoBehaviour
         InitializeBuffers();
         InitializeParams();
         SpawnNodes_GPU();
+        SpawnConnection_GPU();
     }
 
     /// <summary>
@@ -146,6 +160,8 @@ public class NodesManager : MonoBehaviour
     private void Update()
     {
         SimulateNodes_GPU();
+        //SimulateConnections_GPU();
+        UpdatePositioniForConnection();
     }
 
     #region Test on CPU
@@ -235,6 +251,7 @@ public class NodesManager : MonoBehaviour
 
         // contain data of kernel in KernelParamsHandler
         _updateNodePosKernel = new KernelParamsHandler(_nodeConnectionControl, _updateNodePosKernelName, nodeKernelThreadGroupSize, 1, 1);
+        _initConnectionKernel = new KernelParamsHandler(_nodeConnectionControl, _initConnectionKernelName, connectionKernelThreadGroupSize, 1, 1);
 
         // set constant parameters for simulation
         _nodeConnectionControl.SetFloat(_neighbourRadiousName, _neighbourRadious);
@@ -262,6 +279,7 @@ public class NodesManager : MonoBehaviour
         _nodes = new Node[_nodeCount];
         Vector3 positionTemp = Vector3.zero;
         _nodesBufferData = new Node_ComputeShader[_nodeCount];
+
         for (int i = 0; i < _nodeCount; i++)
         {
             // instantiate node in the scene
@@ -290,9 +308,52 @@ public class NodesManager : MonoBehaviour
         _nodesBuffers[READ].SetData(_nodesBufferData);
         _nodeConnectionControl.SetBuffer(_updateNodePosKernel._index, _nodeBufferName_Read, _nodesBuffers[READ]);
 
-        // empty buffer data array?
-        //_nodesBufferData = null;
+    }
 
+    /// <summary>
+    /// generate connection between nodes
+    /// </summary>
+    private void SpawnConnection_GPU()
+    {
+        // initialize list and array
+        _connections = new List<Connection>();
+        _connectionBufferData = new Connection_ComputeShader[_maxConnectionNum];
+
+        Connection_ComputeShader initConnection = new Connection_ComputeShader()
+        {
+            _id = -1,
+            _connectNode1 = -1,
+            _connectNode2 = -1
+        };
+
+        _connectionBufferData = Enumerable.Repeat(initConnection, _maxConnectionNum).ToArray();
+
+        // calculate initial connection between nodes on the compute shader
+        _connectionBuffers[READ].SetData(_connectionBufferData);
+        _nodeConnectionControl.SetBuffer(_initConnectionKernel._index, _connectionBufferName_Read, _connectionBuffers[READ]);
+        // _nodeBufferName_Read is set in SpawnNodes_GPU()
+        _nodeConnectionControl.SetBuffer(_initConnectionKernel._index, _nodeBufferName_Read, _nodesBuffers[READ]);
+        _nodeConnectionControl.SetBuffer(_initConnectionKernel._index, _connectionBufferName_Write, _connectionBuffers[WRITE]);
+        _nodeConnectionControl.Dispatch(_initConnectionKernel._index, _initConnectionKernel._x, _initConnectionKernel._y, _initConnectionKernel._z);
+
+        // get result of calculation
+        _connectionBuffers[WRITE].GetData(_connectionBufferData);
+
+        // apply result of calculation
+        for (int i = 0; i < _connectionBufferData.Length; i++)
+        {
+            // skip if _id of connection data is still -1; it doesn't contain info of connection
+            if(_connectionBufferData[i]._id == -1) { continue; }
+
+            // instantiate connection
+            Connection newConnection = Instantiate<Connection>(_connectionPrefab, transform);
+            newConnection._id = _connectionBufferData[i]._id;
+            newConnection.UpdateNodesPosition(_nodes[_connectionBufferData[i]._connectNode1].transform.position, _nodes[_connectionBufferData[i]._connectNode2].transform.position);
+            _connections.Add(newConnection);
+        }
+
+        // swap buffers
+        SwapBuffers(_connectionBuffers);
     }
 
     /// <summary>
@@ -300,6 +361,7 @@ public class NodesManager : MonoBehaviour
     /// </summary>
     private void SimulateNodes_GPU()
     {
+        // caulculate nodes' behaviour in the compute shader
         _nodeConnectionControl.SetFloat(_deltatimeName, Time.deltaTime);
         _nodeConnectionControl.SetBuffer(_updateNodePosKernel._index, _nodeBufferName_Read, _nodesBuffers[READ]);
         _nodeConnectionControl.SetBuffer(_updateNodePosKernel._index, _nodeBufferName_Write, _nodesBuffers[WRITE]);
@@ -314,6 +376,32 @@ public class NodesManager : MonoBehaviour
 
         // swap buffers
         SwapBuffers(_nodesBuffers);
+    }
+
+    /// <summary>
+    /// update connection between nodes
+    /// </summary>
+    private void SimulateConnections_GPU()
+    {
+        // temporarily keep initial connection
+        // change of connection (remove, create new connection) will be considered later
+
+        
+    }
+
+    /// <summary>
+    /// update positions of nodes used for connection while keep initial connection
+    /// </summary>
+    private void UpdatePositioniForConnection()
+    {
+        // as long as keeping initial connection,
+        // the index of _connectionBufferData always matches the index of _connections
+
+        // apply update of position of nodes
+        for (int i = 0; i < _connections.Count; i++)
+        {
+            _connections[i].UpdateNodesPosition(_nodes[_connectionBufferData[i]._connectNode1].transform.position, _nodes[_connectionBufferData[i]._connectNode2].transform.position);
+        }
     }
 
     /// <summary>
