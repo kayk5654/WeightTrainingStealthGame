@@ -26,7 +26,7 @@ public class Connection : MonoBehaviour
     /// <summary>
     /// set position of nodes to connect
     /// </summary>
-    public void UpdateNodesPosition(Vector3 nodePos1, Vector3 nodePos2)
+    public void SetNodesPosition(Vector3 nodePos1, Vector3 nodePos2)
     {
         _lineRenderer.SetPosition(0, nodePos1);
         _lineRenderer.SetPosition(1, nodePos2);

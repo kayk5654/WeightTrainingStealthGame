@@ -359,7 +359,7 @@ public class NodesManager : MonoBehaviour
             // instantiate connection
             Connection newConnection = Instantiate<Connection>(_connectionPrefab, transform);
             newConnection._id = _connectionBufferData[i]._id;
-            newConnection.UpdateNodesPosition(_nodes[_connectionBufferData[i]._connectNode1].transform.position, _nodes[_connectionBufferData[i]._connectNode2].transform.position);
+            newConnection.SetNodesPosition(_nodes[_connectionBufferData[i]._connectNode1].transform.position, _nodes[_connectionBufferData[i]._connectNode2].transform.position);
             _connections.Add(newConnection);
         }
 
@@ -410,21 +410,12 @@ public class NodesManager : MonoBehaviour
 
         // connection data to access
         Connection_ComputeShader connectionData;
-        // index of connection data to access
-        int connectionBufferIndex;
 
         // apply update of position of nodes
         for (int i = 0; i < _connections.Count; i++)
         {
-            for(int j = 0; j < _maxConnectionPerNode; j++)
-            {
-                connectionBufferIndex = i * _maxConnectionPerNode + j;
-                connectionData = _connectionBufferData[connectionBufferIndex];
-
-                if (connectionData._id == -1) { continue; }
-
-                _connections[i].UpdateNodesPosition(_nodes[connectionData._connectNode1].transform.position, _nodes[connectionData._connectNode2].transform.position);
-            }
+            connectionData = _connectionBufferData.First(connection => connection._id == _connections[i]._id);
+            _connections[i].SetNodesPosition(_nodes[connectionData._connectNode1].transform.position, _nodes[connectionData._connectNode2].transform.position);
         }
     }
 
