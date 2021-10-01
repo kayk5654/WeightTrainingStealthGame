@@ -41,7 +41,11 @@ float _neighbourRadious;
 // delta time
 float _deltaTime;
 
+// max number of connection per one node
+uint _maxConnectionPerNode;
 
+// range of searching connectable nodes fron a specific node
+float _connectRadious;
 
 // size of thread group
 #define SIMULATION_BLOCK_SIZE 256
@@ -119,15 +123,20 @@ void UpdateNodePosition
 }
 
 // calculate initial connection between nodes
+// max connectable nodes are defined by _maxConnectionPerNode,
+// so the space that the single node can take in the connection buffer is also define by _maxConnectionPerNode
 [numthreads(SIMULATION_BLOCK_SIZE, 1, 1)]
 void InitializeConnection
 (
-    uint3 DTid : SV_DispatchThreadID, // global thread index (= Gid.x * SIMULATION_BLOCK_SIZE + GTid.x)
+    uint3 DTid : SV_DispatchThreadID // global thread index (= Gid.x * SIMULATION_BLOCK_SIZE + GTid.x)
 ) 
 {
     // get position of this node
     float3 thisNodePos = _nodesBufferRead[DTid.x]._position;
     
+    // number of connectable node found in the for loop below; max is _maxConnectionPerNode
+    int connectableNodeCount = 0;
+
     // calculate influence of other nodes
     // max connection per node is limited
     for (uint i = 0; i < _nodeCount; i++)
@@ -145,8 +154,30 @@ void InitializeConnection
             // if the same combination of nodes is found,
             // this connection isn't stored in the buffer at the final implementation
             // but doubled connection is temprarily accepted while development
+            int connectionId = DTid.x * _maxConnectionPerNode + connectableNodeCount;
+            _connectionBufferWrite[connectionId]._connectNode1 = _nodesBufferRead[DTid.x]._id;
+            _connectionBufferWrite[connectionId]._connectNode2 = _nodesBufferRead[i]._id;
+            _connectionBufferWrite[connectionId]._id = connectionId;
 
+            // count connectable node
+            connectableNodeCount++;
 
+            // if connectable nodes reached at the max number, end this for loop
+            if (connectableNodeCount >= _maxConnectionPerNode) { break; }
         }
     }
+
+    // if the number of connectable nodes is less than _maxConnectionPerNode,
+    // copy the data in _connectionBufferRead to _connectionBufferWrite
+    // in the rest of buffer for this node
+    // original stored values in _connectionBufferRead is;
+    // Connection{_id = -1, _connectNode1 = -1, _connectNode2 = -1}
+    for (uint i = connectableNodeCount; i < _maxConnectionPerNode; i++) 
+    {
+        int connectionId = DTid.x * _maxConnectionPerNode + connectableNodeCount;
+        _connectionBufferWrite[connectionId]._id = _connectionBufferRead[connectionId]._id;
+        _connectionBufferWrite[connectionId]._connectNode1 = _connectionBufferRead[connectionId]._connectNode1;
+        _connectionBufferWrite[connectionId]._connectNode2 = _connectionBufferRead[connectionId]._connectNode2;
+    }
+
 }

@@ -51,7 +51,7 @@ public class NodesManager : MonoBehaviour
     private int _nodeCount = 30;
 
     [SerializeField, Tooltip("max number of connection between nodes")]
-    private int _maxConnectionNum = 90;
+    private int _maxConnectionPerNode = 3;
 
     // array of _node instances
     private Node[] _nodes;
@@ -70,7 +70,10 @@ public class NodesManager : MonoBehaviour
 
     [SerializeField, Tooltip("range of neighbour nodes which affects single node's behaviour")]
     private float _neighbourRadious = 0.4f;
-    
+
+    [SerializeField, Tooltip("range of searching connectable nodes fron a specific node")]
+    private float _connectRadious = 0.55f;
+
     // buffer for nodes
     private ComputeBuffer[] _nodesBuffers;
 
@@ -91,6 +94,12 @@ public class NodesManager : MonoBehaviour
 
     // parameter name of _deltaTime
     private string _deltatimeName = "_deltaTime";
+
+    // parameter name of _maxConnectionPerNode
+    private string _maxConnectionPerNodeName = "_maxConnectionPerNode";
+
+    // parameter name of _connectRadious
+    private string _connectRadiousName = "_connectRadious";
 
     // name of node buffer on compute shader for reading
     private string _nodeBufferName_Read = "_nodesBufferRead";
@@ -236,7 +245,7 @@ public class NodesManager : MonoBehaviour
         {
             _nodesBuffers[i] = new ComputeBuffer(_nodeCount, Marshal.SizeOf(typeof(Node_ComputeShader)));
             // temporarily test with 3 times of node count
-            _connectionBuffers[i] = new ComputeBuffer(_maxConnectionNum, Marshal.SizeOf(typeof(Connection_ComputeShader)));
+            _connectionBuffers[i] = new ComputeBuffer(_maxConnectionPerNode * _nodeCount, Marshal.SizeOf(typeof(Connection_ComputeShader)));
         }
     }
 
@@ -247,7 +256,7 @@ public class NodesManager : MonoBehaviour
     {
         // calculate thread group size
         int nodeKernelThreadGroupSize = Mathf.CeilToInt((float)_nodeCount / (float) SIMULATION_BLOCK_SIZE);
-        int connectionKernelThreadGroupSize = Mathf.CeilToInt((float) _maxConnectionNum / (float) SIMULATION_BLOCK_SIZE);
+        int connectionKernelThreadGroupSize = Mathf.CeilToInt((float) (_maxConnectionPerNode * _nodeCount) / (float) SIMULATION_BLOCK_SIZE);
 
         // contain data of kernel in KernelParamsHandler
         _updateNodePosKernel = new KernelParamsHandler(_nodeConnectionControl, _updateNodePosKernelName, nodeKernelThreadGroupSize, 1, 1);
@@ -256,6 +265,8 @@ public class NodesManager : MonoBehaviour
         // set constant parameters for simulation
         _nodeConnectionControl.SetFloat(_neighbourRadiousName, _neighbourRadious);
         _nodeConnectionControl.SetInt(_nodeCountName, _nodeCount);
+        _nodeConnectionControl.SetInt(_maxConnectionPerNodeName, _maxConnectionPerNode);
+        _nodeConnectionControl.SetFloat(_connectRadiousName, _connectRadious);
     }
 
     /// <summary>
@@ -317,7 +328,7 @@ public class NodesManager : MonoBehaviour
     {
         // initialize list and array
         _connections = new List<Connection>();
-        _connectionBufferData = new Connection_ComputeShader[_maxConnectionNum];
+        _connectionBufferData = new Connection_ComputeShader[(_maxConnectionPerNode * _nodeCount)];
 
         Connection_ComputeShader initConnection = new Connection_ComputeShader()
         {
@@ -326,7 +337,7 @@ public class NodesManager : MonoBehaviour
             _connectNode2 = -1
         };
 
-        _connectionBufferData = Enumerable.Repeat(initConnection, _maxConnectionNum).ToArray();
+        _connectionBufferData = Enumerable.Repeat(initConnection, (_maxConnectionPerNode * _nodeCount)).ToArray();
 
         // calculate initial connection between nodes on the compute shader
         _connectionBuffers[READ].SetData(_connectionBufferData);
@@ -397,10 +408,23 @@ public class NodesManager : MonoBehaviour
         // as long as keeping initial connection,
         // the index of _connectionBufferData always matches the index of _connections
 
+        // connection data to access
+        Connection_ComputeShader connectionData;
+        // index of connection data to access
+        int connectionBufferIndex;
+
         // apply update of position of nodes
         for (int i = 0; i < _connections.Count; i++)
         {
-            _connections[i].UpdateNodesPosition(_nodes[_connectionBufferData[i]._connectNode1].transform.position, _nodes[_connectionBufferData[i]._connectNode2].transform.position);
+            for(int j = 0; j < _maxConnectionPerNode; j++)
+            {
+                connectionBufferIndex = i * _maxConnectionPerNode + j;
+                connectionData = _connectionBufferData[connectionBufferIndex];
+
+                if (connectionData._id == -1) { continue; }
+
+                _connections[i].UpdateNodesPosition(_nodes[connectionData._connectNode1].transform.position, _nodes[connectionData._connectNode2].transform.position);
+            }
         }
     }
 
