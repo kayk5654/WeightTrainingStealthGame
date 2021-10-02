@@ -74,6 +74,12 @@ public class NodesManager : MonoBehaviour
     [SerializeField, Tooltip("range of searching connectable nodes fron a specific node")]
     private float _connectRadious = 0.55f;
 
+    [Tooltip("height of the floor")]
+    public float _floorHeight;
+
+    [SerializeField, Tooltip("weight of the velocity to avoid floor")]
+    private float _avoidFloorVelWeight = 1f;
+
     // buffer for nodes
     private ComputeBuffer[] _nodesBuffers;
 
@@ -101,6 +107,12 @@ public class NodesManager : MonoBehaviour
     // parameter name of _connectRadious
     private string _connectRadiousName = "_connectRadious";
 
+    // parameter name of _floorHeight
+    private string _floorHeightName = "_floorHeight";
+
+    // parameter name of _avoidFloorVelWeight
+    private string _avoidFloorVelWeightName = "_avoidFloorVelWeight";
+
     // name of node buffer on compute shader for reading
     private string _nodeBufferName_Read = "_nodesBufferRead";
 
@@ -113,8 +125,8 @@ public class NodesManager : MonoBehaviour
     // name of connection buffer on compute shader for writing
     private string _connectionBufferName_Write = "_connectionBufferWrite";
 
-    // kernel name of UpdateNodePosition()
-    private string _updateNodePosKernelName = "UpdateNodePosition";
+    // kernel name of UpdateNode()
+    private string _updateNodeKernelName = "UpdateNode";
 
     // kernel name of InitializeConnection()
     private string _initConnectionKernelName = "InitializeConnection";
@@ -221,7 +233,7 @@ public class NodesManager : MonoBehaviour
         int connectionKernelThreadGroupSize = Mathf.CeilToInt((float) (_maxConnectionPerNode * _nodeCount) / (float) SIMULATION_BLOCK_SIZE);
 
         // contain data of kernel in KernelParamsHandler
-        _updateNodePosKernel = new KernelParamsHandler(_nodeConnectionControl, _updateNodePosKernelName, nodeKernelThreadGroupSize, 1, 1);
+        _updateNodePosKernel = new KernelParamsHandler(_nodeConnectionControl, _updateNodeKernelName, nodeKernelThreadGroupSize, 1, 1);
         _initConnectionKernel = new KernelParamsHandler(_nodeConnectionControl, _initConnectionKernelName, connectionKernelThreadGroupSize, 1, 1);
 
         // set constant parameters for simulation
@@ -229,6 +241,8 @@ public class NodesManager : MonoBehaviour
         _nodeConnectionControl.SetInt(_nodeCountName, _nodeCount);
         _nodeConnectionControl.SetInt(_maxConnectionPerNodeName, _maxConnectionPerNode);
         _nodeConnectionControl.SetFloat(_connectRadiousName, _connectRadious);
+        _nodeConnectionControl.SetFloat(_floorHeightName, _floorHeight);
+        _nodeConnectionControl.SetFloat(_avoidFloorVelWeightName, _avoidFloorVelWeight);
     }
 
     /// <summary>

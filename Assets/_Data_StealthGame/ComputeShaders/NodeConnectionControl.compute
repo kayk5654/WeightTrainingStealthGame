@@ -1,5 +1,5 @@
 ﻿// Control connection and movement of nodes
-#pragma kernel UpdateNodePosition
+#pragma kernel UpdateNode
 
 #pragma kernel InitializeConnection
 
@@ -53,9 +53,23 @@ float _connectRadious;
 // shared memory to contain node data
 groupshared Node _nodeData[SIMULATION_BLOCK_SIZE];
 
+// height of the floor
+float _floorHeight;
+
+// weight of the velocity to avoid floor
+float _avoidFloorVelWeight;
+
+// if a node reaches at the floor, return velocity to avoid floor
+float3 AvoidFloor(float3 position)
+{
+    float distanceFromFloorThreshold = 0.05;
+    float3 avoidFloorVelocity = float3(0, 1, 0);
+    return avoidFloorVelocity * smoothstep(_floorHeight + distanceFromFloorThreshold, _floorHeight, position.y);
+}
+
 // calculate new node position
 [numthreads(SIMULATION_BLOCK_SIZE, 1, 1)]
-void UpdateNodePosition
+void UpdateNode
 (
     uint3 DTid : SV_DispatchThreadID, // global thread index (= Gid.x * SIMULATION_BLOCK_SIZE + GTid.x)
     uint3 Gid : SV_GroupID, // identifier of a group
@@ -115,11 +129,13 @@ void UpdateNodePosition
     
     // calculate separation velocity
     float3 separateVel = float3(0, 0, 0);
-
     separateVel = separateNodeCount > 0 ? separateVelSum / (float)separateNodeCount : separateVelSum;
 
+    // calculate avoid floor velocity
+    float3 avoidFloor = AvoidFloor(thisNodePos) * _avoidFloorVelWeight;
+
     // write updated position
-    _nodesBufferWrite[DTid.x]._position = thisNodePos + separateVel * _deltaTime;
+    _nodesBufferWrite[DTid.x]._position = thisNodePos + (separateVel + avoidFloor) * _deltaTime;
 }
 
 // calculate initial connection between nodes

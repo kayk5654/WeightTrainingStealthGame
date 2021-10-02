@@ -88,7 +88,7 @@ public class Node : MonoBehaviour
     /// <summary>
     /// update direction of node caps
     /// </summary>
-    public void UpdateNodeCapTransform()
+    private void UpdateNodeCapTransform()
     {
         // index of _nodeCaps matches index of _connectionsIds
         // see InitializeNodeCaps()
