@@ -53,11 +53,11 @@ public class NodesManager : MonoBehaviour
     [SerializeField, Tooltip("max number of connection between nodes")]
     private int _maxConnectionPerNode = 3;
 
-    // array of _node instances
-    private Node[] _nodes;
+    // dictionary of _node instances
+    private Dictionary<int, Node> _nodes;
 
-    // array of connection instances
-    private List<Connection> _connections;
+    // dictionary of connection instances
+    private Dictionary<int, Connection> _connections;
 
     [SerializeField, Tooltip("material of line")]
     private Material _lineMaterial;
@@ -141,11 +141,6 @@ public class NodesManager : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        // test on cpu
-        //SpawnNodes();
-        //StartConnect();
-
-        // test on gpu
         InitializeBuffers();
         InitializeParams();
         SpawnNodes_GPU();
@@ -153,13 +148,18 @@ public class NodesManager : MonoBehaviour
     }
 
     /// <summary>
-    /// delete nodes
+    /// delete nodes and connections, release buffer
     /// </summary>
     private void OnDestroy()
     {
-        for(int i = 0; i < _nodes.Length; i++)
+        foreach(Node node in _nodes.Values)
         {
-            Destroy(_nodes[i].gameObject);
+            Destroy(node.gameObject);
+        }
+
+        foreach(Connection connection in _connections.Values)
+        {
+            Destroy(connection.gameObject);
         }
 
         // test on gpu
@@ -173,64 +173,27 @@ public class NodesManager : MonoBehaviour
         UpdatePositioniForConnection();
     }
 
-    #region Test on CPU
-
     /// <summary>
-    /// generate nodes
+    /// return a node specified by its id
     /// </summary>
-    private void SpawnNodes()
-    {
-        _nodes = new Node[_nodeCount];
-        Vector3 positionTemp = Vector3.zero;
-        for (int i = 0; i < _nodeCount; i++)
-        {
-            Transform newNode = Instantiate(_nodePrefab).transform;
-            positionTemp.x = Random.Range(_spawnArea.bounds.min.x, _spawnArea.bounds.max.x);
-            positionTemp.y = Random.Range(_spawnArea.bounds.min.y, _spawnArea.bounds.max.y);
-            positionTemp.z = Random.Range(_spawnArea.bounds.min.z, _spawnArea.bounds.max.z);
-            newNode.position = positionTemp;
-            newNode.rotation = Quaternion.Euler(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
-            newNode.SetParent(this.transform);
-            _nodes[i] = newNode.GetComponent<Node>();
-            _nodes[i]._nodesManager = this;
-            _nodes[i]._lineMaterial = _lineMaterial;
-            _nodes[i]._speed = _speed * Random.Range(0.5f, 1.2f);
-        }
-    }
-
-    /// <summary>
-    /// start connect from the first node
-    /// </summary>
-    private void StartConnect()
-    {
-        _nodes[0]._lineMaterial = _lineMaterial;
-        _nodes[0].Connect();
-    }
-
-    /// <summary>
-    /// let nodes to find their neighbours
-    /// </summary>
-    /// <param name="origin"></param>
-    /// <param name="range"></param>
+    /// <param name="nodeId"></param>
     /// <returns></returns>
-    public Node[] GetConnectableNodes(Vector3 origin, float range)
+    public Node GetNode(int nodeId)
     {
-        List<Node> connectableNodes = new List<Node>();
-
-        for(int i = 0; i < _nodes.Length; i++)
-        {
-            if (_nodes[i].GetIsConnected()) { continue; }
-            if(Vector3.Distance(origin, _nodes[i].transform.position) > range) { continue; }
-
-            connectableNodes.Add(_nodes[i]);
-        }
-
-        return connectableNodes.ToArray();
+        return _nodes[nodeId];
     }
 
-    #endregion
+    /// <summary>
+    /// return a connection specified by its id
+    /// </summary>
+    /// <param name="connectionId"></param>
+    /// <returns></returns>
+    public Connection GetConnection(int connectionId)
+    {
+        return _connections[connectionId];
+    }
 
-    #region Test on GPU
+    #region Handle ComputeShader
 
     /// <summary>
     /// initialize compute buffers
@@ -244,7 +207,6 @@ public class NodesManager : MonoBehaviour
         for(int i = 0; i < _nodesBuffers.Length; i++)
         {
             _nodesBuffers[i] = new ComputeBuffer(_nodeCount, Marshal.SizeOf(typeof(Node_ComputeShader)));
-            // temporarily test with 3 times of node count
             _connectionBuffers[i] = new ComputeBuffer(_maxConnectionPerNode * _nodeCount, Marshal.SizeOf(typeof(Connection_ComputeShader)));
         }
     }
@@ -287,7 +249,7 @@ public class NodesManager : MonoBehaviour
     /// </summary>
     private void SpawnNodes_GPU()
     {
-        _nodes = new Node[_nodeCount];
+        _nodes = new Dictionary<int, Node>();
         Vector3 positionTemp = Vector3.zero;
         _nodesBufferData = new Node_ComputeShader[_nodeCount];
 
@@ -301,10 +263,9 @@ public class NodesManager : MonoBehaviour
             newNode.position = positionTemp;
             newNode.rotation = Quaternion.Euler(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
             newNode.SetParent(this.transform);
-            _nodes[i] = newNode.GetComponent<Node>();
+            _nodes.Add(i, newNode.GetComponent<Node>());
             _nodes[i]._id = i;
             _nodes[i]._nodesManager = this;
-            _nodes[i]._lineMaterial = _lineMaterial;
             _nodes[i]._speed = _speed * Random.Range(0.5f, 1.2f);
 
             // set data for compute buffer
@@ -327,7 +288,7 @@ public class NodesManager : MonoBehaviour
     private void SpawnConnection_GPU()
     {
         // initialize list and array
-        _connections = new List<Connection>();
+        _connections = new Dictionary<int, Connection>();
         _connectionBufferData = new Connection_ComputeShader[(_maxConnectionPerNode * _nodeCount)];
 
         Connection_ComputeShader initConnection = new Connection_ComputeShader()
@@ -359,8 +320,19 @@ public class NodesManager : MonoBehaviour
             // instantiate connection
             Connection newConnection = Instantiate<Connection>(_connectionPrefab, transform);
             newConnection._id = _connectionBufferData[i]._id;
+            newConnection.SetNodeIds(_connectionBufferData[i]._connectNode1, _connectionBufferData[i]._connectNode2);
             newConnection.SetNodesPosition(_nodes[_connectionBufferData[i]._connectNode1].transform.position, _nodes[_connectionBufferData[i]._connectNode2].transform.position);
-            _connections.Add(newConnection);
+            _connections.Add(newConnection._id, newConnection);
+
+            // let the relative nodes know about this connection
+            _nodes[_connectionBufferData[i]._connectNode1].AddConnection(newConnection._id);
+            _nodes[_connectionBufferData[i]._connectNode2].AddConnection(newConnection._id);
+        }
+
+        // spawn node caps for each connections
+        foreach(Node node in _nodes.Values)
+        {
+            node.InitializeNodeCaps();
         }
 
         // swap buffers
@@ -380,9 +352,9 @@ public class NodesManager : MonoBehaviour
 
         // update nodes in the scene
         _nodesBuffers[WRITE].GetData(_nodesBufferData);
-        for(int i = 0; i < _nodes.Length; i++)
+        foreach(int key in _nodes.Keys)
         {
-            _nodes[i].SetSimulatedData(_nodesBufferData[i]);
+            _nodes[key].SetSimulatedData(_nodesBufferData[key]);
         }
 
         // swap buffers
@@ -412,10 +384,12 @@ public class NodesManager : MonoBehaviour
         Connection_ComputeShader connectionData;
 
         // apply update of position of nodes
-        for (int i = 0; i < _connections.Count; i++)
+        foreach(int key in _connections.Keys)
         {
-            connectionData = _connectionBufferData.First(connection => connection._id == _connections[i]._id);
-            _connections[i].SetNodesPosition(_nodes[connectionData._connectNode1].transform.position, _nodes[connectionData._connectNode2].transform.position);
+            // key of _connections matches index of _connectionBufferData,
+            // since the unused slot of _connectionBufferData contains the data with _id = -1
+            connectionData = _connectionBufferData[key];
+            _connections[key].SetNodesPosition(_nodes[connectionData._connectNode1].transform.position, _nodes[connectionData._connectNode2].transform.position);
         }
     }
 
