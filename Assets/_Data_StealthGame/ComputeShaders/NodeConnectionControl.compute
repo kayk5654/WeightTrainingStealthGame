@@ -72,27 +72,30 @@ float Random(float3 position)
 }
 
 // return value noise
-float3 ValueNoise(float3 position)
+float ValueNoise(float3 position)
 {
     // get int and fraction of given position
     float3 integer = floor(position);
     float3 fraction = frac(position);
 
     // sample 8 points
-    float a = Random(integer);
-    float b = Random(integer + float3(0, 0, 1));
-    float c = Random(integer + float3(1, 0, 1));
-    float d = Random(integer + float3(1, 0, 0));
-    float e = Random(integer + float3(0, 1, 0));
-    float f = Random(integer + float3(0, 1, 1));
-    float g = Random(integer + float3(1, 1, 0));
-    float h = Random(integer + float3(1, 1, 1));
+    float n000 = Random(integer);
+    float n001 = Random(integer + float3(0, 0, 1));
+    float n101 = Random(integer + float3(1, 0, 1));
+    float n100 = Random(integer + float3(1, 0, 0));
+    float n010 = Random(integer + float3(0, 1, 0));
+    float n011 = Random(integer + float3(0, 1, 1));
+    float n110 = Random(integer + float3(1, 1, 0));
+    float n111 = Random(integer + float3(1, 1, 1));
 
     // smooth interpolation
     // cubic hermine curve
     float3 u = fraction * fraction * (3.0 - 2.0 * fraction);
 
-    return lerp(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+    return lerp(lerp(lerp(n000, n100, u.x),
+            lerp(n010, n110, u.x), u.y,)
+            lerp(lerp(n001, n101, u.x),
+            lerp(n011, n111, u.x), u.y), u.z);
 }
 
 // return noise
