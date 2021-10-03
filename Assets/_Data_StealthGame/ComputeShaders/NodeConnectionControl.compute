@@ -92,10 +92,7 @@ float ValueNoise(float3 position)
     // cubic hermine curve
     float3 u = fraction * fraction * (3.0 - 2.0 * fraction);
 
-    return lerp(lerp(lerp(n000, n100, u.x),
-            lerp(n010, n110, u.x), u.y,)
-            lerp(lerp(n001, n101, u.x),
-            lerp(n011, n111, u.x), u.y), u.z);
+    return lerp(lerp(lerp(n000, n100, u.x), lerp(n010, n110, u.x), u.y),lerp(lerp(n001, n101, u.x),lerp(n011, n111, u.x), u.y), u.z);
 }
 
 // return noise
