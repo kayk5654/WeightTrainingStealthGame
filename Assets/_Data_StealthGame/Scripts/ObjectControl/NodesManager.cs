@@ -13,8 +13,6 @@ public struct Node_ComputeShader
     public int _id;
     // position of a node
     public Vector3 _position;
-    // rotation of a node
-    public Vector4 _rotation;
 }
 
 /// <summary>
@@ -282,7 +280,6 @@ public class NodesManager : MonoBehaviour
             // set data for compute buffer
             _nodesBufferData[i]._id = i;
             _nodesBufferData[i]._position = newNode.position;
-            _nodesBufferData[i]._rotation =  new Vector4(newNode.rotation.x, newNode.rotation.y, newNode.rotation.z, newNode.rotation.w);
             
             
         }

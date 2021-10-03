@@ -8,8 +8,6 @@ struct Node
 {
     int _id; // identify each nodes
     float3 _position; // position of a node
-    float4 _rotation; // rotation of a node
-
 };
 
 // structure of connection between nodes
