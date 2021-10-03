@@ -65,9 +65,6 @@ public class NodesManager : MonoBehaviour
     [SerializeField, Tooltip("connecting speed")]
     private float _speed = 1f;
 
-    [SerializeField, Tooltip("connecting range")]
-    private float _range = 1f;
-
     [SerializeField, Tooltip("range of neighbour nodes which affects single node's behaviour")]
     private float _neighbourRadious = 0.4f;
 
@@ -336,6 +333,13 @@ public class NodesManager : MonoBehaviour
             newConnection._id = _connectionBufferData[i]._id;
             newConnection.SetNodeIds(_connectionBufferData[i]._connectNode1, _connectionBufferData[i]._connectNode2);
             newConnection.SetNodesPosition(_nodes[_connectionBufferData[i]._connectNode1].transform.position, _nodes[_connectionBufferData[i]._connectNode2].transform.position);
+
+            bool isKeyAlreadyExist = _connections.ContainsKey(newConnection._id);
+            if (isKeyAlreadyExist)
+            {
+                Debug.LogError("key " + newConnection._id + " already exists!");
+                continue;
+            }
             _connections.Add(newConnection._id, newConnection);
 
             // let the relative nodes know about this connection
@@ -402,6 +406,12 @@ public class NodesManager : MonoBehaviour
         {
             // key of _connections matches index of _connectionBufferData,
             // since the unused slot of _connectionBufferData contains the data with _id = -1
+            if(key >= _connectionBufferData.Length || key < 0)
+            {
+                Debug.LogError("key " + key + " is out of range of _connectionBufferData");
+                continue;
+            }
+            
             connectionData = _connectionBufferData[key];
             _connections[key].SetNodesPosition(_nodes[connectionData._connectNode1].transform.position, _nodes[connectionData._connectNode2].transform.position);
         }

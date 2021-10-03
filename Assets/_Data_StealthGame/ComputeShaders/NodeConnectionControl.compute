@@ -67,6 +67,12 @@ float3 AvoidFloor(float3 position)
     return avoidFloorVelocity * smoothstep(_floorHeight + distanceFromFloorThreshold, _floorHeight, position.y);
 }
 
+// return noise
+float3 Noise(float3 position) 
+{
+    return float3(0, 0, 0);
+}
+
 // calculate new node position
 [numthreads(SIMULATION_BLOCK_SIZE, 1, 1)]
 void UpdateNode
@@ -163,7 +169,7 @@ void InitializeConnection
         // distance between this node and another node
         float dist = distance(thisNodePos, otherNodePos);
 
-        if (dist > 0.0 && dist <= _neighbourRadious)
+        if (dist > 0.0 && dist <= _connectRadious)
         {
             // if another node is closer than the threshold, connect those nodes
 
@@ -191,7 +197,7 @@ void InitializeConnection
     for (uint i = connectableNodeCount; i < _maxConnectionPerNode; i++) 
     {
         int connectionId = DTid.x * _maxConnectionPerNode + connectableNodeCount;
-        _connectionBufferWrite[connectionId]._id = _connectionBufferRead[connectionId]._id;
+        _connectionBufferWrite[connectionId]._id = -1;
         _connectionBufferWrite[connectionId]._connectNode1 = _connectionBufferRead[connectionId]._connectNode1;
         _connectionBufferWrite[connectionId]._connectNode2 = _connectionBufferRead[connectionId]._connectNode2;
     }

@@ -81,7 +81,8 @@ public class Node : MonoBehaviour
         if(nodeData._id != _id) { return; }
         
         transform.position = nodeData._position;
-        transform.rotation = new Quaternion(nodeData._rotation.x, nodeData._rotation.y, nodeData._rotation.z, nodeData._rotation.w);
+        // changing rotation is temporarily disabled
+        //transform.rotation = new Quaternion(nodeData._rotation.x, nodeData._rotation.y, nodeData._rotation.z, nodeData._rotation.w);
 
     }
 

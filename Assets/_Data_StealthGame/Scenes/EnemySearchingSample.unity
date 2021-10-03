@@ -1509,9 +1509,8 @@ MonoBehaviour:
   _maxConnectionPerNode: 3
   _lineMaterial: {fileID: 2100000, guid: 244df7de04ae73340bd74b0dcd6a5166, type: 2}
   _speed: 1
-  _range: 0.6
-  _neighbourRadious: 1.4
-  _connectRadious: 0.3
+  _neighbourRadious: 1
+  _connectRadious: 0.6
   _floorHeight: -1
   _avoidFloorVelWeight: 1
 --- !u!1001 &842598998
