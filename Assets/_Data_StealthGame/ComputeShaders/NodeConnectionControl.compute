@@ -213,7 +213,7 @@ void InitializeConnection
     float3 thisNodePos = _nodesBufferRead[DTid.x]._position;
     
     // number of connectable node found in the for loop below; max is _maxConnectionPerNode
-    int connectableNodeCount = 0;
+    uint connectableNodeCount = 0;
 
     // calculate influence of other nodes
     // max connection per node is limited
@@ -250,9 +250,9 @@ void InitializeConnection
     // in the rest of buffer for this node
     // original stored values in _connectionBufferRead is;
     // Connection{_id = -1, _connectNode1 = -1, _connectNode2 = -1}
-    for (uint i = connectableNodeCount; i < _maxConnectionPerNode; i++) 
+    for (uint connectId = connectableNodeCount; connectId < _maxConnectionPerNode; i++)
     {
-        int connectionId = DTid.x * _maxConnectionPerNode + connectableNodeCount;
+        int connectionId = DTid.x * _maxConnectionPerNode + connectId;
         _connectionBufferWrite[connectionId]._id = -1;
         _connectionBufferWrite[connectionId]._connectNode1 = _connectionBufferRead[connectionId]._connectNode1;
         _connectionBufferWrite[connectionId]._connectNode2 = _connectionBufferRead[connectionId]._connectNode2;
