@@ -8,6 +8,7 @@ struct Node
 {
     int _id; // identify each nodes
     float3 _position; // position of a node
+    float3 _velocity;
 };
 
 // structure of connection between nodes
@@ -168,8 +169,14 @@ void UpdateNode
     // calculate avoid floor velocity
     float3 avoidFloor = AvoidFloor(thisNodePos) * _avoidFloorVelWeight;
 
+    // calculate velocity
+    float3 velocity = (separateVel + avoidFloor) * _deltaTime;
+    float velLerpFactor = 0.1;
+    velocity = lerp(_nodesBufferWrite[DTid.x]._velocity, velocity, velLerpFactor);
+
     // write updated position
-    _nodesBufferWrite[DTid.x]._position = thisNodePos + (separateVel + avoidFloor) * _deltaTime;
+    _nodesBufferWrite[DTid.x]._position = thisNodePos + velocity;
+    _nodesBufferWrite[DTid.x]._velocity = velocity;
 }
 
 // calculate initial connection between nodes

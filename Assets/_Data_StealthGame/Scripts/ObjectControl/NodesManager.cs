@@ -13,6 +13,8 @@ public struct Node_ComputeShader
     public int _id;
     // position of a node
     public Vector3 _position;
+    // velocity of a node
+    public Vector3 _velocity;
 }
 
 /// <summary>
@@ -280,8 +282,9 @@ public class NodesManager : MonoBehaviour
             // set data for compute buffer
             _nodesBufferData[i]._id = i;
             _nodesBufferData[i]._position = newNode.position;
-            
-            
+            _nodesBufferData[i]._velocity = Vector3.zero;
+
+
         }
 
         // contain data of nodes in the compute buffer
