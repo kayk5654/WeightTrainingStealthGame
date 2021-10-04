@@ -71,11 +71,8 @@ public class NodesManager : MonoBehaviour
     [SerializeField, Tooltip("range of searching connectable nodes fron a specific node")]
     private float _connectRadious = 0.55f;
 
-    [Tooltip("height of the floor")]
-    public float _floorHeight;
-
-    [SerializeField, Tooltip("weight of the velocity to avoid floor")]
-    private float _avoidFloorVelWeight = 1f;
+    [SerializeField, Tooltip("weight of the velocity to avoid boundary")]
+    private float _avoidBoundaryVelWeight = 1f;
 
     // buffer for nodes
     private ComputeBuffer[] _nodesBuffers;
@@ -107,8 +104,17 @@ public class NodesManager : MonoBehaviour
     // parameter name of _floorHeight
     private string _floorHeightName = "_floorHeight";
 
-    // parameter name of _avoidFloorVelWeight
-    private string _avoidFloorVelWeightName = "_avoidFloorVelWeight";
+    // parameter name of _avoidBoundaryVelWeight
+    private string _avoidBoundaryVelWeightName = "_avoidBoundaryVelWeight";
+
+    // parameter name of _boundaryCenter
+    private string _boundaryCenterName = "_boundaryCenter";
+
+    // parameter name of _boundarySize
+    private string _boundarySizeName = "_boundarySize";
+
+    // parameter name of _boundaryRotation
+    private string _boundaryRotationName = "_boundaryRotation";
 
     // name of node buffer on compute shader for reading
     private string _nodeBufferName_Read = "_nodesBufferRead";
@@ -238,8 +244,11 @@ public class NodesManager : MonoBehaviour
         _nodeConnectionControl.SetInt(_nodeCountName, _nodeCount);
         _nodeConnectionControl.SetInt(_maxConnectionPerNodeName, _maxConnectionPerNode);
         _nodeConnectionControl.SetFloat(_connectRadiousName, _connectRadious);
-        _nodeConnectionControl.SetFloat(_floorHeightName, _floorHeight);
-        _nodeConnectionControl.SetFloat(_avoidFloorVelWeightName, _avoidFloorVelWeight);
+        _nodeConnectionControl.SetFloat(_avoidBoundaryVelWeightName, _avoidBoundaryVelWeight);
+        _nodeConnectionControl.SetVector(_boundaryCenterName, _spawnArea.transform.TransformPoint(_spawnArea.center));
+        _nodeConnectionControl.SetVector(_boundarySizeName, _spawnArea.size);
+        Vector4 boundaryRotation = new Vector4(_spawnArea.transform.rotation.x, _spawnArea.transform.rotation.y, _spawnArea.transform.rotation.z, _spawnArea.transform.rotation.w);
+        _nodeConnectionControl.SetVector(_boundaryRotationName, boundaryRotation);
     }
 
     /// <summary>

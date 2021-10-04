@@ -52,18 +52,34 @@ float _connectRadious;
 // shared memory to contain node data
 groupshared Node _nodeData[SIMULATION_BLOCK_SIZE];
 
-// height of the floor
-float _floorHeight;
-
 // weight of the velocity to avoid floor
-float _avoidFloorVelWeight;
+float _avoidBoundaryVelWeight;
 
-// if a node reaches at the floor, return velocity to avoid floor
-float3 AvoidFloor(float3 position)
+// center of the boundary of the node generation area
+float3 _boundaryCenter;
+
+// size of the boundary of the node generation area
+float3 _boundarySize;
+
+// rotation of the boundary of the node generation area
+float4 _boundaryRotation;
+
+// of a node reaches at the boundary (assuming AABB) return velocity to avoid it
+float3 AvoidBoundary(float3 position, float3 center, float3 size, float4 rotation = float4(0, 0, 0, 1))
 {
-    float distanceFromFloorThreshold = 0.05;
-    float3 avoidFloorVelocity = float3(0, 1, 0);
-    return avoidFloorVelocity * smoothstep(_floorHeight + distanceFromFloorThreshold, _floorHeight, position.y);
+    float distanceFromBoundaryThreshold = 0.05;
+    float3 maxPos = center + size * 0.5;
+    float3 minPos = center - size * 0.5;
+
+    float3 avoidBoundaryVelocity = float3(0, 0, 0);
+    avoidBoundaryVelocity.x -= smoothstep(maxPos.x - distanceFromBoundaryThreshold, maxPos.x, position.x);
+    avoidBoundaryVelocity.x += smoothstep(minPos.x + distanceFromBoundaryThreshold, minPos.x, position.x);
+    avoidBoundaryVelocity.y -= smoothstep(maxPos.y - distanceFromBoundaryThreshold, maxPos.y, position.y);
+    avoidBoundaryVelocity.y += smoothstep(minPos.y + distanceFromBoundaryThreshold, minPos.y, position.y);
+    avoidBoundaryVelocity.z -= smoothstep(maxPos.z - distanceFromBoundaryThreshold, maxPos.z, position.z);
+    avoidBoundaryVelocity.z += smoothstep(maxPos.z + distanceFromBoundaryThreshold, minPos.z, position.z);
+
+    return avoidBoundaryVelocity;
 }
 
 // return random value, -1 to 1
@@ -167,16 +183,15 @@ void UpdateNode
     float3 separateVel = float3(0, 0, 0);
     separateVel = separateNodeCount > 0 ? separateVelSum / (float)separateNodeCount : separateVelSum;
 
-    // calculate avoid floor velocity
-    float3 avoidFloor = AvoidFloor(thisNodePos) * _avoidFloorVelWeight;
-
+    // calculate avoid boundary velocity
+    float3 avoidBoundary = AvoidBoundary(thisNodePos, _boundaryCenter, _boundarySize) * _avoidBoundaryVelWeight;
     // calculate noise velocity field
     float noiseScale = 15;
     float noiseWeight = 0.5;
     float3 noiseVel = normalize(Noise(thisNodePos * noiseScale)) * noiseWeight;
 
     // calculate velocity
-    float3 velocity = (separateVel + avoidFloor + noiseVel) * _deltaTime;
+    float3 velocity = (separateVel + avoidBoundary + noiseVel) * _deltaTime;
     float velLerpFactor = 0.1;
     velocity = lerp(_nodesBufferWrite[DTid.x]._velocity, velocity, velLerpFactor);
 

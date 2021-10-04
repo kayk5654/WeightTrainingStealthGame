@@ -1511,8 +1511,7 @@ MonoBehaviour:
   _speed: 1
   _neighbourRadious: 1
   _connectRadious: 0.6
-  _floorHeight: -1
-  _avoidFloorVelWeight: 1
+  _avoidBoundaryVelWeight: 1
 --- !u!1001 &842598998
 PrefabInstance:
   m_ObjectHideFlags: 0
