@@ -66,28 +66,28 @@ float3 AvoidFloor(float3 position)
     return avoidFloorVelocity * smoothstep(_floorHeight + distanceFromFloorThreshold, _floorHeight, position.y);
 }
 
-// return random value
-float Random(float3 position)
+// return random value, -1 to 1
+float3 Random(float3 position)
 {
-    return frac(sin(dot(position, float3(12.9898, 78.233, 41.028913))));
+    return frac(sin(cross(position, float3(12.9898, 78.233, 41.028913)))) * 2 - 1;
 }
 
 // return value noise
-float ValueNoise(float3 position)
+float3 ValueNoise(float3 position)
 {
     // get int and fraction of given position
     float3 integer = floor(position);
     float3 fraction = frac(position);
 
     // sample 8 points
-    float n000 = Random(integer);
-    float n001 = Random(integer + float3(0, 0, 1));
-    float n101 = Random(integer + float3(1, 0, 1));
-    float n100 = Random(integer + float3(1, 0, 0));
-    float n010 = Random(integer + float3(0, 1, 0));
-    float n011 = Random(integer + float3(0, 1, 1));
-    float n110 = Random(integer + float3(1, 1, 0));
-    float n111 = Random(integer + float3(1, 1, 1));
+    float3 n000 = Random(integer);
+    float3 n001 = Random(integer + float3(0, 0, 1));
+    float3 n101 = Random(integer + float3(1, 0, 1));
+    float3 n100 = Random(integer + float3(1, 0, 0));
+    float3 n010 = Random(integer + float3(0, 1, 0));
+    float3 n011 = Random(integer + float3(0, 1, 1));
+    float3 n110 = Random(integer + float3(1, 1, 0));
+    float3 n111 = Random(integer + float3(1, 1, 1));
 
     // smooth interpolation
     // cubic hermine curve
@@ -99,7 +99,8 @@ float ValueNoise(float3 position)
 // return noise
 float3 Noise(float3 position) 
 {
-    return float3(0, 0, 0);
+    // test value noise
+    return ValueNoise(position);
 }
 
 // calculate new node position
@@ -169,8 +170,13 @@ void UpdateNode
     // calculate avoid floor velocity
     float3 avoidFloor = AvoidFloor(thisNodePos) * _avoidFloorVelWeight;
 
+    // calculate noise velocity field
+    float noiseScale = 15;
+    float noiseWeight = 0.5;
+    float3 noiseVel = normalize(Noise(thisNodePos * noiseScale)) * noiseWeight;
+
     // calculate velocity
-    float3 velocity = (separateVel + avoidFloor) * _deltaTime;
+    float3 velocity = (separateVel + avoidFloor + noiseVel) * _deltaTime;
     float velLerpFactor = 0.1;
     velocity = lerp(_nodesBufferWrite[DTid.x]._velocity, velocity, velLerpFactor);
 
