@@ -271,8 +271,6 @@ public class NodesManager : MonoBehaviour
         _nodes = new Dictionary<int, Node>();
         Vector3 positionTemp = Vector3.zero;
         _nodesBufferData = new Node_ComputeShader[_nodeCount];
-        //Matrix4x4 rotateMatrix = Matrix4x4.TRS(_spawnArea.transform.position, _spawnArea.transform.rotation, _spawnArea.transform.lossyScale);
-        Matrix4x4 rotateMatrix = Matrix4x4.Rotate(_spawnArea.transform.rotation);
         Vector3 boundLocalMin = _spawnArea.center - _spawnArea.size * 0.5f;
         Vector3 boundLocalMax = _spawnArea.center + _spawnArea.size * 0.5f;
 
@@ -280,10 +278,13 @@ public class NodesManager : MonoBehaviour
         {
             // instantiate node in the scene
             Transform newNode = Instantiate(_nodePrefab).transform;
+            // calculate spawn position in the local space of _spawnArea
             positionTemp.x = Random.Range(boundLocalMin.x, boundLocalMax.x);
             positionTemp.y = Random.Range(boundLocalMin.y, boundLocalMax.y);
             positionTemp.z = Random.Range(boundLocalMin.z, boundLocalMax.z);
+            // apply translate and rotation of _spawnArea
             positionTemp = _spawnArea.transform.TransformPoint(positionTemp);
+            // assign position and rotation
             newNode.position = positionTemp;
             newNode.rotation = Quaternion.Euler(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
             newNode.SetParent(this.transform);
