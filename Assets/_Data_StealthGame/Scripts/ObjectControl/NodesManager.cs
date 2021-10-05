@@ -273,8 +273,8 @@ public class NodesManager : MonoBehaviour
         _nodesBufferData = new Node_ComputeShader[_nodeCount];
         //Matrix4x4 rotateMatrix = Matrix4x4.TRS(_spawnArea.transform.position, _spawnArea.transform.rotation, _spawnArea.transform.lossyScale);
         Matrix4x4 rotateMatrix = Matrix4x4.Rotate(_spawnArea.transform.rotation);
-        Vector3 boundLocalMin = -_spawnArea.bounds.size * 0.5f;
-        Vector3 boundLocalMax = _spawnArea.bounds.size * 0.5f;
+        Vector3 boundLocalMin = _spawnArea.center - _spawnArea.size * 0.5f;
+        Vector3 boundLocalMax = _spawnArea.center + _spawnArea.size * 0.5f;
 
         for (int i = 0; i < _nodeCount; i++)
         {
