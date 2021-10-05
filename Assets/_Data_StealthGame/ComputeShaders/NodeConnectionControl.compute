@@ -62,15 +62,49 @@ float3 _boundaryCenter;
 float3 _boundarySize;
 
 // rotation of the boundary of the node generation area
-float4 _boundaryRotation;
+//float4 _boundaryRotation;
+float4x4 _boundaryRotation;
 
 // of a node reaches at the boundary (assuming AABB) return velocity to avoid it
-float3 AvoidBoundary(float3 position, float3 center, float3 size, float4 rotation = float4(0, 0, 0, 1))
+float3 AvoidBoundary(float3 position, float3 center, float3 size, /*float4 rotation = float4(0, 0, 0, 1),*/ float4x4 rotMatrix)
 {
+    // declare variables for calculation
     float distanceFromBoundaryThreshold = 0.05;
     float3 maxPos = center + size * 0.5;
     float3 minPos = center - size * 0.5;
 
+    // apply rotation; pivot is world space origin
+    /*
+    float m00 = 2 * (pow(rotation.x, 2) + pow(rotation.y, 2)) - 1;
+    float m01 = 2 * (rotation.y * rotation.z - rotation.x * rotation.w);
+    float m02 = 2 * (rotation.y * rotation.w + rotation.x * rotation.z);
+    float m03 = 0;
+    float m10 = 2 * (rotation.y * rotation.z + rotation.x * rotation.w);
+    float m11 = 2 * (pow(rotation.x, 2) + pow(rotation.z, 2)) - 1;
+    float m12 = 2 * (rotation.z * rotation.w - rotation.x * rotation.y);
+    float m13 = 0;
+    float m20 = 2 * (rotation.y * rotation.w - rotation.x * rotation.z);
+    float m21 = 2 * (rotation.z * rotation.w + rotation.x * rotation.y);
+    float m22 = 2 * (pow(rotation.x, 2) + pow(rotation.w, 2)) - 1;
+    float m23 = 0;
+    float m30 = 0;
+    float m31 = 0;
+    float m32 = 0;
+    float m33 = 1;
+    
+    float4x4 rotationMatrix =
+    { m00, m01, m02, m03,
+    m10, m11, m12, m13,
+    m20, m21, m22, m23,
+    m30, m31, m32, m33};
+    */
+    float4x4 rotationMatrix = rotMatrix;
+    float4x4 transposedRotationMatrix = transpose(rotationMatrix);
+
+    center = mul(transposedRotationMatrix, center);
+    position = mul(transposedRotationMatrix, position);
+
+    // calculate velocity
     float3 avoidBoundaryVelocity = float3(0, 0, 0);
     avoidBoundaryVelocity.x -= smoothstep(maxPos.x - distanceFromBoundaryThreshold, maxPos.x, position.x);
     avoidBoundaryVelocity.x += smoothstep(minPos.x + distanceFromBoundaryThreshold, minPos.x, position.x);
@@ -78,6 +112,10 @@ float3 AvoidBoundary(float3 position, float3 center, float3 size, float4 rotatio
     avoidBoundaryVelocity.y += smoothstep(minPos.y + distanceFromBoundaryThreshold, minPos.y, position.y);
     avoidBoundaryVelocity.z -= smoothstep(maxPos.z - distanceFromBoundaryThreshold, maxPos.z, position.z);
     avoidBoundaryVelocity.z += smoothstep(minPos.z + distanceFromBoundaryThreshold, minPos.z, position.z);
+
+    // revert rotation
+    center = mul(rotationMatrix, center);
+    position = mul(rotationMatrix, position);
 
     return avoidBoundaryVelocity;
 }
@@ -184,7 +222,7 @@ void UpdateNode
     separateVel = separateNodeCount > 0 ? separateVelSum / (float)separateNodeCount : separateVelSum;
 
     // calculate avoid boundary velocity
-    float3 avoidBoundary = AvoidBoundary(thisNodePos, _boundaryCenter, _boundarySize) * _avoidBoundaryVelWeight;
+    float3 avoidBoundary = AvoidBoundary(thisNodePos, _boundaryCenter, _boundarySize, _boundaryRotation) * _avoidBoundaryVelWeight;
     // calculate noise velocity field
     float noiseScale = 15;
     float noiseWeight = 0.5;
