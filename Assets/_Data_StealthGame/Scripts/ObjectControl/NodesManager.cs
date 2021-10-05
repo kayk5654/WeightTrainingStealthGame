@@ -247,9 +247,7 @@ public class NodesManager : MonoBehaviour
         _nodeConnectionControl.SetFloat(_avoidBoundaryVelWeightName, _avoidBoundaryVelWeight);
         _nodeConnectionControl.SetVector(_boundaryCenterName, _spawnArea.transform.TransformPoint(_spawnArea.center));
         _nodeConnectionControl.SetVector(_boundarySizeName, _spawnArea.size);
-        //Vector4 boundaryRotation = new Vector4(_spawnArea.transform.rotation.x, _spawnArea.transform.rotation.y, _spawnArea.transform.rotation.z, _spawnArea.transform.rotation.w);
-        //_nodeConnectionControl.SetVector(_boundaryRotationName, boundaryRotation);
-        _nodeConnectionControl.SetMatrix(_boundaryRotationName, Matrix4x4.Rotate(_spawnArea.transform.rotation));
+        _nodeConnectionControl.SetMatrix(_boundaryRotationName, Matrix4x4.TRS(_spawnArea.transform.position, _spawnArea.transform.rotation, _spawnArea.transform.lossyScale));
     }
 
     /// <summary>
