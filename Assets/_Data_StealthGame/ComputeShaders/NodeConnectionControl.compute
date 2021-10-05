@@ -41,7 +41,7 @@ float _neighbourRadious;
 float _deltaTime;
 
 // max number of connection per one node
-uint _maxConnectionPerNode;
+int _maxConnectionPerNode;
 
 // range of searching connectable nodes fron a specific node
 float _connectRadious;
@@ -213,7 +213,7 @@ void InitializeConnection
     float3 thisNodePos = _nodesBufferRead[DTid.x]._position;
     
     // number of connectable node found in the for loop below; max is _maxConnectionPerNode
-    uint connectableNodeCount = 0;
+    int connectableNodeCount = 0;
 
     // calculate influence of other nodes
     // max connection per node is limited
@@ -232,7 +232,7 @@ void InitializeConnection
             // if the same combination of nodes is found,
             // this connection isn't stored in the buffer at the final implementation
             // but doubled connection is temprarily accepted while development
-            int connectionId = DTid.x * _maxConnectionPerNode + connectableNodeCount;
+            int connectionId = (int)DTid.x * _maxConnectionPerNode + connectableNodeCount;
             _connectionBufferWrite[connectionId]._connectNode1 = _nodesBufferRead[DTid.x]._id;
             _connectionBufferWrite[connectionId]._connectNode2 = _nodesBufferRead[i]._id;
             _connectionBufferWrite[connectionId]._id = connectionId;
@@ -250,7 +250,7 @@ void InitializeConnection
     // in the rest of buffer for this node
     // original stored values in _connectionBufferRead is;
     // Connection{_id = -1, _connectNode1 = -1, _connectNode2 = -1}
-    for (uint connectId = connectableNodeCount; connectId < _maxConnectionPerNode; i++)
+    for (int connectId = connectableNodeCount; connectId < _maxConnectionPerNode; connectId++)
     {
         int connectionId = DTid.x * _maxConnectionPerNode + connectId;
         _connectionBufferWrite[connectionId]._id = -1;
