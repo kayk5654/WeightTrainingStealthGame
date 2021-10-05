@@ -67,16 +67,16 @@ float4x4 _boundaryRotation;
 // of a node reaches at the boundary (assuming AABB) return velocity to avoid it
 float3 AvoidBoundary(float3 position, float3 center, float3 size, float4x4 rotMatrix)
 {
-    // declare variables for calculation
-    float distanceFromBoundaryThreshold = 0.05;
-    float3 maxPos = center + size * 0.5;
-    float3 minPos = center - size * 0.5;
-
     // apply rotation; pivot is world space origin
     float4x4 transposedRotationMatrix = transpose(rotMatrix);
 
     center = mul(transposedRotationMatrix, center);
     position = mul(transposedRotationMatrix, position);
+
+    // declare variables for calculation
+    float distanceFromBoundaryThreshold = 0.05;
+    float3 maxPos = center + size * 0.5;
+    float3 minPos = center - size * 0.5;
 
     // calculate velocity
     float3 avoidBoundaryVelocity = float3(0, 0, 0);
