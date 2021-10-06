@@ -208,13 +208,13 @@ VisualEffectResource:
       = SampleCurve(uniform_a,tmp_x);\n\t\t\t    SetAttribute_3278B22F( /*inout */attributes.size,
       tmp_y);\n\t\t\t}\n\t\t\t{\n\t\t\t    SetAttribute_AA7D638( /*inout */attributes.velocity,
       float3(0, 0, -0.00800000038));\n\t\t\t}\n\t\t\t{\n\t\t\t    float tmp_x = attributes.age
-      / attributes.lifetime;\n\t\t\t    float tmp_z = max(tmp_x, (float)0);\n\t\t\t   
-      float tmp_bb = min(tmp_z, (float)1);\n\t\t\t    float4 tmp_bc = SampleGradient(uniform_b,tmp_bb);\n\t\t\t   
-      float tmp_bd = tmp_bc[0];\n\t\t\t    float tmp_be = tmp_bc[1];\n\t\t\t    float
-      tmp_bf = tmp_bc[2];\n\t\t\t    float3 tmp_bg = float3(tmp_bd, tmp_be, tmp_bf);\n\t\t\t   
-      SetAttribute_FDD06EC7( /*inout */attributes.color, tmp_bg);\n\t\t\t}\n\t\t\tEulerIntegration(
-      /*inout */attributes.position, attributes.velocity, deltaTime_d);\n\t\t\tAge(
-      /*inout */attributes.age, deltaTime_d);\n\t\t\tReap(attributes.age, attributes.lifetime, 
+      / attributes.lifetime;\n\t\t\t    float tmp_y = saturate(tmp_x);\n\t\t\t   
+      float4 tmp_z = SampleGradient(uniform_b,tmp_y);\n\t\t\t    float tmp_ba = tmp_z[0];\n\t\t\t   
+      float tmp_bb = tmp_z[1];\n\t\t\t    float tmp_bc = tmp_z[2];\n\t\t\t    float3
+      tmp_bd = float3(tmp_ba, tmp_bb, tmp_bc);\n\t\t\t    SetAttribute_FDD06EC7(
+      /*inout */attributes.color, tmp_bd);\n\t\t\t}\n\t\t\tEulerIntegration( /*inout
+      */attributes.position, attributes.velocity, deltaTime_d);\n\t\t\tAge( /*inout
+      */attributes.age, deltaTime_d);\n\t\t\tReap(attributes.age, attributes.lifetime, 
       /*inout */attributes.alive);\n\t\t\t\n\r\n\r\n\t\t\tif (attributes.alive)\r\n\t\t\t{\r\n\t\t\t\tattributeBuffer.Store3((index
       * 0x4 + 0x20) << 2,asuint(attributes.velocity));\n\t\t\t\tattributeBuffer.Store((index
       * 0x4 + 0x103) << 2,asuint(attributes.size));\n\t\t\t\tattributeBuffer.Store3((index
@@ -248,15 +248,15 @@ VisualEffectResource:
       / attributes.lifetime;\n\t\t    float tmp_y = SampleCurve(uniform_a,tmp_x);\n\t\t   
       SetAttribute_3278B22F( /*inout */attributes.size, tmp_y);\n\t\t}\n\t\t{\n\t\t   
       SetAttribute_AA7D638( /*inout */attributes.velocity, float3(0, 0, -0.00800000038));\n\t\t}\n\t\t{\n\t\t   
-      float tmp_x = attributes.age / attributes.lifetime;\n\t\t    float tmp_z =
-      max(tmp_x, (float)0);\n\t\t    float tmp_bb = min(tmp_z, (float)1);\n\t\t   
-      float4 tmp_bc = SampleGradient(uniform_b,tmp_bb);\n\t\t    float tmp_bd = tmp_bc[0];\n\t\t   
-      float tmp_be = tmp_bc[1];\n\t\t    float tmp_bf = tmp_bc[2];\n\t\t    float3
-      tmp_bg = float3(tmp_bd, tmp_be, tmp_bf);\n\t\t    SetAttribute_FDD06EC7( /*inout
-      */attributes.color, tmp_bg);\n\t\t}\n\t\tEulerIntegration( /*inout */attributes.position,
-      attributes.velocity, deltaTime_d);\n\t\tAge( /*inout */attributes.age, deltaTime_d);\n\t\tReap(attributes.age,
-      attributes.lifetime,  /*inout */attributes.alive);\n\t\t\n\r\n\t\tattributeBuffer.Store3((index
-      * 0x4 + 0x20) << 2,asuint(attributes.velocity));\n\t\tattributeBuffer.Store((index
+      float tmp_x = attributes.age / attributes.lifetime;\n\t\t    float tmp_y =
+      saturate(tmp_x);\n\t\t    float4 tmp_z = SampleGradient(uniform_b,tmp_y);\n\t\t   
+      float tmp_ba = tmp_z[0];\n\t\t    float tmp_bb = tmp_z[1];\n\t\t    float tmp_bc
+      = tmp_z[2];\n\t\t    float3 tmp_bd = float3(tmp_ba, tmp_bb, tmp_bc);\n\t\t   
+      SetAttribute_FDD06EC7( /*inout */attributes.color, tmp_bd);\n\t\t}\n\t\tEulerIntegration(
+      /*inout */attributes.position, attributes.velocity, deltaTime_d);\n\t\tAge(
+      /*inout */attributes.age, deltaTime_d);\n\t\tReap(attributes.age, attributes.lifetime, 
+      /*inout */attributes.alive);\n\t\t\n\r\n\t\tattributeBuffer.Store3((index *
+      0x4 + 0x20) << 2,asuint(attributes.velocity));\n\t\tattributeBuffer.Store((index
       * 0x4 + 0x103) << 2,asuint(attributes.size));\n\t\tattributeBuffer.Store3((index
       * 0x4 + 0x100) << 2,asuint(attributes.color));\n\t\tattributeBuffer.Store((index
       * 0x4 + 0x23) << 2,asuint(attributes.age));\n\t\tattributeBuffer.Store3((index
@@ -642,111 +642,99 @@ VisualEffectResource:
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 1
-      - op: 1
+        data[3]: 14
+      - op: 57
         valueIndex: 1
-        data[0]: -1
+        data[0]: 0
         data[1]: -1
         data[2]: -1
-        data[3]: 1
+        data[3]: 0
       - op: 1
         valueIndex: 2
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 14
-      - op: 57
+        data[3]: 13
+      - op: 56
         valueIndex: 3
         data[0]: 2
         data[1]: -1
         data[2]: -1
         data[3]: 0
       - op: 1
-        valueIndex: 4
+        valueIndex: 7
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 13
-      - op: 56
-        valueIndex: 5
-        data[0]: 4
-        data[1]: -1
-        data[2]: -1
-        data[3]: 0
+        data[3]: 1
       - op: 6
-        valueIndex: 9
+        valueIndex: 8
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: -1
       - op: 1
-        valueIndex: 10
+        valueIndex: 9
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 3
       - op: 1
-        valueIndex: 13
+        valueIndex: 12
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 7
       - op: 1
-        valueIndex: 14
+        valueIndex: 13
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 1
       - op: 1
-        valueIndex: 15
+        valueIndex: 14
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 3
+      - op: 1
+        valueIndex: 17
+        data[0]: -1
+        data[1]: -1
+        data[2]: -1
+        data[3]: 1
       - op: 1
         valueIndex: 18
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 3
-      - op: 1
-        valueIndex: 21
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
-        data[3]: 1
-      - op: 1
-        valueIndex: 22
-        data[0]: -1
-        data[1]: -1
-        data[2]: -1
         data[3]: 6
       - op: 1
-        valueIndex: 23
+        valueIndex: 19
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 15
       - op: 1
-        valueIndex: 24
+        valueIndex: 20
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 3
       - op: 1
-        valueIndex: 27
+        valueIndex: 23
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 3
       - op: 1
-        valueIndex: 30
+        valueIndex: 26
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 1
+        data[3]: 3
       - op: 9
-        valueIndex: 31
+        valueIndex: 29
         data[0]: -1
         data[1]: -1
         data[2]: -1
@@ -757,35 +745,31 @@ VisualEffectResource:
     m_PropertySheet:
       m_Float:
         m_Array:
-        - m_ExpressionIndex: 0
-          m_Value: 0
-        - m_ExpressionIndex: 1
-          m_Value: 1
-        - m_ExpressionIndex: 9
+        - m_ExpressionIndex: 4
           m_Value: 4
-        - m_ExpressionIndex: 12
-          m_Value: 2
-        - m_ExpressionIndex: 17
+        - m_ExpressionIndex: 8
           m_Value: 0.005
+        - m_ExpressionIndex: 10
+          m_Value: 2
       m_Vector2f:
         m_Array: []
       m_Vector3f:
         m_Array:
-        - m_ExpressionIndex: 7
+        - m_ExpressionIndex: 6
           m_Value: {x: 0, y: 0, z: -0.008}
-        - m_ExpressionIndex: 10
-          m_Value: {x: 90, y: 0, z: 0}
-        - m_ExpressionIndex: 11
+        - m_ExpressionIndex: 9
           m_Value: {x: 0, y: 0, z: -0.025}
-        - m_ExpressionIndex: 15
+        - m_ExpressionIndex: 13
           m_Value: {x: 2, y: 3, z: 2}
-        - m_ExpressionIndex: 16
+        - m_ExpressionIndex: 14
           m_Value: {x: 0, y: 1, z: 0}
+        - m_ExpressionIndex: 15
+          m_Value: {x: 90, y: 0, z: 0}
       m_Vector4f:
         m_Array: []
       m_Uint:
         m_Array:
-        - m_ExpressionIndex: 13
+        - m_ExpressionIndex: 11
           m_Value: 4294967295
       m_Int:
         m_Array: []
@@ -793,7 +777,7 @@ VisualEffectResource:
         m_Array: []
       m_AnimationCurve:
         m_Array:
-        - m_ExpressionIndex: 4
+        - m_ExpressionIndex: 2
           m_Value:
             serializedVersion: 2
             m_Curve:
@@ -829,7 +813,7 @@ VisualEffectResource:
             m_RotationOrder: 4
       m_Gradient:
         m_Array:
-        - m_ExpressionIndex: 2
+        - m_ExpressionIndex: 0
           m_Value:
             serializedVersion: 2
             key0: {r: 1.9294118, g: 0.9019608, b: 0.57254905, a: 0}
@@ -861,9 +845,9 @@ VisualEffectResource:
             m_NumAlphaKeys: 4
       m_NamedObject:
         m_Array:
-        - m_ExpressionIndex: 8
+        - m_ExpressionIndex: 7
           m_Value: {fileID: 0}
-        - m_ExpressionIndex: 14
+        - m_ExpressionIndex: 12
           m_Value: {fileID: -7047016320417709333, guid: 1f3b4e7db5136b8459093a5d8cd3bf22,
             type: 3}
       m_Bool:
@@ -1029,7 +1013,7 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: Rate
-        index: 9
+        index: 4
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: -1
@@ -1056,9 +1040,9 @@ VisualEffectResource:
       index: 6
     values:
     - nameId: bounds_center
-      index: 16
+      index: 14
     - nameId: bounds_size
-      index: 15
+      index: 13
     tasks:
     - type: 536870912
       buffers:
@@ -1074,9 +1058,9 @@ VisualEffectResource:
       values: []
       params:
       - nameId: bounds_center
-        index: 16
+        index: 14
       - nameId: bounds_size
-        index: 15
+        index: 13
       processor: {fileID: 0}
       shaderSourceIndex: 0
     - type: 805306368
@@ -1090,11 +1074,11 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: uniform_a
-        index: 5
-      - nameId: uniform_b
         index: 3
+      - nameId: uniform_b
+        index: 1
       - nameId: deltaTime_d
-        index: 6
+        index: 5
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: 1
@@ -1111,7 +1095,7 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: localToWorld
-        index: 18
+        index: 16
       params: []
       processor: {fileID: 0}
       shaderSourceIndex: 3
@@ -1124,12 +1108,12 @@ VisualEffectResource:
       temporaryBuffers: []
       values:
       - nameId: mainTexture
-        index: 8
+        index: 7
       params:
       - nameId: mesh
-        index: 14
+        index: 12
       - nameId: subMeshMask
-        index: 13
+        index: 11
       - nameId: sortPriority
         index: 0
       - nameId: indirectDraw
