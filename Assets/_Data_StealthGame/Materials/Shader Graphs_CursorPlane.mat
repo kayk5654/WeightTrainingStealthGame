@@ -20,6 +20,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _IridescenceTexture_377A57AA_Texture2D780269D_386952293:
+        m_Texture: {fileID: 2800000, guid: 2a4e46743f63d31478d7d90b49875f6f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -27,4 +31,4 @@ Material:
     m_Floats:
     - _DisplayRadius: 1
     m_Colors:
-    - _PatternColor: {r: 1, g: 1, b: 1, a: 1}
+    - _PatternColor: {r: 0.6816575, g: 1.7411011, b: 1.4815848, a: 1}
