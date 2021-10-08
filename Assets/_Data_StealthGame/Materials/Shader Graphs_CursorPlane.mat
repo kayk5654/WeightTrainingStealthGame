@@ -20,15 +20,20 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _CursorTex:
+        m_Texture: {fileID: 2800000, guid: 1ab75f3497bea5c408a4bb32d4497a96, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _IridescenceTexture_377A57AA_Texture2D780269D_386952293:
-        m_Texture: {fileID: 2800000, guid: 2a4e46743f63d31478d7d90b49875f6f, type: 3}
+        m_Texture: {fileID: 2800000, guid: c2678a1429cf6504c882bcd90d582d23, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 18aae13f1e492744e8027af6144b16ea, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _DisplayRadius: 1
     m_Colors:
+    - _CursorColor: {r: 2, g: 2, b: 2, a: 0}
     - _PatternColor: {r: 0.6816575, g: 1.7411011, b: 1.4815848, a: 1}
