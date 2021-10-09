@@ -36,5 +36,5 @@ Material:
     - _DisplayRadius: 1
     - _FadeWidth: 0.3
     m_Colors:
-    - _CursorColor: {r: 4, g: 4, b: 4, a: 0}
+    - _CursorColor: {r: 2.9960785, g: 2.9960785, b: 2.9960785, a: 0}
     - _PatternColor: {r: 0.5647059, g: 5.992157, b: 5.584314, a: 1}
