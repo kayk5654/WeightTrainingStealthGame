@@ -11,7 +11,7 @@ public class ProjectileSpawnHandler : MonoBehaviour
     [SerializeField, Tooltip("test projectile prefab")]
     private ProjectileBase _projectile;
 
-    [SerializeField, Tooltip("guide transform to spawn projectiles (optional)")]
+    [SerializeField, Tooltip("guide transform to spawn projectiles")]
     private Transform _spawnGuide;
 
     [SerializeField, Tooltip("manage in-game input")]
