@@ -282,6 +282,7 @@ GameObject:
   - component: {fileID: 224255301}
   - component: {fileID: 224255300}
   - component: {fileID: 224255302}
+  - component: {fileID: 224255303}
   m_Layer: 0
   m_Name: ProjectileSpawnHandler
   m_TagString: Untagged
@@ -334,6 +335,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inputType: 0
+--- !u!114 &224255303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224255299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d4c2a8490448ab43a45452c57eb0b39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnGuide: {fileID: 10145067}
+  _cameraTransform: {fileID: 963194228}
+  _maxDistance: 3
+  _cursorPrefab: {fileID: 3791633055829989776, guid: 1f85751b269a82a47b695407e2f65885,
+    type: 3}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!1001 &270053130
 PrefabInstance:
   m_ObjectHideFlags: 0
