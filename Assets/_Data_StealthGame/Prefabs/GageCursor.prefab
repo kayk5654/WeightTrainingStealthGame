@@ -167,6 +167,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5020215842315744074}
+  - component: {fileID: 3791633055829989776}
   m_Layer: 0
   m_Name: GageCursor
   m_TagString: Untagged
@@ -190,3 +191,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3791633055829989776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5683739650833050096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281a1f2ae3cde7b43b774b4f81828dea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _root: {fileID: 5020215842315744074}
+  _gage: {fileID: 8332337460481387814}
+  _cursorPlane: {fileID: 1753799651078139365}
