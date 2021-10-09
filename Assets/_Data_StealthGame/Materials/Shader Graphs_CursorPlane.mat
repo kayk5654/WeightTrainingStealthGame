@@ -34,6 +34,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _DisplayRadius: 1
+    - _FadeWidth: 0.3
     m_Colors:
     - _CursorColor: {r: 2, g: 2, b: 2, a: 0}
     - _PatternColor: {r: 0.6816575, g: 1.7411011, b: 1.4815848, a: 1}

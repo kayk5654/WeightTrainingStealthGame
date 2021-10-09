@@ -168,6 +168,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5020215842315744074}
   - component: {fileID: 3791633055829989776}
+  - component: {fileID: 6582968236593884410}
   m_Layer: 0
   m_Name: GageCursor
   m_TagString: Untagged
@@ -206,3 +207,23 @@ MonoBehaviour:
   _root: {fileID: 5020215842315744074}
   _gage: {fileID: 8332337460481387814}
   _cursorPlane: {fileID: 1753799651078139365}
+  _animator: {fileID: 6582968236593884410}
+--- !u!95 &6582968236593884410
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5683739650833050096}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b74fd6dbc9e044f45875b879e580d282, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

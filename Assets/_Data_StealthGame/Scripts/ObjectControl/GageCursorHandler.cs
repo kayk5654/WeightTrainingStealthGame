@@ -15,20 +15,26 @@ public class GageCursorHandler : MonoBehaviour
     [SerializeField, Tooltip("cursor plane mesh renderer")]
     private MeshRenderer _cursorPlane;
 
+    [SerializeField, Tooltip("animator for the gage and the cursor")]
+    private Animator _animator;
+
     // material for the cursor plane
     private Material _cursorMaterial;
 
     // material for the ring gage
     private Material _gageMaterial;
 
-    // property name of the radius of the cursor plane
-    private string _cursorRadiusProperty = "_DisplayRadius";
-
     // property name of the displayed angle of the ring gage
     private string _gageAngleProperty = "_Angle";
 
-    // vector3 for setting scale of the ring gage temporarily
-    private Vector3 _tempGageScale;
+    // animator property to scale the cursor up
+    private string _scaleUpProperty = "ScaleUp";
+
+    // animator property to scale the cursor down
+    private string _scaleDownProperty = "ScaleDown";
+
+    // animator property to initialize the cursor size
+    private string _initScaleProperty = "Init";
 
 
     /// <summary>
@@ -41,15 +47,27 @@ public class GageCursorHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// set scale of the ring gage and cursor plane
+    /// scale the cursor up
     /// </summary>
-    private void SetScale(float scale)
+    public void ScaleUp()
     {
-        _cursorMaterial.SetFloat(_cursorRadiusProperty, scale);
-        _tempGageScale.x = scale;
-        _tempGageScale.y = scale;
-        _tempGageScale.z = scale;
-        _gage.transform.localScale = _tempGageScale;
+        _animator.SetTrigger(_scaleUpProperty);
+    }
+
+    /// <summary>
+    /// scale the cursor down
+    /// </summary>
+    public void ScaleDown()
+    {
+        _animator.SetTrigger(_scaleDownProperty);
+    }
+
+    /// <summary>
+    /// initialize the size of the cursor
+    /// </summary>
+    public void InitScale()
+    {
+        _animator.SetTrigger(_initScaleProperty);
     }
 
     /// <summary>
