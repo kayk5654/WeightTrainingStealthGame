@@ -502,19 +502,16 @@ VisualEffectResource:
       Unity_TilingAndOffset_float(float2 UV, float2 Tiling, float2 Offset, out float2
       Out)\n\t\t\t{\n\t\t\t    Out = UV * Tiling + Offset;\n\t\t\t}\n\t\t\t\n\t\t\t//
       Node: Multiply\n\t\t\tvoid Unity_Multiply_float(float A, float B, out float
-      Out)\n\t\t\t{\n\t\t\t    Out = A * B;\n\t\t\t}\n\t\t\t\n\t\t\t// Node: Branch\n\t\t\tvoid
-      Unity_Branch_float(float Predicate, float True, float False, out float Out)\n\t\t\t{\n\t\t\t   
-      Out = Predicate ? True : False;\n\t\t\t}\n\t\t\t\n\t\t\tstruct SG_Input_3850c321b5026444696646f76b9e7d5a\n\t\t\t{\n\t\t\t   
-      float4 FaceSign;\n\t\t\t    half4 uv0;\n\t\t\t    float3 TimeParameters;\n\t\t\t};\n\t\t\t\n\t\t\tstruct
+      Out)\n\t\t\t{\n\t\t\t    Out = A * B;\n\t\t\t}\n\t\t\t\n\t\t\tstruct SG_Input_3850c321b5026444696646f76b9e7d5a\n\t\t\t{\n\t\t\t   
+      half4 uv0;\n\t\t\t    float3 TimeParameters;\n\t\t\t};\n\t\t\t\n\t\t\tstruct
       SG_Output_3850c321b5026444696646f76b9e7d5a\n\t\t\t{\n\t\t\t    float Alpha_4;\n\t\t\t};\n\t\t\t\n\t\t\tSG_Output_3850c321b5026444696646f76b9e7d5a
       SG_Evaluate_3850c321b5026444696646f76b9e7d5a(\n\t\t\t    SG_Input_3850c321b5026444696646f76b9e7d5a
       IN,\n\t\t\t    /* Property: MainTex */ TEXTURE2D_PARAM(_MainTex, sampler_MainTex),
       float4 _MainTex_TexelSize,\n\t\t\t    /* Property: RandomFactor */ float _RandomFactor,\n\t\t\t   
-      /* Property: Color */ float4 _Color)\n\t\t\t{\n\t\t\t    // Node: Is Front
-      Face\n\t\t\t    float _IsFrontFace_E806604B_Out_0 = max(0, IN.FaceSign);\n\t\t\t\n\t\t\t   
-      // Node: Property\n\t\t\t    float4 _Property_930445C4_Out_0 = _Color;\n\t\t\t\n\t\t\t   
-      // Node: Property\n\t\t\t    float _Property_17620841_Out_0 = _RandomFactor;\n\t\t\t\n\t\t\t   
-      // Node: Add\n\t\t\t    float _Add_FA40910B_Out_2;\n\t\t\t    Unity_Add_float(_Property_17620841_Out_0,
+      /* Property: Color */ float4 _Color)\n\t\t\t{\n\t\t\t    // Node: Property\n\t\t\t   
+      float4 _Property_930445C4_Out_0 = _Color;\n\t\t\t\n\t\t\t    // Node: Property\n\t\t\t   
+      float _Property_17620841_Out_0 = _RandomFactor;\n\t\t\t\n\t\t\t    // Node:
+      Add\n\t\t\t    float _Add_FA40910B_Out_2;\n\t\t\t    Unity_Add_float(_Property_17620841_Out_0,
       IN.TimeParameters.x, _Add_FA40910B_Out_2);\n\t\t\t\n\t\t\t    // Node: Vector
       2\n\t\t\t    float2 _Vector2_9DB294EC_Out_0 = float2(_Property_17620841_Out_0,
       _Add_FA40910B_Out_2);\n\t\t\t\n\t\t\t    // Node: Tiling And Offset\n\t\t\t   
@@ -539,10 +536,8 @@ VisualEffectResource:
       float _SampleTexture2D_354BFE56_A_7 = _SampleTexture2D_354BFE56_RGBA_0.a;\n\t\t\t\n\t\t\t   
       // Node: Multiply\n\t\t\t    float _Multiply_2DB5C31D_Out_2;\n\t\t\t    Unity_Multiply_float(_Multiply_485EDF27_Out_2,
       _SampleTexture2D_354BFE56_R_4, _Multiply_2DB5C31D_Out_2);\n\t\t\t\n\t\t\t   
-      // Node: Branch\n\t\t\t    float _Branch_EA1A0135_Out_3;\n\t\t\t    Unity_Branch_float(_IsFrontFace_E806604B_Out_0,
-      _Multiply_2DB5C31D_Out_2, _Multiply_2DB5C31D_Out_2, _Branch_EA1A0135_Out_3);\n\t\t\t\n\t\t\t   
       // Visual Effect Master\n\t\t\t    SG_Output_3850c321b5026444696646f76b9e7d5a
-      OUT;\n\t\t\t    OUT.Alpha_4 = _Branch_EA1A0135_Out_3;\n\t\t\t    return OUT;\n\t\t\t}\n\t\t\t\n\n\t\t\t\n\t\t\t#if
+      OUT;\n\t\t\t    OUT.Alpha_4 = _Multiply_2DB5C31D_Out_2;\n\t\t\t    return OUT;\n\t\t\t}\n\t\t\t\n\n\t\t\t\n\t\t\t#if
       VFX_PASSDEPTH == VFX_PASSDEPTH_SELECTION\n\t\t\tint _ObjectId;\n\t\t\tint _PassValue;\n\t\t\t#endif\n\t\t\t\n\t\t\t#pragma
       fragment frag\n\t\t\tfloat4 frag(ps_input i) : SV_TARGET\n\t\t\t{\n\t\t\t\tUNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);\n\t\t\t\tVFXTransformPSInputs(i);\n\t\t\t   
       #ifdef VFX_SHADERGRAPH\n\t\t\t        float _RandomFactor = i._RandomFactor;float4
@@ -724,24 +719,19 @@ VisualEffectResource:
       Unity_TilingAndOffset_float(float2 UV, float2 Tiling, float2 Offset, out float2
       Out)\n\t\t\t{\n\t\t\t    Out = UV * Tiling + Offset;\n\t\t\t}\n\t\t\t\n\t\t\t//
       Node: Multiply\n\t\t\tvoid Unity_Multiply_float(float4 A, float4 B, out float4
-      Out)\n\t\t\t{\n\t\t\t    Out = A * B;\n\t\t\t}\n\t\t\t\n\t\t\t// Node: Branch\n\t\t\tvoid
-      Unity_Branch_float4(float Predicate, float4 True, float4 False, out float4
-      Out)\n\t\t\t{\n\t\t\t    Out = Predicate ? True : False;\n\t\t\t}\n\t\t\t\n\t\t\t//
-      Node: Multiply\n\t\t\tvoid Unity_Multiply_float(float A, float B, out float
-      Out)\n\t\t\t{\n\t\t\t    Out = A * B;\n\t\t\t}\n\t\t\t\n\t\t\t// Node: Branch\n\t\t\tvoid
-      Unity_Branch_float(float Predicate, float True, float False, out float Out)\n\t\t\t{\n\t\t\t   
-      Out = Predicate ? True : False;\n\t\t\t}\n\t\t\t\n\t\t\tstruct SG_Input_3850c321b5026444696646f76b9e7d5a\n\t\t\t{\n\t\t\t   
-      float4 FaceSign;\n\t\t\t    half4 uv0;\n\t\t\t    float3 TimeParameters;\n\t\t\t};\n\t\t\t\n\t\t\tstruct
+      Out)\n\t\t\t{\n\t\t\t    Out = A * B;\n\t\t\t}\n\t\t\t\n\t\t\t// Node: Multiply\n\t\t\tvoid
+      Unity_Multiply_float(float A, float B, out float Out)\n\t\t\t{\n\t\t\t    Out
+      = A * B;\n\t\t\t}\n\t\t\t\n\t\t\tstruct SG_Input_3850c321b5026444696646f76b9e7d5a\n\t\t\t{\n\t\t\t   
+      half4 uv0;\n\t\t\t    float3 TimeParameters;\n\t\t\t};\n\t\t\t\n\t\t\tstruct
       SG_Output_3850c321b5026444696646f76b9e7d5a\n\t\t\t{\n\t\t\t    float3 Color_6;\n\t\t\t   
       float Alpha_4;\n\t\t\t};\n\t\t\t\n\t\t\tSG_Output_3850c321b5026444696646f76b9e7d5a
       SG_Evaluate_3850c321b5026444696646f76b9e7d5a(\n\t\t\t    SG_Input_3850c321b5026444696646f76b9e7d5a
       IN,\n\t\t\t    /* Property: MainTex */ TEXTURE2D_PARAM(_MainTex, sampler_MainTex),
       float4 _MainTex_TexelSize,\n\t\t\t    /* Property: RandomFactor */ float _RandomFactor,\n\t\t\t   
-      /* Property: Color */ float4 _Color)\n\t\t\t{\n\t\t\t    // Node: Is Front
-      Face\n\t\t\t    float _IsFrontFace_E806604B_Out_0 = max(0, IN.FaceSign);\n\t\t\t\n\t\t\t   
-      // Node: Property\n\t\t\t    float4 _Property_930445C4_Out_0 = _Color;\n\t\t\t\n\t\t\t   
-      // Node: Property\n\t\t\t    float _Property_17620841_Out_0 = _RandomFactor;\n\t\t\t\n\t\t\t   
-      // Node: Add\n\t\t\t    float _Add_FA40910B_Out_2;\n\t\t\t    Unity_Add_float(_Property_17620841_Out_0,
+      /* Property: Color */ float4 _Color)\n\t\t\t{\n\t\t\t    // Node: Property\n\t\t\t   
+      float4 _Property_930445C4_Out_0 = _Color;\n\t\t\t\n\t\t\t    // Node: Property\n\t\t\t   
+      float _Property_17620841_Out_0 = _RandomFactor;\n\t\t\t\n\t\t\t    // Node:
+      Add\n\t\t\t    float _Add_FA40910B_Out_2;\n\t\t\t    Unity_Add_float(_Property_17620841_Out_0,
       IN.TimeParameters.x, _Add_FA40910B_Out_2);\n\t\t\t\n\t\t\t    // Node: Vector
       2\n\t\t\t    float2 _Vector2_9DB294EC_Out_0 = float2(_Property_17620841_Out_0,
       _Add_FA40910B_Out_2);\n\t\t\t\n\t\t\t    // Node: Tiling And Offset\n\t\t\t   
@@ -755,8 +745,6 @@ VisualEffectResource:
       float _SampleTexture2D_98A13577_A_7 = _SampleTexture2D_98A13577_RGBA_0.a;\n\t\t\t\n\t\t\t   
       // Node: Multiply\n\t\t\t    float4 _Multiply_28360349_Out_2;\n\t\t\t    Unity_Multiply_float(_Property_930445C4_Out_0,
       (_SampleTexture2D_98A13577_R_4.xxxx), _Multiply_28360349_Out_2);\n\t\t\t\n\t\t\t   
-      // Node: Branch\n\t\t\t    float4 _Branch_70CEA613_Out_3;\n\t\t\t    Unity_Branch_float4(_IsFrontFace_E806604B_Out_0,
-      _Multiply_28360349_Out_2, _Multiply_28360349_Out_2, _Branch_70CEA613_Out_3);\n\t\t\t\n\t\t\t   
       // Node: Split\n\t\t\t    float _Split_61AE9840_R_1 = _Property_930445C4_Out_0[0];\n\t\t\t   
       float _Split_61AE9840_G_2 = _Property_930445C4_Out_0[1];\n\t\t\t    float _Split_61AE9840_B_3
       = _Property_930445C4_Out_0[2];\n\t\t\t    float _Split_61AE9840_A_4 = _Property_930445C4_Out_0[3];\n\t\t\t\n\t\t\t   
@@ -770,11 +758,9 @@ VisualEffectResource:
       float _SampleTexture2D_354BFE56_A_7 = _SampleTexture2D_354BFE56_RGBA_0.a;\n\t\t\t\n\t\t\t   
       // Node: Multiply\n\t\t\t    float _Multiply_2DB5C31D_Out_2;\n\t\t\t    Unity_Multiply_float(_Multiply_485EDF27_Out_2,
       _SampleTexture2D_354BFE56_R_4, _Multiply_2DB5C31D_Out_2);\n\t\t\t\n\t\t\t   
-      // Node: Branch\n\t\t\t    float _Branch_EA1A0135_Out_3;\n\t\t\t    Unity_Branch_float(_IsFrontFace_E806604B_Out_0,
-      _Multiply_2DB5C31D_Out_2, _Multiply_2DB5C31D_Out_2, _Branch_EA1A0135_Out_3);\n\t\t\t\n\t\t\t   
       // Visual Effect Master\n\t\t\t    SG_Output_3850c321b5026444696646f76b9e7d5a
-      OUT;\n\t\t\t    OUT.Color_6 = (_Branch_70CEA613_Out_3.xyz);\n\t\t\t    OUT.Alpha_4
-      = _Branch_EA1A0135_Out_3;\n\t\t\t    return OUT;\n\t\t\t}\n\t\t\t\n\n\t\t\n\t\t\t#pragma
+      OUT;\n\t\t\t    OUT.Color_6 = (_Multiply_28360349_Out_2.xyz);\n\t\t\t    OUT.Alpha_4
+      = _Multiply_2DB5C31D_Out_2;\n\t\t\t    return OUT;\n\t\t\t}\n\t\t\t\n\n\t\t\n\t\t\t#pragma
       fragment frag\n\t\t\tps_output frag(ps_input i)\n\t\t\t{\n\t\t\t\tUNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);\n\t\t\t\tps_output
       o = (ps_output)0;\n\t\t\t\tVFXTransformPSInputs(i);\n\t\t\t\t\n\t\t\t\t\t\t\t#ifdef
       VFX_VARYING_NORMAL\n\t\t\t\t\t\t\t#if USE_DOUBLE_SIDED\n\t\t\t\t\t\t\tconst
