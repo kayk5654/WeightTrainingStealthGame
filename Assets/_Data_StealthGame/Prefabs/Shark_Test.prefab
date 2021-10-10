@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 142686241028879580}
   - component: {fileID: 7993848249728741609}
   - component: {fileID: 1914069107923673513}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Shark_Test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 463964341789018890}
   - component: {fileID: 3593747747041658031}
   - component: {fileID: 1602007962175909989}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Shark_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

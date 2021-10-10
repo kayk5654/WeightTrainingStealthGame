@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1557846685884012952}
   - component: {fileID: 7118825130537481641}
   - component: {fileID: 2033921780503584278}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ProjectileDeathParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 4291132892925457062}
   - component: {fileID: 8608291129083894099}
   - component: {fileID: 8786879630715344340}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: UltrasonicProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}

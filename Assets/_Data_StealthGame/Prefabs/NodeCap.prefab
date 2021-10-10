@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5250617221069817821}
   - component: {fileID: 1361046900151559012}
   - component: {fileID: 7588789133783281114}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: NodeCap
   m_TagString: Untagged
   m_Icon: {fileID: 0}

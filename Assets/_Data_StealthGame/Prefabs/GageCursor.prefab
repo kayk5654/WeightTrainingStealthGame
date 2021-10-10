@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2781040423995264299}
   - component: {fileID: 8605228969794253040}
   - component: {fileID: 1753799651078139365}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CursorPlane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 3571249133054468157}
   - component: {fileID: 1801176474763722397}
   - component: {fileID: 8332337460481387814}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RingGage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 5020215842315744074}
   - component: {fileID: 3791633055829989776}
   - component: {fileID: 6582968236593884410}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GageCursor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
