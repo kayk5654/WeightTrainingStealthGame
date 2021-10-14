@@ -37,7 +37,7 @@
 
             #pragma target 5.0
 
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/UnlitInput.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/Shaders/UnlitInput.hlsl" // assign some default properties for CBuffer
             #include "RevealingFunctions.hlsl"
             #include "ShaderCalculationHelper.hlsl"
 

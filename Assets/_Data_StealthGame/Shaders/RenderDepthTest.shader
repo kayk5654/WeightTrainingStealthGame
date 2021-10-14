@@ -28,7 +28,10 @@
 
             #pragma target 5.0
 
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/UnlitInput.hlsl"
+            //#include "Packages/com.unity.render-pipelines.universal/Shaders/UnlitInput.hlsl" // assign some default properties for CBuffer
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl" // declaration of _CameraDepthTexture
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl" // VertexPositionInput, etc.
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl" // LinearEyeDepth(), etc.
 
             struct Attributes
             {
@@ -42,6 +45,7 @@
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
                 float3 positionWS : TEXCOORD1;
+                float4 projectedPosition : TEXCOORD2; // can be used as screen space position
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
             };
@@ -65,6 +69,7 @@
                 output.vertex = vertexInput.positionCS;
                 output.uv = TRANSFORM_TEX(input.uv, _MainTex);
                 output.positionWS = vertexInput.positionWS;
+                output.projectedPosition = vertexInput.positionNDC;
                 return output;
             }
 
@@ -75,9 +80,13 @@
 
                 half2 uv = input.uv;
 
-                // sample the texture
-                half4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_linear_repeat, uv);
+                // sample depth
+                // // _ZBufferParams = { (f-n)/n, 1, (f-n)/n*f, 1/f }
+                // can sample depth in screen space coordinates
+                float sceneZ = LinearEyeDepth(SAMPLE_TEXTURE2D_X(_CameraDepthTexture, sampler_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(input.projectedPosition.xy / input.projectedPosition.w)).r, _ZBufferParams);
+                float thisZ = LinearEyeDepth(input.projectedPosition.z / input.projectedPosition.w, _ZBufferParams);
 
+                float4 texColor = float4(sceneZ, sceneZ, sceneZ, 1);
                 return texColor;
             }
             ENDHLSL
