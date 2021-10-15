@@ -84,19 +84,19 @@
                 // // _ZBufferParams = { (f-n)/n, 1, (f-n)/n*f, 1/f }
                 // can sample depth in screen space coordinates
                 // the same as the "Raw" option of the ScreenDepth node of the Shader Graph
-                float sceneZ = SAMPLE_TEXTURE2D_X(_CameraDepthTexture, sampler_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(input.projectedPosition.xy / input.projectedPosition.w)).r;
+                float sceneDepth = SAMPLE_TEXTURE2D_X(_CameraDepthTexture, sampler_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(input.projectedPosition.xy / input.projectedPosition.w)).r;
 
                 // the same as the "Eye" option of the ScreenDepth node of the Shader Graph
-                //float sceneZ = LinearEyeDepth(SAMPLE_TEXTURE2D_X(_CameraDepthTexture, sampler_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(input.projectedPosition.xy / input.projectedPosition.w)).r, _ZBufferParams);
+                //float sceneDepth = LinearEyeDepth(SAMPLE_TEXTURE2D_X(_CameraDepthTexture, sampler_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(input.projectedPosition.xy / input.projectedPosition.w)).r, _ZBufferParams);
                 
                 // the same as the "Linear01" option of the ScreenDepth node of the Shader Graph
-                //float sceneZ = Linear01Depth(SAMPLE_TEXTURE2D_X(_CameraDepthTexture, sampler_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(input.projectedPosition.xy / input.projectedPosition.w)).r, _ZBufferParams);
+                //float sceneDepth = Linear01Depth(SAMPLE_TEXTURE2D_X(_CameraDepthTexture, sampler_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(input.projectedPosition.xy / input.projectedPosition.w)).r, _ZBufferParams);
                 
                 // get depth of "this" object
-                //float thisZ = LinearEyeDepth(input.projectedPosition.z / input.projectedPosition.w, _ZBufferParams);
+                //float thisDepth = LinearEyeDepth(input.projectedPosition.z / input.projectedPosition.w, _ZBufferParams);
                 
-                sceneZ = pow(sceneZ, 0.3);
-                float4 texColor = float4(sceneZ, 0, 0, 1);
+                sceneDepth = pow(sceneDepth, 0.3);
+                float4 texColor = float4(sceneDepth, 0, 0, 1);
                 return texColor;
             }
             ENDHLSL
