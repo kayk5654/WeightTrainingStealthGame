@@ -80,11 +80,31 @@
 
             half2 uv = input.uv;
 
+            // get view direction = fragment to camera
+            float3 viewDir = input.positionWS - _WorldSpaceCameraPos;
+            viewDir = normalize(viewDir);
+
+            // get camera direction
+            float3 cameraDir = UNITY_MATRIX_V[2].xyz;
+            cameraDir = normalize(cameraDir);
+
             // sample depth
             // the same as the "Eye" option of the ScreenDepth node of the Shader Graph
             float sceneDepth = LinearEyeDepth(SAMPLE_TEXTURE2D_X(_CameraDepthTexture, sampler_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(input.projectedPosition.xy / input.projectedPosition.w)).r, _ZBufferParams);
 
-            float4 texColor = float4(sceneDepth, 0, 0, 1);
+            // get world space position of the opaque mesh behind the decal mesh
+            float3 worldSpacePosBehind = _WorldSpaceCameraPos + sceneDepth * (viewDir / dot(viewDir, cameraDir));
+
+            // convert opaque mesh position from world space to object space
+            float3 objectSpacePosBehind = mul(unity_WorldToObject, worldSpacePosBehind);
+
+            // sample texture by object space opaque mesh position
+            float4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_linear_repeat, objectSpacePosBehind.xy);
+
+            // mask with depth, so that the alpha on the empty space turns 0
+            float sceneDepth01 = Linear01Depth(SAMPLE_TEXTURE2D_X(_CameraDepthTexture, sampler_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(input.projectedPosition.xy / input.projectedPosition.w)).r, _ZBufferParams);
+            texColor.a *= step(0.01, (1 - sceneDepth01));
+
             return texColor;
         }
         ENDHLSL
