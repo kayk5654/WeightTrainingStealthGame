@@ -108,7 +108,7 @@
             // sample depth
             // mask with depth, so that exit calculation if there's no mesh behind
             float sceneDepth01 = Linear01Depth(SAMPLE_TEXTURE2D_X(_CameraDepthTexture, sampler_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(input.projectedPosition.xy / input.projectedPosition.w)).r, _ZBufferParams);
-            clip(1 - sceneDepth01);
+            clip(step(0.01, 1 - sceneDepth01) - 0.01);
 
             // linear eye depth is used to get object space position of the mesh behind
             float sceneDepth = LinearEyeDepth(SAMPLE_TEXTURE2D_X(_CameraDepthTexture, sampler_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(input.projectedPosition.xy / input.projectedPosition.w)).r, _ZBufferParams);
