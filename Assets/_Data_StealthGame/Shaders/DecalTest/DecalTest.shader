@@ -105,6 +105,7 @@
             float sceneDepth01 = Linear01Depth(SAMPLE_TEXTURE2D_X(_CameraDepthTexture, sampler_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(input.projectedPosition.xy / input.projectedPosition.w)).r, _ZBufferParams);
             texColor.a *= step(0.01, (1 - sceneDepth01));
 
+
             return texColor;
         }
         ENDHLSL
