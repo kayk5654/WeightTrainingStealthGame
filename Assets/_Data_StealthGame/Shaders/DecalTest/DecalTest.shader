@@ -81,13 +81,11 @@
             half2 uv = input.uv;
 
             // get view direction = fragment to camera
-            float3 viewDir = input.positionWS - _WorldSpaceCameraPos;
-            viewDir = normalize(viewDir);
+            float3 viewDir = _WorldSpaceCameraPos - input.positionWS;
 
             // get camera direction
-            float3 cameraDir = UNITY_MATRIX_V[2].xyz;
-            cameraDir = normalize(cameraDir);
-
+            float3 cameraDir = -1 * mul(UNITY_MATRIX_M, transpose(mul(UNITY_MATRIX_I_M, UNITY_MATRIX_I_V))[2].xyz);
+            
             // sample depth
             // the same as the "Eye" option of the ScreenDepth node of the Shader Graph
             float sceneDepth = LinearEyeDepth(SAMPLE_TEXTURE2D_X(_CameraDepthTexture, sampler_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(input.projectedPosition.xy / input.projectedPosition.w)).r, _ZBufferParams);
