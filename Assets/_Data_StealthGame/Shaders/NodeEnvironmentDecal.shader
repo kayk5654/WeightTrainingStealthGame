@@ -6,9 +6,9 @@
     }
     SubShader
     {
-        Tags { "RenderType" = "Transparent" "Queue" = "Transparent" "IgnoreProjector" = "True" "renderPipeline" = "UniversalPipeline" }
+        Tags { "RenderType" = "Transparent" "Queue" = "Transparent-1" "IgnoreProjector" = "True" "renderPipeline" = "UniversalPipeline" }
         Blend SrcAlpha OneMinusSrcAlpha
-        Cull Back
+        Cull Front ZWrite On Ztest GEqual
         LOD 100
 
         Pass
@@ -109,8 +109,8 @@
                 float sceneDepth = LinearEyeDepth(SAMPLE_TEXTURE2D_X(_CameraDepthTexture, sampler_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(input.projectedPosition.xy / input.projectedPosition.w)).r, _ZBufferParams);
 
                 // input.viewDirectionOS.xyz is NOT a unit vector, but its z is 1
-                input.viewDirectionOS.xyz /= input.viewDirectionOS.w;
-                float3 objectSpacePosBehind = input.cameraPositionOS + input.viewDirectionOS.xyz * sceneDepth;
+                float3 viewVector = input.viewDirectionOS.xyz / input.viewDirectionOS.w;
+                float3 objectSpacePosBehind = input.cameraPositionOS + viewVector * sceneDepth;
 
                 // the object space coordinates of unity's cube or quad are [-1, 1]
                 // so, they should be converted to[0, 1] to sample textures appropriately
@@ -122,7 +122,12 @@
                 // sample texture by object space opaque mesh position
                 float4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, decalUv);
 
-                return texColor;
+                float dist_thisMesh = length(mul(unity_WorldToObject, input.positionWS).xyz);
+                float dist = length(objectSpacePosBehind);
+                float feather = 0.1;
+                float affectArea = smoothstep(dist_thisMesh, dist_thisMesh - feather, dist);
+
+                return float4(1, 0, 0, affectArea);
             }
         ENDHLSL
         }
