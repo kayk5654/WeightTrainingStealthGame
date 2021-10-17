@@ -1,8 +1,8 @@
-﻿Shader "StealthGame/DecalTest"
+﻿Shader "StealthGame/NodeEnvironmentDecal"
 {
     Properties
     {
-        _MainTex("Texture", 2D) = "white" {}
+        _MainTex ("Texture", 2D) = "white" {}
     }
     SubShader
     {
@@ -78,9 +78,6 @@
                 // screen space position
                 output.projectedPosition = vertexInput.positionNDC;
 
-
-                /* if the calculation of object space position is done in both vertex and fragment shader...  */
-            
                 // get view direction("vertex to camera" vector) in object space
                 float3 viewDir = vertexInput.positionVS;
                 viewDir *= -1;
@@ -92,8 +89,6 @@
 
                 // convert camera position from view space to object space in vertex shader
                 output.cameraPositionOS = mul(viewToObjectMatrix, float4(0, 0, 0, 1)).xyz;
-
-                /**********************************************************************************************/
 
                 return output;
             }
@@ -113,36 +108,10 @@
                 // linear eye depth is used to get object space position of the mesh behind
                 float sceneDepth = LinearEyeDepth(SAMPLE_TEXTURE2D_X(_CameraDepthTexture, sampler_CameraDepthTexture, UnityStereoTransformScreenSpaceTex(input.projectedPosition.xy / input.projectedPosition.w)).r, _ZBufferParams);
 
-
-
-                /* if the calculation of object space position is done in fragment shader... */ 
-            
-                // get view direction = fragment to camera
-                //float3 viewDir = _WorldSpaceCameraPos - input.positionWS;
-
-                // get camera direction
-                //float3 cameraDir = -1 * mul(UNITY_MATRIX_M, transpose(mul(UNITY_MATRIX_I_M, UNITY_MATRIX_I_V))[2].xyz);
-
-                // get world space position of the opaque mesh behind the decal mesh
-                //float3 worldSpacePosBehind = _WorldSpaceCameraPos + sceneDepth * (viewDir / dot(viewDir, cameraDir));
-
-                // convert opaque mesh position from world space to object space
-                //float3 objectSpacePosBehind = mul(unity_WorldToObject, worldSpacePosBehind);
-            
-                /**********************************************************************************************/
-
-
-
-                /* if the calculation of object space position is done in both vertex and fragment shader...  */
-            
                 // input.viewDirectionOS.xyz is NOT a unit vector, but its z is 1
                 input.viewDirectionOS.xyz /= input.viewDirectionOS.w;
                 float3 objectSpacePosBehind = input.cameraPositionOS + input.viewDirectionOS.xyz * sceneDepth;
 
-                /**********************************************************************************************/
-            
-            
-            
                 // the object space coordinates of unity's cube or quad are [-1, 1]
                 // so, they should be converted to[0, 1] to sample textures appropriately
                 float2 decalUv = objectSpacePosBehind.xy + 0.5;
