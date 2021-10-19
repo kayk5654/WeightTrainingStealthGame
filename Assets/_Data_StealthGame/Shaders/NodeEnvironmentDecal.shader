@@ -4,12 +4,13 @@
     {
         _MainTex ("Texture", 2D) = "white" {}
         _VertexOffset ("Vertex Offset", Float) = 0.5
+        [HDR]_BaseColor ("Base Color", Color) = (1, 1, 1, 1)
     }
     SubShader
     {
-        Tags { "RenderType" = "Transparent" "Queue" = "Transparent-1" "IgnoreProjector" = "True" "renderPipeline" = "UniversalPipeline" }
+        Tags { "RenderType" = "Transparent" "Queue" = "Transparent" "IgnoreProjector" = "True" "renderPipeline" = "UniversalPipeline" }
         Blend SrcAlpha OneMinusSrcAlpha
-        Cull Off ZWrite On Ztest GEqual
+        Cull Front ZWrite On /*Ztest GEqual*/
         LOD 100
 
         Pass
@@ -61,6 +62,7 @@
             CBUFFER_START(UnityPerMaterial)
             float4 _MainTex_ST;
             half _VertexOffset;
+            half3 _BaseColor;
             CBUFFER_END
 
 
@@ -133,13 +135,17 @@
                 float feather = 0.1;
                 float affectArea = smoothstep(dist_thisMesh, dist_thisMesh - feather, dist);
 
+                // sine wave pattern
+                float wavePattern = smoothstep( -1, 1, sin(dist * 10 + _Time.w) * cos(dist * 5 + _Time.w));
+
                 // fade for near area
                 affectArea *= smoothstep(length(viewVector * sceneDepth), length(viewVector * sceneDepth) + feather, length(input.viewDirectionOS.xyz));
 
                 // fade for far area
-                float farFadeDist = 1;
-                affectArea *= smoothstep(length(viewVector * sceneDepth) + farFadeDist + feather, length(viewVector * sceneDepth) + farFadeDist, length(input.viewDirectionOS.xyz));
-                return float4(1, 0, 0, affectArea);
+                //float farFadeDist = 1;
+                //affectArea *= smoothstep(length(viewVector * sceneDepth) + farFadeDist + feather, length(viewVector * sceneDepth) + farFadeDist, length(input.viewDirectionOS.xyz));
+                float4 color = float4(_BaseColor, affectArea * wavePattern);
+                return color;
             }
         ENDHLSL
         }
