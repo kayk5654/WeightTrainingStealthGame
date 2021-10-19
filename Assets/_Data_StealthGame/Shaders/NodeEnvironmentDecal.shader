@@ -3,12 +3,13 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _VertexOffset ("Vertex Offset", Float) = 0.5
     }
     SubShader
     {
         Tags { "RenderType" = "Transparent" "Queue" = "Transparent-1" "IgnoreProjector" = "True" "renderPipeline" = "UniversalPipeline" }
         Blend SrcAlpha OneMinusSrcAlpha
-        Cull Front ZWrite On Ztest GEqual
+        Cull Off ZWrite On Ztest GEqual
         LOD 100
 
         Pass
@@ -37,6 +38,7 @@
             {
                 float4 positionOS : POSITION;
                 float2 uv : TEXCOORD0;
+                float3 normal : NORMAL;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -58,6 +60,7 @@
             // cbuffer contains exposed properties
             CBUFFER_START(UnityPerMaterial)
             float4 _MainTex_ST;
+            half _VertexOffset;
             CBUFFER_END
 
 
@@ -69,6 +72,8 @@
                 UNITY_TRANSFER_INSTANCE_ID(input, output);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
+                // offset vertex position
+                input.positionOS.xyz += (input.positionOS.xyz / length(input.positionOS.xyz)) * _VertexOffset;
                 VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
 
                 output.vertex = vertexInput.positionCS;
@@ -122,11 +127,18 @@
                 // sample texture by object space opaque mesh position
                 float4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, decalUv);
 
+                float range = 1;
                 float dist_thisMesh = length(mul(unity_WorldToObject, input.positionWS).xyz);
                 float dist = length(objectSpacePosBehind);
                 float feather = 0.1;
                 float affectArea = smoothstep(dist_thisMesh, dist_thisMesh - feather, dist);
 
+                // fade for near area
+                affectArea *= smoothstep(length(viewVector * sceneDepth), length(viewVector * sceneDepth) + feather, length(input.viewDirectionOS.xyz));
+
+                // fade for far area
+                float farFadeDist = 1;
+                affectArea *= smoothstep(length(viewVector * sceneDepth) + farFadeDist + feather, length(viewVector * sceneDepth) + farFadeDist, length(input.viewDirectionOS.xyz));
                 return float4(1, 0, 0, affectArea);
             }
         ENDHLSL
