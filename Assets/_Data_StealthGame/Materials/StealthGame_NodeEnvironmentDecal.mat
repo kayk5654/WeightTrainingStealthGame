@@ -24,6 +24,6 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _VertexOffset: 0.8
+    - _VertexOffset: 1.31
     m_Colors:
-    - _BaseColor: {r: 0.22756827, g: 0.7762728, b: 1.9297792, a: 1}
+    - _BaseColor: {r: 0.16100036, g: 0.27299696, b: 0.509434, a: 1}
