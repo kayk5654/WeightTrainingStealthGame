@@ -15,7 +15,6 @@
         [Header(Textures)]
         [NoScaleOffset] _MainTex("Main Texture", 2D) = "white" {} // _OcclusionTex in the original shader graph
         [NoScaleOffset]_NormalTex("Normal Map", 2D) = "bump"{}
-        //[NoScaleOffset]_OcclusionTex("Occlusion Map", 2D) = "white"{}
         [NoScaleOffset]_IridescenceTex("Iridescence Map", 2D) = "black" {}
         _TilingOffset("Tiling / Offset", Vector) = (1, 1, 0, 0)
     }
@@ -45,6 +44,7 @@
             #include "Packages/com.unity.render-pipelines.universal/Shaders/UnlitInput.hlsl" // assign some default properties for CBuffer
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl" // VertexPositionInput, etc.
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl" 
+            #include "ShaderCalculationHelper.hlsl"
 
             struct Attributes
             {
@@ -92,6 +92,15 @@
                 output.positionWS = vertexInput.positionWS;
                 output.uv = TRANSFORM_TEX(input.uv, _MainTex);
                 return output;
+            }
+
+            // calculate rotation speed of the ring patterns
+            float3 GetRotationSpeed() 
+            {
+                float3 baseSpeed = float3(_Speed, _Speed * 0.75, _Speed * 0.5);
+                baseSpeed *= _Time.x;
+                baseSpeed %= 360;
+                return baseSpeed;
             }
 
             half4 frag (Varyings input) : SV_Target
