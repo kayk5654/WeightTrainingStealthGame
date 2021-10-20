@@ -2,7 +2,7 @@
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        
         [Space(10)]
         [Header(Rotated pattern)]
         _Speed ("Speed", Float) = 1
@@ -13,9 +13,10 @@
         _FarTintColor("Far Tint Color", Color) = (0.5, 0, 1, 1)
         [Space(10)]
         [Header(Textures)]
-        _NormalTex("Normal Map", 2D) = "bump"{}
-        _OcclusionTex("Occlusion Map", 2D) = "white"{}
-        _IridescenceTex("Iridescence Map", 2D) = "black" {}
+        [NoScaleOffset] _MainTex("Main Texture", 2D) = "white" {} // _OcclusionTex in the original shader graph
+        [NoScaleOffset]_NormalTex("Normal Map", 2D) = "bump"{}
+        //[NoScaleOffset]_OcclusionTex("Occlusion Map", 2D) = "white"{}
+        [NoScaleOffset]_IridescenceTex("Iridescence Map", 2D) = "black" {}
         _TilingOffset("Tiling / Offset", Vector) = (1, 1, 0, 0)
     }
     SubShader
@@ -66,7 +67,6 @@
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
             TEXTURE2D(_NormalTex);
-            TEXTURE2D(_OcclusionTex);
             TEXTURE2D(_IridescenceTex);
 
             // cbuffer contains exposed properties
