@@ -45,6 +45,7 @@
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl" // VertexPositionInput, etc.
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl" 
             #include "ShaderCalculationHelper.hlsl"
+            #include "MainObjectFunctions.hlsl"
 
             struct Attributes
             {
@@ -59,6 +60,7 @@
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
                 float3 positionWS : TEXCOORD1;
+                float3 positionOS : TEXCOORD2;
                 float3 normal : NORMAL;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
@@ -90,17 +92,18 @@
 
                 output.vertex = vertexInput.positionCS;
                 output.positionWS = vertexInput.positionWS;
+                output.positionOS = input.positionOS.xyz;
                 output.uv = TRANSFORM_TEX(input.uv, _MainTex);
                 return output;
             }
 
-            // calculate rotation speed of the ring patterns
-            float3 GetRotationSpeed() 
+            // calculate rotation of the ring patterns
+            float3 GetRotationAngle() 
             {
-                float3 baseSpeed = float3(_Speed, _Speed * 0.75, _Speed * 0.5);
-                baseSpeed *= _Time.x;
-                baseSpeed %= 360;
-                return baseSpeed;
+                float3 rotationAngle = float3(_Speed, _Speed * 0.75, _Speed * 0.5);
+                rotationAngle *= _Time.x;
+                rotationAngle %= 360;
+                return rotationAngle;
             }
 
             half4 frag (Varyings input) : SV_Target
@@ -108,6 +111,16 @@
                 UNITY_SETUP_INSTANCE_ID(input);
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
                 
+                // calculate rotated ring patterns
+                float3 rotationRadians = DegreesToRadians(GetRotationAngle());
+                
+                float4x4 rotationMatrix_X = GetRotationMatrixAlongXAxis(rotationRadians.x);
+                float4x4 rotationMatrix_Y = GetRotationMatrixAlongYAxis(rotationRadians.y);
+                float4x4 rotationMatrix_Z = GetRotationMatrixAlongZAxis(rotationRadians.z);
+
+
+
+
                 // sample the texture
                 half4 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
                 return col;
