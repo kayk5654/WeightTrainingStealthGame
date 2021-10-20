@@ -127,18 +127,19 @@
                 decalUv = decalUv * _MainTex_ST.xy + _MainTex_ST.zw;
 
                 // sample texture by object space opaque mesh position
-                float4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, decalUv);
+                float4 texPattern = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv);
 
                 float dist_thisMesh = length(mul(unity_WorldToObject, input.positionWS).xyz);
                 float dist = length(objectSpacePosBehind);
-                float feather = 0.1;
+                float feather = 0.2;
                 float affectArea = smoothstep(dist_thisMesh, dist_thisMesh - feather, dist);
                 
                 // clip by a range from the origin of the mesh
                 clip(_VertexOffset - dist);
 
                 // sine wave pattern
-                float wavePattern = smoothstep( -1, 1, sin(dist * 10 + _Time.w) * cos(dist * 5 + _Time.w));
+                float wavePattern = smoothstep( -1, 1, sin(dist * 5 + _Time.z));
+                wavePattern = pow(texPattern.r, lerp(1, 5, wavePattern));
 
                 // fade for near area
                 affectArea *= smoothstep(length(viewVector * sceneDepth), length(viewVector * sceneDepth) + feather, length(input.viewDirectionOS.xyz));
