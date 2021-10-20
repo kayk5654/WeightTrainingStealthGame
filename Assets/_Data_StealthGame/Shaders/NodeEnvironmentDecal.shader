@@ -120,6 +120,7 @@
 
                 // the object space coordinates of unity's cube or quad are [-1, 1]
                 // so, they should be converted to[0, 1] to sample textures appropriately
+                /*
                 float2 decalUv1 = objectSpacePosBehind.xy + 0.5;
                 float2 decalUv2 = objectSpacePosBehind.yz + 0.5;
                 float2 decalUv3 = objectSpacePosBehind.xz + 0.5;
@@ -134,6 +135,8 @@
                 texPattern += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, decalUv2);
                 texPattern += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, decalUv3);
                 texPattern /= 3;
+                */
+                float4 texPattern = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv);
 
                 float dist_thisMesh = length(mul(unity_WorldToObject, input.positionWS).xyz);
                 float dist = length(objectSpacePosBehind);
@@ -146,6 +149,7 @@
                 // sine wave pattern
                 float wavePattern = smoothstep( -1, 1, sin(dist * 5 + _Time.z));
                 wavePattern = pow(texPattern.r, lerp(1, 5, wavePattern));
+                clip(wavePattern);
 
                 // fade for near area
                 affectArea *= smoothstep(length(viewVector * sceneDepth), length(viewVector * sceneDepth) + feather, length(input.viewDirectionOS.xyz));
