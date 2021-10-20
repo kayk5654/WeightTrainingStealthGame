@@ -3,6 +3,20 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        [Space(10)]
+        [Header(Rotated pattern)]
+        _Speed ("Speed", Float) = 1
+        [Space(10)]
+        [Header(Color)]
+        _BaseColor ("Base Color", Color) = (1, 1, 1, 1)
+        [HDR]_EmitAreaColor("Emit Area Color", Color) = (1, 1, 1, 1)
+        _FarTintColor("Far Tint Color", Color) = (0.5, 0, 1, 1)
+        [Space(10)]
+        [Header(Textures)]
+        _NormalTex("Normal Map", 2D) = "bump"{}
+        _OcclusionTex("Occlusion Map", 2D) = "white"{}
+        _IridescenceTex("Iridescence Map", 2D) = "black" {}
+        _TilingOffset("Tiling / Offset", Vector) = (1, 1, 0, 0)
     }
     SubShader
     {
@@ -51,10 +65,17 @@
 
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
+            TEXTURE2D(_NormalTex);
+            TEXTURE2D(_OcclusionTex);
+            TEXTURE2D(_IridescenceTex);
 
             // cbuffer contains exposed properties
             CBUFFER_START(UnityPerMaterial)
             float4 _MainTex_ST;
+            float _Speed;
+            half4 _EmitAreaColor;
+            half4 _FarTintColor;
+            float4 _TilingOffset;
             CBUFFER_END
 
             Varyings vert (Attributes input)
