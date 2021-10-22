@@ -20,6 +20,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _EnvironmentFxTex:
+        m_Texture: {fileID: 2800000, guid: 8c85c69883899a147a5c15d57031905b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _IridescenceTex:
         m_Texture: {fileID: 2800000, guid: ea14259fc382c234b97764c15b5fb420, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -33,4 +37,5 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0.19607836, g: 0.75992775, b: 0.96078426, a: 0}
     - _EmitAreaColor: {r: 2.9286947, g: 14.343096, b: 12.4482765, a: 0}
+    - _EnvironmentFxColor: {r: 0, g: 0.93333334, b: 1.4352942, a: 1}
     - _NearTintColor: {r: 0.68077064, g: 0.47641504, b: 1, a: 1}
