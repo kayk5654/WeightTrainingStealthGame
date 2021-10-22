@@ -1,7 +1,7 @@
 
 //#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
 //#include "Packages/com.unity.render-pipelines.universal/Shaders/UnlitInput.hlsl"
-
+#include "ShaderCalculationHelper.hlsl"
 // macros for each platforms
 /*
 #if defined(SHADER_API_D3D11)
@@ -46,4 +46,15 @@ float4 SampleTextureWidhDoubledUv(float4 tilingOffset1, float4 tilingOffset2, fl
 	half4 sampledTexture2 = SAMPLE_TEXTURE2D(texture2d, sampler_texture2d, uv * tilingOffset2.xy + tilingOffset2.zw);
 
 	return sampledTexture1 * sampledTexture2;
+}
+
+// get tint color applied for farther mesh
+half3 GetFarTintColor(half3 originalColor, half3 tintColor, float3 worldSpacePosition)
+{
+	float distFromCamera = distance(_WorldSpaceCameraPos, worldSpacePosition);
+	distFromCamera = saturate(fitRange(distFromCamera, 1.5, 3.5, 0, 1));
+	
+	half3 farTintColor = normalize(tintColor) * ((originalColor.x + originalColor.y + originalColor.z) / 3);
+
+	return lerp(originalColor, farTintColor, distFromCamera);
 }

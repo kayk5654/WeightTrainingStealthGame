@@ -5,6 +5,7 @@
         _MainTex ("Texture", 2D) = "white" {}
         _VertexOffset ("Vertex Offset", Float) = 0.5
         [HDR]_BaseColor ("Base Color", Color) = (1, 1, 1, 1)
+        _FarTintColor("Far Tint Color", Color) = (0.5, 0, 1, 1)
     }
     SubShader
     {
@@ -34,6 +35,7 @@
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl" // declaration of _CameraDepthTexture
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl" // VertexPositionInput, etc.
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl" // LinearEyeDepth(), etc.
+            #include "RevealingFunctions.hlsl"
 
             struct Attributes
             {
@@ -62,6 +64,7 @@
             float4 _MainTex_ST;
             half _VertexOffset;
             half3 _BaseColor;
+            half3 _FarTintColor;
             CBUFFER_END
 
 
@@ -158,6 +161,7 @@
                 //float farFadeDist = 1;
                 //affectArea *= smoothstep(length(viewVector * sceneDepth) + farFadeDist + feather, length(viewVector * sceneDepth) + farFadeDist, length(input.viewDirectionOS.xyz));
                 float4 color = float4(_BaseColor, affectArea * wavePattern);
+                color.rgb = GetFarTintColor(color.rgb, _FarTintColor, input.positionWS);
                 return color;
             }
         ENDHLSL
