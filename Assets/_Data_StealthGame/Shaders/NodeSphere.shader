@@ -44,7 +44,6 @@
             #include "Packages/com.unity.render-pipelines.universal/Shaders/UnlitInput.hlsl" // assign some default properties for CBuffer
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl" // VertexPositionInput, etc.
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl" 
-            #include "ShaderCalculationHelper.hlsl"
             #include "MainObjectFunctions.hlsl"
 
             struct Attributes

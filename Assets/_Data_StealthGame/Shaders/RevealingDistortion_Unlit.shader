@@ -39,7 +39,6 @@
 
             #include "Packages/com.unity.render-pipelines.universal/Shaders/UnlitInput.hlsl" // assign some default properties for CBuffer
             #include "RevealingFunctions.hlsl"
-            #include "ShaderCalculationHelper.hlsl"
 
             struct Attributes
             {

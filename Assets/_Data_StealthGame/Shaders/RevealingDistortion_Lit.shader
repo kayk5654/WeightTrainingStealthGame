@@ -125,7 +125,6 @@
 
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
         #include "RevealingFunctions.hlsl"
-        #include "ShaderCalculationHelper.hlsl"
 
         struct Attributes
         {

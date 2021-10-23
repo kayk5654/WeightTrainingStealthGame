@@ -35,7 +35,7 @@
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl" // declaration of _CameraDepthTexture
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl" // VertexPositionInput, etc.
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl" // LinearEyeDepth(), etc.
-            #include "RevealingFunctions.hlsl"
+            #include "MainObjectFunctions.hlsl"
 
             struct Attributes
             {
@@ -52,6 +52,7 @@
                 float4 projectedPosition : TEXCOORD2; // can be used as screen space position
                 float4 viewDirectionOS : TEXCOORD3;
                 float3 cameraPositionOS : TEXCOORD4;
+                float3 positionVS : TEXCOORD5;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
             };
@@ -99,6 +100,8 @@
                 // convert camera position from view space to object space in vertex shader
                 output.cameraPositionOS = mul(viewToObjectMatrix, float4(0, 0, 0, 1)).xyz;
 
+                // view space position
+                output.positionVS = vertexInput.positionVS;
                 return output;
             }
 
@@ -145,22 +148,20 @@
                 float dist = length(objectSpacePosBehind);
                 float feather = 0.4;
                 float affectArea = smoothstep(dist_thisMesh, dist_thisMesh - feather, dist);
-                
+                affectArea = smoothstep(0, .4, length(input.positionVS) - abs(sceneDepth));
+
+                float noise = ValueNoise(mul(unity_ObjectToWorld, objectSpacePosBehind).xyz * 40 + _Time.zxy);
+                //noise = step(0.4, noise);
+
                 // clip by a range from the origin of the mesh
                 clip(_VertexOffset - dist);
 
                 // sine wave pattern
                 float wavePattern = smoothstep( -1, 1, sin(dist * 5 + _Time.z));
-                wavePattern = pow(texPattern.r, lerp(1, 5, wavePattern));
+                //wavePattern = pow(texPattern.r, lerp(1, 5, wavePattern));
                 clip(wavePattern);
 
-                // fade for near area
-                affectArea *= smoothstep(length(viewVector * sceneDepth), length(viewVector * sceneDepth) + feather, length(input.viewDirectionOS.xyz));
-
-                // fade for far area
-                //float farFadeDist = 1;
-                //affectArea *= smoothstep(length(viewVector * sceneDepth) + farFadeDist + feather, length(viewVector * sceneDepth) + farFadeDist, length(input.viewDirectionOS.xyz));
-                float4 color = float4(_BaseColor, affectArea * wavePattern);
+                float4 color = float4(_BaseColor, affectArea * noise/* * wavePattern*/);
                 color.rgb = GetFarTintColor(color.rgb, _FarTintColor, input.positionWS);
                 return color;
             }
