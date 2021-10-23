@@ -150,7 +150,7 @@
                 float affectArea = smoothstep(dist_thisMesh, dist_thisMesh - feather, dist);
                 affectArea = smoothstep(0, .4, length(input.positionVS) - abs(sceneDepth));
 
-                float noise = ValueNoise(mul(unity_ObjectToWorld, objectSpacePosBehind).xyz * 40 + _Time.zxy);
+                float noise = ValueNoise(mul(unity_ObjectToWorld, objectSpacePosBehind).xyz * float3(10, 40, 10) + _Time.zxy);
                 //noise = step(0.4, noise);
 
                 // clip by a range from the origin of the mesh
@@ -160,6 +160,13 @@
                 float wavePattern = smoothstep( -1, 1, sin(dist * 5 + _Time.z));
                 //wavePattern = pow(texPattern.r, lerp(1, 5, wavePattern));
                 clip(wavePattern);
+
+                // fade for near area
+                //affectArea *= smoothstep(length(viewVector * sceneDepth), length(viewVector * sceneDepth) + feather, length(input.viewDirectionOS.xyz));
+
+                // fade for far area; can be used for edge of the affect area
+                float farFadeDist = 1;
+                affectArea *= smoothstep(length(viewVector * sceneDepth) + farFadeDist + feather, length(viewVector * sceneDepth) + farFadeDist, length(input.viewDirectionOS.xyz));
 
                 float4 color = float4(_BaseColor, affectArea * noise/* * wavePattern*/);
                 color.rgb = GetFarTintColor(color.rgb, _FarTintColor, input.positionWS);
