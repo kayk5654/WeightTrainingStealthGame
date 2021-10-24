@@ -47,6 +47,6 @@ Material:
     - _BaseColor: {r: 0.19607839, g: 0.75992775, b: 0.9607843, a: 0}
     - _EmitAreaColor: {r: 0.19607836, g: 0.75992775, b: 0.96078426, a: 0}
     - _EnvironmentFxColor: {r: 0, g: 0.93333334, b: 1.4352942, a: 1}
-    - _NearTintColor: {r: 0.6807707, g: 0.4764151, b: 1, a: 1}
+    - _NearTintColor: {r: 0.34433958, g: 0.36625367, b: 1, a: 1}
     - _Rotation: {r: 0, g: 0, b: 0, a: 0}
     - _TilingOffset: {r: 2, g: 2, b: 0, a: 0}

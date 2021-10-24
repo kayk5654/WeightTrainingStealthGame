@@ -40,5 +40,5 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0.19607836, g: 0.75992775, b: 0.96078426, a: 0}
     - _EmitAreaColor: {r: 0.19607836, g: 0.75992775, b: 0.96078426, a: 0}
-    - _FarTintColor: {r: 0.68077064, g: 0.47641504, b: 1, a: 1}
+    - _FarTintColor: {r: 0.34433958, g: 0.36625367, b: 1, a: 1}
     - _TilingOffset: {r: 2, g: 2, b: 0, a: 0}

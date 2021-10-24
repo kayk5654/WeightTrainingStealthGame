@@ -144,30 +144,21 @@
 
                 // the object space coordinates of unity's cube or quad are [-1, 1]
                 // so, they should be converted to[0, 1] to sample textures appropriately
-                /*
-                float2 decalUv1 = objectSpacePosBehind.xy + 0.5;
-                float2 decalUv2 = objectSpacePosBehind.yz + 0.5;
-                float2 decalUv3 = objectSpacePosBehind.xz + 0.5;
+                float2 decalUv1 = float2(atan2(objectSpacePosBehind.x, objectSpacePosBehind.z), objectSpacePosBehind.y) + 0.5;
 
                 // apply tiling and offset on uv
                 decalUv1 = decalUv1 * _MainTex_ST.xy + _MainTex_ST.zw;
-                decalUv2 = decalUv2 * _MainTex_ST.xy + _MainTex_ST.zw;
-                decalUv3 = decalUv3 * _MainTex_ST.xy + _MainTex_ST.zw;
 
                 // sample texture by object space opaque mesh position
                 float4 texPattern = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, decalUv1);
-                texPattern += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, decalUv2);
-                texPattern += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, decalUv3);
-                texPattern /= 3;
-                */
-                float4 texPattern = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv);
+                //float4 texPattern = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv);
                 float dist = length(objectSpacePosBehind);
                 float feather = 0.4;
                 float affectArea = smoothstep(0, feather, length(input.positionVS) - abs(sceneDepth));
 
                 float3 worldSpacePosBehind = mul(unity_ObjectToWorld, objectSpacePosBehind).xyz;
-                float noise1 = ValueNoise(worldSpacePosBehind * float3(10, 40, 10) + _Time.zxy);
-                float noise2 = ValueNoise(worldSpacePosBehind * float3(20, 60, 20) + _Time.yzx);
+                float noise1 = ValueNoise(float3(floor(worldSpacePosBehind.x * 0.01) * 1000, worldSpacePosBehind.y * 40, floor(worldSpacePosBehind.z * 0.01) * 1000) + _Time.zxy);
+                float noise2 = ValueNoise( float3(floor(worldSpacePosBehind.x * 0.01) * 2000, worldSpacePosBehind.y * 60, floor(worldSpacePosBehind.z * 0.01) * 2000) + _Time.yzx);
                 float2 noiseGB = float2(pow(noise1, 5), noise2 * (1- noise1));
 
                 // define fading area
