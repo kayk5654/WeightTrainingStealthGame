@@ -141,22 +141,22 @@
                 // input.viewDirectionOS.xyz is NOT a unit vector, but its z is 1
                 float3 viewVector = input.viewDirectionOS.xyz / input.viewDirectionOS.w;
                 float3 objectSpacePosBehind = input.cameraPositionOS + viewVector * sceneDepth;
+                float3 worldSpacePosBehind = mul(unity_ObjectToWorld, objectSpacePosBehind).xyz;
 
-                // the object space coordinates of unity's cube or quad are [-1, 1]
-                // so, they should be converted to[0, 1] to sample textures appropriately
-                float2 decalUv1 = float2(atan2(objectSpacePosBehind.x, objectSpacePosBehind.z), objectSpacePosBehind.y) + 0.5;
+                // project a texture cylindrically; the origin of the cylinder is the pivot of the mesh
+                float2 cylindricalAngle = (worldSpacePosBehind - mul(unity_ObjectToWorld, float3(0, 0, 0)).xyz).xz;
+                cylindricalAngle = normalize(cylindricalAngle);
+                float2 decalUv1 = float2(fitRange(atan2(cylindricalAngle.x, cylindricalAngle.y), -3.14, 3.14, 0, 1), worldSpacePosBehind.y) + 0.5;
 
                 // apply tiling and offset on uv
                 decalUv1 = decalUv1 * _MainTex_ST.xy + _MainTex_ST.zw;
 
                 // sample texture by object space opaque mesh position
                 float4 texPattern = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, decalUv1);
-                //float4 texPattern = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv);
                 float dist = length(objectSpacePosBehind);
                 float feather = 0.4;
                 float affectArea = smoothstep(0, feather, length(input.positionVS) - abs(sceneDepth));
 
-                float3 worldSpacePosBehind = mul(unity_ObjectToWorld, objectSpacePosBehind).xyz;
                 float noise1 = ValueNoise(float3(floor(worldSpacePosBehind.x * 0.01) * 1000, worldSpacePosBehind.y * 40, floor(worldSpacePosBehind.z * 0.01) * 1000) + _Time.zxy);
                 float noise2 = ValueNoise( float3(floor(worldSpacePosBehind.x * 0.01) * 2000, worldSpacePosBehind.y * 60, floor(worldSpacePosBehind.z * 0.01) * 2000) + _Time.yzx);
                 float2 noiseGB = float2(pow(noise1, 5), noise2 * (1- noise1));
@@ -184,13 +184,17 @@
 
                 half4 color = half4(_BaseColor, (half) affectArea);
                 color.rgb = lerp(color.rgb, _SecondaryColor, noiseGB.x);
-                //color.rgb = HueShift(color.rgb, noise2 * (1 - noise1));
                 color.rgb = GetFarTintColor(color.rgb, _FarTintColor, worldSpacePosBehind);
 
                 // apply scanlines
                 float horizontalScanlines = pow(sin((input.positionWS.y + _Time.x) * 300) * 0.5 + 1, max(0.5, 3 * (1 - affectArea)));
 
                 color.a *= lerp(horizontalScanlines, 1, affectArea);
+                
+                // apply glitch
+                color.a *= DropPixel(texPattern.r, _Time.y, 0.1);
+                //color.rgb += DropPixel(texPattern.r, _Time.y, 0.1);
+                
                 clip(color.a);
                 return color;
             }

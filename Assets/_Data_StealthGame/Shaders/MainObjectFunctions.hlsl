@@ -118,3 +118,11 @@ half3 HueShift(half3 color, float shift)
 	color = u * cos(shift * multiplier) + v * sin(shift * multiplier) + p;
 	return color;
 }
+
+// define areas not to render pixels; input is assumed to be a value sampled from a grayscale texture
+float DropPixel(float phase, float time, float range)
+{
+	float undropPhase = saturate(step((time - range)%1, phase) + step(phase, (time + range)%1));
+	undropPhase = 1 - undropPhase;
+	return undropPhase;
+}
