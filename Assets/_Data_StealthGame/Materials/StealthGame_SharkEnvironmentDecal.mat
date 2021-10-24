@@ -24,7 +24,9 @@ Material:
         m_Scale: {x: 6, y: 6}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _Feather: 0.05
     - _VertexOffset: 2
     m_Colors:
-    - _BaseColor: {r: 0, g: 0.10980392, b: 2.9960785, a: 1}
-    - _FarTintColor: {r: 0.68077064, g: 0.47641504, b: 1, a: 1}
+    - _BaseColor: {r: 1.4980392, g: 0.015303293, b: 0, a: 1}
+    - _FarTintColor: {r: 0.80290484, g: 0.47450984, b: 1, a: 1}
+    - _RevealArea: {r: 0, g: 0, b: 0, a: 0}

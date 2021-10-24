@@ -152,7 +152,6 @@
                 // sine wave pattern
                 float wavePattern = smoothstep( -1, 1, sin(dist * 5 + _Time.z));
                 wavePattern = pow(texPattern.r, lerp(1, 5, wavePattern));
-                clip(wavePattern);
 
                 // fade for near area
                 affectArea *= smoothstep(length(viewVector * sceneDepth), length(viewVector * sceneDepth) + feather, length(input.viewDirectionOS.xyz));
@@ -162,6 +161,7 @@
                 //affectArea *= smoothstep(length(viewVector * sceneDepth) + farFadeDist + feather, length(viewVector * sceneDepth) + farFadeDist, length(input.viewDirectionOS.xyz));
                 float4 color = float4(_BaseColor, affectArea * wavePattern);
                 color.rgb = GetFarTintColor(color.rgb, _FarTintColor, input.positionWS);
+                clip(color.a);
                 return color;
             }
         ENDHLSL

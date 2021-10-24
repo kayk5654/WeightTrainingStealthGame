@@ -6,6 +6,9 @@
         _VertexOffset ("Vertex Offset", Float) = 0.5
         [HDR]_BaseColor ("Base Color", Color) = (1, 1, 1, 1)
         _FarTintColor("Far Tint Color", Color) = (0.5, 0, 1, 1)
+        [Header(Revealing effect)]
+        _RevealArea("Reveal Area", Vector) = (0, 0, 0, 0)
+        _Feather("Feather", Float) = 0.2
     }
     SubShader
     {
@@ -53,6 +56,7 @@
                 float4 viewDirectionOS : TEXCOORD3;
                 float3 cameraPositionOS : TEXCOORD4;
                 float3 positionVS : TEXCOORD5;
+                float3 positionWSOriginal : TEXCOORD6;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
                 UNITY_VERTEX_OUTPUT_STEREO
             };
@@ -66,6 +70,8 @@
             half _VertexOffset;
             half3 _BaseColor;
             half3 _FarTintColor;
+            float4 _RevealArea;
+            float _Feather;
             CBUFFER_END
 
 
@@ -76,6 +82,9 @@
                 UNITY_SETUP_INSTANCE_ID(input);
                 UNITY_TRANSFER_INSTANCE_ID(input, output);
                 UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+
+                // world space position of the origianl size of mesh
+                output.positionWSOriginal = mul(unity_ObjectToWorld, input.positionOS).xyz;
 
                 // offset vertex position
                 input.positionOS.xyz += (input.positionOS.xyz / length(input.positionOS.xyz)) * _VertexOffset;
@@ -102,7 +111,14 @@
 
                 // view space position
                 output.positionVS = vertexInput.positionVS;
+
                 return output;
+            }
+
+            // get fading border for revealing effect
+            float GetFadingBorder(float distanceFromCenterPoint, float4 revealArea, float feather)
+            {
+                return smoothstep(revealArea.w, revealArea.w - feather, distanceFromCenterPoint);
             }
 
             half4 frag(Varyings input) : SV_Target
@@ -147,9 +163,15 @@
                 float feather = 0.4;
                 float affectArea = smoothstep(0, feather, length(input.positionVS) - abs(sceneDepth));
 
-                float noise1 = ValueNoise(mul(unity_ObjectToWorld, objectSpacePosBehind).xyz * float3(10, 40, 10) + _Time.zxy);
-                float noise2 = ValueNoise(mul(unity_ObjectToWorld, objectSpacePosBehind).xyz * float3(20, 60, 20) + _Time.yzx);
-                float2 noiseRG = float2(pow(noise1, 3), noise2 * (1- noise1));
+                float3 worldSpacePosBehind = mul(unity_ObjectToWorld, objectSpacePosBehind).xyz;
+                float noise1 = ValueNoise(worldSpacePosBehind * float3(10, 40, 10) + _Time.zxy);
+                float noise2 = ValueNoise(worldSpacePosBehind * float3(20, 60, 20) + _Time.yzx);
+                float2 noiseGB = float2(pow(noise1, 5), noise2 * (1- noise1));
+
+                // define fading area
+                float revealDist = distance(_RevealArea.xyz, input.positionWSOriginal);
+                float fadingArea = GetFadingBorder(revealDist, _RevealArea, _Feather);
+                affectArea *= fadingArea;
 
                 // clip completely transparent area
                 clip(affectArea);
@@ -167,14 +189,15 @@
                 float farFadeDist = 1;
                 float farFade = smoothstep(length(viewVector * sceneDepth) + farFadeDist + feather, length(viewVector * sceneDepth) + farFadeDist, length(input.viewDirectionOS.xyz));
 
-                float4 color = float4(_BaseColor, affectArea);
-                color.rgb = GetFarTintColor(color.rgb, _FarTintColor, input.positionWS);
-                color.rg += noiseRG;
+                half4 color = half4(_BaseColor, (half) affectArea);
+                //color.rgb = HueShift(color.rgb, noise2 * (1 - noise1));
+                color.rgb = GetFarTintColor(color.rgb, _FarTintColor, worldSpacePosBehind);
 
                 // apply scanlines
-                float horizontalScanlines = pow(sin((input.positionWS.y + _Time.x) * 300) * 0.5 + 1, 3 * (1 - affectArea));
+                float horizontalScanlines = pow(sin((input.positionWS.y + _Time.x) * 300) * 0.5 + 1, max(0.5, 3 * (1 - affectArea)));
 
                 color.a *= lerp(horizontalScanlines, 1, affectArea);
+                clip(color.a);
                 return color;
             }
         ENDHLSL

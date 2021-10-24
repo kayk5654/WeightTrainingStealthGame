@@ -117,8 +117,8 @@ Material:
     - Vector4_BD188D1B: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0.15686275, g: 0.34509805, b: 5.992157, a: 1}
-    - _HighlightColor: {r: 0.76177174, g: 2.9606953, b: 7.6578093, a: 1}
+    - _EmissionColor: {r: 7.320755, g: 0, b: 0.07478707, a: 1}
+    - _HighlightColor: {r: 7.6578093, g: 1.6785595, b: 0.8018646, a: 1}
     - _NearTintColor: {r: 0.68077064, g: 0.47641504, b: 1, a: 1}
     - _NoiseTllingOffset1: {r: 3.87, g: 2.59, b: 2.73, a: -0.12}
     - _NoiseTllingOffset1_1: {r: 0.42, g: 0.42, b: -0.22, a: 0.21}

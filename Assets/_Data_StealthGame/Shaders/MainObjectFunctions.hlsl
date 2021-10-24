@@ -105,3 +105,16 @@ float3 ValueNoise(float3 position)
 
 	return lerp(lerp(lerp(n000, n100, u.x), lerp(n010, n110, u.x), u.y), lerp(lerp(n001, n101, u.x), lerp(n011, n111, u.x), u.y), u.z);
 }
+
+// hue shift
+half3 HueShift(half3 color, float shift)
+{
+	float3 compareVector = float3(0.55735, 0.55735, 0.55735);
+	float3 p = compareVector * dot(compareVector, color);
+	float3 u = color - p;
+	float3 v = cross(compareVector, u);
+
+	float multiplier = 6.2832;
+	color = u * cos(shift * multiplier) + v * sin(shift * multiplier) + p;
+	return color;
+}
