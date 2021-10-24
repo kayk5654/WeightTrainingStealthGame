@@ -5,6 +5,7 @@
         _MainTex ("Texture", 2D) = "white" {}
         _VertexOffset ("Vertex Offset", Float) = 0.5
         [HDR]_BaseColor ("Base Color", Color) = (1, 1, 1, 1)
+        [HDR]_SecondaryColor("Secondary Color", Color) = (1, 1, 1, 1)
         _FarTintColor("Far Tint Color", Color) = (0.5, 0, 1, 1)
         [Header(Revealing effect)]
         _RevealArea("Reveal Area", Vector) = (0, 0, 0, 0)
@@ -69,6 +70,7 @@
             float4 _MainTex_ST;
             half _VertexOffset;
             half3 _BaseColor;
+            half3 _SecondaryColor;
             half3 _FarTintColor;
             float4 _RevealArea;
             float _Feather;
@@ -190,6 +192,7 @@
                 float farFade = smoothstep(length(viewVector * sceneDepth) + farFadeDist + feather, length(viewVector * sceneDepth) + farFadeDist, length(input.viewDirectionOS.xyz));
 
                 half4 color = half4(_BaseColor, (half) affectArea);
+                color.rgb = lerp(color.rgb, _SecondaryColor, noiseGB.x);
                 //color.rgb = HueShift(color.rgb, noise2 * (1 - noise1));
                 color.rgb = GetFarTintColor(color.rgb, _FarTintColor, worldSpacePosBehind);
 
