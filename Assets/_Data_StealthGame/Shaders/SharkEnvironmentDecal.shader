@@ -147,8 +147,9 @@
                 float feather = 0.4;
                 float affectArea = smoothstep(0, feather, length(input.positionVS) - abs(sceneDepth));
 
-                float noise = ValueNoise(mul(unity_ObjectToWorld, objectSpacePosBehind).xyz * float3(10, 40, 10) + _Time.zxy);
-                //noise = step(0.4, noise);
+                float noise1 = ValueNoise(mul(unity_ObjectToWorld, objectSpacePosBehind).xyz * float3(10, 40, 10) + _Time.zxy);
+                float noise2 = ValueNoise(mul(unity_ObjectToWorld, objectSpacePosBehind).xyz * float3(20, 60, 20) + _Time.yzx);
+                float2 noiseRG = float2(pow(noise1, 3), noise2 * (1- noise1));
 
                 // clip completely transparent area
                 clip(affectArea);
@@ -166,8 +167,14 @@
                 float farFadeDist = 1;
                 float farFade = smoothstep(length(viewVector * sceneDepth) + farFadeDist + feather, length(viewVector * sceneDepth) + farFadeDist, length(input.viewDirectionOS.xyz));
 
-                float4 color = float4(_BaseColor, affectArea/* * wavePattern*/);
+                float4 color = float4(_BaseColor, affectArea);
                 color.rgb = GetFarTintColor(color.rgb, _FarTintColor, input.positionWS);
+                color.rg += noiseRG;
+
+                // apply scanlines
+                float horizontalScanlines = pow(sin((input.positionWS.y + _Time.x) * 300) * 0.5 + 1, 3 * (1 - affectArea));
+
+                color.a *= lerp(horizontalScanlines, 1, affectArea);
                 return color;
             }
         ENDHLSL
