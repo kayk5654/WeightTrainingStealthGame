@@ -143,18 +143,15 @@
                 texPattern /= 3;
                 */
                 float4 texPattern = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv);
-
-                float dist_thisMesh = length(mul(unity_WorldToObject, input.positionWS).xyz);
                 float dist = length(objectSpacePosBehind);
                 float feather = 0.4;
-                float affectArea = smoothstep(dist_thisMesh, dist_thisMesh - feather, dist);
-                affectArea = smoothstep(0, .4, length(input.positionVS) - abs(sceneDepth));
+                float affectArea = smoothstep(0, feather, length(input.positionVS) - abs(sceneDepth));
 
                 float noise = ValueNoise(mul(unity_ObjectToWorld, objectSpacePosBehind).xyz * float3(10, 40, 10) + _Time.zxy);
                 //noise = step(0.4, noise);
 
-                // clip by a range from the origin of the mesh
-                clip(_VertexOffset - dist);
+                // clip completely transparent area
+                clip(affectArea);
 
                 // sine wave pattern
                 float wavePattern = smoothstep( -1, 1, sin(dist * 5 + _Time.z));
@@ -162,13 +159,14 @@
                 clip(wavePattern);
 
                 // fade for near area
-                //affectArea *= smoothstep(length(viewVector * sceneDepth), length(viewVector * sceneDepth) + feather, length(input.viewDirectionOS.xyz));
+                float nearFade = smoothstep(length(viewVector * sceneDepth), length(viewVector * sceneDepth) + feather, length(input.viewDirectionOS.xyz));
+                nearFade = pow(nearFade, 2);
 
                 // fade for far area; can be used for edge of the affect area
                 float farFadeDist = 1;
-                affectArea *= smoothstep(length(viewVector * sceneDepth) + farFadeDist + feather, length(viewVector * sceneDepth) + farFadeDist, length(input.viewDirectionOS.xyz));
+                float farFade = smoothstep(length(viewVector * sceneDepth) + farFadeDist + feather, length(viewVector * sceneDepth) + farFadeDist, length(input.viewDirectionOS.xyz));
 
-                float4 color = float4(_BaseColor, affectArea * noise/* * wavePattern*/);
+                float4 color = float4(_BaseColor, affectArea/* * wavePattern*/);
                 color.rgb = GetFarTintColor(color.rgb, _FarTintColor, input.positionWS);
                 return color;
             }
