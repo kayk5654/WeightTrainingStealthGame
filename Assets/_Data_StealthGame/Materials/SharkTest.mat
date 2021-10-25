@@ -118,10 +118,10 @@ Material:
     - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 7.320755, g: 0, b: 0.07478707, a: 1}
-    - _HighlightColor: {r: 4.6349893, g: 0.61147064, b: 0, a: 1}
+    - _HighlightColor: {r: 5.0788913, g: 2.563748, b: 1.5572072, a: 1}
     - _NearTintColor: {r: 0, g: 0.39215687, b: 2.9960785, a: 1}
     - _NoiseTllingOffset1: {r: 3.87, g: 2.59, b: 2.73, a: -0.12}
     - _NoiseTllingOffset1_1: {r: 0.42, g: 0.42, b: -0.22, a: 0.21}
     - _PatternTilingOffset: {r: 10, g: 20, b: 0, a: 0}
-    - _RevealArea: {r: 0.29441366, g: 0.021717926, b: 1.392569, a: 3.0028691}
+    - _RevealArea: {r: 0, g: -0.1, b: 1.3899992, a: 3.007988}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
