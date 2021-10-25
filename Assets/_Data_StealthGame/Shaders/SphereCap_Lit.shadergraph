@@ -28,7 +28,7 @@
             "typeInfo": {
                 "fullName": "UnityEditor.ShaderGraph.Internal.ColorShaderProperty"
             },
-            "JSONnodeData": "{\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"7d63e2b0-05e3-4d1c-a66a-c00da1792e25\"\n    },\n    \"m_Name\": \"NearTintColor\",\n    \"m_DefaultReferenceName\": \"Color_F160D091\",\n    \"m_OverrideReferenceName\": \"_NearTintColor\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Precision\": 0,\n    \"m_GPUInstanced\": false,\n    \"m_Hidden\": false,\n    \"m_Value\": {\n        \"r\": 0.0,\n        \"g\": 0.0,\n        \"b\": 0.0,\n        \"a\": 0.0\n    },\n    \"m_ColorMode\": 0\n}"
+            "JSONnodeData": "{\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"7d63e2b0-05e3-4d1c-a66a-c00da1792e25\"\n    },\n    \"m_Name\": \"NearTintColor\",\n    \"m_DefaultReferenceName\": \"Color_F160D091\",\n    \"m_OverrideReferenceName\": \"_NearTintColor\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Precision\": 0,\n    \"m_GPUInstanced\": false,\n    \"m_Hidden\": false,\n    \"m_Value\": {\n        \"r\": 0.0,\n        \"g\": 0.0,\n        \"b\": 0.0,\n        \"a\": 0.0\n    },\n    \"m_ColorMode\": 1\n}"
         },
         {
             "typeInfo": {

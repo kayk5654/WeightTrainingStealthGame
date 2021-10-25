@@ -7,7 +7,7 @@
         [HDR]_BaseColor ("Base Color", Color) = (1, 1, 1, 1)
         [HDR]_SecondaryColor("Secondary Color", Color) = (1, 1, 1, 1)
         [HDR]_HighlihgtColor("Highlight Color", Color) = (1, 1, 1, 1)
-        _FarTintColor("Far Tint Color", Color) = (0.5, 0, 1, 1)
+        [HDR]_FarTintColor("Far Tint Color", Color) = (0.5, 0, 1, 1)
         [Header(Revealing effect)]
         _RevealArea("Reveal Area", Vector) = (0, 0, 0, 0)
         _Feather("Feather", Float) = 0.2

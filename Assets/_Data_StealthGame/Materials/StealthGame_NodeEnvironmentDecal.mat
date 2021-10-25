@@ -26,5 +26,5 @@ Material:
     m_Floats:
     - _VertexOffset: 2
     m_Colors:
-    - _BaseColor: {r: 0, g: 0.93333334, b: 1.4352942, a: 1}
-    - _FarTintColor: {r: 0.34433958, g: 0.36625367, b: 1, a: 1}
+    - _BaseColor: {r: 0, g: 0.39215687, b: 2.9960785, a: 1}
+    - _FarTintColor: {r: 0.5230708, g: 0.55279076, b: 1.5157166, a: 1}

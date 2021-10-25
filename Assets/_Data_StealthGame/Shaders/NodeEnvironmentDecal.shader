@@ -5,7 +5,7 @@
         _MainTex ("Texture", 2D) = "white" {}
         _VertexOffset ("Vertex Offset", Float) = 0.5
         [HDR]_BaseColor ("Base Color", Color) = (1, 1, 1, 1)
-        _FarTintColor("Far Tint Color", Color) = (0.5, 0, 1, 1)
+        [HDR]_FarTintColor("Far Tint Color", Color) = (0.5, 0, 1, 1)
     }
     SubShader
     {

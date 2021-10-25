@@ -28,7 +28,7 @@ Material:
     - _VertexOffset: 2
     m_Colors:
     - _BaseColor: {r: 1.0754716, g: 0.011261484, b: 0, a: 1}
-    - _FarTintColor: {r: 0.34433958, g: 0.36625367, b: 1, a: 1}
+    - _FarTintColor: {r: 0.5230708, g: 0.55279076, b: 1.5157166, a: 1}
     - _HighlihgtColor: {r: 1.5137544, g: 3.9999995, b: 0.2513089, a: 1}
-    - _RevealArea: {r: -0.1273897, g: 0.02164672, b: 1.3872598, a: 3.007493}
+    - _RevealArea: {r: 0.29441366, g: 0.021717926, b: 1.392569, a: 3.0028691}
     - _SecondaryColor: {r: 0, g: 0.07400327, b: 1.4980392, a: 1}
