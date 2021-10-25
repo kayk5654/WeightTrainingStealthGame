@@ -192,7 +192,7 @@
                 float horizontalScanlines = pow(sin((input.positionWS.y + _Time.x) * 300) * 0.5 + 1, max(0.5, 3 * (1 - affectArea)));
 
                 color.a *= lerp(horizontalScanlines, 1, affectArea);
-                
+
                 // apply glitch
                 color.a *= saturate(SamplePhase(texPattern.r, _Time.y + 0.3, 0.1) + (1 - SamplePhase(texPattern.a, _Time.y / 2 + 0.6, 0.1)));
                 color.rgb *= float3(1 + SamplePhase(texPattern.g, _Time.y, 0.1) * 4, 1, 1 + SamplePhase(texPattern.b, _Time.y, 0.1) * 6);
