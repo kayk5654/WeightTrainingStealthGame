@@ -184,7 +184,7 @@
                 color.rgb = GetFarTintColor(color.rgb, _FarTintColor, worldSpacePosBehind);
 
                 // apply scanlines
-                float horizontalScanlines = pow(sin((input.positionWS.y + _Time.x) * 300) * 0.5 + 1, max(0.5, 3 * (1 - affectArea)));
+                float horizontalScanlines = pow(sin((worldSpacePosBehind.y + _Time.x) * 300) * 0.5 + 1, max(0.5, 3 * (1 - affectArea)));
 
                 color.a *= lerp(horizontalScanlines, 1, affectArea);
                 clip(color.a);
