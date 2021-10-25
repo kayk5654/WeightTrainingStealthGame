@@ -171,11 +171,6 @@
                 // clip completely transparent area
                 clip(affectArea);
 
-                // sine wave pattern
-                float wavePattern = smoothstep( -1, 1, sin(dist * 5 + _Time.z));
-                //wavePattern = pow(texPattern.r, lerp(1, 5, wavePattern));
-                clip(wavePattern);
-
                 // fade for near area
                 float nearFade = smoothstep(length(viewVector * sceneDepth), length(viewVector * sceneDepth) + feather, length(input.viewDirectionOS.xyz));
                 nearFade = pow(nearFade, 2);
@@ -192,12 +187,14 @@
                 float horizontalScanlines = pow(sin((input.positionWS.y + _Time.x) * 300) * 0.5 + 1, max(0.5, 3 * (1 - affectArea)));
 
                 color.a *= lerp(horizontalScanlines, 1, affectArea);
+                clip(color.a);
 
                 // apply glitch
                 color.a *= saturate(SamplePhase(texPattern.r, _Time.y + 0.3, 0.1) + (1 - SamplePhase(texPattern.a, _Time.y / 2 + 0.6, 0.1)));
+                clip(color.a);
                 color.rgb *= float3(1 + SamplePhase(texPattern.g, _Time.y, 0.1) * 4, 1, 1 + SamplePhase(texPattern.b, _Time.y, 0.1) * 6);
                 color.rgb = farFade > 0.2 ? lerp(color.rgb, _HighlihgtColor, SamplePhase(texPattern.r, _Time.y / 3, 0.01)) : color.rgb;
-                clip(color.a);
+                
                 return color;
             }
         ENDHLSL
