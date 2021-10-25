@@ -6,6 +6,7 @@
         _VertexOffset ("Vertex Offset", Float) = 0.5
         [HDR]_BaseColor ("Base Color", Color) = (1, 1, 1, 1)
         [HDR]_SecondaryColor("Secondary Color", Color) = (1, 1, 1, 1)
+        [HDR]_HighlihgtColor("Highlight Color", Color) = (1, 1, 1, 1)
         _FarTintColor("Far Tint Color", Color) = (0.5, 0, 1, 1)
         [Header(Revealing effect)]
         _RevealArea("Reveal Area", Vector) = (0, 0, 0, 0)
@@ -71,6 +72,7 @@
             half _VertexOffset;
             half3 _BaseColor;
             half3 _SecondaryColor;
+            half3 _HighlihgtColor;
             half3 _FarTintColor;
             float4 _RevealArea;
             float _Feather;
@@ -192,9 +194,9 @@
                 color.a *= lerp(horizontalScanlines, 1, affectArea);
                 
                 // apply glitch
-                color.a *= DropPixel(texPattern.r, _Time.y, 0.1);
-                //color.rgb += DropPixel(texPattern.r, _Time.y, 0.1);
-                
+                color.a *= saturate(SamplePhase(texPattern.r, _Time.y + 0.3, 0.1) + (1 - SamplePhase(texPattern.a, _Time.y / 2 + 0.6, 0.1)));
+                color.rgb *= float3(1 + SamplePhase(texPattern.g, _Time.y, 0.1) * 4, 1, 1 + SamplePhase(texPattern.b, _Time.y, 0.1) * 6);
+                color.rgb = farFade > 0.2 ? lerp(color.rgb, _HighlihgtColor, SamplePhase(texPattern.r, _Time.y / 3, 0.01)) : color.rgb;
                 clip(color.a);
                 return color;
             }
