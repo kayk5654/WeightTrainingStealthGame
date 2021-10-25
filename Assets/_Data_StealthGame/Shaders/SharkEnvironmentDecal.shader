@@ -184,10 +184,10 @@
                 color.rgb = GetFarTintColor(color.rgb, _FarTintColor, worldSpacePosBehind);
 
                 // apply scanlines
-                float horizontalScanlines = pow(sin((worldSpacePosBehind.y + _Time.x) * 300) * 0.5 + 1, max(0.5, 3 * (1 - affectArea)));
+                float horizontalScanlines = pow(sin((worldSpacePosBehind.y + _Time.x) * 600) * 0.5 + 1, max(0.5, 5 * (1 - affectArea)));
 
-                color.a *= lerp(horizontalScanlines, 1, affectArea);
-                clip(color.a);
+                color.a *= horizontalScanlines;
+                clip(color.a - 0.1);
 
                 // apply glitch
                 color.a *= saturate(SamplePhase(texPattern.r, _Time.y + 0.3, 0.1) + (1 - SamplePhase(texPattern.a, _Time.y / 2 + 0.6, 0.1)));
