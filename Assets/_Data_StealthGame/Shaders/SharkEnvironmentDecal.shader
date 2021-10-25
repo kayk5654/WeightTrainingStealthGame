@@ -14,9 +14,9 @@
     }
     SubShader
     {
-        Tags { "RenderType" = "Transparent" "Queue" = "Transparent" "IgnoreProjector" = "True" "renderPipeline" = "UniversalPipeline" }
+        Tags { "RenderType" = "TransparentCutout" "Queue" = "Transparent" "IgnoreProjector" = "True" "renderPipeline" = "UniversalPipeline" }
         Blend SrcAlpha OneMinusSrcAlpha
-        Cull Front ZWrite On /*Ztest GEqual*/
+        Cull Front ZWrite Off
         LOD 100
 
         Pass

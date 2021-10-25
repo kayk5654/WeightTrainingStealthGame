@@ -9,9 +9,9 @@
     }
     SubShader
     {
-        Tags { "RenderType" = "Transparent" "Queue" = "Transparent" "IgnoreProjector" = "True" "renderPipeline" = "UniversalPipeline" }
+        Tags { "RenderType" = "TransparentCutout" "Queue" = "Transparent" "IgnoreProjector" = "True" "renderPipeline" = "UniversalPipeline" }
         Blend SrcAlpha OneMinusSrcAlpha
-        Cull Front ZWrite On /*Ztest GEqual*/
+        Cull Front ZWrite Off /*Ztest GEqual*/
         LOD 100
 
         Pass
@@ -161,7 +161,7 @@
                 //affectArea *= smoothstep(length(viewVector * sceneDepth) + farFadeDist + feather, length(viewVector * sceneDepth) + farFadeDist, length(input.viewDirectionOS.xyz));
                 float4 color = float4(_BaseColor, affectArea * wavePattern);
                 color.rgb = GetFarTintColor(color.rgb, _FarTintColor, input.positionWS);
-                clip(color.a);
+                clip(color.a - 0.01);
                 return color;
             }
         ENDHLSL
