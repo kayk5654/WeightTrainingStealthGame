@@ -5,7 +5,7 @@ using UnityEngine;
 /// control direction and status of cursor
 /// depending on the result of searching enemies and player's objects
 /// </summary>
-public class CursorManager : MonoBehaviour
+public class CursorManager : MonoBehaviour, ICursor
 {
     [SerializeField, Tooltip("guide transform to spawn projectiles")]
     private Transform _spawnGuide;

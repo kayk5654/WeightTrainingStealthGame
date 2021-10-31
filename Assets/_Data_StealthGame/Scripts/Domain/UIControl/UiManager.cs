@@ -9,6 +9,33 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     // event to notify the start of MainMenu phase
     public event EventHandler<AppStateEventArgs> _onAppStateChange;
 
+    // control main menu ui panel
+    private IMultiPhaseUi _menuUi;
+
+    // control workout navigation ui panel during gameplay
+    private IMultiPhaseUi _workoutNavigationUi;
+
+    // option menu during gameplay
+    private IGamePlayStateSetter _optionMenuUi;
+
+    // cursor ui
+    private ICursor _cursorUi;
+
+
+    /// <summary>
+    /// constructor
+    /// </summary>
+    /// <param name="menuUi"></param>
+    /// <param name="workoutNavUi"></param>
+    /// <param name="optionMenuUi"></param>
+    /// <param name=""></param>
+    public UiManager(IMultiPhaseUi menuUi, IMultiPhaseUi workoutNavUi, IGamePlayStateSetter optionMenuUi, ICursor cursorUi)
+    {
+        _menuUi = menuUi;
+        _workoutNavigationUi = workoutNavUi;
+        _optionMenuUi = optionMenuUi;
+        _cursorUi = cursorUi;
+    }
 
     /// <summary>
     /// enable features at the beginning of the MainMenu phase

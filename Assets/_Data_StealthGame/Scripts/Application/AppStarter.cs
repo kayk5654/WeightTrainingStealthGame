@@ -9,10 +9,10 @@ public class AppStarter : MonoBehaviour
     // main class to manage this app
     AppManager _appManager;
 
-    // manages ui depending on the app and gameplay phases
+    // control ui features
     UiManager _uiManager;
 
-    // manages gameplay objects depending on the gameplay phases
+    // control gameplay features
     GamePlayManager _gamePlayManager;
 
     // debugging
@@ -35,11 +35,13 @@ public class AppStarter : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
             _uiManager.SetAppState(AppState.MainMenu);
+            _isPausing = false;
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             _uiManager.SetAppState(AppState.GamePlay);
+            _isPausing = false;
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
@@ -70,48 +72,61 @@ public class AppStarter : MonoBehaviour
     /// </summary>
     private void StartApp()
     {
-        InitializeAppMainSystems();
-        IniitalizeGamePlaySystems();
-        InitializeUiSystems();
+        // create UiManager
+        _uiManager = InitializeUiSystems();
+
+        // create GamePlayManager
+        _gamePlayManager = IniitalizeGamePlaySystems();
+
+        // set up AppManager
+        InitializeAppMainSystems(_uiManager, _gamePlayManager);
     }
 
     /// <summary>
     /// initialize app main classes
     /// </summary>
-    private void InitializeAppMainSystems()
+    private void InitializeAppMainSystems(UiManager uiManager, GamePlayManager gamePlayManager)
     {
-        // create UiManager
-        _uiManager = new UiManager();
-
-        // create GamePlayManager
-        _gamePlayManager = new GamePlayManager();
-
         // prepare reference for AppManager
-        IMainMenuStateManager[] mainMenuStateManagers = { _uiManager };
-        IGamePlayStateManager[] gamePlayStateManagers = { _uiManager, _gamePlayManager };
+        IMainMenuStateManager[] mainMenuStateManagers = { uiManager };
+        IGamePlayStateManager[] gamePlayStateManagers = { uiManager, gamePlayManager };
 
         // create AppManager
         _appManager = new AppManager(this, mainMenuStateManagers, gamePlayStateManagers);
 
         // set callbacks from UiManager and GamePlayManager to AppManager
-        _appManager.SubscribeEvent(_uiManager as IAppStateSetter, _gamePlayManager as IGamePlayStateSetter);
+        _appManager.SubscribeEvent(uiManager as IAppStateSetter, gamePlayManager as IGamePlayStateSetter);
     }
 
     /// <summary>
     /// initialize features for gameplay 
     /// </summary>
-    private void IniitalizeGamePlaySystems()
+    private GamePlayManager IniitalizeGamePlaySystems()
     {
-        LevelManager levelManager = new LevelManager(_gamePlayManager);
-        PlayerActionManager playerActionManager = new PlayerActionManager(_gamePlayManager);
+        // create gameplay manager
+        GamePlayManager gamePlayManager = new GamePlayManager();
+        
+        // create instances of classes to control gameplay features
+        LevelManager levelManager = new LevelManager(gamePlayManager);
+        PlayerActionManager playerActionManager = new PlayerActionManager(gamePlayManager);
+
+        return gamePlayManager;
     }
 
     /// <summary>
     /// initialize features for ui control
     /// </summary>
-    private void InitializeUiSystems()
+    private UiManager InitializeUiSystems()
     {
+        // create instances of classes to control each ui features
+        MainUiPanelController mainUiPanelController = new MainUiPanelController();
+        WorkoutNavigationUiController workoutNavigationUiController = new WorkoutNavigationUiController();
+        OptionMenuUiController optionMenuUiController = new OptionMenuUiController();
+        CursorManager cursorManager = FindObjectOfType<CursorManager>();
 
+        // create ui manager
+        UiManager uiManager = new UiManager(mainUiPanelController, workoutNavigationUiController, optionMenuUiController, cursorManager);
+        return uiManager;
     }
 
     /// <summary>
