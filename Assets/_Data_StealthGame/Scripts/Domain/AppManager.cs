@@ -14,6 +14,12 @@ public class AppManager
     // start and quit app in the unity's scene; inherits MonoBehaviour
     private AppStarter _appStarter;
 
+    // enable/disable features at the beginning of the MainMenu phase
+    private IMainMenuStateManager[] _mainMenuManagers;
+
+    // enable/disable features at the beginning of the GamePlay phase
+    private IGamePlayStateManager[] _gamePlayManagers;
+
 
     /// <summary>
     /// constructor
@@ -31,6 +37,8 @@ public class AppManager
     {
         DebugLog.Info(this.ToString(), "the app is started");
     }
+
+
 
     /// <summary>
     /// change app state
