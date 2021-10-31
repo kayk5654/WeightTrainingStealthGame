@@ -1,16 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
+﻿using System;
 /// <summary>
 /// change the app state
 /// </summary>
 public interface IAppStateSetter
 {
     // event to notify the start of MainMenu phase
-    event EventHandler<AppStateEventArgs> _onStartMainMenuState;
-
-    // event to notify the start of GamePlay phse
-    event EventHandler<AppStateEventArgs> _onStartGamePlayState;
+    event EventHandler<AppStateEventArgs> _onAppStateChange;
 
     /// <summary>
     /// update the app state from the classes refer this

@@ -36,3 +36,21 @@ public class AppStateEventArgs : EventArgs
         appState = state;
     }
 }
+
+/// <summary>
+/// notify he status of the gameplay state
+/// </summary>
+public class GamePlayStateEventArgs : EventArgs
+{
+    // updated gameplay state
+    public GamePlayState gamePlayState;
+
+    /// <summary>
+    /// constructor
+    /// </summary>
+    /// <param name="state"></param>
+    public GamePlayStateEventArgs(GamePlayState state)
+    {
+        gamePlayState = state;
+    }
+}

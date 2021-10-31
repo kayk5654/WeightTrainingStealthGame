@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
-/// <summary>
+﻿/// <summary>
 /// enable to control features on the GamePlay phase
 /// </summary>
 public interface IGamePlayStateManager

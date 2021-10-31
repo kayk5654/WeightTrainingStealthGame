@@ -7,10 +7,7 @@ using System;
 public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppStateSetter
 {
     // event to notify the start of MainMenu phase
-    public event EventHandler<AppStateEventArgs> _onStartMainMenuState;
-
-    // event to notify the start of GamePlay phse
-    public event EventHandler<AppStateEventArgs> _onStartGamePlayState;
+    public event EventHandler<AppStateEventArgs> _onAppStateChange;
 
 
     /// <summary>
@@ -53,6 +50,6 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     {
         AppStateEventArgs args = new AppStateEventArgs(appState);
 
-        _onStartGamePlayState.Invoke(this, args);
+        _onAppStateChange.Invoke(this, args);
     }
 }

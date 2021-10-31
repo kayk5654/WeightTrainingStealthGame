@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System;
 /// <summary>
 /// Manage the phases of this app
 /// </summary>
@@ -57,8 +56,7 @@ public class AppManager
     public void SubscribeEvent(IAppStateSetter appStateSetter)
     {
         // set callback
-        appStateSetter._onStartMainMenuState += ChangeAppState;
-        appStateSetter._onStartGamePlayState += ChangeAppState;
+        appStateSetter._onAppStateChange += ChangeAppState;
     }
 
     /// <summary>
@@ -68,8 +66,7 @@ public class AppManager
     public void UnsubscribeEvent(IAppStateSetter appStateSetter)
     {
         // remove callback
-        appStateSetter._onStartMainMenuState -= ChangeAppState;
-        appStateSetter._onStartGamePlayState -= ChangeAppState;
+        appStateSetter._onAppStateChange -= ChangeAppState;
     }
 
     /// <summary>

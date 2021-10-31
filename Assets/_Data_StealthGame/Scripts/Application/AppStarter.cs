@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 /// <summary>
 /// initialize settings and classes on starting this app
 /// </summary>
@@ -27,7 +26,7 @@ public class AppStarter : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        /*
+        
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
             _uiManager.SetAppState(AppState.MainMenu);
@@ -37,7 +36,7 @@ public class AppStarter : MonoBehaviour
         {
             _uiManager.SetAppState(AppState.GamePlay);
         }
-        */
+        
     }
 
     /// <summary>

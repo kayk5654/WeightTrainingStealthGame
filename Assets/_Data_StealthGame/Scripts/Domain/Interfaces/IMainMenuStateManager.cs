@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
-/// <summary>
+﻿/// <summary>
 /// enable to control features in the MainMenu phase
 /// </summary>
 public interface IMainMenuStateManager
