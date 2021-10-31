@@ -70,6 +70,16 @@ public class AppStarter : MonoBehaviour
     /// </summary>
     private void StartApp()
     {
+        InitializeAppMainSystems();
+        IniitalizeGamePlaySystems();
+        InitializeUiSystems();
+    }
+
+    /// <summary>
+    /// initialize app main classes
+    /// </summary>
+    private void InitializeAppMainSystems()
+    {
         // create UiManager
         _uiManager = new UiManager();
 
@@ -85,6 +95,22 @@ public class AppStarter : MonoBehaviour
 
         // set callbacks from UiManager and GamePlayManager to AppManager
         _appManager.SubscribeEvent(_uiManager as IAppStateSetter, _gamePlayManager as IGamePlayStateSetter);
+    }
+
+    /// <summary>
+    /// initialize features for gameplay 
+    /// </summary>
+    private void IniitalizeGamePlaySystems()
+    {
+        LevelManager levelManager = new LevelManager(_gamePlayManager);
+        PlayerActionManager playerActionManager = new PlayerActionManager(_gamePlayManager);
+    }
+
+    /// <summary>
+    /// initialize features for ui control
+    /// </summary>
+    private void InitializeUiSystems()
+    {
 
     }
 
