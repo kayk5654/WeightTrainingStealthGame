@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿using System;
+
+/// <summary>
 /// state of the whole app
 /// </summary>
 public enum AppState
@@ -15,4 +17,12 @@ public enum GamePlayState
     None = 0, // MainMenu phase in the whole app state
     Playing = 1,
     Pausing = 2,
+}
+
+/// <summary>
+/// notify the status of the app state
+/// </summary>
+public class AppStateEventArgs : EventArgs
+{
+    public AppState appState;
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 /// <summary>
 /// Manage the phases of this app
 /// </summary>
@@ -24,9 +25,14 @@ public class AppManager
     /// <summary>
     /// constructor
     /// </summary>
-    public AppManager(AppStarter starter)
+    public AppManager(AppStarter starter, IMainMenuStateManager[] mainMenuManagers, IGamePlayStateManager[] gamePlayManagers)
     {
+        // set references
         _appStarter = starter;
+        _mainMenuManagers = mainMenuManagers;
+        _gamePlayManagers = gamePlayManagers;
+        
+        // initialize main system
         StartApp();
     }
 
@@ -36,29 +42,60 @@ public class AppManager
     private void StartApp()
     {
         DebugLog.Info(this.ToString(), "the app is started");
+
+        // enable MainMenu phase features
+        foreach(IMainMenuStateManager manager in _mainMenuManagers)
+        {
+            manager.EnableMainMenu();
+        }
     }
 
+    /// <summary>
+    /// subscribe events to notify start of the phase of the app
+    /// </summary>
+    /// <param name="eventHandlers"></param>
+    public void SubscribeEvent(EventHandler<AppStateEventArgs>[] eventHandlers)
+    {
+        // set callback
+        for (int i = 0; i < eventHandlers.Length; i++)
+        {
+            eventHandlers[i] += ChangeAppState;
+        }
+    }
 
+    /// <summary>
+    /// unsubscribe events to notify start of the phase of the app
+    /// </summary>
+    /// <param name="eventHandlers"></param>
+    public void UnsubscribeEvent(EventHandler<AppStateEventArgs>[] eventHandlers)
+    {
+        // remove callback
+        for (int i = 0; i < eventHandlers.Length; i++)
+        {
+            eventHandlers[i] -= ChangeAppState;
+        }
+    }
 
     /// <summary>
     /// change app state
     /// </summary>
     /// <param name="state"></param>
-    private void ChangeAppState(AppState state)
+    private void ChangeAppState(object sender, AppStateEventArgs args)
     {
         // change _currentGamePlayState if _currentAppState changes
-        if (_currentAppState == AppState.MainMenu && state == AppState.GamePlay)
+        if (_currentAppState == AppState.MainMenu && args.appState == AppState.GamePlay)
         {
             // start playing gameplay
             _currentGamePlayState = GamePlayState.Playing;
         }
-        else if(_currentAppState == AppState.GamePlay && state == AppState.MainMenu)
+        else if(_currentAppState == AppState.GamePlay && args.appState == AppState.MainMenu)
         {
             // stop playing gameplay
             _currentGamePlayState = GamePlayState.None;
         }
         
-        _currentAppState = state;
+        // update current app state
+        _currentAppState = args.appState;
 
         DebugLog.Info(this.ToString(), "_currentAppState: " + _currentAppState + " / _currentGamePlayState :" + _currentGamePlayState);
     }
