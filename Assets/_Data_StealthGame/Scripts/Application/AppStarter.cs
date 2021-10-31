@@ -21,9 +21,13 @@ public class AppStarter : MonoBehaviour
     {
         StartApp();
     }
-
+    
+    /// <summary>
+    /// debugging
+    /// </summary>
     private void Update()
     {
+        /*
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
             _uiManager.SetAppState(AppState.MainMenu);
@@ -33,6 +37,7 @@ public class AppStarter : MonoBehaviour
         {
             _uiManager.SetAppState(AppState.GamePlay);
         }
+        */
     }
 
     /// <summary>
