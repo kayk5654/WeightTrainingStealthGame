@@ -53,20 +53,22 @@ public class AppManager
     /// subscribe events to notify start of the phase of the app
     /// </summary>
     /// <param name="eventHandlers"></param>
-    public void SubscribeEvent(IAppStateSetter appStateSetter)
+    public void SubscribeEvent(IAppStateSetter appStateSetter, IGamePlayStateSetter gamePlayStateSetter)
     {
         // set callback
         appStateSetter._onAppStateChange += ChangeAppState;
+        gamePlayStateSetter._onGamePlayStateChange += ChangeGamePlayState;
     }
 
     /// <summary>
     /// unsubscribe events to notify start of the phase of the app
     /// </summary>
     /// <param name="eventHandlers"></param>
-    public void UnsubscribeEvent(IAppStateSetter appStateSetter)
+    public void UnsubscribeEvent(IAppStateSetter appStateSetter, IGamePlayStateSetter gamePlayStateSetter)
     {
         // remove callback
         appStateSetter._onAppStateChange -= ChangeAppState;
+        gamePlayStateSetter._onGamePlayStateChange -= ChangeGamePlayState;
     }
 
     /// <summary>
@@ -91,6 +93,18 @@ public class AppManager
         _currentAppState = args.appState;
 
         DebugLog.Info(this.ToString(), "_currentAppState: " + _currentAppState + " / _currentGamePlayState :" + _currentGamePlayState);
+    }
+
+    /// <summary>
+    /// change gameplay state
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void ChangeGamePlayState(object sender, GamePlayStateEventArgs args)
+    {
+        _currentGamePlayState = args.gamePlayState;
+
+        DebugLog.Info(this.ToString(), "_currentGamePlayState :" + _currentGamePlayState);
     }
 
     /// <summary>

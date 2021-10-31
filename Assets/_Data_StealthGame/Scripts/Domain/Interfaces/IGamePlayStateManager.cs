@@ -12,4 +12,14 @@ public interface IGamePlayStateManager
     /// disable features at the beginning of the GamePlay phase
     /// </summary>
     void DisableGamePlay();
+
+    /// <summary>
+    /// pause gameplay
+    /// </summary>
+    void PauseGamePlay();
+
+    /// <summary>
+    /// resume gameplay
+    /// </summary>
+    void ResumeGamePlay();
 }

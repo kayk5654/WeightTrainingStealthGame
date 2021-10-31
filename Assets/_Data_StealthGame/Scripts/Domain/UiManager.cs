@@ -43,13 +43,28 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     }
 
     /// <summary>
+    /// pause gameplay
+    /// </summary>
+    public void PauseGamePlay()
+    {
+
+    }
+
+    /// <summary>
+    /// resume gameplay
+    /// </summary>
+    public void ResumeGamePlay()
+    {
+
+    }
+
+    /// <summary>
     /// update the app state from the classes refer this
     /// </summary>
     /// <param name="appState"></param>
     public void SetAppState(AppState appState)
     {
         AppStateEventArgs args = new AppStateEventArgs(appState);
-
         _onAppStateChange.Invoke(this, args);
     }
 }
