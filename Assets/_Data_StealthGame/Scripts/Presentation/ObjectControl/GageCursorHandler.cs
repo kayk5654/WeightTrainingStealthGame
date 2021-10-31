@@ -74,7 +74,7 @@ public class GageCursorHandler : MonoBehaviour
     /// set filled angle of the ring gage
     /// </summary>
     /// <param name="angle"></param>
-    private void SetRingGageAngle(float angle)
+    public void SetRingGageAngle(float angle)
     {
         _gageMaterial.SetFloat(_gageAngleProperty, angle);
     }
