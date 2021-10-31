@@ -10,8 +10,9 @@ public class AppStarter : MonoBehaviour
     // main class to manage this app
     AppManager _appManager;
 
-    // callbacks from UiManager and GamePlayManager to AppManager
-    private EventHandler<AppStateEventArgs>[] _appStateCallbacks;
+    UiManager _uiManager;
+    GamePlayManager _gamePlayManager;
+
 
     /// <summary>
     /// initialization on MonoBehaviour
@@ -21,12 +22,25 @@ public class AppStarter : MonoBehaviour
         StartApp();
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            _uiManager.SetAppState(AppState.MainMenu);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            _uiManager.SetAppState(AppState.GamePlay);
+        }
+    }
+
     /// <summary>
     /// execute shut down process
     /// </summary>
     private void OnDestroy()
     {
-        _appManager.UnsubscribeEvent(_appStateCallbacks);
+        _appManager.UnsubscribeEvent(_uiManager as IAppStateSetter);
     }
 
     /// <summary>
@@ -35,27 +49,20 @@ public class AppStarter : MonoBehaviour
     private void StartApp()
     {
         // create UiManager
-        UiManager uiManager = new UiManager();
+        _uiManager = new UiManager();
 
         // create GamePlayManager
-        GamePlayManager gamePlayManager = new GamePlayManager();
+        _gamePlayManager = new GamePlayManager();
 
         // prepare reference for AppManager
-        IMainMenuStateManager[] mainMenuStateManagers = { uiManager };
-        IGamePlayStateManager[] gamePlayStateManagers = { uiManager, gamePlayManager };
+        IMainMenuStateManager[] mainMenuStateManagers = { _uiManager };
+        IGamePlayStateManager[] gamePlayStateManagers = { _uiManager, _gamePlayManager };
 
         // create AppManager
         _appManager = new AppManager(this, mainMenuStateManagers, gamePlayStateManagers);
 
         // set callbacks from UiManager and GamePlayManager to AppManager
-        _appStateCallbacks = new EventHandler<AppStateEventArgs>[]
-        {
-            uiManager._onStartGamePlayState,
-            uiManager._onStartMainMenuState,
-            gamePlayManager._onStartGamePlayState
-        };
-
-        _appManager.SubscribeEvent(_appStateCallbacks);
+        _appManager.SubscribeEvent(_uiManager as IAppStateSetter);
 
     }
 

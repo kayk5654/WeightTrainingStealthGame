@@ -54,26 +54,22 @@ public class AppManager
     /// subscribe events to notify start of the phase of the app
     /// </summary>
     /// <param name="eventHandlers"></param>
-    public void SubscribeEvent(EventHandler<AppStateEventArgs>[] eventHandlers)
+    public void SubscribeEvent(IAppStateSetter appStateSetter)
     {
         // set callback
-        for (int i = 0; i < eventHandlers.Length; i++)
-        {
-            eventHandlers[i] += ChangeAppState;
-        }
+        appStateSetter._onStartMainMenuState += ChangeAppState;
+        appStateSetter._onStartGamePlayState += ChangeAppState;
     }
 
     /// <summary>
     /// unsubscribe events to notify start of the phase of the app
     /// </summary>
     /// <param name="eventHandlers"></param>
-    public void UnsubscribeEvent(EventHandler<AppStateEventArgs>[] eventHandlers)
+    public void UnsubscribeEvent(IAppStateSetter appStateSetter)
     {
         // remove callback
-        for (int i = 0; i < eventHandlers.Length; i++)
-        {
-            eventHandlers[i] -= ChangeAppState;
-        }
+        appStateSetter._onStartMainMenuState -= ChangeAppState;
+        appStateSetter._onStartGamePlayState -= ChangeAppState;
     }
 
     /// <summary>

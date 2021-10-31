@@ -24,5 +24,15 @@ public enum GamePlayState
 /// </summary>
 public class AppStateEventArgs : EventArgs
 {
+    // updated app state
     public AppState appState;
+
+    /// <summary>
+    /// constructor
+    /// </summary>
+    /// <param name="state"></param>
+    public AppStateEventArgs(AppState state)
+    {
+        appState = state;
+    }
 }

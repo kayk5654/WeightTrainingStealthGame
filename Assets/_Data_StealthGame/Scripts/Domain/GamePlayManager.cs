@@ -6,14 +6,17 @@ using System;
 /// </summary>
 public class GamePlayManager : IGamePlayStateManager
 {
-    // event to notify the start of GamePlay phse
-    public EventHandler<AppStateEventArgs> _onStartGamePlayState { get; }
-
+    /// <summary>
+    /// enable features at the beginning of the GamePlay phase
+    /// </summary>
     public void EnableGamePlay()
     {
 
     }
 
+    /// <summary>
+    /// disable features at the beginning of the GamePlay phase
+    /// </summary>
     public void DisableGamePlay()
     {
 
