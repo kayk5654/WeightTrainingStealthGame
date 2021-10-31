@@ -30,7 +30,7 @@ public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter
     /// </summary>
     public void PauseGamePlay()
     {
-
+        SetGamePlayState(GamePlayState.Pausing);
     }
 
     /// <summary>
@@ -38,7 +38,15 @@ public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter
     /// </summary>
     public void ResumeGamePlay()
     {
+        SetGamePlayState(GamePlayState.Playing);
+    }
 
+    /// <summary>
+    /// quit all gameplay features under this class and back to the main menu
+    /// </summary>
+    public void QuitGamePlay()
+    {
+        
     }
 
     /// <summary>
