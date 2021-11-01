@@ -29,4 +29,10 @@ public interface IUiPhase
     /// execute process o go back to the previous phase from a button
     /// </summary>
     void MoveBackward();
+
+    /// <summary>
+    /// get phase id among the same ui phase group managed by IMultiPhaseUi
+    /// </summary>
+    /// <returns></returns>
+    int GetPhaseId();
 }

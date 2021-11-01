@@ -14,6 +14,8 @@ public class MainUiPhase : MonoBehaviour, IUiPhase
     // notify the action to move backward phase
     public event EventHandler _onMoveBackward;
 
+    [SerializeField, Tooltip("identify role of this phase")]
+    private MainUiPanelPhase _phaseType;
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +44,8 @@ public class MainUiPhase : MonoBehaviour, IUiPhase
     /// </summary>
     public void MoveForward()
     {
-
+        EventArgs args = EventArgs.Empty;
+        _onMoveForward?.Invoke(this, args);
     }
 
     /// <summary>
@@ -50,6 +53,16 @@ public class MainUiPhase : MonoBehaviour, IUiPhase
     /// </summary>
     public void MoveBackward()
     {
+        EventArgs args = EventArgs.Empty;
+        _onMoveBackward?.Invoke(this, args);
+    }
 
+    /// <summary>
+    /// get phase id among the same ui phase group managed by IMultiPhaseUi
+    /// </summary>
+    /// <returns></returns>
+    public int GetPhaseId()
+    {
+        return (int)_phaseType;
     }
 }

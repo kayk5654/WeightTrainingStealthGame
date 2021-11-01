@@ -13,6 +13,9 @@ public class WorkoutUiPhase : MonoBehaviour, IUiPhase
     // notify the action to move backward phase
     public event EventHandler _onMoveBackward;
 
+    [SerializeField, Tooltip("identify role of this phase")]
+    private MainUiPanelPhase _phaseType;
+
 
     // Start is called before the first frame update
     void Start()
@@ -50,5 +53,14 @@ public class WorkoutUiPhase : MonoBehaviour, IUiPhase
     public void MoveBackward()
     {
 
+    }
+
+    /// <summary>
+    /// get phase id among the same ui phase group managed by IMultiPhaseUi
+    /// </summary>
+    /// <returns></returns>
+    public int GetPhaseId()
+    {
+        return (int)_phaseType;
     }
 }

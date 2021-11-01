@@ -9,5 +9,5 @@ public interface IMultiPhaseUi
     /// select ui phase to display
     /// </summary>
     /// <param name="phaseIndex"></param>
-    void SetUiPhase(int phaseIndex);
+    void DisplayUiPhase(int phaseIndex);
 }

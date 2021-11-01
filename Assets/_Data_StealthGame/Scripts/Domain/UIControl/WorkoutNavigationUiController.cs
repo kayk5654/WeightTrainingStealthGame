@@ -6,25 +6,46 @@ using System.Collections.Generic;
 public class WorkoutNavigationUiController : IMultiPhaseUi
 {
     // ui phases to control
-    private IUiPhase[] _uiPhases;
+    private Dictionary<MainUiPanelPhase, IUiPhase> _uiPhases;
+
+
+    /// <summary>
+    /// constructor
+    /// </summary>
+
+    public WorkoutNavigationUiController()
+    {
+        _uiPhases = new Dictionary<MainUiPanelPhase, IUiPhase>();
+    }
+
+    /// <summary>
+    /// contain ui phase in the dictionary
+    /// </summary>
+    /// <param name="phase"></param>
+    public void SetUiPhase(IUiPhase phase)
+    {
+        // check whether the phase id of the phase is valid
+        if (phase.GetPhaseId() >= (int)MainUiPanelPhase.LENGTH || phase.GetPhaseId() < 0) { return; }
+
+        _uiPhases.Add((MainUiPanelPhase)phase.GetPhaseId(), phase);
+    }
 
     /// <summary>
     /// select ui phase to display
     /// </summary>
     /// <param name="phaseIndex"></param>
-    public void SetUiPhase(int phaseIndex)
+    public void DisplayUiPhase(int phaseIndex)
     {
-        for (int i = 0; i < _uiPhases.Length; i++)
+        foreach (MainUiPanelPhase key in _uiPhases.Keys)
         {
-            if (i == phaseIndex)
+            if ((int)key == phaseIndex)
             {
-                _uiPhases[i].Display();
+                _uiPhases[key].Display();
             }
             else
             {
-                _uiPhases[i].Hide();
+                _uiPhases[key].Hide();
             }
-
         }
     }
 }
