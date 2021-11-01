@@ -28,6 +28,8 @@ public class WorkoutNavigationUiController : IMultiPhaseUi
         if (phase.GetPhaseId() >= (int)MainUiPanelPhase.LENGTH || phase.GetPhaseId() < 0) { return; }
 
         _uiPhases.Add((MainUiPanelPhase)phase.GetPhaseId(), phase);
+
+        DebugLog.Info(this.ToString(), "ui phase added / " + _uiPhases.Count);
     }
 
     /// <summary>

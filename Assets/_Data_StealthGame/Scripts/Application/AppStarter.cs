@@ -119,10 +119,15 @@ public class AppStarter : MonoBehaviour
     private UiManager InitializeUiSystems()
     {
         // create instances of classes to control each ui features
-        MainUiPanelController mainUiPanelController = new MainUiPanelController();
+        MainUiController mainUiPanelController = new MainUiController();
         WorkoutNavigationUiController workoutNavigationUiController = new WorkoutNavigationUiController();
         OptionMenuUiController optionMenuUiController = new OptionMenuUiController();
         CursorManager cursorManager = FindObjectOfType<CursorManager>();
+
+        // link ui objects in the scene
+        UiLinkerProvider uiLinkerProvider = new UiLinkerProvider();
+        uiLinkerProvider.LinkObject(mainUiPanelController);
+        uiLinkerProvider.LinkObject(workoutNavigationUiController);
 
         // create ui manager
         UiManager uiManager = new UiManager(mainUiPanelController, workoutNavigationUiController, optionMenuUiController, cursorManager);

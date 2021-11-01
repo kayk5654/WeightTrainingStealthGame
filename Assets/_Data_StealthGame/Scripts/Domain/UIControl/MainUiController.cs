@@ -16,7 +16,7 @@ public enum MainUiPanelPhase
 /// <summary>
 /// control main menu ui
 /// </summary>
-public class MainUiPanelController : IMultiPhaseUi
+public class MainUiController : IMultiPhaseUi
 {
     // ui phases to control
     private Dictionary<MainUiPanelPhase, IUiPhase> _uiPhases;
@@ -25,7 +25,7 @@ public class MainUiPanelController : IMultiPhaseUi
     /// <summary>
     /// constructor
     /// </summary>
-    public MainUiPanelController()
+    public MainUiController()
     {
         _uiPhases = new Dictionary<MainUiPanelPhase, IUiPhase>();
     }
@@ -40,6 +40,8 @@ public class MainUiPanelController : IMultiPhaseUi
         if (phase.GetPhaseId() >= (int)MainUiPanelPhase.LENGTH || phase.GetPhaseId() < 0) { return; }
 
         _uiPhases.Add((MainUiPanelPhase)phase.GetPhaseId(), phase);
+
+        DebugLog.Info(this.ToString(), "ui phase added / " + _uiPhases.Count);
     }
 
     /// <summary>
