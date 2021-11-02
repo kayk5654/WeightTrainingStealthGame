@@ -128,6 +128,7 @@ public class AppStarter : MonoBehaviour
         UiLinkerProvider uiLinkerProvider = new UiLinkerProvider();
         uiLinkerProvider.LinkObject(mainUiPanelController);
         uiLinkerProvider.LinkObject(workoutNavigationUiController);
+        uiLinkerProvider.LinkObject(optionMenuUiController);
 
         // create ui manager
         UiManager uiManager = new UiManager(mainUiPanelController, workoutNavigationUiController, optionMenuUiController, cursorManager);

@@ -11,6 +11,8 @@ public class UiLinkerProvider
     // link workout navigation ui classes
     private WorkoutNavigationUiLinker _workoutNavigationUiLinker;
 
+    private OptionMenuUiLinker _optionMenuUiLinker;
+
     /// <summary>
     /// constructor
     /// </summary>
@@ -18,6 +20,7 @@ public class UiLinkerProvider
     {
         _mainUiLinker = new MainUiLinker();
         _workoutNavigationUiLinker = new WorkoutNavigationUiLinker();
+        _optionMenuUiLinker = new OptionMenuUiLinker();
     }
 
     /// <summary>
@@ -36,5 +39,10 @@ public class UiLinkerProvider
     public void LinkObject(WorkoutNavigationUiController workoutNavigationUiController)
     {
         _workoutNavigationUiLinker.LinkObject(workoutNavigationUiController);
+    }
+
+    public void LinkObject(OptionMenuUiController optionMenuUiController)
+    {
+        _optionMenuUiLinker.LinkObject(optionMenuUiController);
     }
 }
