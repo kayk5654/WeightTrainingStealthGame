@@ -95,8 +95,7 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     /// <param name="appState"></param>
     public void SetAppState(AppState appState)
     {
-        AppStateEventArgs args = new AppStateEventArgs(appState);
-        _onAppStateChange.Invoke(this, args);
+        
     }
 
     /// <summary>
@@ -105,8 +104,10 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     /// <param name="gamePlayState"></param>
     public void SetGamePlayState(GamePlayState gamePlayState)
     {
-        GamePlayStateEventArgs args = new GamePlayStateEventArgs(gamePlayState);
-        _onGamePlayStateChange?.Invoke(this, args);
+        if (_optionMenuUi != null)
+        {
+            _optionMenuUi.SetGamePlayState(gamePlayState);
+        }
     }
 
     /// <summary>
@@ -127,6 +128,36 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     /// <param name="args"></param>
     private void UpdateGameplyaState(object sender, GamePlayStateEventArgs args)
     {
-        SetGamePlayState(args.gamePlayState);
+        NotifyGamePlayState(args.gamePlayState);
+    }
+
+    /// <summary>
+    /// receive update of the app state from the ui, and notice it other classes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void UpdateAppState(object sender, AppStateEventArgs args)
+    {
+        NotifyAppState(args.appState);
+    }
+
+    /// <summary>
+    /// update the app state from the classes refer this
+    /// </summary>
+    /// <param name="appState"></param>
+    private void NotifyAppState(AppState appState)
+    {
+        AppStateEventArgs args = new AppStateEventArgs(appState);
+        _onAppStateChange?.Invoke(this, args);
+    }
+
+    /// <summary>
+    /// update the gameplay state from the classes refer this
+    /// </summary>
+    /// <param name="gamePlayState"></param>
+    private void NotifyGamePlayState(GamePlayState gamePlayState)
+    {
+        GamePlayStateEventArgs args = new GamePlayStateEventArgs(gamePlayState);
+        _onGamePlayStateChange?.Invoke(this, args);
     }
 }

@@ -7,14 +7,8 @@ using System;
 /// </summary>
 public class HandOptionMenuUi : MonoBehaviour, IOptionMenuUi
 {
-    // event called when the gameplay is paused
-    public event EventHandler _onPause;
-
-    // event called when the gameplay is resumed
-    public event EventHandler _onResume;
-
-    // event called when the gameplay is terminated and go back to the main menu
-    public event EventHandler _onBackToMenu;
+    // event called when the gameplay is paused/resumed/terminated
+    public event EventHandler<GamePlayStateEventArgs> _onGameplayStateChange;
 
     // whether the gameplay is pausing or not
     private bool _isPausing;
@@ -27,15 +21,15 @@ public class HandOptionMenuUi : MonoBehaviour, IOptionMenuUi
     /// </summary>
     private void Start()
     {
-        _buttonsRoot.SetActive(false);
+        EnableUi(false);
     }
 
     /// <summary>
     /// enable option menu ui
     /// </summary>
-    public void EnableUi()
+    public void EnableUi(bool state)
     {
-        _buttonsRoot.SetActive(true);
+        _buttonsRoot.SetActive(state);
     }
 
     /// <summary>
@@ -43,8 +37,8 @@ public class HandOptionMenuUi : MonoBehaviour, IOptionMenuUi
     /// </summary>
     public void BackToMenu()
     {
-        EventArgs args = EventArgs.Empty;
-        _onBackToMenu?.Invoke(this, args);
+        GamePlayStateEventArgs args = new GamePlayStateEventArgs(GamePlayState.None);
+        _onGameplayStateChange?.Invoke(this, args);
 
         // revert pausing status to the default
         _isPausing = false;
@@ -55,17 +49,17 @@ public class HandOptionMenuUi : MonoBehaviour, IOptionMenuUi
 
     public void TogglePauseResume()
     {
-        EventArgs args = EventArgs.Empty;
-        
         if (_isPausing)
         {
             // resume gameplay
-            _onResume?.Invoke(this, args);
+            GamePlayStateEventArgs args = new GamePlayStateEventArgs(GamePlayState.Playing);
+            _onGameplayStateChange?.Invoke(this, args);
         }
         else
         {
             // pause gameplay
-            _onPause?.Invoke(this, args);
+            GamePlayStateEventArgs args = new GamePlayStateEventArgs(GamePlayState.Pausing);
+            _onGameplayStateChange?.Invoke(this, args);
         }
 
         _isPausing = !_isPausing;

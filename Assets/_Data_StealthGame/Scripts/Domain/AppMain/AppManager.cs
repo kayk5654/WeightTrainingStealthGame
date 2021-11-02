@@ -120,9 +120,15 @@ public class AppManager
     /// <param name="args"></param>
     private void ChangeGamePlayState(object sender, GamePlayStateEventArgs args)
     {
+        // set _currentAppState MainMenu if _currentGamePlayState turns None
+        if (_currentGamePlayState != GamePlayState.None && args.gamePlayState == GamePlayState.None)
+        {
+            _currentAppState = AppState.MainMenu;
+        }
+        
         _currentGamePlayState = args.gamePlayState;
 
-        DebugLog.Info(this.ToString(), "_currentGamePlayState :" + _currentGamePlayState);
+        DebugLog.Info(this.ToString(), "_currentAppState: " + _currentAppState + " / _currentGamePlayState :" + _currentGamePlayState);
     }
 
     /// <summary>

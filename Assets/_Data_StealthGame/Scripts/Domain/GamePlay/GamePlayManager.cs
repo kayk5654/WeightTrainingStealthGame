@@ -50,12 +50,31 @@ public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter
     }
 
     /// <summary>
-    /// update the gameplay state from the classes refer this
+    /// send update of the gameplay state to the lower classes in the execution flow
     /// </summary>
     /// <param name="gamePlayState"></param>
     public void SetGamePlayState(GamePlayState gamePlayState)
     {
+        
+    }
+
+    /// <summary>
+    /// receive update of the gameplay state from the lower classes, and notice it upper classes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void UpdateGameplyaState(object sender, GamePlayStateEventArgs args)
+    {
+        NotifyGamePlayState(args.gamePlayState);
+    }
+
+    /// <summary>
+    /// send update of the gameplay state to the upper classes in the system
+    /// </summary>
+    /// <param name="gamePlayState"></param>
+    private void NotifyGamePlayState(GamePlayState gamePlayState)
+    {
         GamePlayStateEventArgs args = new GamePlayStateEventArgs(gamePlayState);
-        _onGamePlayStateChange.Invoke(this, args);
+        _onGamePlayStateChange?.Invoke(this, args);
     }
 }

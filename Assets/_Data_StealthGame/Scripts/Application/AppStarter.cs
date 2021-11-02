@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 /// <summary>
 /// initialize settings and classes on starting this app
 /// </summary>
-public class AppStarter : MonoBehaviour
+public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
 {
     // main class to manage this app
     AppManager _appManager;
@@ -15,8 +16,18 @@ public class AppStarter : MonoBehaviour
     // control gameplay features
     GamePlayManager _gamePlayManager;
 
+    #region Variables for debugging
+    
+    // event to notify the start of MainMenu phase
+    public event EventHandler<AppStateEventArgs> _onAppStateChange;
+
+    // event to notify the start of GamePlay phase
+    public event EventHandler<GamePlayStateEventArgs> _onGamePlayStateChange;
     // debugging
     private bool _isPausing;
+
+    #endregion
+
 
     /// <summary>
     /// initialization on MonoBehaviour
@@ -27,39 +38,6 @@ public class AppStarter : MonoBehaviour
     }
     
     /// <summary>
-    /// debugging
-    /// </summary>
-    private void Update()
-    {
-        
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            _uiManager.SetAppState(AppState.MainMenu);
-            _isPausing = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            _uiManager.SetAppState(AppState.GamePlay);
-            _isPausing = false;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            if (_isPausing)
-            {
-                _gamePlayManager.SetGamePlayState(GamePlayState.Playing);
-            }
-            else
-            {
-                _gamePlayManager.SetGamePlayState(GamePlayState.Pausing);
-            }
-            _isPausing = !_isPausing;
-        }
-        
-    }
-
-    /// <summary>
     /// execute shut down process
     /// </summary>
     private void OnDestroy()
@@ -67,6 +45,8 @@ public class AppStarter : MonoBehaviour
         _appManager.UnsubscribeAppStateEvent(_uiManager);
         _appManager.UnsubscribeGameplayStateEvent(_uiManager);
         _appManager.UnsubscribeGameplayStateEvent(_gamePlayManager);
+
+        RemoveCallbackForDebug();
     }
 
     /// <summary>
@@ -100,6 +80,8 @@ public class AppStarter : MonoBehaviour
         _appManager.SubscribeAppStateEvent(uiManager);
         _appManager.SubscribeGameplayStateEvent(uiManager);
         _appManager.SubscribeGameplayStateEvent(gamePlayManager);
+
+        SetCallbackForDebug();
     }
 
     /// <summary>
@@ -146,4 +128,80 @@ public class AppStarter : MonoBehaviour
     {
         Application.Quit();
     }
+
+    #region Functions for debugging
+
+
+    /// <summary>
+    /// debugging by keyboard
+    /// </summary>
+    private void Update()
+    {
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SetAppState(AppState.MainMenu);
+            _isPausing = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SetAppState(AppState.GamePlay);
+            _isPausing = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            if (_isPausing)
+            {
+                SetGamePlayState(GamePlayState.Playing);
+            }
+            else
+            {
+                SetGamePlayState(GamePlayState.Pausing);
+            }
+            _isPausing = !_isPausing;
+        }
+
+    }
+
+    /// <summary>
+    /// set callback of the events for debugging
+    /// </summary>
+    private void SetCallbackForDebug()
+    {
+        _appManager.SubscribeAppStateEvent(this);
+        _appManager.SubscribeGameplayStateEvent(this);
+    }
+
+    /// <summary>
+    /// remove callback of the events for debugging
+    /// </summary>
+    private void RemoveCallbackForDebug()
+    {
+        _appManager.UnsubscribeAppStateEvent(this);
+        _appManager.UnsubscribeGameplayStateEvent(this);
+    }
+
+    /// <summary>
+    /// update the app state from the classes refer this
+    /// </summary>
+    /// <param name="appState"></param>
+    public void SetAppState(AppState appState)
+    {
+        AppStateEventArgs args = new AppStateEventArgs(appState);
+        _onAppStateChange?.Invoke(this, args);
+    }
+
+    /// <summary>
+    /// update the gameplay state from the classes refer this
+    /// </summary>
+    /// <param name="gamePlayState"></param>
+    public void SetGamePlayState(GamePlayState gamePlayState)
+    {
+        GamePlayStateEventArgs args = new GamePlayStateEventArgs(gamePlayState);
+        _onGamePlayStateChange?.Invoke(this, args);
+    }
+
+    #endregion
 }

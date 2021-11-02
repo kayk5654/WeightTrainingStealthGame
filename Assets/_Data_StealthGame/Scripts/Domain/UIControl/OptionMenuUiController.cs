@@ -13,13 +13,20 @@ public class OptionMenuUiController : IGamePlayStateSetter
 
 
     /// <summary>
-    /// update the gameplay state from the classes refer this
+    /// receive update of the gameplay state from the upper class of the flow of the system
     /// </summary>
     /// <param name="gamePlayState"></param>
     public void SetGamePlayState(GamePlayState gamePlayState)
     {
-        GamePlayStateEventArgs args = new GamePlayStateEventArgs(gamePlayState);
-        _onGamePlayStateChange?.Invoke(this, args);
+        // depending on the updated state, turn on/off the option ui
+        if(gamePlayState == GamePlayState.None)
+        {
+            _optionMenuUi.EnableUi(false);
+        }
+        else
+        {
+            _optionMenuUi.EnableUi(true);
+        }
     }
 
     /// <summary>
@@ -38,32 +45,26 @@ public class OptionMenuUiController : IGamePlayStateSetter
     private void SetUiCallback()
     {
         if(_optionMenuUi == null) { return; }
-        _optionMenuUi._onPause += Pause;
-        _optionMenuUi._onResume += Resume;
-        _optionMenuUi._onBackToMenu += BackToMenu;
+        _optionMenuUi._onGameplayStateChange += UpdateGameplyaState;
     }
 
     /// <summary>
-    /// pause gameplay
+    /// receive update of the gameplay state from the ui, and notice it other classes
     /// </summary>
-    private void Pause(object sender, EventArgs args)
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void UpdateGameplyaState(object sender, GamePlayStateEventArgs args)
     {
-        SetGamePlayState(GamePlayState.Pausing);
+        NotifyGamePlayState(args.gamePlayState);
     }
 
     /// <summary>
-    /// resume gameplay
+    /// update the gameplay state from the classes refer this
     /// </summary>
-    private void Resume(object sender, EventArgs args)
+    /// <param name="gamePlayState"></param>
+    private void NotifyGamePlayState(GamePlayState gamePlayState)
     {
-        SetGamePlayState(GamePlayState.Playing);
-    }
-
-    /// <summary>
-    /// terminate gameplay and go back to the main menu
-    /// </summary>
-    private void BackToMenu(object sender, EventArgs args)
-    {
-        SetGamePlayState(GamePlayState.None);
+        GamePlayStateEventArgs args = new GamePlayStateEventArgs(gamePlayState);
+        _onGamePlayStateChange?.Invoke(this, args);
     }
 }

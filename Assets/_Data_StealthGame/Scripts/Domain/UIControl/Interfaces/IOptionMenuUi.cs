@@ -4,15 +4,9 @@
 /// </summary>
 public interface IOptionMenuUi
 {
-    // event called when the gameplay is paused
-    event EventHandler _onPause;
-
-    // event called when the gameplay is resumed
-    event EventHandler _onResume;
-
-    // event called when the gameplay is terminated and go back to the main menu
-    event EventHandler _onBackToMenu;
+    // event called when the gameplay is paused/resumed/terminated
+    event EventHandler<GamePlayStateEventArgs> _onGameplayStateChange;
 
     // enalble option menu ui
-    void EnableUi();
+    void EnableUi(bool state);
 }
