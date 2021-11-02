@@ -18,7 +18,8 @@ public class OptionMenuUiController : IGamePlayStateSetter
     /// <param name="gamePlayState"></param>
     public void SetGamePlayState(GamePlayState gamePlayState)
     {
-
+        GamePlayStateEventArgs args = new GamePlayStateEventArgs(gamePlayState);
+        _onGamePlayStateChange?.Invoke(this, args);
     }
 
     /// <summary>
@@ -28,29 +29,41 @@ public class OptionMenuUiController : IGamePlayStateSetter
     public void SetOptionMenuUi(IOptionMenuUi optionMenuUi)
     {
         _optionMenuUi = optionMenuUi;
+        SetUiCallback();
+    }
+
+    /// <summary>
+    /// set pause/resume/back to menu as ui callbacks
+    /// </summary>
+    private void SetUiCallback()
+    {
+        if(_optionMenuUi == null) { return; }
+        _optionMenuUi._onPause += Pause;
+        _optionMenuUi._onResume += Resume;
+        _optionMenuUi._onBackToMenu += BackToMenu;
     }
 
     /// <summary>
     /// pause gameplay
     /// </summary>
-    public void Pause()
+    private void Pause(object sender, EventArgs args)
     {
-
+        SetGamePlayState(GamePlayState.Pausing);
     }
 
     /// <summary>
     /// resume gameplay
     /// </summary>
-    public void Resume()
+    private void Resume(object sender, EventArgs args)
     {
-
+        SetGamePlayState(GamePlayState.Playing);
     }
 
     /// <summary>
     /// terminate gameplay and go back to the main menu
     /// </summary>
-    public void BackToMenu()
+    private void BackToMenu(object sender, EventArgs args)
     {
-
+        SetGamePlayState(GamePlayState.None);
     }
 }
