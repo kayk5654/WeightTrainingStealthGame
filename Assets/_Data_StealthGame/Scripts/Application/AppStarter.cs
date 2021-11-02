@@ -64,7 +64,9 @@ public class AppStarter : MonoBehaviour
     /// </summary>
     private void OnDestroy()
     {
-        _appManager.UnsubscribeEvent(_uiManager as IAppStateSetter, _gamePlayManager as IGamePlayStateSetter);
+        _appManager.UnsubscribeAppStateEvent(_uiManager);
+        _appManager.UnsubscribeGameplayStateEvent(_uiManager);
+        _appManager.UnsubscribeGameplayStateEvent(_gamePlayManager);
     }
 
     /// <summary>
@@ -95,7 +97,9 @@ public class AppStarter : MonoBehaviour
         _appManager = new AppManager(this, mainMenuStateManagers, gamePlayStateManagers);
 
         // set callbacks from UiManager and GamePlayManager to AppManager
-        _appManager.SubscribeEvent(uiManager as IAppStateSetter, gamePlayManager as IGamePlayStateSetter);
+        _appManager.SubscribeAppStateEvent(uiManager);
+        _appManager.SubscribeGameplayStateEvent(uiManager);
+        _appManager.SubscribeGameplayStateEvent(gamePlayManager);
     }
 
     /// <summary>

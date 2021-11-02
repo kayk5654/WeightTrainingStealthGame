@@ -4,10 +4,13 @@ using System;
 /// <summary>
 /// manage ui features
 /// </summary>
-public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppStateSetter
+public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppStateSetter, IGamePlayStateSetter
 {
     // event to notify the start of MainMenu phase
     public event EventHandler<AppStateEventArgs> _onAppStateChange;
+
+    // event to notify the start of GamePlay phase
+    public event EventHandler<GamePlayStateEventArgs> _onGamePlayStateChange;
 
     // control main menu ui panel
     private IMultiPhaseUi _menuUi;
@@ -35,6 +38,7 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
         _workoutNavigationUi = workoutNavUi;
         _optionMenuUi = optionMenuUi;
         _cursorUi = cursorUi;
+        SetCallback();
     }
 
     /// <summary>
@@ -93,5 +97,36 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     {
         AppStateEventArgs args = new AppStateEventArgs(appState);
         _onAppStateChange.Invoke(this, args);
+    }
+
+    /// <summary>
+    /// update the gameplay state from the classes refer this
+    /// </summary>
+    /// <param name="gamePlayState"></param>
+    public void SetGamePlayState(GamePlayState gamePlayState)
+    {
+        GamePlayStateEventArgs args = new GamePlayStateEventArgs(gamePlayState);
+        _onGamePlayStateChange?.Invoke(this, args);
+    }
+
+    /// <summary>
+    /// set callback of the ui objects
+    /// </summary>
+    private void SetCallback()
+    {
+        if(_optionMenuUi != null)
+        {
+            _optionMenuUi._onGamePlayStateChange += UpdateGameplyaState;
+        }
+    }
+
+    /// <summary>
+    /// receive update of the gameplay state from the ui, and notice it other classes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void UpdateGameplyaState(object sender, GamePlayStateEventArgs args)
+    {
+        SetGamePlayState(args.gamePlayState);
     }
 }

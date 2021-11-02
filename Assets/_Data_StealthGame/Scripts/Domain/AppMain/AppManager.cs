@@ -50,24 +50,42 @@ public class AppManager
     }
 
     /// <summary>
-    /// subscribe events to notify start of the phase of the app
+    /// subscribe events to notify state of the phase of the app
     /// </summary>
-    /// <param name="eventHandlers"></param>
-    public void SubscribeEvent(IAppStateSetter appStateSetter, IGamePlayStateSetter gamePlayStateSetter)
+    /// <param name="appStateSetter"></param>
+    public void SubscribeAppStateEvent(IAppStateSetter appStateSetter)
     {
         // set callback
         appStateSetter._onAppStateChange += ChangeAppState;
+    }
+
+    /// <summary>
+    /// subscribe events to notify state of the gameplay
+    /// </summary>
+    /// <param name="gamePlayStateSetter"></param>
+    public void SubscribeGameplayStateEvent(IGamePlayStateSetter gamePlayStateSetter)
+    {
+        // set callback
         gamePlayStateSetter._onGamePlayStateChange += ChangeGamePlayState;
     }
 
     /// <summary>
-    /// unsubscribe events to notify start of the phase of the app
+    /// unsubscribe events to notify state of the phase of the app
     /// </summary>
-    /// <param name="eventHandlers"></param>
-    public void UnsubscribeEvent(IAppStateSetter appStateSetter, IGamePlayStateSetter gamePlayStateSetter)
+    /// <param name="appStateSetter"></param>
+    public void UnsubscribeAppStateEvent(IAppStateSetter appStateSetter)
     {
         // remove callback
         appStateSetter._onAppStateChange -= ChangeAppState;
+    }
+
+    /// <summary>
+    /// unsubscribe events to notify state of the gameplay
+    /// </summary>
+    /// <param name="gamePlayStateSetter"></param>
+    public void UnsubscribeGameplayStateEvent(IGamePlayStateSetter gamePlayStateSetter)
+    {
+        // remove callback
         gamePlayStateSetter._onGamePlayStateChange -= ChangeGamePlayState;
     }
 
