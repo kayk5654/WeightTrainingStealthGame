@@ -11,7 +11,7 @@ public enum MainUiPanelPhase
     selectExercise = 2,
     settings = 3,
     quit = 4,
-    LENGTH = 5,
+    LENGTH,
 }
 /// <summary>
 /// control main menu ui

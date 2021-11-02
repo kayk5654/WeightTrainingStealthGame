@@ -14,7 +14,7 @@ public class WorkoutUiPhase : MonoBehaviour, IUiPhase
     public event EventHandler _onMoveBackward;
 
     [SerializeField, Tooltip("identify role of this phase")]
-    private MainUiPanelPhase _phaseType;
+    private WorkoutNavigationUiPanelPhase _phaseType;
 
 
     // Start is called before the first frame update
