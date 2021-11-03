@@ -17,6 +17,10 @@ public class MainUiPhase : MonoBehaviour, IUiPhase
     [SerializeField, Tooltip("identify role of this phase")]
     private MainUiPanelPhase _phaseType;
 
+    [SerializeField, Tooltip("root gameobject of this ui phase")]
+    private GameObject _panel;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +32,7 @@ public class MainUiPhase : MonoBehaviour, IUiPhase
     /// </summary>
     public void Display()
     {
-
+        _panel.SetActive(true);
     }
 
     /// <summary>
@@ -36,7 +40,7 @@ public class MainUiPhase : MonoBehaviour, IUiPhase
     /// </summary>
     public void Hide()
     {
-
+        _panel.SetActive(false);
     }
 
     /// <summary>

@@ -47,6 +47,12 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     public void EnableMainMenu()
     {
         SetAppState(AppState.MainMenu);
+
+        // display root panel of the main menu
+        if (_menuUi != null)
+        {
+            _menuUi.DisplayUiPhase((int)MainUiPanelPhase.Root);
+        }
     }
 
     /// <summary>
@@ -55,6 +61,12 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     public void DisableMainMenu()
     {
         SetAppState(AppState.GamePlay);
+
+        // hide all panel of the main menu
+        if (_menuUi != null)
+        {
+            _menuUi.DisplayUiPhase((int)MainUiPanelPhase.None);
+        }
     }
 
     /// <summary>

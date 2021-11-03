@@ -6,11 +6,12 @@ using System.Collections.Generic;
 [System.Serializable]
 public enum MainUiPanelPhase
 {
-    root = 0,
-    tutorial = 1,
-    selectExercise = 2,
-    settings = 3,
-    quit = 4,
+    None = -1,
+    Root = 0,
+    Tutorial = 1,
+    SelectExercise = 2,
+    Settings = 3,
+    Quit = 4,
     LENGTH,
 }
 /// <summary>
@@ -50,6 +51,16 @@ public class MainUiController : IMultiPhaseUi
     /// <param name="phaseIndex"></param>
     public void DisplayUiPhase(int phaseIndex)
     {
+        // if the selected ui phase is none, hide all panels
+        if(phaseIndex == (int)MainUiPanelPhase.None)
+        {
+            foreach (MainUiPanelPhase key in _uiPhases.Keys)
+            {
+                _uiPhases[key].Hide();
+            }
+            return;
+        }
+        
         // check whether the given phaseIndex is valid
         if (phaseIndex >= (int)MainUiPanelPhase.LENGTH || phaseIndex < 0) { return; }
         

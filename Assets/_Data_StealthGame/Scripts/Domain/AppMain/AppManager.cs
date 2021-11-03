@@ -95,16 +95,28 @@ public class AppManager
     /// <param name="state"></param>
     private void ChangeAppState(object sender, AppStateEventArgs args)
     {
-        // change _currentGamePlayState if _currentAppState changes
+        // do nothing if AppState isn't change
+        if(_currentAppState == args.appState) { return; }
+        
+        // record previous gameplay state
+        GamePlayState prevGameplayState = _currentGamePlayState;
+
+        // change _currentGamePlayState whem _currentAppState changes
         if (_currentAppState == AppState.MainMenu && args.appState == AppState.GamePlay)
         {
             // start playing gameplay
             _currentGamePlayState = GamePlayState.Playing;
+
+            // notify current gameplay state
+            NotifyGamePlayState(_currentGamePlayState, prevGameplayState);
         }
         else if(_currentAppState == AppState.GamePlay && args.appState == AppState.MainMenu)
         {
             // stop playing gameplay
             _currentGamePlayState = GamePlayState.None;
+
+            // notify current gameplay state
+            NotifyGamePlayState(_currentGamePlayState, prevGameplayState);
         }
         
         // update current app state
@@ -123,20 +135,23 @@ public class AppManager
     /// <param name="args"></param>
     private void ChangeGamePlayState(object sender, GamePlayStateEventArgs args)
     {
-        // record previous gameplay state
-        GamePlayState prevState = _currentGamePlayState;
-
+        // do nothing if GamePlayState isn't change
+        if(_currentGamePlayState == args.gamePlayState) { return; }
+        
         // set _currentAppState MainMenu if _currentGamePlayState turns None
         if (_currentGamePlayState != GamePlayState.None && args.gamePlayState == GamePlayState.None)
         {
             _currentAppState = AppState.MainMenu;
+
+            // notify current app state
+            NotifyAppState(_currentAppState);
         }
-        
-        // update current gameplay state
-        _currentGamePlayState = args.gamePlayState;
 
         // notify current gameplay state
-        NotifyGamePlayState(_currentGamePlayState, prevState);
+        NotifyGamePlayState(args.gamePlayState, _currentGamePlayState);
+
+        // update current gameplay state
+        _currentGamePlayState = args.gamePlayState;
 
         DebugLog.Info(this.ToString(), "_currentAppState: " + _currentAppState + " / _currentGamePlayState :" + _currentGamePlayState);
     }
