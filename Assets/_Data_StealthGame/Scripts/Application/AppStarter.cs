@@ -158,7 +158,7 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
             }
             else
             {
-                SetGamePlayState(GamePlayState.Pausing);
+                SetGamePlayState(GamePlayState.Pause);
             }
             _isPausing = !_isPausing;
         }

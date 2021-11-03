@@ -110,6 +110,9 @@ public class AppManager
         // update current app state
         _currentAppState = args.appState;
 
+        // notify current app state
+        NotifyAppState(_currentAppState);
+
         DebugLog.Info(this.ToString(), "_currentAppState: " + _currentAppState + " / _currentGamePlayState :" + _currentGamePlayState);
     }
 
@@ -120,13 +123,20 @@ public class AppManager
     /// <param name="args"></param>
     private void ChangeGamePlayState(object sender, GamePlayStateEventArgs args)
     {
+        // record previous gameplay state
+        GamePlayState prevState = _currentGamePlayState;
+
         // set _currentAppState MainMenu if _currentGamePlayState turns None
         if (_currentGamePlayState != GamePlayState.None && args.gamePlayState == GamePlayState.None)
         {
             _currentAppState = AppState.MainMenu;
         }
         
+        // update current gameplay state
         _currentGamePlayState = args.gamePlayState;
+
+        // notify current gameplay state
+        NotifyGamePlayState(_currentGamePlayState, prevState);
 
         DebugLog.Info(this.ToString(), "_currentAppState: " + _currentAppState + " / _currentGamePlayState :" + _currentGamePlayState);
     }
@@ -137,5 +147,78 @@ public class AppManager
     private void QuitApp()
     {
         _appStarter.QuitApp();
+    }
+
+    /// <summary>
+    /// notify app state to IMainMenuStateManager
+    /// </summary>
+    private void NotifyAppState(AppState updatedState)
+    {
+        switch (updatedState)
+        {
+            case AppState.MainMenu:
+                // enable MainMenu phase features
+                foreach (IMainMenuStateManager manager in _mainMenuManagers)
+                {
+                    manager.EnableMainMenu();
+                }
+                break;
+
+            case AppState.GamePlay:
+                // disable MainMenu phase features
+                foreach (IMainMenuStateManager manager in _mainMenuManagers)
+                {
+                    manager.DisableMainMenu();
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    /// <summary>
+    /// notify gameplay state to IGamePlayStateManager
+    /// </summary>
+    private void NotifyGamePlayState(GamePlayState updatedState , GamePlayState lastState)
+    {
+        switch (updatedState)
+        {
+            case GamePlayState.None:
+                // disable gameplay phase features
+                foreach (IGamePlayStateManager manager in _gamePlayManagers)
+                {
+                    manager.DisableGamePlay();
+                }
+                break;
+
+            case GamePlayState.Playing:
+                // enable gameplay phase features
+                foreach (IGamePlayStateManager manager in _gamePlayManagers)
+                {
+                    if(lastState == GamePlayState.None)
+                    {
+                        // if lastState is None (= AppState was MainMenu), enable gameplay features
+                        manager.EnableGamePlay();
+                    }
+                    else if(lastState == GamePlayState.Pause)
+                    {
+                        // if lastState is Pausing, resume gameplay
+                        manager.ResumeGamePlay();
+                    }
+                }
+                break;
+
+            case GamePlayState.Pause:
+                // pause gameplay 
+                foreach (IGamePlayStateManager manager in _gamePlayManagers)
+                {
+                    manager.PauseGamePlay();
+                }
+                break;
+
+            default:
+                break;
+        }
     }
 }

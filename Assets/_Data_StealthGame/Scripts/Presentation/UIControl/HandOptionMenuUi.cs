@@ -58,7 +58,7 @@ public class HandOptionMenuUi : MonoBehaviour, IOptionMenuUi
         else
         {
             // pause gameplay
-            GamePlayStateEventArgs args = new GamePlayStateEventArgs(GamePlayState.Pausing);
+            GamePlayStateEventArgs args = new GamePlayStateEventArgs(GamePlayState.Pause);
             _onGameplayStateChange?.Invoke(this, args);
         }
 

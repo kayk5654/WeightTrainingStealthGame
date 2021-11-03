@@ -30,7 +30,7 @@ public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter
     /// </summary>
     public void PauseGamePlay()
     {
-        SetGamePlayState(GamePlayState.Pausing);
+        SetGamePlayState(GamePlayState.Pause);
     }
 
     /// <summary>

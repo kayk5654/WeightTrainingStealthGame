@@ -16,7 +16,7 @@ public enum GamePlayState
 {
     None = 0, // MainMenu phase in the whole app state
     Playing = 1,
-    Pausing = 2,
+    Pause = 2,
 }
 
 /// <summary>

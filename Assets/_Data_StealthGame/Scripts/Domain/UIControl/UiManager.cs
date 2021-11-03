@@ -46,7 +46,7 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     /// </summary>
     public void EnableMainMenu()
     {
-
+        SetAppState(AppState.MainMenu);
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     /// </summary>
     public void DisableMainMenu()
     {
-
+        SetAppState(AppState.GamePlay);
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     /// </summary>
     public void EnableGamePlay()
     {
-
+        SetGamePlayState(GamePlayState.Playing);
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     /// </summary>
     public void DisableGamePlay()
     {
-
+        SetGamePlayState(GamePlayState.None);
     }
 
     /// <summary>
@@ -78,7 +78,7 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     /// </summary>
     public void PauseGamePlay()
     {
-
+        SetGamePlayState(GamePlayState.Pause);
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     /// </summary>
     public void ResumeGamePlay()
     {
-
+        SetGamePlayState(GamePlayState.Playing);
     }
 
     /// <summary>
