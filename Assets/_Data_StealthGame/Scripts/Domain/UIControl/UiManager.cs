@@ -75,6 +75,12 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     public void EnableGamePlay()
     {
         SetGamePlayState(GamePlayState.Playing);
+
+        // display the first phase of the workout navigation ui
+        if(_workoutNavigationUi != null)
+        {
+            _workoutNavigationUi.DisplayUiPhase((int)WorkoutNavigationUiPanelPhase.FormCheck);
+        }
     }
 
     /// <summary>
@@ -83,6 +89,12 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     public void DisableGamePlay()
     {
         SetGamePlayState(GamePlayState.None);
+
+        // hide all phases of the workout navigation ui
+        if (_workoutNavigationUi != null)
+        {
+            _workoutNavigationUi.DisplayUiPhase((int)WorkoutNavigationUiPanelPhase.None);
+        }
     }
 
     /// <summary>

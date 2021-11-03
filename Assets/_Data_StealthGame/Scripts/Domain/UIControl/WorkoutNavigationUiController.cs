@@ -5,8 +5,9 @@ using System.Collections.Generic;
 /// </summary>
 public enum WorkoutNavigationUiPanelPhase
 {
-    formCheck,
-    workout,
+    None = -1,
+    FormCheck = 0,
+    Workout = 1,
     LENGTH
 }
 /// <summary>
@@ -47,6 +48,20 @@ public class WorkoutNavigationUiController : IMultiPhaseUi
     /// <param name="phaseIndex"></param>
     public void DisplayUiPhase(int phaseIndex)
     {
+        // if the selected ui phase is none, hide all panels
+        if (phaseIndex == (int)WorkoutNavigationUiPanelPhase.None)
+        {
+            foreach (WorkoutNavigationUiPanelPhase key in _uiPhases.Keys)
+            {
+                _uiPhases[key].Hide();
+            }
+            return;
+        }
+
+        // check whether the given phaseIndex is valid
+        if (phaseIndex >= (int)WorkoutNavigationUiPanelPhase.LENGTH || phaseIndex < 0) { return; }
+
+
         foreach (WorkoutNavigationUiPanelPhase key in _uiPhases.Keys)
         {
             if ((int)key == phaseIndex)
