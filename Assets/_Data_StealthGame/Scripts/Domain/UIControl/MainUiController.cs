@@ -42,7 +42,8 @@ public class MainUiController : IMultiPhaseUi
 
         _uiPhases.Add((MainUiPanelPhase)phase.GetPhaseId(), phase);
 
-        DebugLog.Info(this.ToString(), "ui phase added / " + _uiPhases.Count);
+        // set callback of the button on the phase
+        phase._onMoveToSelectedPhase += MoveToSelectedPhase;
     }
 
     /// <summary>
@@ -75,5 +76,15 @@ public class MainUiController : IMultiPhaseUi
                 _uiPhases[key].Hide();
             }
         }
+    }
+
+    /// <summary>
+    /// switch  ui phase to display depending on the button input from any ui phases under this class
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void MoveToSelectedPhase(object sender, UiPhaseEventArgs args)
+    {
+        DisplayUiPhase(args._selectedPhaseId);
     }
 }

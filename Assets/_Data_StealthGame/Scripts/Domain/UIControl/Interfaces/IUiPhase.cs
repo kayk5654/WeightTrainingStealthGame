@@ -1,14 +1,28 @@
 ﻿using System;
 /// <summary>
+/// event args forIUiPhase._onMoveToSelectedPhase
+/// </summary>
+public class UiPhaseEventArgs : EventArgs
+{
+    // selected phase id to move to
+    public int _selectedPhaseId;
+
+    /// <summary>
+    /// constructor
+    /// </summary>
+    /// <param name="phaseId"></param>
+    public UiPhaseEventArgs(int phaseId)
+    {
+        _selectedPhaseId = phaseId;
+    }
+}
+/// <summary>
 /// control single ui phase
 /// </summary>
 public interface IUiPhase
 {
-    // notify the action to move forward phase
-    event EventHandler _onMoveForward;
-
-    // notify the action to move backward phase
-    event EventHandler _onMoveBackward;
+    // notify the action to move to the selected phase
+    event EventHandler<UiPhaseEventArgs> _onMoveToSelectedPhase;
 
     /// <summary>
     /// display this ui phase
@@ -21,14 +35,10 @@ public interface IUiPhase
     void Hide();
 
     /// <summary>
-    /// execute process to go to the next phase from a button
+    /// execute process to go to the selected phase from a button 
     /// </summary>
-    void MoveForward();
-
-    /// <summary>
-    /// execute process o go back to the previous phase from a button
-    /// </summary>
-    void MoveBackward();
+    /// <param name="phaseId"></param>
+    void MoveToSelectedPhase(int phaseId);
 
     /// <summary>
     /// get phase id among the same ui phase group managed by IMultiPhaseUi

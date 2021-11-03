@@ -7,11 +7,8 @@ using System;
 /// </summary>
 public class WorkoutUiPhase : MonoBehaviour, IUiPhase
 {
-    // notify the action to move forward phase
-    public event EventHandler _onMoveForward;
-
-    // notify the action to move backward phase
-    public event EventHandler _onMoveBackward;
+    // notify the action to move to the selected phase
+    public event EventHandler<UiPhaseEventArgs> _onMoveToSelectedPhase;
 
     [SerializeField, Tooltip("identify role of this phase")]
     private WorkoutNavigationUiPanelPhase _phaseType;
@@ -40,19 +37,13 @@ public class WorkoutUiPhase : MonoBehaviour, IUiPhase
     }
 
     /// <summary>
-    /// execute process to go to the next phase from a button
+    /// execute process to go to the selected phase from a button 
     /// </summary>
-    public void MoveForward()
+    /// <param name="phaseId"></param>
+    public void MoveToSelectedPhase(int phaseId)
     {
-
-    }
-
-    /// <summary>
-    /// execute process o go back to the previous phase from a button
-    /// </summary>
-    public void MoveBackward()
-    {
-
+        UiPhaseEventArgs args = new UiPhaseEventArgs(phaseId);
+        _onMoveToSelectedPhase.Invoke(this, args);
     }
 
     /// <summary>
