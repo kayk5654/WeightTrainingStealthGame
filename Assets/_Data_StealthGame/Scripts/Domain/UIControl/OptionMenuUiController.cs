@@ -13,6 +13,18 @@ public class OptionMenuUiController : IGamePlayStateSetter
 
 
     /// <summary>
+    /// remove callback
+    /// </summary>
+    ~OptionMenuUiController()
+    {
+        if (_optionMenuUi != null) 
+        {
+            _optionMenuUi._onGameplayStateChange -= UpdateGameplyaState;
+        }
+        
+    }
+
+    /// <summary>
     /// receive update of the gameplay state from the upper class of the flow of the system
     /// </summary>
     /// <param name="gamePlayState"></param>
