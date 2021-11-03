@@ -2,7 +2,7 @@
 /// <summary>
 /// link a ui control class in the domain layer with relative ui objects in the scene
 /// </summary>
-public class MainUiLinker : ISceneObjectLinker<MainUiController, MainUiPhase>
+public class MainUiLinker : ISceneObjectLinker<MainUiController>
 {
     /// <summary>
     /// link parent object and relative objects

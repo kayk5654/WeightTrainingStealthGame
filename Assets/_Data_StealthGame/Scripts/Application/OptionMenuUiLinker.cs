@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class OptionMenuUiLinker : ISceneObjectLinker<OptionMenuUiController, HandOptionMenuUi>
+public class OptionMenuUiLinker : ISceneObjectLinker<OptionMenuUiController>
 {
     /// <summary>
     /// link parent object and relative objects

@@ -9,12 +9,22 @@ public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter
     // event to notify the start of GamePlay phase
     public event EventHandler<GamePlayStateEventArgs> _onGamePlayStateChange;
 
+    // manager classes to notice change of the gameplay state
+    private IGamePlayStateSetter[] _gameplayStateSetters;
+
+
+
+    public GamePlayManager(IGamePlayStateSetter[] gameplayStateSetters)
+    {
+        _gameplayStateSetters = gameplayStateSetters;
+    }
+
     /// <summary>
     /// enable features at the beginning of the GamePlay phase
     /// </summary>
     public void EnableGamePlay()
     {
-
+        SetGamePlayState(GamePlayState.Playing);
     }
 
     /// <summary>
@@ -22,7 +32,7 @@ public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter
     /// </summary>
     public void DisableGamePlay()
     {
-
+        SetGamePlayState(GamePlayState.None);
     }
 
     /// <summary>
@@ -46,7 +56,7 @@ public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter
     /// </summary>
     public void QuitGamePlay()
     {
-        
+        SetGamePlayState(GamePlayState.None);
     }
 
     /// <summary>
@@ -55,7 +65,10 @@ public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter
     /// <param name="gamePlayState"></param>
     public void SetGamePlayState(GamePlayState gamePlayState)
     {
-        
+        foreach (IGamePlayStateSetter setter in _gameplayStateSetters)
+        {
+            setter.SetGamePlayState(gamePlayState);
+        }
     }
 
     /// <summary>

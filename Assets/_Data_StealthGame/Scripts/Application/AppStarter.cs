@@ -91,12 +91,18 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
     /// </summary>
     private GamePlayManager IniitalizeGamePlaySystems()
     {
-        // create gameplay manager
-        GamePlayManager gamePlayManager = new GamePlayManager();
-        
         // create instances of classes to control gameplay features
-        LevelManager levelManager = new LevelManager(gamePlayManager);
-        PlayerActionManager playerActionManager = new PlayerActionManager(gamePlayManager);
+        LevelManager levelManager = new LevelManager();
+        PlayerActionManager playerActionManager = new PlayerActionManager();
+
+        // link player inputs
+        PlayerInputActionLinker playerInputActionLinker = new PlayerInputActionLinker();
+        playerInputActionLinker.LinkObject(playerActionManager);
+
+        IGamePlayStateSetter[] gamePlayStateSetters = { levelManager, playerActionManager };
+
+        // create gameplay manager
+        GamePlayManager gamePlayManager = new GamePlayManager(gamePlayStateSetters);
 
         return gamePlayManager;
     }

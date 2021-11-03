@@ -3,7 +3,7 @@
 /// </summary>
 /// <typeparam name="T">parent class in the domain layer</typeparam>
 /// <typeparam name="U">child class inherits MonoBehaviour in the presentation layer</typeparam>
-public interface ISceneObjectLinker<T, U>
+public interface ISceneObjectLinker<T>
 {
     /// <summary>
     /// link parent object and relative objects
