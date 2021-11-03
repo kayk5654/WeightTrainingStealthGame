@@ -4,13 +4,16 @@ using System;
 /// <summary>
 /// manage ui features
 /// </summary>
-public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppStateSetter, IGamePlayStateSetter
+public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppStateSetter, IGamePlayStateSetter, IExerciseInfoSetter
 {
     // event to notify the start of MainMenu phase
     public event EventHandler<AppStateEventArgs> _onAppStateChange;
 
     // event to notify the start of GamePlay phase
     public event EventHandler<GamePlayStateEventArgs> _onGamePlayStateChange;
+
+    // notify information about the selected exercise
+    public event EventHandler<ExerciseInfoEventArgs> _onExerciseSelected;
 
     // control main menu ui panel
     private IMultiPhaseUi _menuUi;
@@ -24,6 +27,10 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     // cursor ui
     private ICursor _cursorUi;
 
+    private IAppStateSetter _appStateSetter;
+
+    private IExerciseInfoSetter _exerciseInfoSetter;
+
 
     /// <summary>
     /// constructor
@@ -32,13 +39,23 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     /// <param name="workoutNavUi"></param>
     /// <param name="optionMenuUi"></param>
     /// <param name=""></param>
-    public UiManager(IMultiPhaseUi menuUi, IMultiPhaseUi workoutNavUi, IGamePlayStateSetter optionMenuUi, ICursor cursorUi)
+    public UiManager(IMultiPhaseUi menuUi, IMultiPhaseUi workoutNavUi, IGamePlayStateSetter optionMenuUi, ICursor cursorUi, IAppStateSetter appStateSetter, IExerciseInfoSetter exerciseInfoSetter)
     {
         _menuUi = menuUi;
         _workoutNavigationUi = workoutNavUi;
         _optionMenuUi = optionMenuUi;
         _cursorUi = cursorUi;
+        _appStateSetter = appStateSetter;
+        _exerciseInfoSetter = exerciseInfoSetter;
         SetCallback();
+    }
+
+    /// <summary>
+    /// remove callback
+    /// </summary>
+    ~UiManager()
+    {
+        RemoveCallback();
     }
 
     /// <summary>
@@ -143,6 +160,37 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
         {
             _optionMenuUi._onGamePlayStateChange += UpdateGameplyaState;
         }
+
+        if(_appStateSetter != null)
+        {
+            _appStateSetter._onAppStateChange += UpdateAppState;
+        }
+
+        if(_exerciseInfoSetter != null)
+        {
+            _exerciseInfoSetter._onExerciseSelected += UpdateExerciseInfo;
+        }
+    }
+
+    /// <summary>
+    /// remove callback of the ui objects
+    /// </summary>
+    private void RemoveCallback()
+    {
+        if (_optionMenuUi != null)
+        {
+            _optionMenuUi._onGamePlayStateChange -= UpdateGameplyaState;
+        }
+
+        if (_appStateSetter != null)
+        {
+            _appStateSetter._onAppStateChange -= UpdateAppState;
+        }
+
+        if (_exerciseInfoSetter != null)
+        {
+            _exerciseInfoSetter._onExerciseSelected -= UpdateExerciseInfo;
+        }
     }
 
     /// <summary>
@@ -183,5 +231,15 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     {
         GamePlayStateEventArgs args = new GamePlayStateEventArgs(gamePlayState);
         _onGamePlayStateChange?.Invoke(this, args);
+    }
+
+    /// <summary>
+    /// update teh exercise info from the lower class
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void UpdateExerciseInfo(object sender, ExerciseInfoEventArgs args)
+    {
+        _onExerciseSelected?.Invoke(sender, args);
     }
 }

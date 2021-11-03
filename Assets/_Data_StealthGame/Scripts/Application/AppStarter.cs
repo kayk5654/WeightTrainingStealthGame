@@ -45,6 +45,7 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
         _appManager.UnsubscribeAppStateEvent(_uiManager);
         _appManager.UnsubscribeGameplayStateEvent(_uiManager);
         _appManager.UnsubscribeGameplayStateEvent(_gamePlayManager);
+        _appManager.UnubscribeExerciseInfoEvent(_uiManager);
 
         RemoveCallbackForDebug();
     }
@@ -80,6 +81,7 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
         _appManager.SubscribeAppStateEvent(uiManager);
         _appManager.SubscribeGameplayStateEvent(uiManager);
         _appManager.SubscribeGameplayStateEvent(gamePlayManager);
+        _appManager.SubscribeExerciseInfoEvent(uiManager);
 
         SetCallbackForDebug();
     }
@@ -105,19 +107,26 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
     private UiManager InitializeUiSystems()
     {
         // create instances of classes to control each ui features
-        MainUiController mainUiPanelController = new MainUiController();
+        MainUiController mainUiController = new MainUiController();
         WorkoutNavigationUiController workoutNavigationUiController = new WorkoutNavigationUiController();
         OptionMenuUiController optionMenuUiController = new OptionMenuUiController();
         CursorManager cursorManager = FindObjectOfType<CursorManager>();
 
         // link ui objects in the scene
         UiLinkerProvider uiLinkerProvider = new UiLinkerProvider();
-        uiLinkerProvider.LinkObject(mainUiPanelController);
+        uiLinkerProvider.LinkObject(mainUiController);
         uiLinkerProvider.LinkObject(workoutNavigationUiController);
         uiLinkerProvider.LinkObject(optionMenuUiController);
 
         // create ui manager
-        UiManager uiManager = new UiManager(mainUiPanelController, workoutNavigationUiController, optionMenuUiController, cursorManager);
+        UiManager uiManager = new UiManager
+            (mainUiController, 
+            workoutNavigationUiController, 
+            optionMenuUiController, 
+            cursorManager, 
+            mainUiController, 
+            mainUiController);
+
         return uiManager;
     }
 

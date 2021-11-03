@@ -1,16 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 /// <summary>
-/// identify phases of workout navigation ui
-/// </summary>
-public enum WorkoutNavigationUiPanelPhase
-{
-    None = -1,
-    FormCheck = 0,
-    Workout = 1,
-    LENGTH
-}
-/// <summary>
 /// control ui for workout navigation during gameplay
 /// </summary>
 public class WorkoutNavigationUiController : IMultiPhaseUi

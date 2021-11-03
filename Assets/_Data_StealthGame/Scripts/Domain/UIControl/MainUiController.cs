@@ -1,26 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-/// <summary>
-/// names of phases in MainUiPanelController
-/// </summary>
-[System.Serializable]
-public enum MainUiPanelPhase
-{
-    None = -1,
-    Root = 0,
-    Tutorial = 1,
-    SelectExercise = 2,
-    Settings = 3,
-    Quit = 4,
-    LENGTH,
-}
+using System;
 /// <summary>
 /// control main menu ui
 /// </summary>
-public class MainUiController : IMultiPhaseUi
+public class MainUiController : IMultiPhaseUi, IAppStateSetter, IExerciseInfoSetter
 {
     // ui phases to control
     private Dictionary<MainUiPanelPhase, IUiPhase> _uiPhases;
+
+    // event to notify the start of MainMenu phase
+    public event EventHandler<AppStateEventArgs> _onAppStateChange;
+
+    // notify information about the selected exercise
+    public event EventHandler<ExerciseInfoEventArgs> _onExerciseSelected;
+
+    // get information of the selected exercise
+    private IExerciseInfoSetter _exerciseInfoSetter;
 
 
     /// <summary>
@@ -29,6 +25,19 @@ public class MainUiController : IMultiPhaseUi
     public MainUiController()
     {
         _uiPhases = new Dictionary<MainUiPanelPhase, IUiPhase>();
+    }
+
+    /// <summary>
+    /// remove callback
+    /// </summary>
+    ~MainUiController()
+    {
+        foreach(IUiPhase phase in _uiPhases.Values)
+        {
+            phase._onMoveToSelectedPhase -= MoveToSelectedPhase;
+        }
+        _exerciseInfoSetter._onExerciseSelected -= NotifySelectedExercise;
+        _exerciseInfoSetter._onExerciseSelected -= NotifyGamePlayStart;
     }
 
     /// <summary>
@@ -44,6 +53,18 @@ public class MainUiController : IMultiPhaseUi
 
         // set callback of the button on the phase
         phase._onMoveToSelectedPhase += MoveToSelectedPhase;
+    }
+
+    /// <summary>
+    /// set reference of _exerciseInfoSetter
+    /// </summary>
+    /// <param name="exerciseInfoSetter"></param>
+    public void SetExerciseInfoSetter(IExerciseInfoSetter exerciseInfoSetter)
+    {
+        _exerciseInfoSetter = exerciseInfoSetter;
+        // set callback
+        _exerciseInfoSetter._onExerciseSelected += NotifySelectedExercise;
+        _exerciseInfoSetter._onExerciseSelected += NotifyGamePlayStart;
     }
 
     /// <summary>
@@ -86,5 +107,33 @@ public class MainUiController : IMultiPhaseUi
     private void MoveToSelectedPhase(object sender, UiPhaseEventArgs args)
     {
         DisplayUiPhase(args._selectedPhaseId);
+    }
+
+    /// <summary>
+    /// update the app state from the classes refer this
+    /// </summary>
+    /// <param name="appState"></param>
+    public void SetAppState(AppState appState)
+    {
+
+    }
+
+    /// <summary>
+    /// notify selected exercise to the upper class
+    /// </summary>
+    private void NotifySelectedExercise(object sender, ExerciseInfoEventArgs args)
+    {
+        _onExerciseSelected?.Invoke(sender, args);
+    }
+
+    /// <summary>
+    /// when the exercise selection is finalized, terminate MainMenu AppState and start gameplay
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void NotifyGamePlayStart(object sender, ExerciseInfoEventArgs args)
+    {
+        AppStateEventArgs appStateArgs = new AppStateEventArgs(AppState.GamePlay);
+        _onAppStateChange?.Invoke(this, appStateArgs);
     }
 }

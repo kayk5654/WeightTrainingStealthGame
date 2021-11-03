@@ -70,6 +70,16 @@ public class AppManager
     }
 
     /// <summary>
+    /// subscribe events to notify state of the exercise info
+    /// </summary>
+    /// <param name="exerciseInfoSetter"></param>
+    public void SubscribeExerciseInfoEvent(IExerciseInfoSetter exerciseInfoSetter)
+    {
+        // set callback
+        exerciseInfoSetter._onExerciseSelected += ChangeExerciseInfo;
+    }
+
+    /// <summary>
     /// unsubscribe events to notify state of the phase of the app
     /// </summary>
     /// <param name="appStateSetter"></param>
@@ -87,6 +97,16 @@ public class AppManager
     {
         // remove callback
         gamePlayStateSetter._onGamePlayStateChange -= ChangeGamePlayState;
+    }
+
+    /// <summary>
+    /// unsubscribe events to notify state of the exercise info
+    /// </summary>
+    /// <param name="exerciseInfoSetter"></param>
+    public void UnubscribeExerciseInfoEvent(IExerciseInfoSetter exerciseInfoSetter)
+    {
+        // remove callback
+        exerciseInfoSetter._onExerciseSelected -= ChangeExerciseInfo;
     }
 
     /// <summary>
@@ -154,6 +174,16 @@ public class AppManager
         _currentGamePlayState = args.gamePlayState;
 
         DebugLog.Info(this.ToString(), "_currentAppState: " + _currentAppState + " / _currentGamePlayState :" + _currentGamePlayState);
+    }
+
+    /// <summary>
+    /// change exercise info
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void ChangeExerciseInfo(object sender, ExerciseInfoEventArgs args)
+    {
+        DebugLog.Info(this.ToString(), "exercise info :" + args._selectedExercise);
     }
 
     /// <summary>

@@ -573,7 +573,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 924902186553003322}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2728239229013319902}
+        m_MethodName: SelectExercise
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2349704547702911759
 GameObject:
   m_ObjectHideFlags: 0
@@ -1253,7 +1264,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 553232248639504602}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2728239229013319902}
+        m_MethodName: SelectExercise
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4625845923636757078
 GameObject:
   m_ObjectHideFlags: 0
@@ -1580,7 +1602,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7225646595835500651}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2728239229013319902}
+        m_MethodName: SelectExercise
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5082897830756611755
 GameObject:
   m_ObjectHideFlags: 0
@@ -2269,6 +2302,7 @@ GameObject:
   - component: {fileID: 3525556323754055343}
   - component: {fileID: 253655176807471723}
   - component: {fileID: 5723451892941387008}
+  - component: {fileID: 2728239229013319902}
   m_Layer: 5
   m_Name: Panel_SelectExercise
   m_TagString: Untagged
@@ -2353,6 +2387,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _phaseType: 2
   _panel: {fileID: 6118787371475896719}
+--- !u!114 &2728239229013319902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6118787371475896719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68169aa677544db49adc07df3a2fc196, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _finalizeButton: {fileID: 7980257531895642384}
 --- !u!1 &6350161513566905586
 GameObject:
   m_ObjectHideFlags: 0
@@ -2471,7 +2518,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8371652301527531036}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2728239229013319902}
+        m_MethodName: FinalizeSelection
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6881499287348387836
 GameObject:
   m_ObjectHideFlags: 0
@@ -3045,7 +3103,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 9104344876512490435}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2728239229013319902}
+        m_MethodName: SelectExercise
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7817044411558935511
 GameObject:
   m_ObjectHideFlags: 0

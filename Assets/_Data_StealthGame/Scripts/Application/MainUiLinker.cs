@@ -17,6 +17,15 @@ public class MainUiLinker : ISceneObjectLinker<MainUiController, MainUiPhase>
             // skip if the found phase isn't loaded in any scenes
             if(string.IsNullOrEmpty(phase.gameObject.scene.name)) { continue; }
             parentObject.SetUiPhase(phase);
+
+            // set reference of ExerciseInfoSetter
+            ExerciseInfoSetter exerciseInfoSetter = phase.GetComponent<ExerciseInfoSetter>();
+            if (exerciseInfoSetter)
+            {
+                parentObject.SetExerciseInfoSetter(exerciseInfoSetter);
+            }
         }
+
+
     }
 }
