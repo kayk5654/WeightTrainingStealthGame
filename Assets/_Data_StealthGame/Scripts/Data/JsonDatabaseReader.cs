@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.IO;
 /// <summary>
 /// read json containing datasets
 /// </summary>
@@ -10,7 +11,22 @@ public class JsonDatabaseReader<T> : IDatabaseReader<T>
     /// <returns></returns>
     public T[] ReadData(string path)
     {
-        // TODO: read json
+        // read text from a file
+        string jsonText = ReadFile(path);
+        
+        // deserialize json
         return null;
+    }
+
+    /// <summary>
+    /// read text from a file
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    private string ReadFile(string path)
+    {
+        string text = File.ReadAllText(path);
+
+        return text;
     }
 }
