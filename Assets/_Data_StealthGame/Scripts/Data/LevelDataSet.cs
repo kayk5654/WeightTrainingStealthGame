@@ -2,11 +2,8 @@
 /// dataset of a level
 /// </summary>
 [System.Serializable]
-public class LevelDataSet
+public class LevelDataSet : GameDataSetBase
 {
-    // player's level
-    public int _level;
-
     // duration of single gameplay
     public float _duration;
 
