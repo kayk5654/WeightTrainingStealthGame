@@ -5,8 +5,8 @@
 public static class Config
 {
     // path of database of the player's ability
-    public static readonly string _playerAbilityDataPath = Application.dataPath + "playerAbilityData.json";
+    public static readonly string _playerAbilityDataPath = Application.dataPath + "/" + "playerAbilityData.json";
 
     // path of database of the levels
-    public static readonly string _levelDataPath = Application.dataPath + "levelData.json";
+    public static readonly string _levelDataPath = Application.dataPath + "/" + "levelData.json";
 }

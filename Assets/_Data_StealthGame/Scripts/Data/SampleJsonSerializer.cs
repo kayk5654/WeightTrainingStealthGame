@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
+﻿using UnityEngine;
 using System.IO;
 /// <summary>
 /// serialize dataset class to create json file for testing purpose
@@ -35,23 +32,8 @@ public class SampleJsonSerializer : MonoBehaviour
         }
         
         // write json files
-        WriteFile(Serialize(sampleLevels), Config._levelDataPath);
-        WriteFile(Serialize(samplePlayerAbilities), Config._playerAbilityDataPath);
-    }
-
-    /// <summary>
-    /// serialize a class instance and create json string
-    /// </summary>
-    /// <param name="text"></param>
-    /// <returns></returns>
-    private string Serialize(object dataset)
-    {
-        Type type = dataset.GetType();
-        if (!type.IsSerializable) { return null; }
-        
-
-        string json = "";
-        return json;
+        WriteFile(JsonHelper.ToJson<LevelDataSet>(sampleLevels), Config._levelDataPath);
+        WriteFile(JsonHelper.ToJson<PlayerAbilityDataSet>(samplePlayerAbilities), Config._playerAbilityDataPath);
     }
 
     /// <summary>

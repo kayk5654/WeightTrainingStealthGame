@@ -15,7 +15,7 @@ public class JsonDatabaseReader<T> : IDatabaseReader<T>
         string jsonText = ReadFile(path);
         
         // deserialize json
-        return null;
+        return JsonHelper.FromJson<T>(jsonText);
     }
 
     /// <summary>
