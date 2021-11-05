@@ -33,7 +33,7 @@ public struct Connection_ComputeShader
 /// <summary>
 /// manages connected nodes
 /// </summary>
-public class NodesManager : MonoBehaviour
+public class NodesManager : MonoBehaviour, IItemManagerBase<PlayerAbilityDataSet>
 {
     [SerializeField, Tooltip("compute shader for node control")]
     private ComputeShader _nodeConnectionControl;
@@ -149,44 +149,79 @@ public class NodesManager : MonoBehaviour
     // thread size of a thread group
     private const int SIMULATION_BLOCK_SIZE = 256;
 
-    
+    // whether the nodes must be updated in this frame
+    private bool toUpdate = false;
 
-    /// <summary>
-    /// initialization
-    /// </summary>
-    private void Start()
-    {
-        InitializeBuffers();
-        InitializeParams();
-        SpawnNodes_GPU();
-        SpawnConnection_GPU();
-    }
 
-    /// <summary>
-    /// delete nodes and connections, release buffer
-    /// </summary>
-    private void OnDestroy()
-    {
-        foreach(Node node in _nodes.Values)
-        {
-            Destroy(node.gameObject);
-        }
-
-        foreach(Connection connection in _connections.Values)
-        {
-            Destroy(connection.gameObject);
-        }
-
-        // test on gpu
-        ReleaseBuffers();
-    }
-
+    #region MonoBehaviour
     private void Update()
     {
+        if (!toUpdate) { return; }
+        
         SimulateNodes_GPU();
         //SimulateConnections_GPU();
         UpdatePositioniForConnection();
     }
+
+    #endregion
+
+    #region IItemManagerBase
+
+    /// <summary>
+    /// spawn scene objects
+    /// </summary>
+    /// <param name="dataset"></param>
+    public void Spawn(PlayerAbilityDataSet dataset)
+    {
+        LoadDataSet(dataset);
+        InitializeBuffers();
+        InitializeParams();
+        SpawnNodes_GPU();
+        SpawnConnection_GPU();
+
+        toUpdate = true;
+    }
+
+    /// <summary>
+    /// pause update of scene objects
+    /// </summary>
+    public void Pause()
+    {
+        toUpdate = false;
+    }
+
+    /// <summary>
+    /// resume update of scene objects
+    /// </summary>
+    public void Resume()
+    {
+        toUpdate = true;
+    }
+
+    /// <summary>
+    /// delete scene objects when the gameplay ends
+    /// </summary>
+    public void Delete()
+    {
+        toUpdate = false;
+
+        foreach (Node node in _nodes.Values)
+        {
+            Destroy(node.gameObject);
+        }
+
+        foreach (Connection connection in _connections.Values)
+        {
+            Destroy(connection.gameObject);
+        }
+
+        // release buffers
+        ReleaseBuffers();
+    }
+
+    #endregion
+
+    #region NodeInfoAccessors
 
     /// <summary>
     /// return a node specified by its id
@@ -207,6 +242,8 @@ public class NodesManager : MonoBehaviour
     {
         return _connections[connectionId];
     }
+
+    #endregion
 
     #region Handle ComputeShader
 
@@ -441,5 +478,18 @@ public class NodesManager : MonoBehaviour
         buffers[READ] = buffers[WRITE];
         buffers[WRITE] = temp;
     }
+    #endregion
+
+    #region Other Methods
+
+    /// <summary>
+    /// apply loaded level data info to this class
+    /// </summary>
+    /// <param name="dataSet"></param>
+    private void LoadDataSet(PlayerAbilityDataSet dataSet)
+    {
+        _nodeCount = dataSet._unlockedNodeNumber;
+    }
+
     #endregion
 }
