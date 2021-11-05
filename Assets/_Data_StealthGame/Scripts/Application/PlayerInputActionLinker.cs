@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
-
+/// <summary>
+/// set scene object reference for PlayerActionManager
+/// </summary>
 public class PlayerInputActionLinker : ISceneObjectLinker<PlayerActionManager>
 {
     /// <summary>

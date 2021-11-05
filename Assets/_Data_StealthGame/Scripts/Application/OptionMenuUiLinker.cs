@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
-
+/// <summary>
+/// set scene object reference for OptionMenuUiController
+/// </summary>
 public class OptionMenuUiLinker : ISceneObjectLinker<OptionMenuUiController>
 {
     /// <summary>

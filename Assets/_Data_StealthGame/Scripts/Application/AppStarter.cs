@@ -98,6 +98,8 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
         // link player inputs
         PlayerInputActionLinker playerInputActionLinker = new PlayerInputActionLinker();
         playerInputActionLinker.LinkObject(playerActionManager);
+        LevelObjectLinker levelObjectLinker = new LevelObjectLinker();
+        levelObjectLinker.LinkObject(levelManager);
 
         IGamePlayStateSetter[] gamePlayStateSetters = { levelManager, playerActionManager };
 

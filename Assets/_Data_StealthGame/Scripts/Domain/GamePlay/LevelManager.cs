@@ -19,7 +19,7 @@ public class LevelManager : IGamePlayStateSetter
     private LevelDatabase _levelDatabase;
 
     // manager of scene objects
-    private IItemManagerBase<GameDataSetBase>[] _itemManagers;
+    private List<IItemManagerBase<GameDataSetBase>> _itemManagers = new List<IItemManagerBase<GameDataSetBase>>();
 
 
     /// <summary>
@@ -28,6 +28,11 @@ public class LevelManager : IGamePlayStateSetter
     public LevelManager()
     {
         InitDataBase();
+    }
+
+    public void SetItemManager(IItemManagerBase<GameDataSetBase> manager)
+    {
+        _itemManagers.Add(manager);
     }
 
     /// <summary>
