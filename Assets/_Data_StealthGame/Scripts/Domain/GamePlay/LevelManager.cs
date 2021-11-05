@@ -47,7 +47,8 @@ public class LevelManager : IGamePlayStateSetter
                 if (_lastGameplayState == GamePlayState.None)
                 {
                     // if the gameplay starts, load new level
-                    GetNewLevel(0);
+                    int playerLevel = 0;
+                    GetNewLevel(playerLevel);
                 }
                 else if(_lastGameplayState == GamePlayState.Pause)
                 {
