@@ -11,6 +11,10 @@ public class LevelObjectLinker : ISceneObjectLinker<LevelManager>
     public void LinkObject(LevelManager parentObject)
     {
         NodesManager nodesManager = MonoBehaviour.FindObjectOfType<NodesManager>();
-        parentObject.SetItemManager(nodesManager as IItemManagerBase<GameDataSetBase>);
+        
+        // link player object manager
+        parentObject.SetPlayerObjectManager(nodesManager);
+        
+        // link enemy manager
     }
 }

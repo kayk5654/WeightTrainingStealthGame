@@ -19,7 +19,7 @@ public class LevelManager : IGamePlayStateSetter
     private LevelDatabase _levelDatabase;
 
     // manager of scene objects
-    private List<IItemManagerBase<GameDataSetBase>> _itemManagers = new List<IItemManagerBase<GameDataSetBase>>();
+    private IItemManagerBase<PlayerAbilityDataSet> _playerObjectManagers;
 
 
     /// <summary>
@@ -30,9 +30,13 @@ public class LevelManager : IGamePlayStateSetter
         InitDataBase();
     }
 
-    public void SetItemManager(IItemManagerBase<GameDataSetBase> manager)
+    /// <summary>
+    /// set reference of player's object manager
+    /// </summary>
+    /// <param name="manager"></param>
+    public void SetPlayerObjectManager(IItemManagerBase<PlayerAbilityDataSet> manager)
     {
-        _itemManagers.Add(manager);
+        _playerObjectManagers = manager;
     }
 
     /// <summary>
@@ -98,17 +102,7 @@ public class LevelManager : IGamePlayStateSetter
         PlayerAbilityDataSet playerAbility = _playerAbilityDatabase.GetData(playerLevel);
 
         // load level
-        foreach(IItemManagerBase<GameDataSetBase> manager in _itemManagers)
-        {
-            if(manager is IItemManagerBase<LevelDataSet>)
-            {
-                manager.Spawn(levelData);
-            }
-            else if (manager is IItemManagerBase<PlayerAbilityDataSet>)
-            {
-                manager.Spawn(playerAbility);
-            }
-        }
+        _playerObjectManagers.Spawn(playerAbility);
     }
 
     /// <summary>
@@ -116,10 +110,7 @@ public class LevelManager : IGamePlayStateSetter
     /// </summary>
     private void PauseLevel()
     {
-        foreach (IItemManagerBase<GameDataSetBase> manager in _itemManagers)
-        {
-            manager.Pause();
-        }
+        _playerObjectManagers.Pause();
     }
 
     /// <summary>
@@ -127,10 +118,7 @@ public class LevelManager : IGamePlayStateSetter
     /// </summary>
     private void ResumeLevel()
     {
-        foreach (IItemManagerBase<GameDataSetBase> manager in _itemManagers)
-        {
-            manager.Resume();
-        }
+        _playerObjectManagers.Resume();
     }
 
     /// <summary>
@@ -138,9 +126,6 @@ public class LevelManager : IGamePlayStateSetter
     /// </summary>
     private void DeleteLevel()
     {
-        foreach (IItemManagerBase<GameDataSetBase> manager in _itemManagers)
-        {
-            manager.Delete();
-        }
+        _playerObjectManagers.Delete();
     }
 }

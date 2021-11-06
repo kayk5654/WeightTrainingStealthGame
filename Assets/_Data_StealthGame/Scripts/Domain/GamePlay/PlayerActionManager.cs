@@ -41,6 +41,15 @@ public class PlayerActionManager : IGamePlayStateSetter
     }
 
     /// <summary>
+    /// set reference of actions that are enabled/disabled by this class
+    /// </summary>
+    /// <param name="actionActivators"></param>
+    public void SetActionActivators(IActionActivator[] actionActivators)
+    {
+        _actionActivators = actionActivators;
+    }
+
+    /// <summary>
     /// send update of the gameplay state to the lower classes in the execution flow
     /// </summary>
     /// <param name="gamePlayState"></param>
@@ -85,6 +94,8 @@ public class PlayerActionManager : IGamePlayStateSetter
     /// </summary>
     private void InitPlayerInput()
     {
+        if(_actionActivators == null || _actionActivators.Length < 1) { return; }
+        
         foreach(IActionActivator activator in _actionActivators)
         {
             activator.InitAction();
@@ -96,6 +107,8 @@ public class PlayerActionManager : IGamePlayStateSetter
     /// </summary>
     private void StartPlayerInput()
     {
+        if (_actionActivators == null || _actionActivators.Length < 1) { return; }
+
         foreach (IActionActivator activator in _actionActivators)
         {
             activator.StartAction();
@@ -107,6 +120,8 @@ public class PlayerActionManager : IGamePlayStateSetter
     /// </summary>
     private void StopPlayerInput()
     {
+        if (_actionActivators == null || _actionActivators.Length < 1) { return; }
+
         foreach (IActionActivator activator in _actionActivators)
         {
             activator.StopAction();
