@@ -2,7 +2,7 @@
 /// manage scene objects
 /// </summary>
 /// <typeparam name="T">valid type of dataset</typeparam>
-public interface IItemManagerBase<T>
+public interface IItemManager<T>
 {
     /// <summary>
     /// spawn scene objects

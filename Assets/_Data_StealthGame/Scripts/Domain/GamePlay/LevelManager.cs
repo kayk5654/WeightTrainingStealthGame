@@ -18,9 +18,11 @@ public class LevelManager : IGamePlayStateSetter
     // get level data related to a specific player level
     private LevelDatabase _levelDatabase;
 
-    // manager of scene objects
-    private IItemManagerBase<PlayerAbilityDataSet> _playerObjectManagers;
+    // manager of player's objects
+    private IItemManager<PlayerAbilityDataSet> _playerObjectManagers;
 
+    // manager of enemy objects
+    private IItemManager<LevelDataSet> _enemyObjectManager;
 
     /// <summary>
     /// constructor
@@ -34,9 +36,18 @@ public class LevelManager : IGamePlayStateSetter
     /// set reference of player's object manager
     /// </summary>
     /// <param name="manager"></param>
-    public void SetPlayerObjectManager(IItemManagerBase<PlayerAbilityDataSet> manager)
+    public void SetPlayerObjectManager(IItemManager<PlayerAbilityDataSet> manager)
     {
         _playerObjectManagers = manager;
+    }
+
+    /// <summary>
+    /// set reference of enemy object manager
+    /// </summary>
+    /// <param name="manager"></param>
+    public void SetEnemyObjectManager(IItemManager<LevelDataSet> manager)
+    {
+        _enemyObjectManager = manager;
     }
 
     /// <summary>

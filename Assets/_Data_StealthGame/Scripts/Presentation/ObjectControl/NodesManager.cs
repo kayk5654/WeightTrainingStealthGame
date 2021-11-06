@@ -33,7 +33,7 @@ public struct Connection_ComputeShader
 /// <summary>
 /// manages connected nodes
 /// </summary>
-public class NodesManager : MonoBehaviour, IItemManagerBase<PlayerAbilityDataSet>
+public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet>
 {
     [SerializeField, Tooltip("compute shader for node control")]
     private ComputeShader _nodeConnectionControl;
