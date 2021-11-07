@@ -150,13 +150,13 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet>
     private const int SIMULATION_BLOCK_SIZE = 256;
 
     // whether the nodes must be updated in this frame
-    private bool toUpdate = false;
+    private bool _toUpdate = false;
 
 
     #region MonoBehaviour
     private void Update()
     {
-        if (!toUpdate) { return; }
+        if (!_toUpdate) { return; }
         
         SimulateNodes_GPU();
         //SimulateConnections_GPU();
@@ -179,7 +179,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet>
         SpawnNodes_GPU();
         SpawnConnection_GPU();
 
-        toUpdate = true;
+        _toUpdate = true;
     }
 
     /// <summary>
@@ -187,7 +187,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet>
     /// </summary>
     public void Pause()
     {
-        toUpdate = false;
+        _toUpdate = false;
     }
 
     /// <summary>
@@ -195,7 +195,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet>
     /// </summary>
     public void Resume()
     {
-        toUpdate = true;
+        _toUpdate = true;
     }
 
     /// <summary>
@@ -203,17 +203,19 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet>
     /// </summary>
     public void Delete()
     {
-        toUpdate = false;
+        _toUpdate = false;
 
         foreach (Node node in _nodes.Values)
         {
             Destroy(node.gameObject);
         }
+        _nodes.Clear();
 
         foreach (Connection connection in _connections.Values)
         {
             Destroy(connection.gameObject);
         }
+        _connections.Clear();
 
         // release buffers
         ReleaseBuffers();

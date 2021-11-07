@@ -124,6 +124,7 @@ public class LevelManager : IGamePlayStateSetter
         PlayerAbilityDataSet playerAbility = _playerAbilityDatabase.GetData(playerLevel);
 
         // load level
+        _enemyObjectManager.Spawn(levelData);
         _playerObjectManagers.Spawn(playerAbility);
     }
 
@@ -132,6 +133,7 @@ public class LevelManager : IGamePlayStateSetter
     /// </summary>
     private void PauseLevel()
     {
+        _enemyObjectManager.Pause();
         _playerObjectManagers.Pause();
     }
 
@@ -140,6 +142,7 @@ public class LevelManager : IGamePlayStateSetter
     /// </summary>
     private void ResumeLevel()
     {
+        _enemyObjectManager.Resume();
         _playerObjectManagers.Resume();
     }
 
@@ -148,6 +151,7 @@ public class LevelManager : IGamePlayStateSetter
     /// </summary>
     private void DeleteLevel()
     {
+        _enemyObjectManager.Delete();
         _playerObjectManagers.Delete();
     }
 }

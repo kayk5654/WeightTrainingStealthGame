@@ -7,7 +7,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     // reference of NodesManager
-    public EnemiesManager _nodesManager;
+    public EnemiesManager _enemiesManager;
 
     [Tooltip("range to search neighbours to connect")]
     public float _range = 1f;

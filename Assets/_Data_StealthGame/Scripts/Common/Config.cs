@@ -12,4 +12,7 @@ public static class Config
 
     // player's level as a default
     public static readonly int _defaultPlayerLevel = 1;
+
+    // unit time for spawning enemies
+    public static readonly float _enemySpawnUnitTime = 10f;
 }
