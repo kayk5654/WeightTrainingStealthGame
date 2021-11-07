@@ -35,6 +35,8 @@ public class SampleJsonSerializer : MonoBehaviour
         // write json files
         WriteFile(JsonHelper.ToJson<LevelDataSet>(sampleLevels), Config._levelDataPath);
         WriteFile(JsonHelper.ToJson<PlayerAbilityDataSet>(samplePlayerAbilities), Config._playerAbilityDataPath);
+
+        DebugLog.Info(this.ToString(), "successfully generated sample data");
     }
 
     /// <summary>

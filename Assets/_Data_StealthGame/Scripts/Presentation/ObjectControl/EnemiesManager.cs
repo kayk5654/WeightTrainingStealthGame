@@ -10,7 +10,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet>
     private Dictionary<int, Enemy> _enemies;
 
     [SerializeField, Tooltip("prefab of enemy object to spawn")]
-    private Enemy _enemyPrefab;
+    private GameObject _enemyPrefab;
 
     [SerializeField, Tooltip("compute shader for node control")]
     private ComputeShader _nodeConnectionControl;
@@ -70,6 +70,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet>
     public void Spawn(LevelDataSet dataset)
     {
         _currentLevelData = dataset;
+        InitEnemyDictionary();
         StartSpawnEnemies();
 
 
@@ -112,6 +113,15 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet>
     #region OtherFunctions
 
     /// <summary>
+    /// initialize enemies dictionary
+    /// </summary>
+    private void InitEnemyDictionary()
+    {
+        // initialize dictionary
+        _enemies = new Dictionary<int, Enemy>();
+    }
+
+    /// <summary>
     /// start spawn enemy sequence
     /// </summary>
     private void StartSpawnEnemies()
@@ -147,7 +157,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet>
     {
         // spawn interval
         WaitForSeconds waitForSpawnInterval = new WaitForSeconds(Config._enemySpawnUnitTime / _currentLevelData._enemySpawnRate);
-        
+
         while (true)
         {
             // if the number of enemies in the field is less than max number, spawn enemies
