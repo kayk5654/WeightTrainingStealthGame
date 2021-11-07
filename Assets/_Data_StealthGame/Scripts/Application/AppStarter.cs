@@ -98,8 +98,16 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
         // link player inputs
         PlayerInputActionLinker playerInputActionLinker = new PlayerInputActionLinker();
         playerInputActionLinker.LinkObject(playerActionManager);
+        
         LevelObjectLinker levelObjectLinker = new LevelObjectLinker();
         levelObjectLinker.LinkObject(levelManager);
+
+        PlayerLevelHandler_PlayerPrefs playerLevelHandler = new PlayerLevelHandler_PlayerPrefs();
+        levelManager.SetPlayerLevelHandler(playerLevelHandler);
+
+        // link playerLevelHandler and reset button
+        PlayerLevelResetterLinker playerLevelResetterLinker = new PlayerLevelResetterLinker();
+        playerLevelResetterLinker.LinkObject(playerLevelHandler);
 
         IGamePlayStateSetter[] gamePlayStateSetters = { levelManager, playerActionManager };
 

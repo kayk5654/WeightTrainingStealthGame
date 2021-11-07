@@ -24,6 +24,8 @@ public class LevelManager : IGamePlayStateSetter
     // manager of enemy objects
     private IItemManager<LevelDataSet> _enemyObjectManager;
 
+    private IPlayerLevelHandler _playerLevelHandler;
+
     /// <summary>
     /// constructor
     /// </summary>
@@ -51,6 +53,15 @@ public class LevelManager : IGamePlayStateSetter
     }
 
     /// <summary>
+    /// set reference of player level handler
+    /// </summary>
+    /// <param name="playerLevelHandler"></param>
+    public void SetPlayerLevelHandler(IPlayerLevelHandler playerLevelHandler)
+    {
+        _playerLevelHandler = playerLevelHandler;
+    }
+
+    /// <summary>
     /// send update of the gameplay state to the lower classes in the execution flow
     /// </summary>
     /// <param name="gamePlayState"></param>
@@ -67,7 +78,7 @@ public class LevelManager : IGamePlayStateSetter
                 if (_lastGameplayState == GamePlayState.None)
                 {
                     // if the gameplay starts, load new level
-                    int playerLevel = 0;
+                    int playerLevel = _playerLevelHandler.GetPlayerLevel();
                     GetNewLevel(playerLevel);
                 }
                 else if(_lastGameplayState == GamePlayState.Pause)

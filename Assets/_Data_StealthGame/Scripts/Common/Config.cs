@@ -9,4 +9,7 @@ public static class Config
 
     // path of database of the levels
     public static readonly string _levelDataPath = Application.streamingAssetsPath + "/" + "levelData.json";
+
+    // player's level as a default
+    public static readonly int _defaultPlayerLevel = 1;
 }
