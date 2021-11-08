@@ -21,6 +21,9 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet>
     [SerializeField, Tooltip("base move speed of an enemy")]
     private float _baseMoveSpeed = 1f;
 
+    [SerializeField, Tooltip("spawn enemy objects in the spawn area")]
+    private ObjectSpawnHandler _objectSpawnHandler;
+
     // kernel name of FindNearestNode()
     private string _findNearestNodeKernelName = "FindNearestNode";
 
@@ -70,9 +73,12 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet>
     public void Spawn(LevelDataSet dataset)
     {
         _currentLevelData = dataset;
+
+        // initialize spawn area
+        _objectSpawnHandler.SetSpawnArea(null);
+
         InitEnemyDictionary();
         StartSpawnEnemies();
-
 
         _toUpdate = true;
     }
@@ -178,24 +184,9 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet>
     private Enemy SpawnSingleEnemy()
     {
         // instantiate new enemy
-        Enemy newEnemy = Instantiate(_enemyPrefab).GetComponent<Enemy>();
+        Enemy newEnemy = _objectSpawnHandler.Spawn(_enemyPrefab, transform).GetComponent<Enemy>();
 
-        // TODO: put a feature to get position to spawn by creating ObjectSpawnHandler
-        /*
-        // calculate spawn position in the local space of _spawnArea
-        _positionTemp.x = Random.Range(boundLocalMin.x, boundLocalMax.x);
-        _positionTemp.y = Random.Range(boundLocalMin.y, boundLocalMax.y);
-        _positionTemp.z = Random.Range(boundLocalMin.z, boundLocalMax.z);
-        
-        // apply translate and rotation of _spawnArea
-        _positionTemp = _spawnArea.transform.TransformPoint(_positionTemp);
-        */
-        // assign position and rotation
-        newEnemy.transform.position = _positionTemp;
-        newEnemy.transform.rotation = Quaternion.Euler(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
-        newEnemy.transform.SetParent(this.transform);
-
-        // set parameter
+         // set parameter
         newEnemy._enemiesManager = this;
         newEnemy._id = _lastSpawnedEnemyId + 1;
         newEnemy._range = _nodeSearchingRange;
