@@ -137,12 +137,17 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     // kernel name of InitializeConnection()
     private string _initConnectionKernelName = "InitializeConnection";
 
+    // kernel name of FindNearestNode()
+    private string _findNearestNodeKernelName = "FindNearestNode";
+
     // kernel info of UpdateNodePosition()
     private KernelParamsHandler _updateNodePosKernel;
 
     // kernel info of InitializeConnection()
     private KernelParamsHandler _initConnectionKernel;
 
+    // kernel info of FindNearestNode()
+    private KernelParamsHandler _findNearestNodKernel;
     // index of buffers for reading
     private const int READ = 0;
 
@@ -282,6 +287,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
         // contain data of kernel in KernelParamsHandler
         _updateNodePosKernel = new KernelParamsHandler(_nodeConnectionControl, _updateNodeKernelName, nodeKernelThreadGroupSize, 1, 1);
         _initConnectionKernel = new KernelParamsHandler(_nodeConnectionControl, _initConnectionKernelName, connectionKernelThreadGroupSize, 1, 1);
+        _findNearestNodKernel = new KernelParamsHandler(_nodeConnectionControl, _findNearestNodeKernelName, nodeKernelThreadGroupSize, 1, 1);
 
         // set constant parameters for simulation
         _nodeConnectionControl.SetFloat(_neighbourRadiousName, _neighbourRadious);
@@ -474,6 +480,16 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
         ComputeBuffer temp = buffers[READ];
         buffers[READ] = buffers[WRITE];
         buffers[WRITE] = temp;
+    }
+
+    /// <summary>
+    /// get the nearest node id from the specified point
+    /// </summary>
+    /// <param name="origin"></param>
+    /// <returns></returns>
+    public Node GetNearestNodeId(Vector3 origin)
+    {
+        return _nodes[0];
     }
     #endregion
 

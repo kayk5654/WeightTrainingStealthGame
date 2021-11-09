@@ -78,7 +78,7 @@ public class Enemy : MonoBehaviour
         if(_currentState != EnemyState.Search){ return; }
 
         // move enemy to search attack target
-        _nearestTarget = _nodesManager.GetNode(EnemyAttackTargetSearcher.FindNearestTarget(transform.position));
+        _nearestTarget = _nodesManager.GetNearestNodeId(transform.position);
         _enemyMover.Move(_nearestTarget.transform.position);
 
         // if this enemy gets sufficiently close to the attack target, start attack it
