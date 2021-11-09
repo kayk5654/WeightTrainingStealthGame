@@ -75,7 +75,7 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
         IGamePlayStateManager[] gamePlayStateManagers = { uiManager, gamePlayManager };
 
         // create AppManager
-        _appManager = new AppManager(this, mainMenuStateManagers, gamePlayStateManagers);
+        _appManager = new AppManager(this, mainMenuStateManagers, gamePlayStateManagers, gamePlayManager);
 
         // set callbacks from UiManager and GamePlayManager to AppManager
         _appManager.SubscribeAppStateEvent(uiManager);
@@ -112,7 +112,7 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
         IGamePlayStateSetter[] gamePlayStateSetters = { levelManager, playerActionManager };
 
         // create gameplay manager
-        GamePlayManager gamePlayManager = new GamePlayManager(gamePlayStateSetters);
+        GamePlayManager gamePlayManager = new GamePlayManager(gamePlayStateSetters, levelManager);
 
         return gamePlayManager;
     }

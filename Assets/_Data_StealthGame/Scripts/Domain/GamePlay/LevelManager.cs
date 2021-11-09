@@ -4,7 +4,7 @@ using System;
 /// <summary>
 /// manage levels of the gameplay
 /// </summary>
-public class LevelManager : IGamePlayStateSetter
+public class LevelManager : IGamePlayStateSetter, IExerciseInforSetter
 {
     // event to notify the start of GamePlay phase
     public event EventHandler<GamePlayStateEventArgs> _onGamePlayStateChange;
@@ -12,18 +12,25 @@ public class LevelManager : IGamePlayStateSetter
     // last gameplay state
     private GamePlayState _lastGameplayState = GamePlayState.None;
 
+    // current exercise type
+    private ExerciseType _currentExerciseType = ExerciseType.None;
+
     // get player ability related to a specific player level
     private PlayerAbilityDatabase _playerAbilityDatabase;
 
     // get level data related to a specific player level
     private LevelDatabase _levelDatabase;
 
+    // get spawn area data of the scene objects
+    private SpawnAreaDatabase _spawnAreaDatabase;
+
     // manager of player's objects
-    private IItemManager<PlayerAbilityDataSet> _playerObjectManagers;
+    private IItemManager<PlayerAbilityDataSet, SpawnAreaDataSet> _playerObjectManagers;
 
     // manager of enemy objects
-    private IItemManager<LevelDataSet> _enemyObjectManager;
+    private IItemManager<LevelDataSet, SpawnAreaDataSet> _enemyObjectManager;
 
+    // get current player's level
     private IPlayerLevelHandler _playerLevelHandler;
 
     /// <summary>
@@ -38,7 +45,7 @@ public class LevelManager : IGamePlayStateSetter
     /// set reference of player's object manager
     /// </summary>
     /// <param name="manager"></param>
-    public void SetPlayerObjectManager(IItemManager<PlayerAbilityDataSet> manager)
+    public void SetPlayerObjectManager(IItemManager<PlayerAbilityDataSet, SpawnAreaDataSet> manager)
     {
         _playerObjectManagers = manager;
     }
@@ -47,7 +54,7 @@ public class LevelManager : IGamePlayStateSetter
     /// set reference of enemy object manager
     /// </summary>
     /// <param name="manager"></param>
-    public void SetEnemyObjectManager(IItemManager<LevelDataSet> manager)
+    public void SetEnemyObjectManager(IItemManager<LevelDataSet, SpawnAreaDataSet> manager)
     {
         _enemyObjectManager = manager;
     }
@@ -108,10 +115,12 @@ public class LevelManager : IGamePlayStateSetter
         // create database reader (= define database type to read)
         JsonDatabaseReader<PlayerAbilityDataSet> playerAbilityJson = new JsonDatabaseReader<PlayerAbilityDataSet>();
         JsonDatabaseReader<LevelDataSet> levelJson = new JsonDatabaseReader<LevelDataSet>();
+        JsonDatabaseReader<SpawnAreaDataSet> spawnAreaJson = new JsonDatabaseReader<SpawnAreaDataSet>();
 
         // create database class
         _playerAbilityDatabase = new PlayerAbilityDatabase(playerAbilityJson, Config._playerAbilityDataPath);
         _levelDatabase = new LevelDatabase(levelJson, Config._levelDataPath);
+        _spawnAreaDatabase = new SpawnAreaDatabase(spawnAreaJson, Config._spawnAreaDataPath);
 
     }
 
@@ -122,10 +131,11 @@ public class LevelManager : IGamePlayStateSetter
     {
         LevelDataSet levelData = _levelDatabase.GetData(playerLevel);
         PlayerAbilityDataSet playerAbility = _playerAbilityDatabase.GetData(playerLevel);
-
+        SpawnAreaDataSet spawnArea = _spawnAreaDatabase.GetData((int)_currentExerciseType);
+        DebugLog.Info(this.ToString(), "_currentExerciseType: " + _currentExerciseType);
         // load level
-        _enemyObjectManager.Spawn(levelData);
-        _playerObjectManagers.Spawn(playerAbility);
+        _enemyObjectManager.Spawn(levelData, spawnArea);
+        _playerObjectManagers.Spawn(playerAbility, spawnArea);
     }
 
     /// <summary>
@@ -153,5 +163,14 @@ public class LevelManager : IGamePlayStateSetter
     {
         _enemyObjectManager.Delete();
         _playerObjectManagers.Delete();
+    }
+
+    /// <summary>
+    /// set exercise type
+    /// </summary>
+    /// <param name="exerciseType"></param>
+    public void ChangeExerciseType(ExerciseType exerciseType)
+    {
+        _currentExerciseType = exerciseType;
     }
 }

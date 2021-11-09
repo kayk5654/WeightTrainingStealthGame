@@ -10,6 +10,9 @@ public static class Config
     // path of database of the levels
     public static readonly string _levelDataPath = Application.streamingAssetsPath + "/" + "levelData.json";
 
+    // path of database of the spawn area
+    public static readonly string _spawnAreaDataPath = Application.streamingAssetsPath + "/" + "spawnAreaData.json";
+
     // player's level as a default
     public static readonly int _defaultPlayerLevel = 1;
 

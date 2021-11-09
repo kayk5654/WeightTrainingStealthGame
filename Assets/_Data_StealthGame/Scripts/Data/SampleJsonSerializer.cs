@@ -31,10 +31,25 @@ public class SampleJsonSerializer : MonoBehaviour
             sampleLevels[i] = sampleLevel;
             samplePlayerAbilities[i] = samplePlayerAbility;
         }
+
+        SpawnAreaDataSet[] spawnAreas = new SpawnAreaDataSet[(int)ExerciseType.LENGTH];
+
+        for (int i = 0; i < spawnAreas.Length; i++)
+        {
+            SpawnAreaDataSet sampleSpawnArea = new SpawnAreaDataSet();
+            sampleSpawnArea._exerciseType = (ExerciseType)i;
+            sampleSpawnArea._isScannedDataPreferred = false;
+            sampleSpawnArea._center = new Vector3(0, 0, 2);
+            sampleSpawnArea._size = new Vector3(2, 2, 3);
+            sampleSpawnArea._rotation = Quaternion.Euler(0, 0, 0);
+
+            spawnAreas[i] = sampleSpawnArea;
+        }
         
         // write json files
         WriteFile(JsonHelper.ToJson<LevelDataSet>(sampleLevels), Config._levelDataPath);
         WriteFile(JsonHelper.ToJson<PlayerAbilityDataSet>(samplePlayerAbilities), Config._playerAbilityDataPath);
+        WriteFile(JsonHelper.ToJson<SpawnAreaDataSet>(spawnAreas), Config._spawnAreaDataPath);
 
         DebugLog.Info(this.ToString(), "successfully generated sample data");
     }

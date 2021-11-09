@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// manage enemy objects
 /// </summary>
-public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet>
+public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAreaDataSet>
 {
     // dictionary of _node instances
     private Dictionary<int, Enemy> _enemies;
@@ -70,12 +70,12 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet>
     /// spawn scene objects
     /// </summary>
     /// <param name="dataset"></param>
-    public void Spawn(LevelDataSet dataset)
+    public void Spawn(LevelDataSet dataset, SpawnAreaDataSet spawnArea = null)
     {
         _currentLevelData = dataset;
 
         // initialize spawn area
-        _objectSpawnHandler.SetSpawnArea(null);
+        _objectSpawnHandler.SetSpawnArea(spawnArea);
 
         InitEnemyDictionary();
         StartSpawnEnemies();

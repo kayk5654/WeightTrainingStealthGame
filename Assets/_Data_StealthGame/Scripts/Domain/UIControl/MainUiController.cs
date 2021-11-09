@@ -4,7 +4,7 @@ using System;
 /// <summary>
 /// control main menu ui
 /// </summary>
-public class MainUiController : IMultiPhaseUi, IAppStateSetter, IExerciseInfoSetter
+public class MainUiController : IMultiPhaseUi, IAppStateSetter, IExerciseInfoSender
 {
     // ui phases to control
     private Dictionary<MainUiPanelPhase, IUiPhase> _uiPhases;
@@ -16,7 +16,7 @@ public class MainUiController : IMultiPhaseUi, IAppStateSetter, IExerciseInfoSet
     public event EventHandler<ExerciseInfoEventArgs> _onExerciseSelected;
 
     // get information of the selected exercise
-    private IExerciseInfoSetter _exerciseInfoSetter;
+    private IExerciseInfoSender _exerciseInfoSetter;
 
 
     /// <summary>
@@ -59,7 +59,7 @@ public class MainUiController : IMultiPhaseUi, IAppStateSetter, IExerciseInfoSet
     /// set reference of _exerciseInfoSetter
     /// </summary>
     /// <param name="exerciseInfoSetter"></param>
-    public void SetExerciseInfoSetter(IExerciseInfoSetter exerciseInfoSetter)
+    public void SetExerciseInfoSetter(IExerciseInfoSender exerciseInfoSetter)
     {
         _exerciseInfoSetter = exerciseInfoSetter;
         // set callback

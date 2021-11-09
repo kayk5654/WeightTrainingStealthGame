@@ -24,11 +24,19 @@ public class ObjectSpawnHandler : MonoBehaviour
     /// <param name="spawnAreaData"></param>
     public void SetSpawnArea(SpawnAreaDataSet spawnAreaData)
     {
+        // if the spawn area data in the database isn't used
         if(spawnAreaData == null)
         {
             // calculate min and max corner from current state of the box collider
             _boundLocalMin = _spawnArea.center - _spawnArea.size * 0.5f;
             _boundLocalMax = _spawnArea.center + _spawnArea.size * 0.5f;
+            return;
+        }
+
+        // in case if the spawn area should be defined by the scanned data, resize bounding box
+        if (spawnAreaData._isScannedDataPreferred)
+        {
+            // TODO: get spawn area from spatial awareness or spatial understanding of MRTK
             return;
         }
 

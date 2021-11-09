@@ -20,17 +20,19 @@ public class AppManager
     // enable/disable features at the beginning of the GamePlay phase
     private IGamePlayStateManager[] _gamePlayManagers;
 
+    private IExerciseInforSetter _exerciseInforSetter;
 
     /// <summary>
     /// constructor
     /// </summary>
-    public AppManager(AppStarter starter, IMainMenuStateManager[] mainMenuManagers, IGamePlayStateManager[] gamePlayManagers)
+    public AppManager(AppStarter starter, IMainMenuStateManager[] mainMenuManagers, IGamePlayStateManager[] gamePlayManagers, IExerciseInforSetter exerciseInforSetter)
     {
         // set references
         _appStarter = starter;
         _mainMenuManagers = mainMenuManagers;
         _gamePlayManagers = gamePlayManagers;
-        
+        _exerciseInforSetter = exerciseInforSetter;
+
         // initialize main system
         StartApp();
     }
@@ -73,7 +75,7 @@ public class AppManager
     /// subscribe events to notify state of the exercise info
     /// </summary>
     /// <param name="exerciseInfoSetter"></param>
-    public void SubscribeExerciseInfoEvent(IExerciseInfoSetter exerciseInfoSetter)
+    public void SubscribeExerciseInfoEvent(IExerciseInfoSender exerciseInfoSetter)
     {
         // set callback
         exerciseInfoSetter._onExerciseSelected += ChangeExerciseInfo;
@@ -103,7 +105,7 @@ public class AppManager
     /// unsubscribe events to notify state of the exercise info
     /// </summary>
     /// <param name="exerciseInfoSetter"></param>
-    public void UnubscribeExerciseInfoEvent(IExerciseInfoSetter exerciseInfoSetter)
+    public void UnubscribeExerciseInfoEvent(IExerciseInfoSender exerciseInfoSetter)
     {
         // remove callback
         exerciseInfoSetter._onExerciseSelected -= ChangeExerciseInfo;
@@ -183,6 +185,7 @@ public class AppManager
     /// <param name="args"></param>
     private void ChangeExerciseInfo(object sender, ExerciseInfoEventArgs args)
     {
+        _exerciseInforSetter.ChangeExerciseType(args._selectedExercise);
         DebugLog.Info(this.ToString(), "exercise info :" + args._selectedExercise);
     }
 

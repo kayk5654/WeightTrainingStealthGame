@@ -4,7 +4,7 @@ using System;
 /// <summary>
 /// manage ui features
 /// </summary>
-public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppStateSetter, IGamePlayStateSetter, IExerciseInfoSetter
+public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppStateSetter, IGamePlayStateSetter, IExerciseInfoSender
 {
     // event to notify the start of MainMenu phase
     public event EventHandler<AppStateEventArgs> _onAppStateChange;
@@ -29,7 +29,7 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
 
     private IAppStateSetter _appStateSetter;
 
-    private IExerciseInfoSetter _exerciseInfoSetter;
+    private IExerciseInfoSender _exerciseInfoSetter;
 
 
     /// <summary>
@@ -39,7 +39,7 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     /// <param name="workoutNavUi"></param>
     /// <param name="optionMenuUi"></param>
     /// <param name=""></param>
-    public UiManager(IMultiPhaseUi menuUi, IMultiPhaseUi workoutNavUi, IGamePlayStateSetter optionMenuUi, ICursor cursorUi, IAppStateSetter appStateSetter, IExerciseInfoSetter exerciseInfoSetter)
+    public UiManager(IMultiPhaseUi menuUi, IMultiPhaseUi workoutNavUi, IGamePlayStateSetter optionMenuUi, ICursor cursorUi, IAppStateSetter appStateSetter, IExerciseInfoSender exerciseInfoSetter)
     {
         _menuUi = menuUi;
         _workoutNavigationUi = workoutNavUi;

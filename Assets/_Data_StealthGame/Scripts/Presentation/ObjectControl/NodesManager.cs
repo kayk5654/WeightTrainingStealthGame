@@ -33,7 +33,7 @@ public struct Connection_ComputeShader
 /// <summary>
 /// manages connected nodes
 /// </summary>
-public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet>
+public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, SpawnAreaDataSet>
 {
     [SerializeField, Tooltip("compute shader for node control")]
     private ComputeShader _nodeConnectionControl;
@@ -174,10 +174,10 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet>
     /// spawn scene objects
     /// </summary>
     /// <param name="dataset"></param>
-    public void Spawn(PlayerAbilityDataSet dataset)
+    public void Spawn(PlayerAbilityDataSet dataset, SpawnAreaDataSet spawnArea = null)
     {
         LoadDataSet(dataset);
-        _objectSpawnHandler.SetSpawnArea(null);
+        _objectSpawnHandler.SetSpawnArea(spawnArea);
 
         InitializeBuffers();
         InitializeParams();

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 /// <summary>
 /// set and notify information of the selected exercise
 /// </summary>
-public class ExerciseInfoSetter : MonoBehaviour, IExerciseInfoSetter
+public class ExerciseInfoSetter : MonoBehaviour, IExerciseInfoSender
 {
     // notify information about the selected exercise
     public event EventHandler<ExerciseInfoEventArgs> _onExerciseSelected;

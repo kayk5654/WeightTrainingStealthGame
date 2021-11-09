@@ -2,13 +2,13 @@
 /// manage scene objects
 /// </summary>
 /// <typeparam name="T">valid type of dataset</typeparam>
-public interface IItemManager<T>
+public interface IItemManager<T, U>
 {
     /// <summary>
     /// spawn scene objects
     /// </summary>
     /// <param name="dataset"></param>
-    void Spawn(T dataset);
+    void Spawn(T dataset1, U dataset2);
 
     /// <summary>
     /// pause update of scene objects

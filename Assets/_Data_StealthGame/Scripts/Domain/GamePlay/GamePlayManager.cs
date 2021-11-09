@@ -4,7 +4,7 @@ using System;
 /// <summary>
 /// manages features during the gameplay except ui
 /// </summary>
-public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter
+public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter, IExerciseInforSetter
 {
     // event to notify the start of GamePlay phase
     public event EventHandler<GamePlayStateEventArgs> _onGamePlayStateChange;
@@ -12,11 +12,14 @@ public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter
     // manager classes to notice change of the gameplay state
     private IGamePlayStateSetter[] _gameplayStateSetters;
 
+    // notice exercise type updates
+    private IExerciseInforSetter _exerciseInfoSetter;
 
 
-    public GamePlayManager(IGamePlayStateSetter[] gameplayStateSetters)
+    public GamePlayManager(IGamePlayStateSetter[] gameplayStateSetters, IExerciseInforSetter exerciseInforSetter)
     {
         _gameplayStateSetters = gameplayStateSetters;
+        _exerciseInfoSetter = exerciseInforSetter;
     }
 
     /// <summary>
@@ -89,5 +92,14 @@ public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter
     {
         GamePlayStateEventArgs args = new GamePlayStateEventArgs(gamePlayState);
         _onGamePlayStateChange?.Invoke(this, args);
+    }
+
+    /// <summary>
+    /// set exercise type
+    /// </summary>
+    /// <param name="exerciseType"></param>
+    public void ChangeExerciseType(ExerciseType exerciseType)
+    {
+        _exerciseInfoSetter.ChangeExerciseType(exerciseType);
     }
 }

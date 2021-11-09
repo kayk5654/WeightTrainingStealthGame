@@ -13,7 +13,7 @@ public abstract class ObjectDatabaseBase<T>
     /// <summary>
     /// get data tied with a specific player's level
     /// </summary>
-    /// <param name="level"></param>
+    /// <param name="key"></param>
     /// <returns></returns>
-    public abstract T GetData(int level);
+    public abstract T GetData(int key);
 }
