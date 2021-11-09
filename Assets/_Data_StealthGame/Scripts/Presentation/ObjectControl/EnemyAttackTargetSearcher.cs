@@ -20,10 +20,10 @@ public class EnemyAttackTargetSearcher : MonoBehaviour
     /// find nearest player's object to attack
     /// </summary>
     /// <param name="origin"></param>
-    /// <returns></returns>
-    public static Vector3 FindNearestTarget(Vector3 origin)
+    /// <returns>id of the player's object</returns>
+    public static int FindNearestTarget(Vector3 origin)
     {
         // TODO: search nearby player's object from origin using _nodeComputeShader
-        return Vector3.forward + origin;
+        return 0;
     }
 }

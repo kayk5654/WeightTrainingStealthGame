@@ -21,6 +21,9 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     [SerializeField, Tooltip("base move speed of an enemy")]
     private float _baseMoveSpeed = 1f;
 
+    [SerializeField, Tooltip("get node information")]
+    private NodesManager _nodesManager;
+
     [SerializeField, Tooltip("spawn enemy objects in the spawn area")]
     private ObjectSpawnHandler _objectSpawnHandler;
 
@@ -164,7 +167,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
             if(_enemies.Count < _currentLevelData._maxEnemyNumberInField)
             {
                 Enemy newEnemy = SpawnSingleEnemy();
-                _enemies.Add(newEnemy._id, newEnemy);
+                _enemies.Add(newEnemy.GetId(), newEnemy);
             }
             
             yield return waitForSpawnInterval;
@@ -180,14 +183,11 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         // instantiate new enemy
         Enemy newEnemy = _objectSpawnHandler.Spawn(_enemyPrefab, transform).GetComponent<Enemy>();
 
-         // set parameter
-        newEnemy._enemiesManager = this;
-        newEnemy._id = _lastSpawnedEnemyId + 1;
-        newEnemy._range = _nodeSearchingRange;
-        newEnemy._speed = _baseMoveSpeed;
+        // set parameter
+        newEnemy.InitParams(this, _lastSpawnedEnemyId + 1, _nodeSearchingRange, _baseMoveSpeed, _nodesManager);
 
         // record id of this enemy
-        _lastSpawnedEnemyId = newEnemy._id;
+        _lastSpawnedEnemyId = newEnemy.GetId();
 
         return newEnemy;
     }

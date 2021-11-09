@@ -79,7 +79,8 @@ MonoBehaviour:
   _nodeConnectionControl: {fileID: 7200000, guid: 183ed04d465564a4a8e56640f2fbfd7a,
     type: 3}
   _nodeSearchingRange: 1
-  _baseMoveSpeed: 1
+  _baseMoveSpeed: 0.005
+  _nodesManager: {fileID: 1193968915547156701}
   _objectSpawnHandler: {fileID: 3860268513243387507}
 --- !u!114 &3860268513243387507
 MonoBehaviour:

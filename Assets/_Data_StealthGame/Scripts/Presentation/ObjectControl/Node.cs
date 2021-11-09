@@ -7,16 +7,13 @@ using UnityEngine;
 public class Node : MonoBehaviour
 {
     // reference of NodesManager
-    public NodesManager _nodesManager;
-
-    [Tooltip("range to search neighbours to connect")]
-    public float _range = 1f;
+    private NodesManager _nodesManager;
 
     [Tooltip("id of each nodes")]
-    public int _id = -1;
+    private int _id = -1;
 
     // speed to extend lines to connect
-    public float _speed = 1f;
+    private float _speed = 1f;
 
     [SerializeField, Tooltip("node mesh")]
     private MeshRenderer _mainMeshRenderer;
@@ -48,6 +45,19 @@ public class Node : MonoBehaviour
     private void Update()
     {
         UpdateNodeCapTransform();
+    }
+
+    /// <summary>
+    /// initialize parameters
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="nodesManager"></param>
+    /// <param name="speed"></param>
+    public void InitParams(int id, NodesManager nodesManager, float speed)
+    {
+        _id = id;
+        _nodesManager = nodesManager;
+        _speed = speed;
     }
 
     /// <summary>

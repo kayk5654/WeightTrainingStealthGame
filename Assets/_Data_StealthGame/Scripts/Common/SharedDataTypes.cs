@@ -63,6 +63,16 @@ public enum ExerciseType
 }
 
 /// <summary>
+/// state of enemy object
+/// </summary>
+public enum EnemyState
+{
+    Search = 0,
+    Attack = 1,
+    LENGTH
+}
+
+/// <summary>
 /// notify the status of the app state
 /// </summary>
 public class AppStateEventArgs : EventArgs

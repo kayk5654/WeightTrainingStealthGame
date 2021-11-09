@@ -7,6 +7,12 @@ public class EnemyAnimationHandler
     // enemy's animator component
     private Animator _animator;
 
+    // animation state for searching player's object
+    private string _searchAnimProperty = "Search";
+
+    // animation state for attacking player's object
+    private string _attackAnimProperty = "Attack";
+
 
     /// <summary>
     /// constructor
@@ -16,6 +22,22 @@ public class EnemyAnimationHandler
     {
         _animator = animator;
     }
-
     
+    /// <summary>
+    /// set animation state for searching player's object
+    /// </summary>
+    public void SetSearch()
+    {
+        if (!_animator) { return; }
+        _animator.SetTrigger(_searchAnimProperty);
+    }
+
+    /// <summary>
+    /// set animation state for attacking player's object
+    /// </summary>
+    public void SetAttack()
+    {
+        if (!_animator) { return; }
+        _animator.SetTrigger(_attackAnimProperty);
+    }
 }

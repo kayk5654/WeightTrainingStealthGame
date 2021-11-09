@@ -325,9 +325,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
             Transform newNode = _objectSpawnHandler.Spawn(_nodePrefab, this.transform).transform;
 
             _nodes.Add(i, newNode.GetComponent<Node>());
-            _nodes[i]._id = i;
-            _nodes[i]._nodesManager = this;
-            _nodes[i]._speed = _speed * Random.Range(0.5f, 1.2f);
+            _nodes[i].InitParams(i, this, _speed * Random.Range(0.5f, 1.2f));
 
             // set data for compute buffer
             _nodesBufferData[i]._id = i;
