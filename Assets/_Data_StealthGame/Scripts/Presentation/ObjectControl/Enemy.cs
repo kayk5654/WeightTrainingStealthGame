@@ -24,11 +24,20 @@ public class Enemy : MonoBehaviour
     [SerializeField, Tooltip("environment vfx mesh")]
     private MeshRenderer _environmentVfxRenderer;
 
+    [SerializeField, Tooltip("enemy's animator")]
+    private Animator _animator;
+
     // material of main mesh
     private Material _mainMaterial;
 
     // material of environment vfx 
     private Material _environmentVfxMaterial;
+
+    // control enemy's animation
+    private EnemyAnimationHandler _enemyAnimationHandler;
+
+    // move enemy's transform
+    private EnemyMover _enemyMover;
 
     // for corouines
     WaitForEndOfFrame _waitForEndOfFrame;
@@ -42,6 +51,8 @@ public class Enemy : MonoBehaviour
         _mainMaterial = _mainMeshRenderer.material;
         _environmentVfxMaterial = _environmentVfxRenderer.material;
         _waitForEndOfFrame = new WaitForEndOfFrame();
+        _enemyAnimationHandler = new EnemyAnimationHandler(_animator);
+        _enemyMover = new EnemyMover(_speed, transform);
     }
 
     /// <summary>

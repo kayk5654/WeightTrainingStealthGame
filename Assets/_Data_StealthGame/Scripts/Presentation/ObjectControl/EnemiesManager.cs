@@ -24,12 +24,6 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     [SerializeField, Tooltip("spawn enemy objects in the spawn area")]
     private ObjectSpawnHandler _objectSpawnHandler;
 
-    // kernel name of FindNearestNode()
-    private string _findNearestNodeKernelName = "FindNearestNode";
-
-    // kernel info of FindNearestNode()
-    private KernelParamsHandler __findNearestNodKernel;
-
     // process to keep spawning enemies
     private IEnumerator _spawnEnemySequence;
 
