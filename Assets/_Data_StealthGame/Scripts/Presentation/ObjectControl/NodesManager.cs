@@ -74,6 +74,9 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet>
     [SerializeField, Tooltip("weight of the velocity to avoid boundary")]
     private float _avoidBoundaryVelWeight = 1f;
 
+    [SerializeField, Tooltip("spawn enemy objects in the spawn area")]
+    private ObjectSpawnHandler _objectSpawnHandler;
+
     // buffer for nodes
     private ComputeBuffer[] _nodesBuffers;
 
@@ -174,6 +177,8 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet>
     public void Spawn(PlayerAbilityDataSet dataset)
     {
         LoadDataSet(dataset);
+        _objectSpawnHandler.SetSpawnArea(null);
+
         InitializeBuffers();
         InitializeParams();
         SpawnNodes_GPU();
@@ -310,23 +315,15 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet>
         _nodes = new Dictionary<int, Node>();
         Vector3 positionTemp = Vector3.zero;
         _nodesBufferData = new Node_ComputeShader[_nodeCount];
+
         Vector3 boundLocalMin = _spawnArea.center - _spawnArea.size * 0.5f;
         Vector3 boundLocalMax = _spawnArea.center + _spawnArea.size * 0.5f;
 
         for (int i = 0; i < _nodeCount; i++)
         {
             // instantiate node in the scene
-            Transform newNode = Instantiate(_nodePrefab).transform;
-            // calculate spawn position in the local space of _spawnArea
-            positionTemp.x = Random.Range(boundLocalMin.x, boundLocalMax.x);
-            positionTemp.y = Random.Range(boundLocalMin.y, boundLocalMax.y);
-            positionTemp.z = Random.Range(boundLocalMin.z, boundLocalMax.z);
-            // apply translate and rotation of _spawnArea
-            positionTemp = _spawnArea.transform.TransformPoint(positionTemp);
-            // assign position and rotation
-            newNode.position = positionTemp;
-            newNode.rotation = Quaternion.Euler(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
-            newNode.SetParent(this.transform);
+            Transform newNode = _objectSpawnHandler.Spawn(_nodePrefab, this.transform).transform;
+
             _nodes.Add(i, newNode.GetComponent<Node>());
             _nodes[i]._id = i;
             _nodes[i]._nodesManager = this;

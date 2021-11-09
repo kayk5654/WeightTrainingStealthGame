@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1193968915547156701}
   - component: {fileID: 659467824356649904}
   - component: {fileID: 3860268513243387507}
-  - component: {fileID: 6682820918499219853}
   m_Layer: 0
   m_Name: StageRoot
   m_TagString: Untagged
@@ -61,6 +60,7 @@ MonoBehaviour:
   _neighbourRadious: 1
   _connectRadious: 0.6
   _avoidBoundaryVelWeight: 1
+  _objectSpawnHandler: {fileID: 3860268513243387507}
 --- !u!114 &659467824356649904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,18 +93,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnArea: {fileID: 1193968915651095867}
---- !u!114 &6682820918499219853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1193968915547156700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 675b4803384847d4e88aa43bb1a93a75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1193968915651095866
 GameObject:
   m_ObjectHideFlags: 0
