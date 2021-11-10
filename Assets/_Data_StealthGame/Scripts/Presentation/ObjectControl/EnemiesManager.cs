@@ -184,7 +184,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         Enemy newEnemy = _objectSpawnHandler.Spawn(_enemyPrefab, transform).GetComponent<Enemy>();
 
         // set parameter
-        newEnemy.InitParams(this, _lastSpawnedEnemyId + 1, _nodeSearchingRange, _baseMoveSpeed, _nodesManager);
+        newEnemy.InitParams(this, _lastSpawnedEnemyId + 1, _nodeSearchingRange, _baseMoveSpeed);
 
         // record id of this enemy
         _lastSpawnedEnemyId = newEnemy.GetId();
@@ -203,6 +203,16 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         }
 
         _enemies.Clear();
+    }
+
+    /// <summary>
+    /// get the nearest node from the specified point
+    /// </summary>
+    /// <param name="origin"></param>
+    /// <returns></returns>
+    public Node GetNearestNode(Vector3 origin)
+    {
+        return _nodesManager.GetNearestNode(origin);
     }
 
     #endregion

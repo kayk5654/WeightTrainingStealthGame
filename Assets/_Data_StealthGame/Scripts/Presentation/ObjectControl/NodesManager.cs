@@ -483,11 +483,11 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     }
 
     /// <summary>
-    /// get the nearest node id from the specified point
+    /// get the nearest node from the specified point
     /// </summary>
     /// <param name="origin"></param>
     /// <returns></returns>
-    public Node GetNearestNodeId(Vector3 origin)
+    public Node GetNearestNode(Vector3 origin)
     {
         return _nodes[0];
     }

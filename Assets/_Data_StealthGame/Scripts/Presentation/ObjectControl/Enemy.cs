@@ -18,9 +18,6 @@ public class Enemy : MonoBehaviour
     // speed to extend lines to connect
     private float _speed = 1f;
 
-    // get node information
-    private NodesManager _nodesManager;
-
     [SerializeField, Tooltip("threshold of distance to the attack target")]
     private float _attackTargetDistThresh = 0.25f;
 
@@ -78,7 +75,7 @@ public class Enemy : MonoBehaviour
         if(_currentState != EnemyState.Search){ return; }
 
         // move enemy to search attack target
-        _nearestTarget = _nodesManager.GetNearestNodeId(transform.position);
+        _nearestTarget = _enemiesManager.GetNearestNode(transform.position);
         _enemyMover.Move(_nearestTarget.transform.position);
 
         // if this enemy gets sufficiently close to the attack target, start attack it
@@ -97,13 +94,12 @@ public class Enemy : MonoBehaviour
     /// <param name="range"></param>
     /// <param name="speed"></param>
     /// <param name="nodesManager"></param>
-    public void InitParams(EnemiesManager enemiesManager, int id, float range, float speed, NodesManager nodesManager)
+    public void InitParams(EnemiesManager enemiesManager, int id, float range, float speed)
     {
         _enemiesManager = enemiesManager;
         _id = id;
         _range = range;
         _speed = speed;
-        _nodesManager = nodesManager;
     }
 
     /// <summary>
