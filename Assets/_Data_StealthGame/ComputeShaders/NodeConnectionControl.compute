@@ -3,6 +3,8 @@
 
 #pragma kernel InitializeConnection
 
+#pragma kernel FindNearestNode
+
 // structure of node
 struct Node
 {
@@ -30,6 +32,12 @@ StructuredBuffer <Connection> _connectionBufferRead;
 
 // buffer for connections (for writing)
 RWStructuredBuffer<Connection> _connectionBufferWrite;
+
+// buffer for nearest node searching result
+RWStructuredBuffer<int> _nearestNodeBuffer;
+
+// buffer for nearest node searching origins
+StructuredBuffer<float3> _nearestNodeOriginBuffer;
 
 // max number of nodes
 uint _nodeCount;
@@ -269,4 +277,41 @@ void InitializeConnection
         _connectionBufferWrite[connectionId]._connectNode2 = _connectionBufferRead[connectionId]._connectNode2;
     }
 
+}
+
+[numthreads(SIMULATION_BLOCK_SIZE, 1, 1)]
+void FindNearestNode
+(
+    uint3 DTid : SV_DispatchThreadID // global thread index (= Gid.x * SIMULATION_BLOCK_SIZE + GTid.x)
+) 
+{
+    // the shortest distance from the search origin to the closest node
+    float minDistance;
+    int nearestNodeId;
+
+    // search the nearest node from a search origin
+    for (int nodeId = 0; nodeId < _nodeCount; nodeId++)
+    {
+        // get distance between a node and search origin
+        float dist = distance(_nodesBufferRead[nodeId]._position, _nearestNodeOriginBuffer[DTid.x]);
+        
+        // initialize minDistance to compare distance to other nodes
+        if(nodeId == 0)
+        {
+            minDistance = dist;
+            nearestNodeId = nodeId;
+            continue;
+        }
+
+        // compare distance
+        if (dist < minDistance) 
+        {
+            // if this dist is the shortest, update minDistance and nearestNodeId 
+            minDistance = dist;
+            nearestNodeId = nodeId;
+        }
+    }
+
+    // set calculation result
+    _nearestNodeBuffer[DTid.x] = nearestNodeId;
 }

@@ -137,8 +137,17 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     // kernel name of InitializeConnection()
     private string _initConnectionKernelName = "InitializeConnection";
 
+    // max number of origin of the nearest node searching
+    private int _maxNearestNodeSearchOrigin;
+
     // kernel name of FindNearestNode()
     private string _findNearestNodeKernelName = "FindNearestNode";
+
+    // name of buffer to contain nearest node id from each enemies
+    private string _nearestNodeBufferName = "_nearestNodeBuffer";
+
+    // name of buffer to contain enemies' position to find the nearest nodes from them
+    private string _nearestNodeOriginBufferName = "_nearestNodeOriginBuffer";
 
     // kernel info of UpdateNodePosition()
     private KernelParamsHandler _updateNodePosKernel;
@@ -147,7 +156,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     private KernelParamsHandler _initConnectionKernel;
 
     // kernel info of FindNearestNode()
-    private KernelParamsHandler _findNearestNodKernel;
+    private KernelParamsHandler _findNearestNodeKernel;
     // index of buffers for reading
     private const int READ = 0;
 
@@ -242,6 +251,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     /// <returns></returns>
     public Node GetNode(int nodeId)
     {
+        if(!_nodes.ContainsKey(nodeId)) { return null; }
         return _nodes[nodeId];
     }
 
@@ -252,6 +262,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     /// <returns></returns>
     public Connection GetConnection(int connectionId)
     {
+        if (!_connections.ContainsKey(connectionId)) { return null; }
         return _connections[connectionId];
     }
 
@@ -287,7 +298,6 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
         // contain data of kernel in KernelParamsHandler
         _updateNodePosKernel = new KernelParamsHandler(_nodeConnectionControl, _updateNodeKernelName, nodeKernelThreadGroupSize, 1, 1);
         _initConnectionKernel = new KernelParamsHandler(_nodeConnectionControl, _initConnectionKernelName, connectionKernelThreadGroupSize, 1, 1);
-        _findNearestNodKernel = new KernelParamsHandler(_nodeConnectionControl, _findNearestNodeKernelName, nodeKernelThreadGroupSize, 1, 1);
 
         // set constant parameters for simulation
         _nodeConnectionControl.SetFloat(_neighbourRadiousName, _neighbourRadious);
@@ -483,13 +493,36 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     }
 
     /// <summary>
+    /// initialize find nearest node kernel info
+    /// </summary>
+    /// <param name="maxSearchOriginNum"></param>
+    public void InitializeFindNearestNodeKernel(int maxSearchOriginNum)
+    {
+        // set number of search origin
+        _maxNearestNodeSearchOrigin = maxSearchOriginNum;
+        
+        // calculate thread group size
+        int findNearestNodeKernelThreadGroupSize = Mathf.CeilToInt((float)_maxNearestNodeSearchOrigin / (float)SIMULATION_BLOCK_SIZE);
+
+        _findNearestNodeKernel = new KernelParamsHandler(_nodeConnectionControl, _findNearestNodeKernelName, findNearestNodeKernelThreadGroupSize, 1, 1);
+    }
+
+    /// <summary>
     /// get the nearest node from the specified point
     /// </summary>
     /// <param name="origin"></param>
     /// <returns></returns>
-    public Node GetNearestNode(Vector3 origin)
+    public void GetNearestNode(ComputeBuffer nearestNodeBuffer, ComputeBuffer originPositionBuffer)
     {
-        return _nodes[0];
+        // set compute buffers
+        _nodeConnectionControl.SetBuffer(_findNearestNodeKernel._index, _nearestNodeBufferName, nearestNodeBuffer);
+        _nodeConnectionControl.SetBuffer(_findNearestNodeKernel._index, _nearestNodeOriginBufferName, originPositionBuffer);
+        _nodeConnectionControl.SetBuffer(_findNearestNodeKernel._index, _nodeBufferName_Read, _nodesBuffers[READ]);
+
+        // execute calculation process
+        _nodeConnectionControl.Dispatch(_findNearestNodeKernel._index, _findNearestNodeKernel._x, _findNearestNodeKernel._y, _findNearestNodeKernel._z);
+
+        return;
     }
     #endregion
 

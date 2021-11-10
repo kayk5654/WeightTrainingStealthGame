@@ -6,10 +6,7 @@ using UnityEngine;
 /// </summary>
 public class Enemy : MonoBehaviour
 {
-    // reference of NodesManager
-    private EnemiesManager _enemiesManager;
-
-    // range to search neighbours to connect
+     // range to search neighbours to connect
     private float _range = 1f;
 
     // id of each nodes
@@ -75,8 +72,15 @@ public class Enemy : MonoBehaviour
         if(_currentState != EnemyState.Search){ return; }
 
         // move enemy to search attack target
-        _nearestTarget = _enemiesManager.GetNearestNode(transform.position);
-        _enemyMover.Move(_nearestTarget.transform.position);
+        if (_nearestTarget)
+        {
+            _enemyMover.Move(_nearestTarget.transform.position);
+        }
+        else
+        {
+            // if _nearestTarget is null, enemy moves forward 
+            _enemyMover.Move(transform.position + transform.forward);
+        }
 
         // if this enemy gets sufficiently close to the attack target, start attack it
         if (Vector3.Distance(_nearestTarget.transform.position, transform.position) < _attackTargetDistThresh)
@@ -94,9 +98,8 @@ public class Enemy : MonoBehaviour
     /// <param name="range"></param>
     /// <param name="speed"></param>
     /// <param name="nodesManager"></param>
-    public void InitParams(EnemiesManager enemiesManager, int id, float range, float speed)
+    public void InitParams(int id, float range, float speed)
     {
-        _enemiesManager = enemiesManager;
         _id = id;
         _range = range;
         _speed = speed;
@@ -143,5 +146,14 @@ public class Enemy : MonoBehaviour
         _enemyAnimationHandler.SetSearch();
         _currentState = EnemyState.Search;
         _attackSequence = null;
+    }
+
+    /// <summary>
+    /// set the nearest node from EnemiesManager
+    /// </summary>
+    /// <param name="node"></param>
+    public void SetNearestNode(Node node)
+    {
+        _nearestTarget = node;
     }
 }

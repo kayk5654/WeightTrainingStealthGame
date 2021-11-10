@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.InteropServices;
+using System.Linq;
 /// <summary>
 /// manage enemy objects
 /// </summary>
@@ -42,6 +44,21 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     // recordd the id of the enemy spawned lasttime
     private int _lastSpawnedEnemyId = -1;
 
+    // contain nearest node id from each enemy instaces
+    private ComputeBuffer _nearestNodeBuffer;
+
+    // contain current enemies' positions
+    private ComputeBuffer _enemyPositionBuffer;
+
+    // contain node id from _nearestNodeBuffer / _id of enemy is index of this array
+    private int[] _nearestNodeBufferData;
+
+    // contain enemies' position to set _enemyPositionBuffer / _id of enemy is index of this array
+    private Vector3[] _enemyPositionBufferData;
+
+    // the theoretical maximum number of spawned enemies
+    private int _maxSpawnedEnemyNum;
+
 
     #region MonoBehaviour
 
@@ -57,6 +74,8 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     private void Update()
     {
         if (!_toUpdate) { return; }
+        UpdateBuffers();
+        SetNearestNodeOnEnemies();
     }
 
     #endregion
@@ -71,10 +90,18 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     {
         _currentLevelData = dataset;
 
+        // calculate theoretical max number of spawned enemies
+        _maxSpawnedEnemyNum = Mathf.FloorToInt((dataset._enemySpawnRate / Config._enemySpawnUnitTime) * dataset._duration);
+
         // initialize spawn area
         _objectSpawnHandler.SetSpawnArea(spawnArea);
 
-        InitEnemyDictionary();
+        // initialize enemy control data
+        InitializeEnemyDictionary();
+        InitializeBuffers();
+        _nodesManager.InitializeFindNearestNodeKernel(_maxSpawnedEnemyNum);
+
+        // start spawning
         StartSpawnEnemies();
 
         _toUpdate = true;
@@ -109,6 +136,68 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         _toUpdate = false;
         StopSpawnEnemies();
         DeleteAllEnemies();
+        ReleaseBuffers();
+    }
+
+    #endregion
+
+    #region Handle ComputeShader
+
+    /// <summary>
+    /// initialize compute buffers for calculation
+    /// </summary>
+    private void InitializeBuffers()
+    {
+        // _nearestNodeBuffer contains node id (= int)
+        _nearestNodeBuffer = new ComputeBuffer(_maxSpawnedEnemyNum, Marshal.SizeOf(typeof(int)));
+        _nearestNodeBufferData = Enumerable.Repeat<int>(-1, _maxSpawnedEnemyNum).ToArray();
+
+        // _enemyPositionBuffer contains each enemies' position (= vector3)
+        _enemyPositionBuffer = new ComputeBuffer(_maxSpawnedEnemyNum, Marshal.SizeOf(typeof(Vector3)));
+        _enemyPositionBufferData = Enumerable.Repeat<Vector3>(Vector3.zero, _maxSpawnedEnemyNum).ToArray();
+    }
+
+    /// <summary>
+    /// set latest enemy positions into data container for compute buffers
+    /// </summary>
+    private void UpdateBuffers()
+    {
+        if (_enemies == null || _enemies.Count < 1) { return; }
+
+        foreach (Enemy enemy in _enemies.Values)
+        {
+            _enemyPositionBufferData[enemy.GetId()] = enemy.transform.position;
+        }
+    }
+
+    /// <summary>
+    /// set the nearest nodes on all alive enemies
+    /// </summary>
+    private void SetNearestNodeOnEnemies()
+    {
+        if (_enemies == null || _enemies.Count < 1) { return; }
+
+        // calculate the nearest nodes in _nodesManager using compute shader
+        _enemyPositionBuffer.SetData(_enemyPositionBufferData);
+        _nodesManager.GetNearestNode(_nearestNodeBuffer, _enemyPositionBuffer);
+
+        // receive calculated position
+        _nearestNodeBuffer.GetData(_nearestNodeBufferData);
+
+        // pass nearest node reference to each enemiess
+        foreach (Enemy enemy in _enemies.Values)
+        {
+            enemy.SetNearestNode(_nodesManager.GetNode(_nearestNodeBufferData[enemy.GetId()]));
+        }
+    }
+
+    /// <summary>
+    /// release compute buffers
+    /// </summary>
+    private void ReleaseBuffers()
+    {
+        _nearestNodeBuffer.Release();
+        _enemyPositionBuffer.Release();
     }
 
     #endregion
@@ -118,7 +207,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     /// <summary>
     /// initialize enemies dictionary
     /// </summary>
-    private void InitEnemyDictionary()
+    private void InitializeEnemyDictionary()
     {
         // initialize dictionary
         _enemies = new Dictionary<int, Enemy>();
@@ -184,7 +273,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         Enemy newEnemy = _objectSpawnHandler.Spawn(_enemyPrefab, transform).GetComponent<Enemy>();
 
         // set parameter
-        newEnemy.InitParams(this, _lastSpawnedEnemyId + 1, _nodeSearchingRange, _baseMoveSpeed);
+        newEnemy.InitParams(_lastSpawnedEnemyId + 1, _nodeSearchingRange, _baseMoveSpeed);
 
         // record id of this enemy
         _lastSpawnedEnemyId = newEnemy.GetId();
@@ -203,16 +292,6 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         }
 
         _enemies.Clear();
-    }
-
-    /// <summary>
-    /// get the nearest node from the specified point
-    /// </summary>
-    /// <param name="origin"></param>
-    /// <returns></returns>
-    public Node GetNearestNode(Vector3 origin)
-    {
-        return _nodesManager.GetNearestNode(origin);
     }
 
     #endregion
