@@ -46,8 +46,8 @@ public class ObjectSpawnHandler : MonoBehaviour
         _spawnArea.transform.rotation = spawnAreaData._rotation;
         
         // calculate min and max corner
-        _boundLocalMin = spawnAreaData._center - spawnAreaData._size * 0.5f;
-        _boundLocalMax = spawnAreaData._center + spawnAreaData._size * 0.5f;
+        _boundLocalMin = _spawnArea.center - spawnAreaData._size * 0.5f;
+        _boundLocalMax = _spawnArea.center + spawnAreaData._size * 0.5f;
     }
     
     /// <summary>
