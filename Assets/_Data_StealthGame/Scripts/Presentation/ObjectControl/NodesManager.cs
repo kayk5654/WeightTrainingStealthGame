@@ -192,11 +192,17 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     /// <param name="dataset"></param>
     public void Spawn(PlayerAbilityDataSet dataset, SpawnAreaDataSet spawnArea = null)
     {
+        // load dataset
         LoadDataSet(dataset);
+
+        // initialize spawn area
         _objectSpawnHandler.SetSpawnArea(spawnArea);
 
+        // initialize vairables
         InitializeBuffers();
         InitializeParams();
+
+        // spawn objects
         SpawnNodes_GPU();
         SpawnConnection_GPU();
 

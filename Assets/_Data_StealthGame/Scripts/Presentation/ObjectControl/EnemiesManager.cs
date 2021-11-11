@@ -96,6 +96,9 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         // initialize spawn area
         _objectSpawnHandler.SetSpawnArea(spawnArea);
 
+        // initialize enemy id
+        _lastSpawnedEnemyId = -1;
+
         // initialize enemy control data
         InitializeEnemyDictionary();
         InitializeBuffers();
@@ -224,6 +227,9 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
             return;
         }
 
+        // limit max spawned enemy number
+        if(_lastSpawnedEnemyId >= _maxSpawnedEnemyNum - 1) { return; }
+
         _spawnEnemySequence = SpawnEnemySequence();
         StartCoroutine(_spawnEnemySequence);
     }
@@ -253,10 +259,18 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
 
         while (true)
         {
+            // limit number of total spawned enemy number
+            if(_lastSpawnedEnemyId >= _maxSpawnedEnemyNum - 1) 
+            {
+                _spawnEnemySequence = null;
+                yield break; 
+            }
+            
             // if the number of enemies in the field is less than max number, spawn enemies
             if(_enemies.Count < _currentLevelData._maxEnemyNumberInField)
             {
                 Enemy newEnemy = SpawnSingleEnemy();
+                newEnemy.EnableUpdate(true);
                 _enemies.Add(newEnemy.GetId(), newEnemy);
             }
             
