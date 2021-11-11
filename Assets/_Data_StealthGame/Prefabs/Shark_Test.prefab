@@ -48,7 +48,7 @@ CapsuleCollider:
   m_Radius: 0.54
   m_Height: 4.5296855
   m_Direction: 2
-  m_Center: {x: 0, y: -0.03358531, z: 0.26468593}
+  m_Center: {x: 0, y: -0.03358531, z: -2.3}
 --- !u!54 &1914069107923673513
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -77,12 +77,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2274ba8901293634da2ecf7b82bd0e6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nodesManager: {fileID: 0}
-  _range: 1
-  _id: -1
-  _speed: 1
+  _attackTargetDistThresh: 0.25
   _mainMeshRenderer: {fileID: 1602007962175909989}
   _environmentVfxRenderer: {fileID: 4062891285918896895}
+  _animator: {fileID: 0}
 --- !u!1 &953502740543705520
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,7 +107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 953502740543705520}
   m_LocalRotation: {x: -0.7071068, y: 0.000000029802322, z: 0.000000029802322, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: -0, z: -2.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 142686241028879580}
@@ -188,7 +186,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3717723646647335001}
   m_LocalRotation: {x: -0.7071068, y: 0.000000029802322, z: 0.000000029802322, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -2.3000002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 142686241028879580}
