@@ -113,7 +113,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     public void Pause()
     {
         StopSpawnEnemies();
-
+        EnableUpdateEnemies(false);
 
         _toUpdate = false;
     }
@@ -124,7 +124,8 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     public void Resume()
     {
         StartSpawnEnemies();
-        
+        EnableUpdateEnemies(true);
+
         _toUpdate = true;
     }
 
@@ -292,6 +293,18 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         }
 
         _enemies.Clear();
+    }
+
+    /// <summary>
+    /// enable/disable updating enemies' transform
+    /// </summary>
+    /// <param name="state"></param>
+    private void EnableUpdateEnemies(bool state)
+    {
+        foreach(Enemy enemy in _enemies.Values)
+        {
+            enemy.EnableUpdate(state);
+        }
     }
 
     #endregion

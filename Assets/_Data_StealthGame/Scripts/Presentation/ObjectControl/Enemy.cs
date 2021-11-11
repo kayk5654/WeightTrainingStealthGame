@@ -51,6 +51,9 @@ public class Enemy : MonoBehaviour
     // process of attacking player's object
     private IEnumerator _attackSequence;
 
+    // whether an enemy' transform or state can be updated
+    private bool _toUpdate;
+
 
     /// <summary>
     /// initialization
@@ -69,6 +72,8 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        if (!_toUpdate) { return; }
+        
         if(_currentState != EnemyState.Search){ return; }
 
         if (!_nearestTarget)
@@ -111,6 +116,15 @@ public class Enemy : MonoBehaviour
     public int GetId()
     {
         return _id;
+    }
+
+    /// <summary>
+    /// enable/disable updating transform
+    /// </summary>
+    /// <param name="state"></param>
+    public void EnableUpdate(bool state)
+    {
+        _toUpdate = state;
     }
 
     /// <summary>
