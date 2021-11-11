@@ -99,7 +99,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         // initialize enemy control data
         InitializeEnemyDictionary();
         InitializeBuffers();
-        _nodesManager.InitializeFindNearestNodeKernel(_maxSpawnedEnemyNum);
+        _nodesManager.InitializeFindNearestNodeKernel(_maxSpawnedEnemyNum, _nodeSearchingRange);
 
         // start spawning
         StartSpawnEnemies();

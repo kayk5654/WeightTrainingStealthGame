@@ -72,6 +72,9 @@ float3 _boundarySize;
 // rotation of the boundary of the node generation area
 float4x4 _boundaryRotation;
 
+// range of nearest node searching
+float _nodeSearchingRange;
+
 // of a node reaches at the boundary (assuming AABB) return velocity to avoid it
 float3 AvoidBoundary(float3 position, float3 center, float3 size, float4x4 rotMatrix)
 {
@@ -286,8 +289,8 @@ void FindNearestNode
 ) 
 {
     // the shortest distance from the search origin to the closest node
-    float minDistance;
-    int nearestNodeId;
+    float minDistance = _nodeSearchingRange;
+    int nearestNodeId = -1;
 
     // search the nearest node from a search origin
     for (int nodeId = 0; nodeId < _nodeCount; nodeId++)
@@ -295,21 +298,12 @@ void FindNearestNode
         // get distance between a node and search origin
         float dist = distance(_nodesBufferRead[nodeId]._position, _nearestNodeOriginBuffer[DTid.x]);
         
-        // initialize minDistance to compare distance to other nodes
-        if(nodeId == 0)
-        {
-            minDistance = dist;
-            nearestNodeId = nodeId;
-            continue;
-        }
-
         // compare distance
-        if (dist < minDistance) 
-        {
-            // if this dist is the shortest, update minDistance and nearestNodeId 
-            minDistance = dist;
-            nearestNodeId = nodeId;
-        }
+        if (dist > minDistance){ continue; }
+
+        // if this dist is the shortest, update minDistance and nearestNodeId 
+        minDistance = dist;
+        nearestNodeId = nodeId;
     }
 
     // set calculation result

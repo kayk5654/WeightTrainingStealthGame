@@ -143,6 +143,8 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     // kernel name of FindNearestNode()
     private string _findNearestNodeKernelName = "FindNearestNode";
 
+    private string _nodeSearchingRangeName = "_nodeSearchingRange";
+
     // name of buffer to contain nearest node id from each enemies
     private string _nearestNodeBufferName = "_nearestNodeBuffer";
 
@@ -496,7 +498,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     /// initialize find nearest node kernel info
     /// </summary>
     /// <param name="maxSearchOriginNum"></param>
-    public void InitializeFindNearestNodeKernel(int maxSearchOriginNum)
+    public void InitializeFindNearestNodeKernel(int maxSearchOriginNum, float searchRange)
     {
         // set number of search origin
         _maxNearestNodeSearchOrigin = maxSearchOriginNum;
@@ -505,6 +507,9 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
         int findNearestNodeKernelThreadGroupSize = Mathf.CeilToInt((float)_maxNearestNodeSearchOrigin / (float)SIMULATION_BLOCK_SIZE);
 
         _findNearestNodeKernel = new KernelParamsHandler(_nodeConnectionControl, _findNearestNodeKernelName, findNearestNodeKernelThreadGroupSize, 1, 1);
+
+        // set variables on the compute shader
+        _nodeConnectionControl.SetFloat(_nodeSearchingRangeName, searchRange);
     }
 
     /// <summary>
