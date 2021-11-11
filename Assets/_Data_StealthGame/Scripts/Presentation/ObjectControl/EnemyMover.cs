@@ -32,7 +32,7 @@ public class EnemyMover
     /// move enemy transform
     /// </summary>
     /// <param name="target"></param>
-    public void Move(Vector3 target)
+    public void Move(Vector3 target, Vector3 force)
     {
         _moveDirection = Vector3.Normalize(target - _moveTransform.position);
         _moveTransform.position += _moveDirection * _baseSpeed;

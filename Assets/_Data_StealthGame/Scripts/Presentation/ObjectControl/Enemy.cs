@@ -79,12 +79,12 @@ public class Enemy : MonoBehaviour
         if (!_nearestTarget)
         {
             // if _nearestTarget is null, enemy moves forward 
-            _enemyMover.Move(transform.position + transform.forward);
+            _enemyMover.Move(transform.position + transform.forward, Vector3.zero);
             return;
         }
 
         // move enemy to search attack target
-        _enemyMover.Move(_nearestTarget.transform.position);
+        _enemyMover.Move(_nearestTarget.transform.position, Vector3.zero);
 
         // if this enemy gets sufficiently close to the attack target, start attack it
         if (Vector3.Distance(_nearestTarget.transform.position, transform.position) < _attackTargetDistThresh)
