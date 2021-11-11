@@ -77,24 +77,39 @@ public class Enemy : MonoBehaviour
     {
         if (!_toUpdate) { return; }
         
-        if(_currentState != EnemyState.Search){ return; }
-
-        if (!_nearestTarget)
+        switch (_currentState)
         {
-            // if _nearestTarget is null, enemy moves forward 
-            _enemyMover.Move(transform.position + transform.forward, _externalForce);
-            return;
+            case EnemyState.Search:
+                if (!_nearestTarget)
+                {
+                    // if _nearestTarget is null, enemy moves forward 
+                    _enemyMover.Move(transform.position + transform.forward, _externalForce);
+                    return;
+                }
+
+                // move enemy to search attack target
+                _enemyMover.Move(_nearestTarget.transform.position, _externalForce);
+
+                // if this enemy gets sufficiently close to the attack target, start attack it
+                if (Vector3.Distance(_nearestTarget.transform.position, transform.position) < _attackTargetDistThresh)
+                {
+                    _currentState = EnemyState.Attack;
+                    StartAttack();
+                }
+                break;
+
+            case EnemyState.Attack:
+                // move enemy to search attack target
+                if (!_nearestTarget) { return; }
+                transform.SetParent(_nearestTarget.transform);
+                _enemyMover.Move(_nearestTarget.transform.position, Vector3.zero);
+                break;
+
+            default:
+                break;
         }
 
-        // move enemy to search attack target
-        _enemyMover.Move(_nearestTarget.transform.position, _externalForce);
-
-        // if this enemy gets sufficiently close to the attack target, start attack it
-        if (Vector3.Distance(_nearestTarget.transform.position, transform.position) < _attackTargetDistThresh)
-        {
-            _currentState = EnemyState.Attack;
-            StartAttack();
-        }
+        
     }
 
     /// <summary>
