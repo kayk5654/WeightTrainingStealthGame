@@ -170,7 +170,23 @@ public class Enemy : MonoBehaviour
         yield return _waitForEndOfFrame;
 
         // giving damage on the attacked player's object
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2f);
+
+        // check whether _nearestTarget still exists
+        if (_nearestTarget)
+        {
+            // before destroying the target object, unparent all enemies
+            Enemy[] attackingEnemies = _nearestTarget.GetComponentsInChildren<Enemy>();
+            foreach (Enemy enemy in attackingEnemies)
+            {
+                enemy.transform.SetParent(_nearestTarget.transform.parent);
+            }
+            // destroy the object
+            _nearestTarget.Destroy();
+        }
+        
+        
 
         // when the player's object is destroyed, end attack sequence
         _nearestTarget = null;

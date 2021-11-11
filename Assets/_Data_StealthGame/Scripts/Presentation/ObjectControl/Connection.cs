@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 /// <summary>
 /// control connection between nodes
 /// </summary>
-public class Connection : MonoBehaviour
+public class Connection : InGameObjectBase
 {
     [Tooltip("id of each connections")]
     public int _id;
@@ -20,6 +21,9 @@ public class Connection : MonoBehaviour
 
     // material of _lineRenderer
     private Material _lineMaterial;
+
+    // event to notify nodeManager when this node is destroyed
+    public override event EventHandler<InGameObjectEventArgs> _onDestroyed;
 
     /// <summary>
     /// initialization
@@ -72,4 +76,27 @@ public class Connection : MonoBehaviour
     }
 
     // TODO: control material to fade line, change color of line, etc.
+
+    /// <summary>
+    /// process when this node is destroyed by an enemy
+    /// </summary>
+    public override void Destroy()
+    {
+        InGameObjectEventArgs args = new InGameObjectEventArgs(_id);
+        _onDestroyed?.Invoke(this, args);
+        Destroy(gameObject);
+    }
+
+    /// <summary>
+    /// trigger destroying this connection by destroying node
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    public void DestroyByNode(object sender, InGameObjectEventArgs args)
+    {
+        // TODO: let another node know that this connection is destroyed
+        
+        _onDestroyed?.Invoke(this, args);
+        Destroy(gameObject);
+    }
 }

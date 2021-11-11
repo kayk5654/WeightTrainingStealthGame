@@ -143,3 +143,21 @@ public class ExerciseInfoEventArgs : EventArgs
         _selectedExercise = exerciseType;
     }
 }
+
+/// <summary>
+/// event args for InGameObjectBase
+/// </summary>
+public class InGameObjectEventArgs : EventArgs
+{
+    // id of the sender object
+    public int _id;
+
+    /// <summary>
+    /// constructor
+    /// </summary>
+    /// <param name="id"></param>
+    public InGameObjectEventArgs(int id)
+    {
+        _id = id;
+    }
+}

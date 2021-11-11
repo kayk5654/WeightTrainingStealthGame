@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 /// <summary>
 /// contain parameters of node
 /// </summary>
-public class Node : MonoBehaviour
+public class Node : InGameObjectBase
 {
     // reference of NodesManager
     private NodesManager _nodesManager;
@@ -32,6 +33,13 @@ public class Node : MonoBehaviour
 
     // for corouines
     WaitForEndOfFrame _waitForEndOfFrame;
+
+    // event to notify nodeManager when this node is destroyed
+    public override event EventHandler<InGameObjectEventArgs> _onDestroyed;
+
+    // store connected node temporarily
+    private Node _connectedNodeTemp;
+
 
     /// <summary>
     /// initialization
@@ -79,7 +87,12 @@ public class Node : MonoBehaviour
         for(int i = 0; i < _connectionsIds.Count; i++)
         {
             int anotherNodeId = _nodesManager.GetConnection(_connectionsIds[i]).GetAnotherNode(_id);
-            SpawnNodeCap(_nodesManager.GetNode(anotherNodeId).transform);
+            _connectedNodeTemp = _nodesManager.GetNode(anotherNodeId);
+            if (_connectedNodeTemp)
+            {
+                SpawnNodeCap(_connectedNodeTemp.transform);
+            }
+            
         }
     }
 
@@ -103,7 +116,7 @@ public class Node : MonoBehaviour
         for (int i = 0; i < _nodeCaps.Count; i++)
         {
             int anotherNodeId = _nodesManager.GetConnection(_connectionsIds[i]).GetAnotherNode(_id);
-            _nodeCaps[i].LookAt(_nodesManager.GetNode(anotherNodeId).transform);
+            _nodeCaps[i].LookAt(_nodesManager.GetNode(anotherNodeId)?.transform);
         }
     }
 
@@ -125,5 +138,26 @@ public class Node : MonoBehaviour
     {
         if (!_connectionsIds.Contains(connectionId)) { return; }
         _connectionsIds.Remove(connectionId);
+    }
+
+    /// <summary>
+    /// process when this node is destroyed by an enemy
+    /// </summary>
+    public override void Destroy()
+    {
+        InGameObjectEventArgs args = new InGameObjectEventArgs(_id);
+        _onDestroyed?.Invoke(this, args);
+        Destroy(gameObject);
+    }
+
+    /// <summary>
+    /// remove registered connection if the relative connection is destroyed
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    public void OnDestroyConnection(object sender, InGameObjectEventArgs args)
+    {
+        if (!_connectionsIds.Contains(args._id)) { return; }
+        _connectionsIds.Remove(args._id);
     }
 }

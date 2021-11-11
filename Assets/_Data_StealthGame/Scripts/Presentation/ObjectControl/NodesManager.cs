@@ -176,7 +176,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
         
         SimulateNodes_GPU();
         //SimulateConnections_GPU();
-        UpdatePositioniForConnection();
+        UpdatePositionForConnection();
     }
 
     #endregion
@@ -343,6 +343,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
 
             _nodes.Add(i, newNode.GetComponent<Node>());
             _nodes[i].InitParams(i, this, _speed * Random.Range(0.5f, 1.2f));
+            _nodes[i]._onDestroyed += OnDestroyNode;
 
             // set data for compute buffer
             _nodesBufferData[i]._id = i;
@@ -410,6 +411,13 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
             // let the relative nodes know about this connection
             _nodes[_connectionBufferData[i]._connectNode1].AddConnection(newConnection._id);
             _nodes[_connectionBufferData[i]._connectNode2].AddConnection(newConnection._id);
+
+            // set callback
+            newConnection._onDestroyed += OnDestroyConnection;
+            newConnection._onDestroyed += _nodes[_connectionBufferData[i]._connectNode1].OnDestroyConnection;
+            newConnection._onDestroyed += _nodes[_connectionBufferData[i]._connectNode2].OnDestroyConnection;
+            _nodes[_connectionBufferData[i]._connectNode1]._onDestroyed += newConnection.DestroyByNode;
+            _nodes[_connectionBufferData[i]._connectNode2]._onDestroyed += newConnection.DestroyByNode;
         }
 
         // spawn node caps for each connections
@@ -458,7 +466,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     /// <summary>
     /// update positions of nodes used for connection while keep initial connection
     /// </summary>
-    private void UpdatePositioniForConnection()
+    private void UpdatePositionForConnection()
     {
         // as long as keeping initial connection,
         // the index of _connectionBufferData always matches the index of _connections
@@ -478,7 +486,12 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
             }
             
             connectionData = _connectionBufferData[key];
-            _connections[key].SetNodesPosition(_nodes[connectionData._connectNode1].transform.position, _nodes[connectionData._connectNode2].transform.position);
+
+            // if the node is already destroyed, not to update node position
+            if(_nodes.ContainsKey(connectionData._connectNode1) && _nodes.ContainsKey(connectionData._connectNode2))
+            {
+                _connections[key].SetNodesPosition(_nodes[connectionData._connectNode1].transform.position, _nodes[connectionData._connectNode2].transform.position);
+            }
         }
     }
 
@@ -539,6 +552,32 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     private void LoadDataSet(PlayerAbilityDataSet dataSet)
     {
         _nodeCount = dataSet._unlockedNodeNumber;
+    }
+
+    /// <summary>
+    /// callback function when any of nodes are destroyed
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void OnDestroyNode(object sender, InGameObjectEventArgs args)
+    {
+        if (!_nodes.ContainsKey(args._id)) { return; }
+        
+        _nodes.Remove(args._id);
+    }
+
+    /// <summary>
+    /// callback function when any of connections are destroyed
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void OnDestroyConnection(object sender, InGameObjectEventArgs args)
+    {
+        if (!_connections.ContainsKey(args._id)) { return; }
+        
+        _nodes[_connectionBufferData[args._id]._connectNode1]._onDestroyed -= _connections[args._id].DestroyByNode;
+        _nodes[_connectionBufferData[args._id]._connectNode2]._onDestroyed -= _connections[args._id].DestroyByNode;
+        _connections.Remove(args._id);
     }
 
     #endregion
