@@ -75,4 +75,31 @@ public class ObjectSpawnHandler : MonoBehaviour
 
         return newObject;
     }
+
+    /// <summary>
+    /// enable to get world space center position of the spawn area
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 GetSpawnAreaCenter()
+    {
+        return _spawnArea.transform.TransformPoint(_spawnArea.center);
+    }
+
+    /// <summary>
+    /// enable to get size of the spawn area; assuming that _spawnArea.transform.lossyScale is (1, 1, 1)
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 GetSpawnAreaSize()
+    {
+        return _spawnArea.size;
+    }
+
+    /// <summary>
+    /// enable to get transform matrix of the spawn area
+    /// </summary>
+    /// <returns></returns>
+    public Matrix4x4 GetSpawnAreaTransformMatrix()
+    {
+        return Matrix4x4.TRS(_spawnArea.transform.position, _spawnArea.transform.rotation, _spawnArea.transform.lossyScale);
+    }
 }

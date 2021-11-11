@@ -1,0 +1,159 @@
+﻿// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel GetEnemyForce
+
+// structure of enemy data
+struct Enemy
+{
+    // identify each enemies
+    int _id; 
+    // world space position of an enemy
+    float3 _position; 
+    // whether the enemy is searching player's object (= whether the enemy is animated)
+    // 1: true / 0 : false
+    int _isSearching; 
+};
+
+// size of thread group
+#define SIMULATION_BLOCK_SIZE 256
+
+// buffer for enemies (for reading)
+StructuredBuffer<Enemy> _enemyBufferRead;
+
+// buffer for enemies (for writing)
+//RWStructuredBuffer<Enemy> _enemyBufferWrite;
+
+// contain calculation result of forces applied to the enemies
+RWStructuredBuffer<float3> _enemyForceBuffer;
+
+// theoretical max number of the spawned enemies
+int _maxSpawnedEnemyNum;
+
+// delta time
+float _deltaTime;
+
+// range of neighbour enemies which affects single enemy's behaviour
+float _neighbourRadious;
+
+// shared memory to contain enemy data
+groupshared Enemy _enemyData[SIMULATION_BLOCK_SIZE];
+
+// weight of the velocity to avoid floor
+float _avoidBoundaryVelWeight;
+
+// center of the boundary of the node generation area
+float3 _boundaryCenter;
+
+// size of the boundary of the node generation area
+float3 _boundarySize;
+
+// rotation of the boundary of the node generation area
+float4x4 _boundaryRotation;
+
+// if a enemy reaches at the boundary (assuming AABB) return velocity to avoid it
+float3 AvoidBoundary(float3 position, float3 center, float3 size, float4x4 rotMatrix)
+{
+    // apply rotation; pivot is world space origin
+    float4x4 transposedRotationMatrix = transpose(rotMatrix);
+
+    center = mul(transposedRotationMatrix, center);
+    position = mul(transposedRotationMatrix, position);
+
+    // declare variables for calculation
+    float distanceFromBoundaryThreshold = 0.05;
+    float3 maxPos = center + size * 0.5;
+    float3 minPos = center - size * 0.5;
+
+    // calculate velocity
+    float3 avoidBoundaryVelocity = float3(0, 0, 0);
+    avoidBoundaryVelocity.x -= smoothstep(maxPos.x - distanceFromBoundaryThreshold, maxPos.x, position.x);
+    avoidBoundaryVelocity.x += smoothstep(minPos.x + distanceFromBoundaryThreshold, minPos.x, position.x);
+    avoidBoundaryVelocity.y -= smoothstep(maxPos.y - distanceFromBoundaryThreshold, maxPos.y, position.y);
+    avoidBoundaryVelocity.y += smoothstep(minPos.y + distanceFromBoundaryThreshold, minPos.y, position.y);
+    avoidBoundaryVelocity.z -= smoothstep(maxPos.z - distanceFromBoundaryThreshold, maxPos.z, position.z);
+    avoidBoundaryVelocity.z += smoothstep(minPos.z + distanceFromBoundaryThreshold, minPos.z, position.z);
+
+    // revert rotation
+    avoidBoundaryVelocity = mul(rotMatrix, avoidBoundaryVelocity);
+
+    return avoidBoundaryVelocity;
+}
+
+// calculate force applied for enemies
+[numthreads(SIMULATION_BLOCK_SIZE, 1, 1)]
+void GetEnemyForce
+(
+    uint3 DTid : SV_DispatchThreadID, // global thread index (= Gid.x * SIMULATION_BLOCK_SIZE + GTid.x)
+    uint3 Gid : SV_GroupID, // identifier of a group
+    uint3 GTid : SV_GroupThreadID, // thread id in a group
+    uint GI : SV_GroupIndex // one-dimensional group thread id (0-255)
+)
+{
+    // if the enemy isn't searching attack target, the force should be zero
+    if(!_enemyBufferRead[DTid.x]._isSearching)
+    {
+        _enemyForceBuffer[DTid.x] = float3(0, 0, 0);
+        return;
+    }
+    
+    // get position of this enemy
+    float3 thisEnemyPos = _enemyBufferRead[DTid.x]._position;
+
+    // sum of velocity to separate enemies
+    float3 separateVelSum = float3(0, 0, 0);
+
+    // number of neighbour enemies for calculation of separation velocity
+    int separateEnemyCount = 0;
+
+    // calculate by each thread groups
+    for (uint blockId = 0; blockId < _maxSpawnedEnemyNum; blockId += SIMULATION_BLOCK_SIZE)
+    {
+        // contain data of enemies in the shared memory
+        _enemyData[GI] = _enemyBufferRead[blockId + GI];
+
+        // wait for group syncing
+        GroupMemoryBarrierWithGroupSync();
+
+        // calculate influence of other enemies
+        for (uint i = 0; i < SIMULATION_BLOCK_SIZE; i++) 
+        {
+            // another enemy's position
+            float3 otherEnemyPos = _enemyBufferRead[i]._position;
+
+            // distance between this enemy and another enemy
+            float dist = distance(thisEnemyPos, otherEnemyPos);
+
+            if (dist > 0.0 && dist <= _neighbourRadious)
+            {
+                // if another enemy is close, apply force to take distance from it
+                
+                // direction from another enemy to this enemy
+                float3 otherToThisEnemyVector = normalize(thisEnemyPos - otherEnemyPos);
+
+                // apply level of influence depending on the distance
+                otherToThisEnemyVector /= dist;
+
+                // add velocity to separate from another enemy
+                separateVelSum += otherToThisEnemyVector;
+
+                // increment neighbour enemies number
+                separateEnemyCount++;
+            }
+        }
+
+        // wait for group syncing
+        GroupMemoryBarrierWithGroupSync();
+
+        // calculate separation velocity
+        float3 separateVel = float3(0, 0, 0);
+        separateVel = separateEnemyCount > 0 ? separateVelSum / (float)separateEnemyCount : separateVelSum;
+
+        // calculate avoid boundary velocity
+        float3 avoidBoundary = AvoidBoundary(thisEnemyPos, _boundaryCenter, _boundarySize, _boundaryRotation) * _avoidBoundaryVelWeight;
+
+        // calculate velocity
+        float3 velocity = (separateVel + avoidBoundary) * _deltaTime;
+
+        // write updated velocity
+        _enemyForceBuffer[DTid.x] = velocity;
+    }
+}

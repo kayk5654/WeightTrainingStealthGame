@@ -13,8 +13,11 @@ public class EnemyMover
     // store world space move direction temporarily
     private Vector3 _moveDirection;
 
+    // store velocity in the last frame to smooth out the movement
+    private Vector3 _lastVelocity;
+
     // delay factor of rotation
-    private float _rotationLerpFactor = 0.005f;
+    private float _lerpFactor = 0.005f;
 
 
     /// <summary>
@@ -35,7 +38,10 @@ public class EnemyMover
     public void Move(Vector3 target, Vector3 force)
     {
         _moveDirection = Vector3.Normalize(target - _moveTransform.position);
-        _moveTransform.position += _moveDirection * _baseSpeed;
-        _moveTransform.rotation = Quaternion.Lerp(_moveTransform.rotation, Quaternion.FromToRotation(_moveTransform.forward, _moveDirection) * _moveTransform.rotation, _rotationLerpFactor);
+        _moveDirection = Vector3.Lerp(_lastVelocity, _moveDirection * _baseSpeed + force, _lerpFactor);
+        _moveTransform.position += _moveDirection;
+        _moveTransform.rotation = Quaternion.Lerp(_moveTransform.rotation, Quaternion.FromToRotation(_moveTransform.forward, _moveDirection) * _moveTransform.rotation, _lerpFactor);
+
+        _lastVelocity = _moveDirection;
     }
 }

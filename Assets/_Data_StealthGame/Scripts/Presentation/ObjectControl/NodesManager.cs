@@ -44,9 +44,6 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     [SerializeField, Tooltip("connection to instantiate")]
     private Connection _connectionPrefab;
 
-    [SerializeField, Tooltip("area to spawn nodes")]
-    private BoxCollider _spawnArea;
-
     [SerializeField, Tooltip("number of nodes")]
     private int _nodeCount = 30;
 
@@ -313,9 +310,9 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
         _nodeConnectionControl.SetInt(_maxConnectionPerNodeName, _maxConnectionPerNode);
         _nodeConnectionControl.SetFloat(_connectRadiousName, _connectRadious);
         _nodeConnectionControl.SetFloat(_avoidBoundaryVelWeightName, _avoidBoundaryVelWeight);
-        _nodeConnectionControl.SetVector(_boundaryCenterName, _spawnArea.transform.TransformPoint(_spawnArea.center));
-        _nodeConnectionControl.SetVector(_boundarySizeName, _spawnArea.size);
-        _nodeConnectionControl.SetMatrix(_boundaryRotationName, Matrix4x4.TRS(_spawnArea.transform.position, _spawnArea.transform.rotation, _spawnArea.transform.lossyScale));
+        _nodeConnectionControl.SetVector(_boundaryCenterName, _objectSpawnHandler.GetSpawnAreaCenter());
+        _nodeConnectionControl.SetVector(_boundarySizeName, _objectSpawnHandler.GetSpawnAreaSize());
+        _nodeConnectionControl.SetMatrix(_boundaryRotationName, _objectSpawnHandler.GetSpawnAreaTransformMatrix());
     }
 
     /// <summary>
@@ -337,11 +334,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     private void SpawnNodes_GPU()
     {
         _nodes = new Dictionary<int, Node>();
-        Vector3 positionTemp = Vector3.zero;
         _nodesBufferData = new Node_ComputeShader[_nodeCount];
-
-        Vector3 boundLocalMin = _spawnArea.center - _spawnArea.size * 0.5f;
-        Vector3 boundLocalMax = _spawnArea.center + _spawnArea.size * 0.5f;
 
         for (int i = 0; i < _nodeCount; i++)
         {

@@ -75,7 +75,7 @@ float4x4 _boundaryRotation;
 // range of nearest node searching
 float _nodeSearchingRange;
 
-// of a node reaches at the boundary (assuming AABB) return velocity to avoid it
+// if a node reaches at the boundary (assuming AABB) return velocity to avoid it
 float3 AvoidBoundary(float3 position, float3 center, float3 size, float4x4 rotMatrix)
 {
     // apply rotation; pivot is world space origin

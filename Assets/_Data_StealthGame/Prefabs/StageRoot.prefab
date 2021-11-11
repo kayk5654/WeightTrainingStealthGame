@@ -52,7 +52,6 @@ MonoBehaviour:
     type: 3}
   _connectionPrefab: {fileID: 5835073924209826635, guid: a1cc412cfb5761b46a3c9a5dd99f7e97,
     type: 3}
-  _spawnArea: {fileID: 1193968915651095867}
   _nodeCount: 30
   _maxConnectionPerNode: 3
   _lineMaterial: {fileID: 2100000, guid: 244df7de04ae73340bd74b0dcd6a5166, type: 2}
@@ -75,10 +74,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 142686241028879583, guid: 2ee7adaa01fdc004f9b3ce53604dfbc3,
     type: 3}
-  _nodeConnectionControl: {fileID: 7200000, guid: 183ed04d465564a4a8e56640f2fbfd7a,
+  _enemyBehaviourControl: {fileID: 7200000, guid: 2490b72493280054d87cd99b7f682567,
     type: 3}
   _nodeSearchingRange: 0.6
-  _baseMoveSpeed: 0.005
+  _baseMoveSpeed: 0.02
+  _neighbourRadious: 0.6
+  _avoidBoundaryVelWeight: 2
   _nodesManager: {fileID: 1193968915547156701}
   _objectSpawnHandler: {fileID: 3860268513243387507}
 --- !u!114 &3860268513243387507

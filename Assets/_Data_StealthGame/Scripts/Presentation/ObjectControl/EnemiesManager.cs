@@ -4,6 +4,19 @@ using UnityEngine;
 using System.Runtime.InteropServices;
 using System.Linq;
 /// <summary>
+/// data of single enemy
+/// </summary>
+public struct Enemy_ComputeShader
+{
+    // identify each enemies
+    public int _id;
+    // world space position of an enemy
+    public Vector3 _position;
+    // whether the enemy is searching player's object (= whether the enemy is animated)
+    public int _isSearching;
+}
+
+/// <summary>
 /// manage enemy objects
 /// </summary>
 public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAreaDataSet>
@@ -14,14 +27,20 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     [SerializeField, Tooltip("prefab of enemy object to spawn")]
     private GameObject _enemyPrefab;
 
-    [SerializeField, Tooltip("compute shader for node control")]
-    private ComputeShader _nodeConnectionControl;
+    [SerializeField, Tooltip("compute shader for enemy control")]
+    private ComputeShader _enemyBehaviourControl;
 
     [SerializeField, Tooltip("range to search nearby nodes")]
-    private float _nodeSearchingRange = 1f;
+    private float _nodeSearchingRange = 0.6f;
 
     [SerializeField, Tooltip("base move speed of an enemy")]
     private float _baseMoveSpeed = 1f;
+
+    [SerializeField, Tooltip("range of neighbour enemies which affects single enemy's behaviour")]
+    private float _neighbourRadious = 0.4f;
+
+    [SerializeField, Tooltip("weight of the velocity to avoid boundary")]
+    private float _avoidBoundaryVelWeight = 1f;
 
     [SerializeField, Tooltip("get node information")]
     private NodesManager _nodesManager;
@@ -44,11 +63,35 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     // recordd the id of the enemy spawned lasttime
     private int _lastSpawnedEnemyId = -1;
 
+    // kernel parameters of GetEnemyForce
+    private KernelParamsHandler _getEnemyForceKernel;
+
+    // kernel name of GetEnemyForce
+    private string _getEnemyForceKernelName = "GetEnemyForce";
+
     // contain nearest node id from each enemy instaces
     private ComputeBuffer _nearestNodeBuffer;
 
     // contain current enemies' positions
     private ComputeBuffer _enemyPositionBuffer;
+
+    // contain enemy data (for reading)
+    private ComputeBuffer _enemyBuffer_Read;
+
+    // parameter name of _enemyBufferRead
+    private string _enemyBufferName_Read = "_enemyBufferRead";
+
+    // contain enemy force (for writing)
+    private ComputeBuffer _enemyForceBuffer;
+
+    // parameter name of _enemyForceBuffer
+    private string _enemyForceBufferName = "_enemyForceBuffer";
+
+    // contain enemy data (for reading)
+    private Enemy_ComputeShader[] _enemyBufferData_Read;
+
+    // contain calculated enemy force
+    private Vector3[] _enemyForceBufferData;
 
     // contain node id from _nearestNodeBuffer / _id of enemy is index of this array
     private int[] _nearestNodeBufferData;
@@ -58,6 +101,30 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
 
     // the theoretical maximum number of spawned enemies
     private int _maxSpawnedEnemyNum;
+
+    // name of parameter of _maxSpawnedEnemyNum on the compute shader
+    private string _maxSpawnedEnemyNumName = "_maxSpawnedEnemyNum";
+
+    // name of parameter of _neighbourRadious on the compute shader
+    private string _neighbourRadiousName = "_neighbourRadious";
+
+    // parameter name of _avoidBoundaryVelWeight
+    private string _avoidBoundaryVelWeightName = "_avoidBoundaryVelWeight";
+
+    // parameter name of _boundaryCenter
+    private string _boundaryCenterName = "_boundaryCenter";
+
+    // parameter name of _boundarySize
+    private string _boundarySizeName = "_boundarySize";
+
+    // parameter name of _boundaryRotation
+    private string _boundaryRotationName = "_boundaryRotation";
+
+    // parameter name of _deltaTime
+    private string _deltaTimeName = "_deltaTime";
+
+    // thread size of a thread group
+    private const int SIMULATION_BLOCK_SIZE = 256;
 
 
     #region MonoBehaviour
@@ -75,6 +142,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     {
         if (!_toUpdate) { return; }
         UpdateBuffers();
+        UpdateForce();
         SetNearestNodeOnEnemies();
     }
 
@@ -102,6 +170,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         // initialize enemy control data
         InitializeEnemyDictionary();
         InitializeBuffers();
+        InitializeParams();
         _nodesManager.InitializeFindNearestNodeKernel(_maxSpawnedEnemyNum, _nodeSearchingRange);
 
         // start spawning
@@ -159,6 +228,38 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         // _enemyPositionBuffer contains each enemies' position (= vector3)
         _enemyPositionBuffer = new ComputeBuffer(_maxSpawnedEnemyNum, Marshal.SizeOf(typeof(Vector3)));
         _enemyPositionBufferData = Enumerable.Repeat<Vector3>(Vector3.zero, _maxSpawnedEnemyNum).ToArray();
+
+        // _enemyBufferReading contains current status of spawned enemies
+        _enemyBuffer_Read = new ComputeBuffer(_maxSpawnedEnemyNum, Marshal.SizeOf(typeof(Enemy_ComputeShader)));
+        Enemy_ComputeShader defaultEnemyData = new Enemy_ComputeShader();
+        defaultEnemyData._id = -1;
+        defaultEnemyData._isSearching = 1;
+        defaultEnemyData._position = Vector3.zero;
+        _enemyBufferData_Read = Enumerable.Repeat<Enemy_ComputeShader>(defaultEnemyData, _maxSpawnedEnemyNum).ToArray();
+
+        // _enemyForceBuffer contains calculated external force applied for spawned enemies
+        _enemyForceBuffer = new ComputeBuffer(_maxSpawnedEnemyNum, Marshal.SizeOf(typeof(Vector3)));
+        _enemyForceBufferData = Enumerable.Repeat<Vector3>(Vector3.zero, _maxSpawnedEnemyNum).ToArray();
+    }
+
+    /// <summary>
+    /// initialize parameters of the compute shader
+    /// </summary>
+    private void InitializeParams()
+    {
+        // calculate thread group size
+        int getEnemyForceKernelThreadGroupSize = Mathf.CeilToInt((float)_maxSpawnedEnemyNum / (float)SIMULATION_BLOCK_SIZE);
+
+        // contain data of kernel in KernelParamsHandler
+        _getEnemyForceKernel = new KernelParamsHandler(_enemyBehaviourControl, _getEnemyForceKernelName, getEnemyForceKernelThreadGroupSize, 1, 1);
+
+        // set constant parameters for simulation
+        _enemyBehaviourControl.SetInt(_maxSpawnedEnemyNumName, _maxSpawnedEnemyNum);
+        _enemyBehaviourControl.SetFloat(_neighbourRadiousName, _neighbourRadious);
+        _enemyBehaviourControl.SetFloat(_avoidBoundaryVelWeightName, _avoidBoundaryVelWeight);
+        _enemyBehaviourControl.SetVector(_boundaryCenterName, _objectSpawnHandler.GetSpawnAreaCenter());
+        _enemyBehaviourControl.SetVector(_boundarySizeName, _objectSpawnHandler.GetSpawnAreaSize());
+        _enemyBehaviourControl.SetMatrix(_boundaryRotationName, _objectSpawnHandler.GetSpawnAreaTransformMatrix());
     }
 
     /// <summary>
@@ -170,7 +271,34 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
 
         foreach (Enemy enemy in _enemies.Values)
         {
-            _enemyPositionBufferData[enemy.GetId()] = enemy.transform.position;
+            int id = enemy.GetId();
+            _enemyPositionBufferData[id] = enemy.transform.position;
+            _enemyBufferData_Read[id]._position = enemy.transform.position;
+            _enemyBufferData_Read[id]._isSearching = enemy.GetCurrentState() == EnemyState.Search ? 1 : 0;
+        }
+    }
+
+    /// <summary>
+    /// update force applied for the spawned enemies
+    /// </summary>
+    private void UpdateForce()
+    {
+        // set buffer data on compute buffers
+        _enemyBuffer_Read.SetData(_enemyBufferData_Read);
+
+        // set compute buffers
+        _enemyBehaviourControl.SetFloat(_deltaTimeName, Time.deltaTime);
+        _enemyBehaviourControl.SetBuffer(_getEnemyForceKernel._index, _enemyForceBufferName, _enemyForceBuffer);
+        _enemyBehaviourControl.SetBuffer(_getEnemyForceKernel._index, _enemyBufferName_Read, _enemyBuffer_Read);
+
+        // execute GetEnemyForce kernel
+        _enemyBehaviourControl.Dispatch(_getEnemyForceKernel._index, _getEnemyForceKernel._x, _getEnemyForceKernel._y, _getEnemyForceKernel._z);
+        _enemyForceBuffer.GetData(_enemyForceBufferData);
+
+        // set calculation result on the enemies
+        foreach (Enemy enemy in _enemies.Values)
+        {
+            enemy.SetForce(_enemyForceBufferData[enemy.GetId()]);
         }
     }
 
@@ -202,6 +330,8 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     {
         _nearestNodeBuffer.Release();
         _enemyPositionBuffer.Release();
+        _enemyForceBuffer.Release();
+        _enemyBuffer_Read.Release();
     }
 
     #endregion
@@ -288,10 +418,15 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         Enemy newEnemy = _objectSpawnHandler.Spawn(_enemyPrefab, transform).GetComponent<Enemy>();
 
         // set parameter
-        newEnemy.InitParams(_lastSpawnedEnemyId + 1, _nodeSearchingRange, _baseMoveSpeed);
+        int id = _lastSpawnedEnemyId + 1;
+        newEnemy.InitParams(id, _nodeSearchingRange, _baseMoveSpeed);
 
         // record id of this enemy
-        _lastSpawnedEnemyId = newEnemy.GetId();
+        _lastSpawnedEnemyId = id;
+
+        // contain enemy info into the compute buffer
+        _enemyBufferData_Read[id]._position = newEnemy.transform.position;
+        _enemyBufferData_Read[id]._isSearching = newEnemy.GetCurrentState() == EnemyState.Search ? 1 : 0;
 
         return newEnemy;
     }

@@ -15,6 +15,9 @@ public class Enemy : MonoBehaviour
     // speed to extend lines to connect
     private float _speed = 1f;
 
+    // external force to avoid other enemies and boundary
+    private Vector3 _externalForce = Vector3.zero;
+
     [SerializeField, Tooltip("threshold of distance to the attack target")]
     private float _attackTargetDistThresh = 0.25f;
 
@@ -79,12 +82,12 @@ public class Enemy : MonoBehaviour
         if (!_nearestTarget)
         {
             // if _nearestTarget is null, enemy moves forward 
-            _enemyMover.Move(transform.position + transform.forward, Vector3.zero);
+            _enemyMover.Move(transform.position + transform.forward, _externalForce);
             return;
         }
 
         // move enemy to search attack target
-        _enemyMover.Move(_nearestTarget.transform.position, Vector3.zero);
+        _enemyMover.Move(_nearestTarget.transform.position, _externalForce);
 
         // if this enemy gets sufficiently close to the attack target, start attack it
         if (Vector3.Distance(_nearestTarget.transform.position, transform.position) < _attackTargetDistThresh)
@@ -168,5 +171,23 @@ public class Enemy : MonoBehaviour
     public void SetNearestNode(Node node)
     {
         _nearestTarget = node;
+    }
+
+    /// <summary>
+    /// get current state of this enemy
+    /// </summary>
+    /// <returns></returns>
+    public EnemyState GetCurrentState()
+    {
+        return _currentState;
+    }
+
+    /// <summary>
+    /// set external force to avoid other enemies and boundary
+    /// </summary>
+    /// <param name="force"></param>
+    public void SetForce(Vector3 force)
+    {
+        _externalForce = force;
     }
 }
