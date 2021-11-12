@@ -99,9 +99,13 @@ public class Connection : InGameObjectBase
         // remove all callbacks before destroying
         _onDestroyed = null;
 
-        if (gameObject != null)
+        try
         {
             Destroy(gameObject);
+        }
+        catch
+        {
+
         }
     }
 }
