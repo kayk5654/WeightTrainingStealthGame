@@ -94,9 +94,14 @@ public class Connection : InGameObjectBase
     /// <param name="args"></param>
     public void DestroyByNode(object sender, InGameObjectEventArgs args)
     {
-        // TODO: let another node know that this connection is destroyed
-        
         _onDestroyed?.Invoke(this, args);
-        Destroy(gameObject);
+
+        // remove all callbacks before destroying
+        _onDestroyed = null;
+
+        if (gameObject != null)
+        {
+            Destroy(gameObject);
+        }
     }
 }

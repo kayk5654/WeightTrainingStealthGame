@@ -575,8 +575,6 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     {
         if (!_connections.ContainsKey(args._id)) { return; }
         
-        _nodes[_connectionBufferData[args._id]._connectNode1]._onDestroyed -= _connections[args._id].DestroyByNode;
-        _nodes[_connectionBufferData[args._id]._connectNode2]._onDestroyed -= _connections[args._id].DestroyByNode;
         _connections.Remove(args._id);
     }
 

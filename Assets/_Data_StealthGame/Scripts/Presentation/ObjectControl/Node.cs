@@ -115,8 +115,22 @@ public class Node : InGameObjectBase
         // see InitializeNodeCaps()
         for (int i = 0; i < _nodeCaps.Count; i++)
         {
-            int anotherNodeId = _nodesManager.GetConnection(_connectionsIds[i]).GetAnotherNode(_id);
-            _nodeCaps[i].LookAt(_nodesManager.GetNode(anotherNodeId)?.transform);
+            Connection connectionTemp = _nodesManager.GetConnection(_connectionsIds[i]);
+            if (!connectionTemp) 
+            {
+                // remove node cap
+                Transform removeNodecap = _nodeCaps[i];
+                _nodeCaps.Remove(removeNodecap);
+                Destroy(removeNodecap.gameObject);
+                i--;
+                continue;
+            }
+
+            int anotherNodeId = connectionTemp.GetAnotherNode(_id);
+            _connectedNodeTemp = _nodesManager.GetNode(anotherNodeId);
+            
+            if (!_connectedNodeTemp) { continue; }
+            _nodeCaps[i].LookAt(_connectedNodeTemp?.transform);
         }
     }
 
@@ -147,6 +161,10 @@ public class Node : InGameObjectBase
     {
         InGameObjectEventArgs args = new InGameObjectEventArgs(_id);
         _onDestroyed?.Invoke(this, args);
+
+        // remove all callbacks before destroying
+        _onDestroyed = null;
+
         Destroy(gameObject);
     }
 
