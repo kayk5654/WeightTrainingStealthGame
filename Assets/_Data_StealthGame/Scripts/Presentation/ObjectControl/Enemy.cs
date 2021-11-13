@@ -5,7 +5,7 @@ using System;
 /// <summary>
 /// define behaviour of an enemy
 /// </summary>
-public class Enemy : InGameObjectBase
+public class Enemy : InGameObjectBase, IHitTarget
 {
     // notify manager of this object that this object is destroyed
     public override event EventHandler<InGameObjectEventArgs> _onDestroyed;
@@ -34,6 +34,9 @@ public class Enemy : InGameObjectBase
     [SerializeField, Tooltip("enemy's animator")]
     private Animator _animator;
 
+    [SerializeField, Tooltip("reveal enemy's material")]
+    private MaterialRevealHandler _materialRevealHandler;
+
     // material of main mesh
     private Material _mainMaterial;
 
@@ -60,6 +63,9 @@ public class Enemy : InGameObjectBase
 
     // whether an enemy' transform or state can be updated
     private bool _toUpdate;
+
+    // whether this enemy is found by the player
+    private bool _isFound;
 
 
     /// <summary>
@@ -224,6 +230,30 @@ public class Enemy : InGameObjectBase
     public void SetForce(Vector3 force)
     {
         _externalForce = force;
+    }
+
+    /// <summary>
+    /// process to execute when this enemy is hit by a projectile
+    /// </summary>
+    /// <param name="hitPosition"></param>
+    public void OnHit(Vector3 hitPosition)
+    {
+        Find(hitPosition);
+    }
+
+    /// <summary>
+    /// find and visualize this enemy when a projectile hits this
+    /// </summary>
+    public void Find(Vector3 revealOrigin)
+    {
+        // if this enemy is already found, do nothing
+        if (_isFound) { return; }
+        
+        _isFound = true;
+
+        // make this enemy visible
+        _materialRevealHandler.SetRevealOrigin(revealOrigin);
+        _materialRevealHandler.Reveal();
     }
 
     /// <summary>

@@ -5,7 +5,7 @@ using System;
 /// <summary>
 /// contain parameters of node
 /// </summary>
-public class Node : InGameObjectBase
+public class Node : InGameObjectBase, IHitTarget
 {
     // reference of NodesManager
     private NodesManager _nodesManager;
@@ -152,6 +152,17 @@ public class Node : InGameObjectBase
     {
         if (!_connectionsIds.Contains(connectionId)) { return; }
         _connectionsIds.Remove(connectionId);
+    }
+
+    /// <summary>
+    /// reaction of this node when it is hit by a projectile
+    /// </summary>
+    /// <param name="hitPosition"></param>
+    public void OnHit(Vector3 hitPosition)
+    {
+        // attack nearby enemies
+
+        // notify the order to attack to the other nodes connected with it
     }
 
     /// <summary>

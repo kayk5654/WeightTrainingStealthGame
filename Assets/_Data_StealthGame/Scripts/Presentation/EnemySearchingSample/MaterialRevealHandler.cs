@@ -14,9 +14,8 @@ public class MaterialRevealHandler : MonoBehaviour
     [SerializeField, Tooltip("reveal speed")]
     private float _speed;
 
-    // _revealOrigin should be contained in a static class in the future development
-    [Tooltip("origin of reveal area")]
-    public Vector3 _revealOrigin;
+    [SerializeField, Tooltip("origin of reveal area for testing")]
+    private Vector3 _testRevealOrigin;
 
     // property to control
     private string _revealAreaProperty = "_RevealArea";
@@ -44,31 +43,12 @@ public class MaterialRevealHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// debugging
-    /// </summary>
-    private void Update()
-    {
-        // debug on the editor
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ResetMaterial();
-            SetRevealOrigin(_revealOrigin);
-            Reveal();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            ResetMaterial();
-        }
-    }
-
-    /// <summary>
     /// debuging on pressable button for hololens
     /// </summary>
     public void TestRevealing()
     {
         ResetMaterial();
-        SetRevealOrigin(_revealOrigin);
+        SetRevealOrigin(_testRevealOrigin);
         Reveal();
     }
 
@@ -76,7 +56,7 @@ public class MaterialRevealHandler : MonoBehaviour
     ///  set origin of the reveal area
     /// </summary>
     /// <param name="origin"></param>
-    private void SetRevealOrigin(Vector3 origin)
+    public void SetRevealOrigin(Vector3 origin)
     {
         Vector4 tempVector;
         
@@ -93,7 +73,7 @@ public class MaterialRevealHandler : MonoBehaviour
     /// <summary>
     /// reveal material
     /// </summary>
-    private void Reveal()
+    public void Reveal()
     {
         if (_revealSequence != null)
         {

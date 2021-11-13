@@ -23,6 +23,8 @@ public class ProjectileBase : MonoBehaviour
     [SerializeField, Tooltip("particles to emit when this projectile dies")]
     private DeathParticlesController _deathParticlesController;
 
+
+
     /// <summary>
     /// initialization
     /// </summary>
@@ -57,17 +59,11 @@ public class ProjectileBase : MonoBehaviour
     /// </summary>
     private void OnTriggerEnter(Collider other)
     {
-        // kick revealing feature for testing
-        if (_revealAreaHandler)
+        // check whether the hit object is enemy or node
+        IHitTarget hitTarget = other.GetComponent<IHitTarget>();
+        if (hitTarget != null) 
         {
-            _revealAreaHandler.Reveal(_id, transform.position);
-        }
-
-        if (_materialRevealHandler)
-        {
-            // for checking the material of the shark, setting origin is temporarily disabled
-            _materialRevealHandler._revealOrigin = transform.position;
-            _materialRevealHandler.TestRevealing();
+            hitTarget.OnHit(transform.position);
         }
 
         // destroy itself
