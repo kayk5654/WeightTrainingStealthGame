@@ -15,5 +15,8 @@ public abstract class InGameObjectBase : MonoBehaviour
     // Defense
     protected float _defense;
 
+    /// <summary>
+    /// destroy this in-game object
+    /// </summary>
     public abstract void Destroy();
 }

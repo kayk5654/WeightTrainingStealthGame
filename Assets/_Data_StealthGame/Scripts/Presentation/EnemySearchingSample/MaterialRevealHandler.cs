@@ -7,7 +7,9 @@ using UnityEngine;
 public class MaterialRevealHandler : MonoBehaviour
 {
     [SerializeField, Tooltip("material to control")]
-    private Material[] _materials;
+    private Renderer[] _renderers;
+
+    private List<Material> _materials = new List<Material>();
 
     [SerializeField, Tooltip("reveal speed")]
     private float _speed;
@@ -31,6 +33,13 @@ public class MaterialRevealHandler : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        // get references of materials
+        for (int i = 0; i < _renderers.Length; i++)
+        {
+            _materials.AddRange(_renderers[i].materials);
+        }
+        
+        // initialize material parameters
         ResetMaterial();
     }
 

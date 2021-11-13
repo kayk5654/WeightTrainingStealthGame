@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7993848249728741609}
   - component: {fileID: 1914069107923673513}
   - component: {fileID: 7982059814241919118}
+  - component: {fileID: 4234519700654513467}
   m_Layer: 8
   m_Name: Shark_Test
   m_TagString: Untagged
@@ -81,6 +82,23 @@ MonoBehaviour:
   _mainMeshRenderer: {fileID: 1602007962175909989}
   _environmentVfxRenderer: {fileID: 4062891285918896895}
   _animator: {fileID: 0}
+--- !u!114 &4234519700654513467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142686241028879583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 356c38578953fa04a9dbf3f3f3c7549b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _renderers:
+  - {fileID: 1602007962175909989}
+  - {fileID: 4062891285918896895}
+  _speed: 0
+  _revealOrigin: {x: 0, y: 0, z: 0}
 --- !u!1 &953502740543705520
 GameObject:
   m_ObjectHideFlags: 0

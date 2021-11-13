@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 /// <summary>
 /// define behaviour of an enemy
 /// </summary>
-public class Enemy : MonoBehaviour
+public class Enemy : InGameObjectBase
 {
-     // range to search neighbours to connect
+    // notify manager of this object that this object is destroyed
+    public override event EventHandler<InGameObjectEventArgs> _onDestroyed;
+
+    // range to search neighbours to connect
     private float _range = 1f;
 
     // id of each nodes
@@ -220,5 +224,13 @@ public class Enemy : MonoBehaviour
     public void SetForce(Vector3 force)
     {
         _externalForce = force;
+    }
+
+    /// <summary>
+    /// destroy this enemy instance
+    /// </summary>
+    public override void Destroy()
+    {
+
     }
 }
