@@ -251,6 +251,9 @@ public class Enemy : InGameObjectBase, IHitTarget
         
         _isFound = true;
 
+        // set "unsearchable" layer so that this enemy won't disturb projectile
+        //gameObject.layer = LayerMask.NameToLayer(Config._unsearchableLayerName);
+
         // make this enemy visible
         _materialRevealHandler.SetRevealOrigin(revealOrigin);
         _materialRevealHandler.Reveal();
@@ -261,6 +264,17 @@ public class Enemy : InGameObjectBase, IHitTarget
     /// </summary>
     public override void Destroy()
     {
+        // if this enemy isn't found, do nothing
+        if (!_isFound) { return; }
 
+        // send notifycation
+        InGameObjectEventArgs args = new InGameObjectEventArgs(_id);
+        _onDestroyed?.Invoke(this, args);
+        
+        // clear callbacks
+        _onDestroyed = null;
+
+        // destroy this enemy object
+        Destroy(gameObject);
     }
 }

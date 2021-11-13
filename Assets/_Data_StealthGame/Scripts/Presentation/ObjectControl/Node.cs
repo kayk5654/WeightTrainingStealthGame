@@ -16,6 +16,9 @@ public class Node : InGameObjectBase, IHitTarget
     // speed to extend lines to connect
     private float _speed = 1f;
 
+    [SerializeField, Tooltip("range of attacking enemies nearby")]
+    private float _attackRadius = 0.4f;
+
     [SerializeField, Tooltip("node mesh")]
     private MeshRenderer _mainMeshRenderer;
 
@@ -161,8 +164,51 @@ public class Node : InGameObjectBase, IHitTarget
     public void OnHit(Vector3 hitPosition)
     {
         // attack nearby enemies
+        Attack();
 
         // notify the order to attack to the other nodes connected with it
+    }
+
+    // attack enemies nearby this node
+    private void Attack()
+    {
+        // search enemies nearby this node
+        Enemy[] enemies = FindEnemies();
+
+        if(enemies == null || enemies.Length < 1) { return; }
+
+        // apply damage in the final implementation
+
+        // destroy enemies immediately for testing
+        foreach(Enemy enemy in enemies)
+        {
+            enemy.Destroy();
+        }
+    }
+
+    /// <summary>
+    /// find enemies nearby this node
+    /// </summary>
+    /// <returns></returns>
+    private Enemy[] FindEnemies()
+    {
+        List<Enemy> enemies = new List<Enemy>();
+        
+        // find nearby colliders
+        Collider[] colliders = Physics.OverlapSphere(transform.position, _attackRadius);
+
+        if(colliders.Length < 1) { return null; }
+
+        // check whether the colliders are enemies
+        Enemy enemyTemp;
+        foreach(Collider collider in colliders)
+        {
+            enemyTemp = collider.GetComponent<Enemy>();
+            if (enemyTemp == null) { continue; }
+            enemies.Add(enemyTemp);
+        }
+
+        return enemies.ToArray();
     }
 
     /// <summary>

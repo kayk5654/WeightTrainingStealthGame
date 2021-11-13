@@ -12,7 +12,7 @@ public class MaterialRevealHandler : MonoBehaviour
     private List<Material> _materials = new List<Material>();
 
     [SerializeField, Tooltip("reveal speed")]
-    private float _speed;
+    private float _speed = 0.4f;
 
     [SerializeField, Tooltip("origin of reveal area for testing")]
     private Vector3 _testRevealOrigin;

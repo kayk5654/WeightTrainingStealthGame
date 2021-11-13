@@ -18,4 +18,10 @@ public static class Config
 
     // unit time for spawning enemies
     public static readonly float _enemySpawnUnitTime = 10f;
+
+    // layer name for searchable objects
+    public static readonly string _searchableLayerName = "Searchable";
+
+    // layer name for unsearchable objects
+    public static readonly string _unsearchableLayerName = "Unsearchable";
 }

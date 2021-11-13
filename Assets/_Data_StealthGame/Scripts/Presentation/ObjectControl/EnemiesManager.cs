@@ -420,6 +420,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         // set parameter
         int id = _lastSpawnedEnemyId + 1;
         newEnemy.InitParams(id, _nodeSearchingRange, _baseMoveSpeed);
+        newEnemy._onDestroyed += OnDestroyEnemy;
 
         // record id of this enemy
         _lastSpawnedEnemyId = id;
@@ -438,6 +439,10 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     {
         foreach(Enemy enemy in _enemies.Values)
         {
+            // remove callback
+            enemy._onDestroyed -= OnDestroyEnemy;
+            
+            // destroy enemy object
             Destroy(enemy.gameObject);
         }
 
@@ -454,6 +459,17 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         {
             enemy.EnableUpdate(state);
         }
+    }
+
+    /// <summary>
+    /// callback when an enemy is destroyed
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void OnDestroyEnemy(object sender, InGameObjectEventArgs args)
+    {
+        if (!_enemies.ContainsKey(args._id)) { return; }
+        _enemies.Remove(args._id);
     }
 
     #endregion
