@@ -183,6 +183,12 @@ public class Enemy : InGameObjectBase, IHitTarget
         yield return new WaitForSeconds(2f);
         yield return new WaitForSeconds(2f);
 
+        // temporarily disable destroying player's object for testing purpose
+        while (true)
+        {
+            yield return null;
+        }
+
         // check whether _nearestTarget still exists
         if (_nearestTarget)
         {
@@ -196,8 +202,6 @@ public class Enemy : InGameObjectBase, IHitTarget
             _nearestTarget.Destroy();
         }
         
-        
-
         // when the player's object is destroyed, end attack sequence
         _nearestTarget = null;
         _enemyAnimationHandler.SetSearch();
@@ -252,7 +256,7 @@ public class Enemy : InGameObjectBase, IHitTarget
         _isFound = true;
 
         // set "unsearchable" layer so that this enemy won't disturb projectile
-        //gameObject.layer = LayerMask.NameToLayer(Config._unsearchableLayerName);
+        gameObject.layer = LayerMask.NameToLayer(Config._unsearchableLayerName);
 
         // make this enemy visible
         _materialRevealHandler.SetRevealOrigin(revealOrigin);
