@@ -81,6 +81,18 @@ public enum InputType
     keyboard,
     exercise,
     button,
+    LENGTH
+}
+
+/// <summary>
+/// cycle of single exercise movement
+/// </summary>
+public enum MovementPhase
+{
+    goingForward,
+    holding,
+    goingBackward,
+    LENGTH
 }
 
 /// <summary>
