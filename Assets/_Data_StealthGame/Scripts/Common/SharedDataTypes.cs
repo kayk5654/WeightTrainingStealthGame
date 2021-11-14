@@ -73,6 +73,17 @@ public enum EnemyState
 }
 
 /// <summary>
+/// types of input
+/// </summary>
+[System.Serializable]
+public enum InputType
+{
+    keyboard,
+    exercise,
+    button,
+}
+
+/// <summary>
 /// notify the status of the app state
 /// </summary>
 public class AppStateEventArgs : EventArgs

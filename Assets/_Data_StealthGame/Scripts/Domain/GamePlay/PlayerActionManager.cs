@@ -21,6 +21,9 @@ public class PlayerActionManager : IGamePlayStateSetter
     // defense action during gameplay by the player
     private IInGameDefenseAction _defenseAction;
 
+    // receive player's input
+    private IInGameInputBase _input;
+
 
     /// <summary>
     /// set offense action during gameplay
@@ -47,6 +50,57 @@ public class PlayerActionManager : IGamePlayStateSetter
     public void SetActionActivators(IActionActivator[] actionActivators)
     {
         _actionActivators = actionActivators;
+    }
+
+    /// <summary>
+    /// set reference of in-game input
+    /// </summary>
+    /// <param name="input"></param>
+    public void SetInGameInput(IInGameInputBase input)
+    {
+        _input = input;
+    }
+
+    /// <summary>
+    /// set callback between input and actions
+    /// </summary>
+    public void SetCallback()
+    {
+        if(_input == null) { return; }
+
+        // set offense action callback
+        if(_offenseAction != null)
+        {
+            _input._onPush += StartOffenseAction;
+        }
+
+        // set defense action callback
+        if(_defenseAction != null)
+        {
+            _input._onStartHold += StartDefenseAction;
+            _input._onStopHold += StopDefenseAction;
+        }
+    }
+
+    /// <summary>
+    /// remove callback between input and actions
+    /// </summary>
+    public void RemoveCallback()
+    {
+        if (_input == null) { return; }
+
+        // set offense action callback
+        if (_offenseAction != null)
+        {
+            _input._onPush -= StartOffenseAction;
+        }
+
+        // set defense action callback
+        if (_defenseAction != null)
+        {
+            _input._onStartHold -= StartDefenseAction;
+            _input._onStopHold -= StopDefenseAction;
+        }
     }
 
     /// <summary>
@@ -126,5 +180,38 @@ public class PlayerActionManager : IGamePlayStateSetter
         {
             activator.StopAction();
         }
+    }
+
+    /// <summary>
+    /// kick offenseive action from an event of the input class
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void StartOffenseAction(object sender, EventArgs args)
+    {
+        if(_offenseAction == null) { return; }
+        _offenseAction.Attack();
+    }
+
+    /// <summary>
+    /// start defensive action from an event of the input class
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void StartDefenseAction(object sender, EventArgs args)
+    {
+        if(_defenseAction == null) { return; }
+        _defenseAction.StartDefense();
+    }
+
+    /// <summary>
+    /// stop defensive action from an event of the input class
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void StopDefenseAction(object sender, EventArgs args)
+    {
+        if (_defenseAction == null) { return; }
+        _defenseAction.StopDefense();
     }
 }

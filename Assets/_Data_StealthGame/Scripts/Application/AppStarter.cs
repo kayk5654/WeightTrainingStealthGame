@@ -16,8 +16,12 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
     // control gameplay features
     GamePlayManager _gamePlayManager;
 
+    // functions to call when the app is quit
+    private delegate void QuitAppProcess();
+    private QuitAppProcess _quitAppProcess;
+
     #region Variables for debugging
-    
+
     // event to notify the start of MainMenu phase
     public event EventHandler<AppStateEventArgs> _onAppStateChange;
 
@@ -25,6 +29,7 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
     public event EventHandler<GamePlayStateEventArgs> _onGamePlayStateChange;
     // debugging
     private bool _isPausing;
+
 
     #endregion
 
@@ -48,6 +53,9 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
         _appManager.UnubscribeExerciseInfoEvent(_uiManager);
 
         RemoveCallbackForDebug();
+
+        _quitAppProcess?.Invoke();
+        _quitAppProcess = null;
     }
 
     /// <summary>
@@ -94,6 +102,7 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
         // create instances of classes to control gameplay features
         LevelManager levelManager = new LevelManager();
         PlayerActionManager playerActionManager = new PlayerActionManager();
+        _quitAppProcess += playerActionManager.RemoveCallback;
 
         // link player inputs
         PlayerInputActionLinker playerInputActionLinker = new PlayerInputActionLinker();
