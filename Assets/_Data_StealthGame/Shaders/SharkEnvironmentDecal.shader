@@ -183,10 +183,10 @@
                 color.rgb = lerp(color.rgb, _SecondaryColor, noiseGB.x);
 
                 // apply scanlines
-                float horizontalScanlines = pow(sin((worldSpacePosBehind.y + _Time.x) * 600) * 0.5 + 1, max(0.5, 5 * (1 - affectArea)));
+                float horizontalScanlines = pow(sin((worldSpacePosBehind.y + _Time.x) * 600) * 0.5 + 1, max(2, 10 * (1 - affectArea)));
 
                 color.a *= horizontalScanlines;
-                clip(color.a - 0.1);
+                clip(color.a - 0.2);
 
                 // apply glitch
                 color.a *= saturate(SamplePhase(texPattern.r, _Time.y + 0.3, 0.1) + (1 - SamplePhase(texPattern.a, _Time.y / 2 + 0.6, 0.1)));
