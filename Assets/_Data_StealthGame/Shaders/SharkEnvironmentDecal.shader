@@ -181,7 +181,6 @@
 
                 half4 color = half4(_BaseColor, (half) affectArea);
                 color.rgb = lerp(color.rgb, _SecondaryColor, noiseGB.x);
-                color.rgb = GetFarTintColor(color.rgb, _FarTintColor, worldSpacePosBehind);
 
                 // apply scanlines
                 float horizontalScanlines = pow(sin((worldSpacePosBehind.y + _Time.x) * 600) * 0.5 + 1, max(0.5, 5 * (1 - affectArea)));
@@ -195,6 +194,9 @@
                 color.rgb *= float3(1 + SamplePhase(texPattern.g, _Time.y, 0.1) * 4, 1, 1 + SamplePhase(texPattern.b, _Time.y, 0.1) * 6);
                 color.rgb = farFade > 0.2 ? lerp(color.rgb, _HighlihgtColor, SamplePhase(texPattern.r, _Time.y / 3, 0.01)) : color.rgb;
                 
+                // apply tint color by distance
+                color.rgb = GetFarTintColor(color.rgb, _FarTintColor, input.positionWS);
+
                 return color;
             }
         ENDHLSL
