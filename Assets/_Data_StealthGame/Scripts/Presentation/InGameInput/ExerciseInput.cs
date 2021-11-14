@@ -131,12 +131,33 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator
         switch (_currentMovementPhase)
         {
             case MovementPhase.goingForward:
+                // detect negative peak of the movement
+                if (false)
+                {
+                    EventArgs args = EventArgs.Empty;
+                    _onStartHold?.Invoke(this, args);
+                    _currentMovementPhase = MovementPhase.holding;
+                }
                 break;
 
             case MovementPhase.holding:
+                // detect start of positive movement
+                if (false)
+                {
+                    EventArgs args = EventArgs.Empty;
+                    _onStopHold?.Invoke(this, args);
+                    _currentMovementPhase = MovementPhase.goingBackward;
+                }
                 break;
 
             case MovementPhase.goingBackward:
+                // detect positive peak of the movment cycle
+                if (false)
+                {
+                    EventArgs args = EventArgs.Empty;
+                    _onPush?.Invoke(this, args);
+                    _currentMovementPhase = MovementPhase.goingForward;
+                }
                 break;
 
             default:
