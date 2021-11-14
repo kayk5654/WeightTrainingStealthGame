@@ -180,15 +180,16 @@ public class Enemy : InGameObjectBase, IHitTarget
         yield return _waitForEndOfFrame;
 
         // giving damage on the attacked player's object
-        yield return new WaitForSeconds(2f);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(5f);
 
         // temporarily disable destroying player's object for testing purpose
+        /*
         while (true)
         {
             yield return null;
         }
-
+        */
         // check whether _nearestTarget still exists
         if (_nearestTarget)
         {
