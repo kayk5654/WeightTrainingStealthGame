@@ -23,7 +23,7 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator
     private bool _isEnabled;
 
     // current phase in the movement cycle
-    private MovementPhase _currentMovementPhase = MovementPhase.goingForward;
+    private MovementPhase _currentMovementPhase = MovementPhase.GoingForward;
 
     // buffer contains incoming position on each frame to get moving average
     private List<Vector3> _movementDetectBuffer = new List<Vector3>();
@@ -57,8 +57,8 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator
     {
         InGameInputSwitcher inGameInputSwitcher = FindObjectOfType<InGameInputSwitcher>();
         if (!inGameInputSwitcher) { return; }
-        inGameInputSwitcher.SetInputActivator(InputType.exercise, this);
-        inGameInputSwitcher.SetInput(InputType.exercise, this);
+        inGameInputSwitcher.SetInputActivator(InputType.Exercise, this);
+        inGameInputSwitcher.SetInput(InputType.Exercise, this);
     }
 
     /// <summary>
@@ -130,33 +130,33 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator
         // detect the key points of the movement cycle
         switch (_currentMovementPhase)
         {
-            case MovementPhase.goingForward:
+            case MovementPhase.GoingForward:
                 // detect negative peak of the movement
                 if (false)
                 {
                     EventArgs args = EventArgs.Empty;
                     _onStartHold?.Invoke(this, args);
-                    _currentMovementPhase = MovementPhase.holding;
+                    _currentMovementPhase = MovementPhase.Holding;
                 }
                 break;
 
-            case MovementPhase.holding:
+            case MovementPhase.Holding:
                 // detect start of positive movement
                 if (false)
                 {
                     EventArgs args = EventArgs.Empty;
                     _onStopHold?.Invoke(this, args);
-                    _currentMovementPhase = MovementPhase.goingBackward;
+                    _currentMovementPhase = MovementPhase.GoingBackward;
                 }
                 break;
 
-            case MovementPhase.goingBackward:
+            case MovementPhase.GoingBackward:
                 // detect positive peak of the movment cycle
                 if (false)
                 {
                     EventArgs args = EventArgs.Empty;
                     _onPush?.Invoke(this, args);
-                    _currentMovementPhase = MovementPhase.goingForward;
+                    _currentMovementPhase = MovementPhase.GoingForward;
                 }
                 break;
 

@@ -130,15 +130,15 @@ public class InGameInputSwitcher : MonoBehaviour, IActionActivator, IInGameInput
     {
         switch (inputType)
         {
-            case InputType.keyboard:
+            case InputType.Keyboard:
                 _keyboardInput = input;
                 break;
 
-            case InputType.button:
+            case InputType.Button:
                 _buttonInput = input;
                 break;
 
-            case InputType.exercise:
+            case InputType.Exercise:
                 _exerciseInput = input;
                 break;
 

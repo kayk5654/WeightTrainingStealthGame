@@ -25,8 +25,8 @@ public class KeyboardInput : MonoBehaviour, IInGameInputBase, IActionActivator
     {
         InGameInputSwitcher inGameInputSwitcher = FindObjectOfType<InGameInputSwitcher>();
         if (!inGameInputSwitcher) { return; }
-        inGameInputSwitcher.SetInputActivator(InputType.keyboard, this);
-        inGameInputSwitcher.SetInput(InputType.keyboard, this);
+        inGameInputSwitcher.SetInputActivator(InputType.Keyboard, this);
+        inGameInputSwitcher.SetInput(InputType.Keyboard, this);
     }
 
     /// <summary>

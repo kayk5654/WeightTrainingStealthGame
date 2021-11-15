@@ -25,8 +25,8 @@ public class ButtonInput : MonoBehaviour, IInGameInputBase, IActionActivator
     {
         InGameInputSwitcher inGameInputSwitcher = FindObjectOfType<InGameInputSwitcher>();
         if (!inGameInputSwitcher) { return; }
-        inGameInputSwitcher.SetInputActivator(InputType.button, this);
-        inGameInputSwitcher.SetInput(InputType.button, this);
+        inGameInputSwitcher.SetInputActivator(InputType.Button, this);
+        inGameInputSwitcher.SetInput(InputType.Button, this);
     }
 
     /// <summary>

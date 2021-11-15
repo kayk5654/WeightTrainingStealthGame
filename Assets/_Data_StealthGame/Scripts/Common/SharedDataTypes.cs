@@ -78,9 +78,9 @@ public enum EnemyState
 [System.Serializable]
 public enum InputType
 {
-    keyboard,
-    exercise,
-    button,
+    Keyboard,
+    Exercise,
+    Button,
     LENGTH
 }
 
@@ -89,10 +89,19 @@ public enum InputType
 /// </summary>
 public enum MovementPhase
 {
-    goingForward,
-    holding,
-    goingBackward,
+    GoingForward,
+    Holding,
+    GoingBackward,
     LENGTH
+}
+
+/// <summary>
+/// contain path of movement of the selected exercise
+/// </summary>
+public struct ExercisePath
+{
+    public Vector3 _startPos;
+    public Vector3 _endPos;
 }
 
 /// <summary>
