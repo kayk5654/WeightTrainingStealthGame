@@ -8,7 +8,7 @@ using Microsoft.MixedReality.Toolkit.Input;
 /// keyboard, air-tap, exercise movement, etc.
 /// for testing purpose
 /// </summary>
-public class InGameInputSwitcher : MonoBehaviour, IActionActivator, IInGameInputBase
+public class InGameInputSwitcher : MonoBehaviour, IActionActivator, IInGameInputBase, IExerciseInfoSetter
 {
     
 
@@ -32,6 +32,9 @@ public class InGameInputSwitcher : MonoBehaviour, IActionActivator, IInGameInput
 
     // input from player's workout
     private IInGameInputBase _exerciseInput;
+
+    // send exercise type if exercise input is used
+    private IExerciseInfoSetter _exerciseInfoSetter;
 
     private Dictionary<InputType, IActionActivator> _inputActivators = new Dictionary<InputType, IActionActivator>();
 
@@ -120,6 +123,15 @@ public class InGameInputSwitcher : MonoBehaviour, IActionActivator, IInGameInput
 
     #endregion
 
+    /// <summary>
+    /// set exercise type
+    /// </summary>
+    /// <param name="exerciseType"></param>
+    public void ChangeExerciseType(ExerciseType exerciseType)
+    {
+        if (_exerciseInfoSetter == null) { return; }
+        _exerciseInfoSetter.ChangeExerciseType(exerciseType);
+    }
 
     /// <summary>
     /// set actual input
@@ -158,6 +170,15 @@ public class InGameInputSwitcher : MonoBehaviour, IActionActivator, IInGameInput
     {
         if (_inputActivators.ContainsKey(inputType)) { return; }
         _inputActivators.Add(inputType, activator);
+    }
+
+    /// <summary>
+    /// set reference of exercise info setter
+    /// </summary>
+    /// <param name="exerciseInfoSetter"></param>
+    public void SetExerciseInfoSetter(IExerciseInfoSetter exerciseInfoSetter)
+    {
+        _exerciseInfoSetter = exerciseInfoSetter;
     }
 
     /// <summary>

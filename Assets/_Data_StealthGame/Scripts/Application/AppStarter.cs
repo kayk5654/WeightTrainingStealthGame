@@ -119,9 +119,10 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
         playerLevelResetterLinker.LinkObject(playerLevelHandler);
 
         IGamePlayStateSetter[] gamePlayStateSetters = { levelManager, playerActionManager };
+        IExerciseInfoSetter[] exerciseInfoSetters = { levelManager, playerActionManager };
 
         // create gameplay manager
-        GamePlayManager gamePlayManager = new GamePlayManager(gamePlayStateSetters, levelManager);
+        GamePlayManager gamePlayManager = new GamePlayManager(gamePlayStateSetters, exerciseInfoSetters);
 
         return gamePlayManager;
     }

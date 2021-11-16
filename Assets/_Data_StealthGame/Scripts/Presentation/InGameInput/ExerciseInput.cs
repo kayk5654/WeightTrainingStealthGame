@@ -5,11 +5,8 @@ using UnityEngine;
 /// <summary>
 /// input from player's movement while exercises
 /// </summary>
-public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator
+public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator, IExerciseInfoSetter
 {
-    [SerializeField, Tooltip("tracking target for movement detection")]
-    private Transform _trackTarget;
-
     // event called when the movement to push player's body up is detected
     public event EventHandler _onPush;
 
@@ -25,33 +22,18 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator
     // database to get exercise input type
     private ExerciseInputDatabase _exerciseInputDatabase;
 
+    // get exercise input
+    private IExerciseInputHandler _exerciseInputHandler;
+
+    // current exercise input type
+    private ExerciseInputDataSet _currentInputType;
+
+    [SerializeField, Tooltip("head tracking exercise input")]
+    private HeadTrackingInputHandler _headTracking;
+
     // current phase in the movement cycle
     private MovementPhase _currentMovementPhase = MovementPhase.GoingForward;
 
-    // buffer contains incoming position on each frame to get moving average
-    private List<Vector3> _movementDetectBuffer = new List<Vector3>();
-
-    // max length of _movementDetectBuffer
-    private int _maxBufferSize = 15;
-
-    // current moving average position of the track target
-    private Vector3 _currentMAPosition;
-
-    // current moving average velocity of the track target
-    private Vector3 _currentMAVelocity;
-
-    // last moving average velocity of the track target
-    private Vector3 _lastMAVelocity;
-
-    /* variables for calculation */
-
-    // store position temporarily
-    private Vector3 _tempPos;
-
-    // store velocity temporarily
-    private Vector3 _tempVel;
-
-    /*****************************/
 
     /// <summary>
     /// initialization
@@ -65,6 +47,7 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator
         {
             inGameInputSwitcher.SetInputActivator(InputType.Exercise, this);
             inGameInputSwitcher.SetInput(InputType.Exercise, this);
+            inGameInputSwitcher.SetExerciseInfoSetter(this);
         }
     }
 
@@ -74,8 +57,6 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator
     private void Update()
     {
         if (!_isEnabled) { return; }
-
-        UpdatePositionBuffer(_trackTarget.position);
         DetectMovmentCycle();
     }
 
@@ -84,9 +65,7 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator
     /// </summary>
     public void InitAction()
     {
-        // TODO: get exercise input data
-
-        InitBuffer();
+        
     }
 
     /// <summary>
@@ -95,6 +74,7 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator
     public void StartAction()
     {
         _isEnabled = true;
+        _exerciseInputHandler.SetEnabled(_isEnabled);
     }
 
     /// <summary>
@@ -103,6 +83,21 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator
     public void StopAction()
     {
         _isEnabled = false;
+        _exerciseInputHandler.SetEnabled(_isEnabled);
+    }
+
+    /// <summary>
+    /// set exercise type
+    /// </summary>
+    /// <param name="exerciseType"></param>
+    public void ChangeExerciseType(ExerciseType exerciseType)
+    {
+        if (_exerciseInputDatabase == null) { return; }
+        _currentInputType = _exerciseInputDatabase.GetData((int)exerciseType);
+
+        // set up appropriate exercise input handler
+        InitExerciseInput();
+        _exerciseInputHandler.Init(_currentInputType);
     }
 
     /// <summary>
@@ -115,25 +110,20 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator
     }
 
     /// <summary>
-    /// init movement detect buffer
+    /// initialize exercise input for each type of exercises
     /// </summary>
-    private void InitBuffer()
+    private void InitExerciseInput()
     {
-        _movementDetectBuffer.Clear();
-    }
-
-    /// <summary>
-    /// store incoming position into the movmenent detection buffer for calculation of moving average
-    /// </summary>
-    /// <param name="position"></param>
-    private void UpdatePositionBuffer(Vector3 position)
-    {
-        if (_movementDetectBuffer.Count >= _maxBufferSize)
+        switch (_currentInputType._inputType)
         {
-            _movementDetectBuffer.RemoveAt(0);
+            case ExerciseInputType.HeadTracking:
+                _exerciseInputHandler = _headTracking;
+                break;
+
+            default:
+                break;
         }
 
-        _movementDetectBuffer.Add(position);
     }
 
     /// <summary>
@@ -141,84 +131,47 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator
     /// </summary>
     private void DetectMovmentCycle()
     {
-        // prepare moving average position/velocity
-        _currentMAPosition = GetMovingAveragePosition();
-        _currentMAVelocity = GetMovingAverageVelocisy();
-
+        if(_exerciseInputHandler == null) { return; }
+        
         // detect the key points of the movement cycle
         switch (_currentMovementPhase)
         {
             case MovementPhase.GoingForward:
                 // detect negative peak of the movement
-                if (false)
+                if (_exerciseInputHandler.IsNegativePeak())
                 {
                     EventArgs args = EventArgs.Empty;
                     _onStartHold?.Invoke(this, args);
                     _currentMovementPhase = MovementPhase.Holding;
+                    _exerciseInputHandler.SetCurrentMovementPhase(_currentMovementPhase);
                 }
                 break;
 
             case MovementPhase.Holding:
                 // detect start of positive movement
-                if (false)
+                if (_exerciseInputHandler.IsStartOfPositiveMove())
                 {
                     EventArgs args = EventArgs.Empty;
                     _onStopHold?.Invoke(this, args);
                     _currentMovementPhase = MovementPhase.GoingBackward;
+                    _exerciseInputHandler.SetCurrentMovementPhase(_currentMovementPhase);
                 }
                 break;
 
             case MovementPhase.GoingBackward:
                 // detect positive peak of the movment cycle
-                if (false)
+                if (_exerciseInputHandler.IsEndOfPositivePeak())
                 {
                     EventArgs args = EventArgs.Empty;
                     _onPush?.Invoke(this, args);
                     _currentMovementPhase = MovementPhase.GoingForward;
+                    _exerciseInputHandler.SetCurrentMovementPhase(_currentMovementPhase);
                 }
                 break;
 
             default:
                 break;
         }
-
-        // store moving average velocity for the next frame
-        _lastMAVelocity = _currentMAVelocity;
     }
 
-    /// <summary>
-    /// get moving average of the incoming position
-    /// </summary>
-    /// <returns></returns>
-    private Vector3 GetMovingAveragePosition()
-    {
-        _tempPos = Vector3.zero;
-
-        for (int i = 0; i < _movementDetectBuffer.Count; i++)
-        {
-            _tempPos += _movementDetectBuffer[i];
-        }
-
-        _tempPos /= _movementDetectBuffer.Count;
-
-        return _tempPos;
-    }
-
-    /// <summary>
-    /// get moving average of the incoming velocity
-    /// </summary>
-    /// <returns></returns>
-    private Vector3 GetMovingAverageVelocisy()
-    {
-        _tempVel = Vector3.zero;
-
-        for(int i = 0; i < _movementDetectBuffer.Count - 2; i++)
-        {
-            _tempVel += (_movementDetectBuffer[i + 1] - _movementDetectBuffer[i]);
-        }
-
-        _tempVel /= _movementDetectBuffer.Count - 1;
-
-        return _tempVel;
-    }
 }

@@ -20,12 +20,12 @@ public class AppManager
     // enable/disable features at the beginning of the GamePlay phase
     private IGamePlayStateManager[] _gamePlayManagers;
 
-    private IExerciseInforSetter _exerciseInforSetter;
+    private IExerciseInfoSetter _exerciseInforSetter;
 
     /// <summary>
     /// constructor
     /// </summary>
-    public AppManager(AppStarter starter, IMainMenuStateManager[] mainMenuManagers, IGamePlayStateManager[] gamePlayManagers, IExerciseInforSetter exerciseInforSetter)
+    public AppManager(AppStarter starter, IMainMenuStateManager[] mainMenuManagers, IGamePlayStateManager[] gamePlayManagers, IExerciseInfoSetter exerciseInforSetter)
     {
         // set references
         _appStarter = starter;

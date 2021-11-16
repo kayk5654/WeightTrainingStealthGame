@@ -11,24 +11,27 @@ public class PlayerInputActionLinker : ISceneObjectLinker<PlayerActionManager>
     public void LinkObject(PlayerActionManager parentObject)
     {
         // get action activators in the scene
-        InGameInputSwitcher inGameInputManagre = MonoBehaviour.FindObjectOfType<InGameInputSwitcher>();
+        InGameInputSwitcher inGameInputSwitcher = MonoBehaviour.FindObjectOfType<InGameInputSwitcher>();
 
         //IActionActivator optionMenu = MonoBehaviour.FindObjectOfType<IActionActivator>();
         //parentObject.SetOptionMenuUi(optionMenu);
 
-        IActionActivator[] actionActivators = new IActionActivator[] { inGameInputManagre };
+        IActionActivator[] actionActivators = new IActionActivator[] { inGameInputSwitcher };
 
         // set action activators
         parentObject.SetActionActivators(actionActivators);
         
         // set in-game input
-        parentObject.SetInGameInput(inGameInputManagre);
+        parentObject.SetInGameInput(inGameInputSwitcher);
 
         // set offense action
         ProjectileSpawnHandler projectileSpawnHandler = MonoBehaviour.FindObjectOfType<ProjectileSpawnHandler>();
         parentObject.SetOffenseAction(projectileSpawnHandler);
 
         // set defense action
+
+        // set exercise info setter
+        parentObject.SetExerciseInfoSetter(inGameInputSwitcher);
 
         // initialize relation between in-game input and actions
         parentObject.SetCallback();

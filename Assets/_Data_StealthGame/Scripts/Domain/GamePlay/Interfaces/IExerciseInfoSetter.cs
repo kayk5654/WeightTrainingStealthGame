@@ -1,7 +1,7 @@
 ﻿/// <summary>
 /// set exercise type from upper class to lower class
 /// </summary>
-public interface IExerciseInforSetter
+public interface IExerciseInfoSetter
 {
     /// <summary>
     /// set exercise type

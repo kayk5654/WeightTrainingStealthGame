@@ -4,7 +4,7 @@ using System;
 /// <summary>
 /// manages features during the gameplay except ui
 /// </summary>
-public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter, IExerciseInforSetter
+public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter, IExerciseInfoSetter
 {
     // event to notify the start of GamePlay phase
     public event EventHandler<GamePlayStateEventArgs> _onGamePlayStateChange;
@@ -13,13 +13,13 @@ public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter, IExe
     private IGamePlayStateSetter[] _gameplayStateSetters;
 
     // notice exercise type updates
-    private IExerciseInforSetter _exerciseInfoSetter;
+    private IExerciseInfoSetter[] _exerciseInfoSetters;
 
 
-    public GamePlayManager(IGamePlayStateSetter[] gameplayStateSetters, IExerciseInforSetter exerciseInforSetter)
+    public GamePlayManager(IGamePlayStateSetter[] gameplayStateSetters, IExerciseInfoSetter[] exerciseInforSetters)
     {
         _gameplayStateSetters = gameplayStateSetters;
-        _exerciseInfoSetter = exerciseInforSetter;
+        _exerciseInfoSetters = exerciseInforSetters;
     }
 
     /// <summary>
@@ -100,6 +100,9 @@ public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter, IExe
     /// <param name="exerciseType"></param>
     public void ChangeExerciseType(ExerciseType exerciseType)
     {
-        _exerciseInfoSetter.ChangeExerciseType(exerciseType);
+        foreach(IExerciseInfoSetter setter in _exerciseInfoSetters)
+        {
+            setter.ChangeExerciseType(exerciseType);
+        }
     }
 }

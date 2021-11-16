@@ -4,7 +4,7 @@ using System;
 /// <summary>
 /// manage levels of the gameplay
 /// </summary>
-public class LevelManager : IGamePlayStateSetter, IExerciseInforSetter
+public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
 {
     // event to notify the start of GamePlay phase
     public event EventHandler<GamePlayStateEventArgs> _onGamePlayStateChange;

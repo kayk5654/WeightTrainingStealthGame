@@ -4,7 +4,7 @@ using System;
 /// <summary>
 /// manage player's actions during the gameplay
 /// </summary>
-public class PlayerActionManager : IGamePlayStateSetter
+public class PlayerActionManager : IGamePlayStateSetter, IExerciseInfoSetter
 {
     // event to notify the start of GamePlay phase
     public event EventHandler<GamePlayStateEventArgs> _onGamePlayStateChange;
@@ -23,6 +23,9 @@ public class PlayerActionManager : IGamePlayStateSetter
 
     // receive player's input
     private IInGameInputBase _input;
+
+    // send exercise type
+    private IExerciseInfoSetter _exerciseInfoSetter;
 
 
     /// <summary>
@@ -59,6 +62,15 @@ public class PlayerActionManager : IGamePlayStateSetter
     public void SetInGameInput(IInGameInputBase input)
     {
         _input = input;
+    }
+
+    /// <summary>
+    /// set reference of exercise info setter
+    /// </summary>
+    /// <param name="exerciseInfoSetter"></param>
+    public void SetExerciseInfoSetter(IExerciseInfoSetter exerciseInfoSetter)
+    {
+        _exerciseInfoSetter = exerciseInfoSetter;
     }
 
     /// <summary>
@@ -141,6 +153,15 @@ public class PlayerActionManager : IGamePlayStateSetter
 
         // record gameplay state
         _lastGameplayState = gamePlayState;
+    }
+
+    /// <summary>
+    /// set exercise type
+    /// </summary>
+    /// <param name="exerciseType"></param>
+    public void ChangeExerciseType(ExerciseType exerciseType)
+    {
+        _exerciseInfoSetter.ChangeExerciseType(exerciseType);
     }
 
     /// <summary>
