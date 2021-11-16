@@ -65,7 +65,7 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator, 
     /// </summary>
     public void InitAction()
     {
-        
+        _currentMovementPhase = MovementPhase.GoingForward;
     }
 
     /// <summary>
@@ -98,6 +98,7 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator, 
         // set up appropriate exercise input handler
         InitExerciseInput();
         _exerciseInputHandler.Init(_currentInputType);
+        _exerciseInputHandler.SetCurrentMovementPhase(MovementPhase.GoingForward);
     }
 
     /// <summary>

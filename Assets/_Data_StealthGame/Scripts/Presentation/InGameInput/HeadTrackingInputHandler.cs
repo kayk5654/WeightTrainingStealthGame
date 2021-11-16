@@ -18,6 +18,9 @@ public class HeadTrackingInputHandler : MonoBehaviour, IExerciseInputHandler
     // whether the input is enabled;
     private bool _isEnabled;
 
+    // head position when the exercise starts
+    private Vector3 _startHeadPos;
+
     // buffer contains incoming position on each frame to get moving average
     private List<Vector3> _movementDetectBuffer = new List<Vector3>();
 
@@ -52,12 +55,22 @@ public class HeadTrackingInputHandler : MonoBehaviour, IExerciseInputHandler
         
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// calculate current state
+    /// </summary>
     private void Update()
     {
         if (!_isEnabled) { return; }
         UpdatePositionBuffer(_head.position);
-        DetectMovmentCycle();
+        CalculateMovingAverage();
+    }
+
+    /// <summary>
+    /// record data after calculating current state
+    /// </summary>
+    private void LateUpdate()
+    {
+        RecordLastMAVelocity();
     }
 
     /// <summary>
@@ -68,6 +81,7 @@ public class HeadTrackingInputHandler : MonoBehaviour, IExerciseInputHandler
     {
         _currentInputType = exerciseInputData;
         InitBuffer();
+        _startHeadPos = _head.position;
     }
 
     /// <summary>
@@ -94,7 +108,22 @@ public class HeadTrackingInputHandler : MonoBehaviour, IExerciseInputHandler
     /// <returns></returns>
     public bool IsNegativePeak()
     {
-        return false;
+        if(_currentMovementPhase != MovementPhase.GoingForward) { return false; }
+
+        bool state;
+
+        // detect by position
+        if(_currentInputType._peakHeightOffset < 0f)
+        {
+            state = _head.position.y < _currentInputType._peakHeightOffset + _currentInputType._heightOffsetMargin;
+        }
+        else
+        {
+            state = _head.position.y > _currentInputType._peakHeightOffset - _currentInputType._heightOffsetMargin;
+        }
+        
+
+        return state;
     }
 
     /// <summary>
@@ -103,7 +132,22 @@ public class HeadTrackingInputHandler : MonoBehaviour, IExerciseInputHandler
     /// <returns></returns>
     public bool IsStartOfPositiveMove()
     {
-        return false;
+        if(_currentMovementPhase != MovementPhase.Holding) { return false; }
+
+        bool state;
+
+        // detect by position
+        if (_currentInputType._peakHeightOffset < 0f)
+        {
+            state = _head.position.y > _currentInputType._peakHeightOffset + _currentInputType._heightOffsetMargin;
+        }
+        else
+        {
+            state = _head.position.y < _currentInputType._peakHeightOffset - _currentInputType._heightOffsetMargin;
+        }
+
+
+        return state;
     }
 
     /// <summary>
@@ -113,7 +157,22 @@ public class HeadTrackingInputHandler : MonoBehaviour, IExerciseInputHandler
 
     public bool IsEndOfPositivePeak()
     {
-        return false;
+        if(_currentMovementPhase != MovementPhase.GoingBackward) { return false; }
+
+        bool state;
+
+        // detect by position
+        if (_currentInputType._peakHeightOffset < 0f)
+        {
+            state = _head.position.y > _startHeadPos.y - _currentInputType._heightOffsetMargin;
+        }
+        else
+        {
+            state = _head.position.y < _startHeadPos.y + _currentInputType._heightOffsetMargin;
+        }
+
+
+        return state;
     }
 
     /// <summary>
@@ -138,39 +197,20 @@ public class HeadTrackingInputHandler : MonoBehaviour, IExerciseInputHandler
         _movementDetectBuffer.Add(position);
     }
 
-
     /// <summary>
-    /// detect key points of the movement cycle and kick the relative events
+    /// // prepare moving average position/velocity
     /// </summary>
-    private void DetectMovmentCycle()
+    private void CalculateMovingAverage()
     {
-        // prepare moving average position/velocity
         _currentMAPosition = GetMovingAveragePosition();
         _currentMAVelocity = GetMovingAverageVelocisy();
+    }
 
-        // detect the key points of the movement cycle
-        switch (_currentMovementPhase)
-        {
-            case MovementPhase.GoingForward:
-                // detect negative peak of the movement
-                
-                break;
-
-            case MovementPhase.Holding:
-                // detect start of positive movement
-                
-                break;
-
-            case MovementPhase.GoingBackward:
-                // detect positive peak of the movment cycle
-                
-                break;
-
-            default:
-                break;
-        }
-
-        // store moving average velocity for the next frame
+    /// <summary>
+    /// store moving average velocity for the next frame
+    /// </summary>
+    private void RecordLastMAVelocity()
+    {
         _lastMAVelocity = _currentMAVelocity;
     }
 
