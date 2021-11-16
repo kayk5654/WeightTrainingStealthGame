@@ -51,9 +51,9 @@ public class InGameInputSwitcher : MonoBehaviour, IActionActivator, IInGameInput
         // for debugging, use keyboard on the editor
         // on hololens2, use button instead of keyboard
 #if !UNITY_EDITOR
-        if(_inputType == InputType.keyboard)
+        if(_inputType == InputType.Keyboard)
         {
-            _inputType = InputType.button;
+            _inputType = InputType.Button;
         }
 #endif
     }
