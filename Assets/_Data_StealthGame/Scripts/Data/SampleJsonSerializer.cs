@@ -13,43 +13,74 @@ public class SampleJsonSerializer : MonoBehaviour
         // create sample datasets
         int datasetsLength = 3;
 
-        LevelDataSet[] sampleLevels = new LevelDataSet[datasetsLength];
-        PlayerAbilityDataSet[] samplePlayerAbilities = new PlayerAbilityDataSet[datasetsLength];
-
-        for (int i = 0; i < datasetsLength; i++)
+        if (!File.Exists(Config._levelDataPath))
         {
-            LevelDataSet sampleLevel = new LevelDataSet();
-            sampleLevel._level = i;
-            sampleLevel._duration = 30f * (i + 1);
-            sampleLevel._enemySpawnRate = 3;
-            sampleLevel._maxEnemyNumberInField = 3 * (i + 1);
+            LevelDataSet[] sampleLevels = new LevelDataSet[datasetsLength];
 
-            PlayerAbilityDataSet samplePlayerAbility = new PlayerAbilityDataSet();
-            samplePlayerAbility._level = i;
-            samplePlayerAbility._unlockedNodeNumber = 5 * (i + 1);
+            for (int i = 0; i < datasetsLength; i++)
+            {
+                LevelDataSet sampleLevel = new LevelDataSet();
+                sampleLevel._level = i;
+                sampleLevel._duration = 30f * (i + 1);
+                sampleLevel._enemySpawnRate = 3;
+                sampleLevel._maxEnemyNumberInField = 3 * (i + 1);
+                sampleLevels[i] = sampleLevel;
+            }
 
-            sampleLevels[i] = sampleLevel;
-            samplePlayerAbilities[i] = samplePlayerAbility;
+            WriteFile(JsonHelper.ToJson<LevelDataSet>(sampleLevels), Config._levelDataPath);
         }
 
-        SpawnAreaDataSet[] spawnAreas = new SpawnAreaDataSet[(int)ExerciseType.LENGTH];
-
-        for (int i = 0; i < spawnAreas.Length; i++)
+        if (!File.Exists(Config._playerAbilityDataPath))
         {
-            SpawnAreaDataSet sampleSpawnArea = new SpawnAreaDataSet();
-            sampleSpawnArea._exerciseType = (ExerciseType)i;
-            sampleSpawnArea._isScannedDataPreferred = false;
-            sampleSpawnArea._center = new Vector3(0, 0, 2);
-            sampleSpawnArea._size = new Vector3(2, 2, 3);
-            sampleSpawnArea._rotation = Quaternion.Euler(0, 0, 0);
+            PlayerAbilityDataSet[] samplePlayerAbilities = new PlayerAbilityDataSet[datasetsLength];
 
-            spawnAreas[i] = sampleSpawnArea;
+            for (int i = 0; i < datasetsLength; i++)
+            {
+                PlayerAbilityDataSet samplePlayerAbility = new PlayerAbilityDataSet();
+                samplePlayerAbility._level = i;
+                samplePlayerAbility._unlockedNodeNumber = 5 * (i + 1);
+                samplePlayerAbilities[i] = samplePlayerAbility;
+            }
+
+            WriteFile(JsonHelper.ToJson<PlayerAbilityDataSet>(samplePlayerAbilities), Config._playerAbilityDataPath);
         }
-        
-        // write json files
-        WriteFile(JsonHelper.ToJson<LevelDataSet>(sampleLevels), Config._levelDataPath);
-        WriteFile(JsonHelper.ToJson<PlayerAbilityDataSet>(samplePlayerAbilities), Config._playerAbilityDataPath);
-        WriteFile(JsonHelper.ToJson<SpawnAreaDataSet>(spawnAreas), Config._spawnAreaDataPath);
+
+        if (!File.Exists(Config._spawnAreaDataPath))
+        {
+            SpawnAreaDataSet[] spawnAreas = new SpawnAreaDataSet[(int)ExerciseType.LENGTH];
+
+            for (int i = 0; i < spawnAreas.Length; i++)
+            {
+                SpawnAreaDataSet sampleSpawnArea = new SpawnAreaDataSet();
+                sampleSpawnArea._exerciseType = (ExerciseType)i;
+                sampleSpawnArea._isScannedDataPreferred = false;
+                sampleSpawnArea._center = new Vector3(0, 0, 2);
+                sampleSpawnArea._size = new Vector3(2, 2, 3);
+                sampleSpawnArea._rotation = Quaternion.Euler(0, 0, 0);
+
+                spawnAreas[i] = sampleSpawnArea;
+            }
+
+            WriteFile(JsonHelper.ToJson<SpawnAreaDataSet>(spawnAreas), Config._spawnAreaDataPath);
+        }
+
+        if (!File.Exists(Config._exerciseInputDataPath))
+        {
+            ExerciseInputDataSet[] exerciseInputs = new ExerciseInputDataSet[(int)ExerciseType.LENGTH];
+
+            for(int i = 0; i < exerciseInputs.Length; i++)
+            {
+                ExerciseInputDataSet sampleExerciseInput = new ExerciseInputDataSet();
+                sampleExerciseInput._exerciseType = (ExerciseType)i;
+                sampleExerciseInput._inputType = ExerciseInputType.HeadTracking;
+                sampleExerciseInput._peakHeightOffset = 0.2f;
+                sampleExerciseInput._heightOffsetMargin = 0.12f;
+
+                exerciseInputs[i] = sampleExerciseInput;
+            }
+
+            WriteFile(JsonHelper.ToJson<ExerciseInputDataSet>(exerciseInputs), Config._exerciseInputDataPath);
+        }
 
         DebugLog.Info(this.ToString(), "successfully generated sample data");
     }

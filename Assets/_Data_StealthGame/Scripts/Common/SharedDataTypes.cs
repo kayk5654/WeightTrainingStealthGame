@@ -96,12 +96,16 @@ public enum MovementPhase
 }
 
 /// <summary>
-/// contain path of movement of the selected exercise
+/// type of actual input for ExerciseInput
 /// </summary>
-public struct ExercisePath
+public enum ExerciseInputType
 {
-    public Vector3 _startPos;
-    public Vector3 _endPos;
+    HeadTracking,
+    RightHandTracking,
+    LeftHandTracking,
+    BothHandsTracking,
+    Sensor,
+    LENGTH
 }
 
 /// <summary>

@@ -22,6 +22,9 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator
     // whether the input is enabled;
     private bool _isEnabled;
 
+    // database to get exercise input type
+    private ExerciseInputDatabase _exerciseInputDatabase;
+
     // current phase in the movement cycle
     private MovementPhase _currentMovementPhase = MovementPhase.GoingForward;
 
@@ -55,10 +58,14 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator
     /// </summary>
     private void Start()
     {
+        InitDataBase();
+
         InGameInputSwitcher inGameInputSwitcher = FindObjectOfType<InGameInputSwitcher>();
-        if (!inGameInputSwitcher) { return; }
-        inGameInputSwitcher.SetInputActivator(InputType.Exercise, this);
-        inGameInputSwitcher.SetInput(InputType.Exercise, this);
+        if (inGameInputSwitcher) 
+        {
+            inGameInputSwitcher.SetInputActivator(InputType.Exercise, this);
+            inGameInputSwitcher.SetInput(InputType.Exercise, this);
+        }
     }
 
     /// <summary>
@@ -77,6 +84,8 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator
     /// </summary>
     public void InitAction()
     {
+        // TODO: get exercise input data
+
         InitBuffer();
     }
 
@@ -94,6 +103,15 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator
     public void StopAction()
     {
         _isEnabled = false;
+    }
+
+    /// <summary>
+    /// initialize database to get exercise input type
+    /// </summary>
+    private void InitDataBase()
+    {
+        JsonDatabaseReader<ExerciseInputDataSet> exerciseInputJson = new JsonDatabaseReader<ExerciseInputDataSet>();
+        _exerciseInputDatabase = new ExerciseInputDatabase(exerciseInputJson, Config._exerciseInputDataPath);
     }
 
     /// <summary>
