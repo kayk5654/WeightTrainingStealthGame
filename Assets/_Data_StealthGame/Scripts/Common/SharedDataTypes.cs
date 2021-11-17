@@ -109,6 +109,17 @@ public enum ExerciseInputType
 }
 
 /// <summary>
+/// type of look direction getter
+/// </summary>
+[System.Serializable]
+public enum LookDirectionGetterType
+{
+    CameraTransform,
+    MRTK,
+    LENGTH
+}
+
+/// <summary>
 /// notify the status of the app state
 /// </summary>
 public class AppStateEventArgs : EventArgs

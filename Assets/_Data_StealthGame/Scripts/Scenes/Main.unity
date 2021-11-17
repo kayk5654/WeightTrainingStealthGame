@@ -279,6 +279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d4c2a8490448ab43a45452c57eb0b39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sceneObjectContainer: {fileID: 1911032716}
   _spawnGuide: {fileID: 10145067}
   _cameraTransform: {fileID: 963194228}
   _maxDistance: 4
@@ -1695,6 +1696,7 @@ GameObject:
   - component: {fileID: 1769826209}
   - component: {fileID: 1769826211}
   - component: {fileID: 1769826212}
+  - component: {fileID: 1769826213}
   m_Layer: 0
   m_Name: InGameInput
   m_TagString: Untagged
@@ -1779,6 +1781,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _head: {fileID: 963194228}
+--- !u!114 &1769826213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769826206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa41869711d97ed41a64f6cd5bfcc7c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cameraTransform: {fileID: 10145067}
 --- !u!1 &1809395797
 GameObject:
   m_ObjectHideFlags: 0
@@ -1859,6 +1874,8 @@ MonoBehaviour:
   - {fileID: 598997542}
   - {fileID: 2129433885}
   - {fileID: 284584899}
+  _lookDirectionGetterType: 0
+  _cameraLookDirectionGetter: {fileID: 1769826213}
 --- !u!4 &1911032717
 Transform:
   m_ObjectHideFlags: 0

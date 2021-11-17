@@ -17,6 +17,13 @@ public class SceneObjectContainer : MonoBehaviour
     [SerializeField, Tooltip("main ui phases")]
     private MainUiPhase[] _mainUiPhases;
 
+    [Header("Look Direction Getter")]
+    [SerializeField, Tooltip("type of look direction getter")]
+    private LookDirectionGetterType _lookDirectionGetterType;
+
+    [SerializeField, Tooltip("look direction getter using camera transform")]
+    private CameraLookDirectionGetter _cameraLookDirectionGetter;
+
     /// <summary>
     /// get _offenseAction
     /// </summary>
@@ -42,5 +49,25 @@ public class SceneObjectContainer : MonoBehaviour
     public MainUiPhase[] GetMainUiPhaseArray()
     {
         return _mainUiPhases;
+    }
+
+    /// <summary>
+    /// get look direction getter
+    /// </summary>
+    /// <returns></returns>
+    public ILookDirectionGetter GetLookDirectionGetter()
+    {
+        switch (_lookDirectionGetterType)
+        {
+            case LookDirectionGetterType.CameraTransform:
+                return _cameraLookDirectionGetter;
+
+            case LookDirectionGetterType.MRTK:
+                return null;
+
+            default:
+                return null;
+        }
+        
     }
 }
