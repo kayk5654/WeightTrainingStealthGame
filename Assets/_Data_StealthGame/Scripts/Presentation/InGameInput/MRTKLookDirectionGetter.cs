@@ -5,7 +5,7 @@ using Microsoft.MixedReality.Toolkit;
 public class MRTKLookDirectionGetter : MonoBehaviour, ILookDirectionGetter
 {
     // eye tracking feature of MRTK
-    private IMixedRealityGazeProvider _eyeGazeProvider;
+    private IMixedRealityEyeGazeProvider _eyeGazeProvider;
 
 
     /// <summary>
@@ -14,6 +14,7 @@ public class MRTKLookDirectionGetter : MonoBehaviour, ILookDirectionGetter
     private void Start()
     {
         _eyeGazeProvider = CoreServices.InputSystem?.EyeGazeProvider;
+        _eyeGazeProvider.IsEyeTrackingEnabled = true;
     }
 
     /// <summary>
@@ -22,7 +23,7 @@ public class MRTKLookDirectionGetter : MonoBehaviour, ILookDirectionGetter
     /// <returns></returns>
     public Vector3 GetDirection()
     {
-        return _eyeGazeProvider.GazeDirection;
+        return _eyeGazeProvider.GazeDirection.normalized;
     }
 
     /// <summary>
