@@ -26,4 +26,7 @@ public static class Config
 
     // layer name for unsearchable objects
     public static readonly string _unsearchableLayerName = "Unsearchable";
+
+    // max distance of the eye gaze cursor
+    public static readonly float _cursorMaxDistance = 3.0f;
 }

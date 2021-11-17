@@ -22,11 +22,11 @@ public class CursorManager : MonoBehaviour, ICursor
     [SerializeField, Tooltip("cursor prefab")]
     private GageCursorHandler _cursorPrefab;
 
-    // max distance of cursor object from the look origin
-    private float _cursorMaxDistance = 3.0f;
-
     // get look direction
     private ILookDirectionGetter _lookDirectionGetter;
+
+    // get snapped cursor position
+    private CursorSnapper _cursorSnapper;
 
     [SerializeField, Tooltip("layer mask for object detection")]
     private LayerMask _layerMask;
@@ -50,6 +50,7 @@ public class CursorManager : MonoBehaviour, ICursor
     private void Start()
     {
         _lookDirectionGetter = _sceneObjectContainer.GetLookDirectionGetter();
+        _cursorSnapper = new CursorSnapper();
     }
 
     /// <summary>
@@ -59,12 +60,19 @@ public class CursorManager : MonoBehaviour, ICursor
     {
         if (!_isEnabled) { return; }
         if (!_gageCursorHandler) { return; }
-        
+
         // search any objects
-        if(Physics.Raycast(_lookDirectionGetter.GetOrigin(), _lookDirectionGetter.GetDirection(), out _hit, _maxDistance, _layerMask.value, QueryTriggerInteraction.Collide))
+        bool isHit = Physics.Raycast(_lookDirectionGetter.GetOrigin(), _lookDirectionGetter.GetDirection(), out _hit, _maxDistance, _layerMask.value, QueryTriggerInteraction.Collide);
+
+        // get snapped cursor position
+        _cursorSnapper.SetRayCastingInfo(_lookDirectionGetter.GetOrigin(), _lookDirectionGetter.GetDirection(), isHit, _hit);
+        
+        // update position of the cursor
+        _gageCursorHandler.transform.position = _cursorSnapper.GetSnappedCursorPosition();
+
+        if (isHit)
         {
-            // update position, animation and the hit status
-            _gageCursorHandler.transform.position = _hit.point;
+            // animation and the hit status
             // if the object is found in this frame, scale the cursor up
             if (!_lastFrameHitStatus)
             {
@@ -74,8 +82,7 @@ public class CursorManager : MonoBehaviour, ICursor
         }
         else
         {
-            // update position, animation and the hit status
-            _gageCursorHandler.transform.position = _lookDirectionGetter.GetOrigin() + _lookDirectionGetter.GetDirection() * _cursorMaxDistance;
+            // update animation and the hit status
             // if the object is lost in this frame, scale the cursor down
             if (_lastFrameHitStatus)
             {
@@ -106,7 +113,6 @@ public class CursorManager : MonoBehaviour, ICursor
         {
             _gageCursorHandler.gameObject.SetActive(_isEnabled);
         }
-        
     }
 
     /// <summary>
@@ -114,7 +120,8 @@ public class CursorManager : MonoBehaviour, ICursor
     /// </summary>
     private void InitCursor()
     {
-        _gageCursorHandler = Instantiate(_cursorPrefab, _lookDirectionGetter.GetOrigin() + _lookDirectionGetter.GetDirection() * _cursorMaxDistance, Quaternion.identity, transform);
+        _gageCursorHandler = Instantiate(_cursorPrefab, _lookDirectionGetter.GetOrigin() + _lookDirectionGetter.GetDirection() * Config._cursorMaxDistance, Quaternion.identity, transform);
         _gageCursorHandler.transform.LookAt(_cameraTransform, Vector3.up);
+        _cursorSnapper.Init(_gageCursorHandler.transform.position);
     }
 }
