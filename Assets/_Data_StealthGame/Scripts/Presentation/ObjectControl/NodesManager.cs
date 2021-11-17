@@ -231,12 +231,14 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
 
         foreach (Node node in _nodes.Values)
         {
+            if(node == null) { continue; }
             Destroy(node.gameObject);
         }
         _nodes.Clear();
 
         foreach (Connection connection in _connections.Values)
         {
+            if(connection == null) { continue; }
             Destroy(connection.gameObject);
         }
         _connections.Clear();
