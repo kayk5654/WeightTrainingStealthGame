@@ -27,6 +27,9 @@ public class SceneObjectContainer : MonoBehaviour
     [SerializeField, Tooltip("look direction getter using eye gaze feature in MRTK")]
     private MRTKLookDirectionGetter _mrtkLookDirectionGetter;
 
+    [SerializeField, Tooltip("get snapped cursor position")]
+    private CursorSnapper _cursorSnapper;
+
     /// <summary>
     /// get _offenseAction
     /// </summary>
@@ -72,5 +75,10 @@ public class SceneObjectContainer : MonoBehaviour
                 return null;
         }
         
+    }
+
+    public CursorSnapper GetCursorSnapper()
+    {
+        return _cursorSnapper;
     }
 }

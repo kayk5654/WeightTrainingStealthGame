@@ -2,7 +2,7 @@
 /// <summary>
 /// snap cursor object on the scene objects
 /// </summary>
-public class CursorSnapper
+public class CursorSnapper : MonoBehaviour
 {
     // cursor position after calculating snap
     private Vector3 _snappedCursorPosition;

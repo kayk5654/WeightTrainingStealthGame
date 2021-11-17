@@ -14,6 +14,12 @@ public class ProjectileSpawnHandler : MonoBehaviour, IInGameOffenseAction
     [SerializeField, Tooltip("guide transform to spawn projectiles")]
     private Transform _spawnGuide;
 
+    [SerializeField, Tooltip("scene object reference")]
+    private SceneObjectContainer _sceneObjectContainer;
+
+    // get snapped cursor position
+    private CursorSnapper _cursorSnapper;
+
     // id to set each projectiles
     private int _nextId = 0;
 
@@ -24,7 +30,7 @@ public class ProjectileSpawnHandler : MonoBehaviour, IInGameOffenseAction
     /// </summary>
     private void Start()
     {
-        
+        _cursorSnapper = _sceneObjectContainer.GetCursorSnapper();
     }
 
     /// <summary>
@@ -51,7 +57,7 @@ public class ProjectileSpawnHandler : MonoBehaviour, IInGameOffenseAction
     {
         ProjectileBase projectile = Instantiate(_projectile, _spawnGuide.position, _spawnGuide.rotation, null);
         projectile.SetId(_nextId);
-        projectile.SetMoveDirection(_spawnGuide.forward);
+        projectile.SetMoveDirection(_cursorSnapper.GetSnappedCursorPosition() - _spawnGuide.position);
         projectile.SetSpawnPosition(_spawnGuide.position);
         
         _nextId++;

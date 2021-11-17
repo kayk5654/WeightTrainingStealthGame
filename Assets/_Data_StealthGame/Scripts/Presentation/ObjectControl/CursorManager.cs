@@ -50,7 +50,7 @@ public class CursorManager : MonoBehaviour, ICursor
     private void Start()
     {
         _lookDirectionGetter = _sceneObjectContainer.GetLookDirectionGetter();
-        _cursorSnapper = new CursorSnapper();
+        _cursorSnapper = _sceneObjectContainer.GetCursorSnapper();
     }
 
     /// <summary>
