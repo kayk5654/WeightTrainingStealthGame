@@ -24,6 +24,9 @@ public class SceneObjectContainer : MonoBehaviour
     [SerializeField, Tooltip("look direction getter using camera transform")]
     private CameraLookDirectionGetter _cameraLookDirectionGetter;
 
+    [SerializeField, Tooltip("look direction getter using eye gaze feature in MRTK")]
+    private MRTKLookDirectionGetter _mrtkLookDirectionGetter;
+
     /// <summary>
     /// get _offenseAction
     /// </summary>
@@ -63,7 +66,7 @@ public class SceneObjectContainer : MonoBehaviour
                 return _cameraLookDirectionGetter;
 
             case LookDirectionGetterType.MRTK:
-                return null;
+                return _mrtkLookDirectionGetter;
 
             default:
                 return null;
