@@ -98,6 +98,12 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
         {
             _workoutNavigationUi.DisplayUiPhase((int)WorkoutNavigationUiPanelPhase.FormCheck);
         }
+
+        // display cursor
+        if(_cursorUi != null)
+        {
+            _cursorUi.SetActive(true);
+        }
     }
 
     /// <summary>
@@ -112,6 +118,12 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
         {
             _workoutNavigationUi.DisplayUiPhase((int)WorkoutNavigationUiPanelPhase.None);
         }
+
+        // hide cursor
+        if (_cursorUi != null)
+        {
+            _cursorUi.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -120,6 +132,12 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     public void PauseGamePlay()
     {
         SetGamePlayState(GamePlayState.Pause);
+
+        // hide cursor
+        if (_cursorUi != null)
+        {
+            _cursorUi.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -128,6 +146,12 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     public void ResumeGamePlay()
     {
         SetGamePlayState(GamePlayState.Playing);
+
+        // display cursor
+        if (_cursorUi != null)
+        {
+            _cursorUi.SetActive(true);
+        }
     }
 
     /// <summary>

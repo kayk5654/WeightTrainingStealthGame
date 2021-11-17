@@ -31,35 +31,18 @@ public class CursorManager : MonoBehaviour, ICursor
     // whether the ray hits something in the last frame
     private bool _lastFrameHitStatus;
 
+    // whether the cursor object is enabled
+    private bool _isEnabled;
 
-    /// <summary>
-    /// activate cursor
-    /// </summary>
-    private void OnEnable()
-    {
-        // instantiate cursor object at the beginning
-        if (!_gageCursorHandler)
-        {
-            _gageCursorHandler = Instantiate(_cursorPrefab, _spawnGuide.position + _spawnGuide.forward * _maxDistance, _spawnGuide.rotation, transform);
-
-        }
-
-        _gageCursorHandler.gameObject.SetActive(true);
-    }
-
-    /// <summary>
-    /// deactivate cursor
-    /// </summary>
-    private void OnDisable()
-    {
-        _gageCursorHandler.gameObject.SetActive(false);
-    }
 
     /// <summary>
     /// try to find objects, update cursor depending on the result of object searching
     /// </summary>
     private void Update()
     {
+        if (!_isEnabled) { return; }
+        if (!_gageCursorHandler) { return; }
+        
         // search any objects
         if(Physics.Raycast(_spawnGuide.position, _spawnGuide.forward, out _hit, _maxDistance, _layerMask.value, QueryTriggerInteraction.Collide))
         {
@@ -86,5 +69,34 @@ public class CursorManager : MonoBehaviour, ICursor
 
         // update rotation
         _gageCursorHandler.transform.LookAt(_cameraTransform, Vector3.up);
+    }
+
+    /// <summary>
+    /// enable/disable cursor
+    /// </summary>
+    /// <param name="state"></param>
+    public void SetActive(bool state)
+    {
+        _isEnabled = state;
+
+        // when CursorManager is activated first time, spawn cursor object
+        if(_isEnabled && !_gageCursorHandler)
+        {
+            InitCursor();
+        }
+
+        if (_gageCursorHandler)
+        {
+            _gageCursorHandler.gameObject.SetActive(_isEnabled);
+        }
+        
+    }
+
+    /// <summary>
+    /// initialize cursor object
+    /// </summary>
+    private void InitCursor()
+    {
+        _gageCursorHandler = Instantiate(_cursorPrefab, _spawnGuide.position + _spawnGuide.forward * _maxDistance, _spawnGuide.rotation, transform);
     }
 }

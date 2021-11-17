@@ -5,5 +5,9 @@ using System.Collections.Generic;
 /// </summary>
 public interface ICursor
 {
-    
+    /// <summary>
+    /// enable/disable cursor
+    /// </summary>
+    /// <param name="state"></param>
+    void SetActive(bool state);
 }
