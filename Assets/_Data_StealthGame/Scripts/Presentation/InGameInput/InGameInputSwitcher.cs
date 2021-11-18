@@ -92,7 +92,11 @@ public class InGameInputSwitcher : MonoBehaviour, IActionActivator, IInGameInput
     /// </summary>
     public void InitAction()
     {
-
+        foreach (InputType key in _inputActivators.Keys)
+        {
+            if (key != _inputType) { continue; }
+            _inputActivators[key].InitAction();
+        }
     }
 
     /// <summary>

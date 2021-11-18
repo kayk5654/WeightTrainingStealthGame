@@ -82,7 +82,7 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
                 break;
 
             case GamePlayState.Playing:
-                if (_lastGameplayState == GamePlayState.None)
+                if (_lastGameplayState == GamePlayState.BeforePlay)
                 {
                     // if the gameplay starts, load new level
                     int playerLevel = _playerLevelHandler.GetPlayerLevel();

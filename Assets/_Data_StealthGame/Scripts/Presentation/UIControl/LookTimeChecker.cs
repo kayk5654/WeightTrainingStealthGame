@@ -15,7 +15,7 @@ public class LookTimeChecker : MonoBehaviour
     public OnLookTimeCountEnd _onLookTimeCountEnd;
 
     [SerializeField, Tooltip("look time threshold")]
-    private float _lookTimeThreshold = 1.5f;
+    private float _lookTimeThreshold = 2f;
 
     [SerializeField, Tooltip("target object to look at")]
     private Transform _targetObject;
@@ -40,6 +40,13 @@ public class LookTimeChecker : MonoBehaviour
     private void Start()
     {
         _lookDirectionGetter = _sceneObjectContainer.GetLookDirectionGetter();
+        StartTimeCount();
+    }
+
+    private void OnEnable()
+    {
+        if (_lookDirectionGetter == null) { return; }
+        StartTimeCount();
     }
 
     /// <summary>
@@ -47,6 +54,7 @@ public class LookTimeChecker : MonoBehaviour
     /// </summary>
     private void OnDisable()
     {
+        StopTimeCount();
         ResetTimeCount();
     }
 
@@ -97,6 +105,11 @@ public class LookTimeChecker : MonoBehaviour
             if(Vector3.Dot(_lookDirectionGetter.GetDirection(), (_targetObject.position - _lookDirectionGetter.GetOrigin()).normalized) > _dotThreshold)
             {
                 _lookTime += Time.deltaTime;
+            }
+            else
+            {
+                _lookTime -= Time.deltaTime * 0.5f;
+                _lookTime = Mathf.Max(_lookTime, 0f);
             }
             
             yield return null;

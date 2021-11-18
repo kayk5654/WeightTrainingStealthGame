@@ -66,6 +66,11 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator, 
     public void InitAction()
     {
         _currentMovementPhase = MovementPhase.GoingForward;
+
+        // set up appropriate exercise input handler
+        InitExerciseInput();
+        _exerciseInputHandler.Init(_currentInputType);
+        _exerciseInputHandler.SetCurrentMovementPhase(MovementPhase.GoingForward);
     }
 
     /// <summary>
@@ -94,11 +99,6 @@ public class ExerciseInput : MonoBehaviour, IInGameInputBase, IActionActivator, 
     {
         if (_exerciseInputDatabase == null) { return; }
         _currentInputType = _exerciseInputDatabase.GetData((int)exerciseType);
-
-        // set up appropriate exercise input handler
-        InitExerciseInput();
-        _exerciseInputHandler.Init(_currentInputType);
-        _exerciseInputHandler.SetCurrentMovementPhase(MovementPhase.GoingForward);
     }
 
     /// <summary>

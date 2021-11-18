@@ -127,7 +127,7 @@ public class AppManager
         if (_currentAppState == AppState.MainMenu && args.appState == AppState.GamePlay)
         {
             // start playing gameplay
-            _currentGamePlayState = GamePlayState.Playing;
+            _currentGamePlayState = GamePlayState.BeforePlay;
 
             // notify current gameplay state
             NotifyGamePlayState(_currentGamePlayState, prevGameplayState);
@@ -240,11 +240,19 @@ public class AppManager
                 }
                 break;
 
+            case GamePlayState.BeforePlay:
+                // display before gameplay ui, etc.
+                foreach (IGamePlayStateManager manager in _gamePlayManagers)
+                {
+                    manager.BeforeGamePlay();
+                }
+                break;
+
             case GamePlayState.Playing:
                 // enable gameplay phase features
                 foreach (IGamePlayStateManager manager in _gamePlayManagers)
                 {
-                    if(lastState == GamePlayState.None)
+                    if(lastState == GamePlayState.BeforePlay)
                     {
                         // if lastState is None (= AppState was MainMenu), enable gameplay features
                         manager.EnableGamePlay();
@@ -262,6 +270,14 @@ public class AppManager
                 foreach (IGamePlayStateManager manager in _gamePlayManagers)
                 {
                     manager.PauseGamePlay();
+                }
+                break;
+
+            case GamePlayState.AfterPlay:
+                // display game clear or game over dialog
+                foreach (IGamePlayStateManager manager in _gamePlayManagers)
+                {
+                    manager.AfterGamePlay();
                 }
                 break;
 

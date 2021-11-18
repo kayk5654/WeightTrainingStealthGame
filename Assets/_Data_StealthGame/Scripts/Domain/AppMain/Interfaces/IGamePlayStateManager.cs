@@ -4,6 +4,11 @@
 public interface IGamePlayStateManager
 {
     /// <summary>
+    /// enable features for before actual gameplay
+    /// </summary>
+    void BeforeGamePlay();
+    
+    /// <summary>
     /// enable features at the beginning of the GamePlay phase
     /// </summary>
     void EnableGamePlay();
@@ -22,4 +27,9 @@ public interface IGamePlayStateManager
     /// resume gameplay
     /// </summary>
     void ResumeGamePlay();
+
+    /// <summary>
+    /// enable features for after actual gameplay
+    /// </summary>
+    void AfterGamePlay();
 }

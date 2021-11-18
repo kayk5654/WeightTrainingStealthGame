@@ -27,10 +27,14 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     // cursor ui
     private ICursor _cursorUi;
 
+    // set app state
     private IAppStateSetter _appStateSetter;
 
+    // set exercise info
     private IExerciseInfoSender _exerciseInfoSetter;
 
+    // receive signal to start actual workout
+    private IGamePlayStateSetter _workoutStarter;
 
     /// <summary>
     /// constructor
@@ -39,7 +43,7 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     /// <param name="workoutNavUi"></param>
     /// <param name="optionMenuUi"></param>
     /// <param name=""></param>
-    public UiManager(IMultiPhaseUi menuUi, IMultiPhaseUi workoutNavUi, IGamePlayStateSetter optionMenuUi, ICursor cursorUi, IAppStateSetter appStateSetter, IExerciseInfoSender exerciseInfoSetter)
+    public UiManager(IMultiPhaseUi menuUi, IMultiPhaseUi workoutNavUi, IGamePlayStateSetter optionMenuUi, ICursor cursorUi, IAppStateSetter appStateSetter, IExerciseInfoSender exerciseInfoSetter, IGamePlayStateSetter workoutStarter)
     {
         _menuUi = menuUi;
         _workoutNavigationUi = workoutNavUi;
@@ -47,6 +51,7 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
         _cursorUi = cursorUi;
         _appStateSetter = appStateSetter;
         _exerciseInfoSetter = exerciseInfoSetter;
+        _workoutStarter = workoutStarter;
         SetCallback();
     }
 
@@ -87,16 +92,30 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     }
 
     /// <summary>
+    /// enable features for before actual gameplay
+    /// </summary>
+    public void BeforeGamePlay()
+    {
+        SetGamePlayState(GamePlayState.BeforePlay);
+
+        // display "before gameplay" phase of the workout navigation ui
+        if(_workoutNavigationUi != null)
+        {
+            _workoutNavigationUi.DisplayUiPhase((int)WorkoutNavigationUiPanelPhase.BeforeGameplay);
+        }
+    }
+
+    /// <summary>
     /// enable features at the beginning of the GamePlay phase
     /// </summary>
     public void EnableGamePlay()
     {
         SetGamePlayState(GamePlayState.Playing);
 
-        // display the first phase of the workout navigation ui
+        // display the "gameplay" phase of the workout navigation ui
         if(_workoutNavigationUi != null)
         {
-            _workoutNavigationUi.DisplayUiPhase((int)WorkoutNavigationUiPanelPhase.BeforeGameplay);
+            _workoutNavigationUi.DisplayUiPhase((int)WorkoutNavigationUiPanelPhase.Gameplay);
         }
 
         // display cursor
@@ -155,6 +174,24 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     }
 
     /// <summary>
+    /// enable features for after actual gameplay
+    /// </summary>
+    public void AfterGamePlay()
+    {
+        SetGamePlayState(GamePlayState.AfterPlay);
+
+        // display "before gameplay" phase of the workout navigation ui
+        if (_workoutNavigationUi != null)
+        {
+            // if the player wins
+            _workoutNavigationUi.DisplayUiPhase((int)WorkoutNavigationUiPanelPhase.GameClear);
+
+            // if the player loses
+            //_workoutNavigationUi.DisplayUiPhase((int)WorkoutNavigationUiPanelPhase.GameOver);
+        }
+    }
+
+    /// <summary>
     /// update the app state from the classes refer this
     /// </summary>
     /// <param name="appState"></param>
@@ -194,6 +231,11 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
         {
             _exerciseInfoSetter._onExerciseSelected += UpdateExerciseInfo;
         }
+
+        if(_workoutStarter != null)
+        {
+            _workoutStarter._onGamePlayStateChange += UpdateGameplyaState;
+        }
     }
 
     /// <summary>
@@ -214,6 +256,11 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
         if (_exerciseInfoSetter != null)
         {
             _exerciseInfoSetter._onExerciseSelected -= UpdateExerciseInfo;
+        }
+
+        if (_workoutStarter != null)
+        {
+            _workoutStarter._onGamePlayStateChange -= UpdateGameplyaState;
         }
     }
 

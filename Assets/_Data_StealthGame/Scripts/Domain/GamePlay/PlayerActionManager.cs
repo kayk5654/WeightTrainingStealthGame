@@ -128,21 +128,22 @@ public class PlayerActionManager : IGamePlayStateSetter, IExerciseInfoSetter
                 StopPlayerInput();
                 break;
 
+            case GamePlayState.BeforePlay:
+                // if the gameplay starts, initialize and start player input
+                InitPlayerInput();
+                break;
+
             case GamePlayState.Playing:
-                if (_lastGameplayState == GamePlayState.None)
-                {
-                    // if the gameplay starts, initialize and start player input
-                    InitPlayerInput();
-                    StartPlayerInput();
-                }
-                else if (_lastGameplayState == GamePlayState.Pause)
-                {
-                    // if the gameplay is resumed, resume player input
-                    StartPlayerInput();
-                }
+                // start player input
+                StartPlayerInput();
                 break;
 
             case GamePlayState.Pause:
+                // stop player input
+                StopPlayerInput();
+                break;
+
+            case GamePlayState.AfterPlay:
                 // stop player input
                 StopPlayerInput();
                 break;

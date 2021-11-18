@@ -151,7 +151,8 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
             optionMenuUiController, 
             cursorManager, 
             mainUiController, 
-            mainUiController);
+            mainUiController,
+            workoutNavigationUiController);
 
         return uiManager;
     }

@@ -1,12 +1,18 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 /// <summary>
 /// control ui for workout navigation during gameplay
 /// </summary>
-public class WorkoutNavigationUiController : IMultiPhaseUi
+public class WorkoutNavigationUiController : IMultiPhaseUi, IGamePlayStateSetter
 {
     // ui phases to control
     private Dictionary<WorkoutNavigationUiPanelPhase, IUiPhase> _uiPhases;
+
+    // event to notify the start of GamePlay phase
+    public event EventHandler<GamePlayStateEventArgs> _onGamePlayStateChange;
+
+    // get trigger to start workout
+    private IGamePlayStateSetter _workoutStarter;
 
 
     /// <summary>
@@ -17,6 +23,16 @@ public class WorkoutNavigationUiController : IMultiPhaseUi
     {
         _uiPhases = new Dictionary<WorkoutNavigationUiPanelPhase, IUiPhase>();
     }
+
+    /// <summary>
+    /// destructor
+    /// </summary>
+    ~WorkoutNavigationUiController()
+    {
+        if(_workoutStarter == null) { return; }
+        _workoutStarter._onGamePlayStateChange -= SendGamePlayState;
+    }
+
 
     /// <summary>
     /// contain ui phase in the dictionary
@@ -30,6 +46,16 @@ public class WorkoutNavigationUiController : IMultiPhaseUi
         _uiPhases.Add((WorkoutNavigationUiPanelPhase)phase.GetPhaseId(), phase);
 
         DebugLog.Info(this.ToString(), "ui phase added / " + _uiPhases.Count);
+    }
+
+    /// <summary>
+    /// set reference of IGamePlayStateSetter that triggers actual workout
+    /// </summary>
+    /// <param name="gamePlayStateSetter"></param>
+    public void SetWorkoutStarter(IGamePlayStateSetter gamePlayStateSetter)
+    {
+        _workoutStarter = gamePlayStateSetter;
+        _workoutStarter._onGamePlayStateChange += SendGamePlayState;
     }
 
     /// <summary>
@@ -64,4 +90,25 @@ public class WorkoutNavigationUiController : IMultiPhaseUi
             }
         }
     }
+
+
+    /// <summary>
+    /// update the gameplay state from the classes refer this
+    /// </summary>
+    /// <param name="gamePlayState"></param>
+    public void SetGamePlayState(GamePlayState gamePlayState)
+    {
+
+    }
+
+    /// <summary>
+    /// send update of the gameplay state to the upper class
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void SendGamePlayState(object sender, GamePlayStateEventArgs args)
+    {
+        _onGamePlayStateChange?.Invoke(sender, args);
+    }
+
 }

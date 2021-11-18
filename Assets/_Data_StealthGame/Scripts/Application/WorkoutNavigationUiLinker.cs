@@ -18,5 +18,16 @@ public class WorkoutNavigationUiLinker : ISceneObjectLinker<WorkoutNavigationUiC
             if (string.IsNullOrEmpty(phase.gameObject.scene.name)) { continue; }
             parentObject.SetUiPhase(phase);
         }
+
+        WorkoutStarter[] workoutStarters = Resources.FindObjectsOfTypeAll<WorkoutStarter>();
+
+        foreach(WorkoutStarter starter in workoutStarters)
+        {
+            // skip if the found phase isn't loaded in any scenes
+            if (string.IsNullOrEmpty(starter.gameObject.scene.name)) { continue; }
+            parentObject.SetWorkoutStarter(starter);
+            break;
+        }
+        
     }
 }

@@ -23,6 +23,14 @@ public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter, IExe
     }
 
     /// <summary>
+    /// enable features for before actual gameplay
+    /// </summary>
+    public void BeforeGamePlay()
+    {
+        SetGamePlayState(GamePlayState.BeforePlay);
+    }
+
+    /// <summary>
     /// enable features at the beginning of the GamePlay phase
     /// </summary>
     public void EnableGamePlay()
@@ -52,6 +60,14 @@ public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter, IExe
     public void ResumeGamePlay()
     {
         SetGamePlayState(GamePlayState.Playing);
+    }
+
+    /// <summary>
+    /// enable features for after actual gameplay
+    /// </summary>
+    public void AfterGamePlay()
+    {
+        SetGamePlayState(GamePlayState.AfterPlay);
     }
 
     /// <summary>
