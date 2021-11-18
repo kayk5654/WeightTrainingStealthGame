@@ -17,8 +17,10 @@ public enum AppState
 public enum GamePlayState
 {
     None = 0, // MainMenu phase in the whole app state
-    Playing = 1,
-    Pause = 2,
+    BeforePlay = 1,
+    Playing = 2,
+    Pause = 3,
+    AfterPlay = 4,
     LENGTH
 }
 
@@ -29,8 +31,10 @@ public enum GamePlayState
 public enum WorkoutNavigationUiPanelPhase
 {
     None = -1,
-    FormCheck = 0,
-    Workout = 1,
+    BeforeGameplay = 0,
+    Gameplay = 1,
+    GameClear = 2,
+    GameOver = 3,
     LENGTH
 }
 

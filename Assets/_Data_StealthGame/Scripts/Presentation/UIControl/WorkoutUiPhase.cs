@@ -13,6 +13,9 @@ public class WorkoutUiPhase : MonoBehaviour, IUiPhase
     [SerializeField, Tooltip("identify role of this phase")]
     private WorkoutNavigationUiPanelPhase _phaseType;
 
+    [SerializeField, Tooltip("root gameobject of this ui phase")]
+    private GameObject _panel;
+
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +28,7 @@ public class WorkoutUiPhase : MonoBehaviour, IUiPhase
     /// </summary>
     public void Display()
     {
-
+        _panel.SetActive(true);
     }
 
     /// <summary>
@@ -33,7 +36,7 @@ public class WorkoutUiPhase : MonoBehaviour, IUiPhase
     /// </summary>
     public void Hide()
     {
-
+        _panel.SetActive(false);
     }
 
     /// <summary>

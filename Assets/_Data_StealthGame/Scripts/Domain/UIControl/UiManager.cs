@@ -96,7 +96,7 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
         // display the first phase of the workout navigation ui
         if(_workoutNavigationUi != null)
         {
-            _workoutNavigationUi.DisplayUiPhase((int)WorkoutNavigationUiPanelPhase.FormCheck);
+            _workoutNavigationUi.DisplayUiPhase((int)WorkoutNavigationUiPanelPhase.BeforeGameplay);
         }
 
         // display cursor
