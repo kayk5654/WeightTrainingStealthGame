@@ -12,7 +12,7 @@ public class WorkoutNavigationUiController : IMultiPhaseUi, IGamePlayStateSetter
     public event EventHandler<GamePlayStateEventArgs> _onGamePlayStateChange;
 
     // get trigger to start workout
-    private IGamePlayStateSetter _workoutStarter;
+    private IGamePlayStateSetter[] _gamePlayStateSetters;
 
 
     /// <summary>
@@ -29,8 +29,11 @@ public class WorkoutNavigationUiController : IMultiPhaseUi, IGamePlayStateSetter
     /// </summary>
     ~WorkoutNavigationUiController()
     {
-        if(_workoutStarter == null) { return; }
-        _workoutStarter._onGamePlayStateChange -= SendGamePlayState;
+        if(_gamePlayStateSetters == null || _gamePlayStateSetters.Length < 1) { return; }
+        foreach(IGamePlayStateSetter setter in _gamePlayStateSetters)
+        {
+            setter._onGamePlayStateChange -= SendGamePlayState;
+        }
     }
 
 
@@ -44,18 +47,19 @@ public class WorkoutNavigationUiController : IMultiPhaseUi, IGamePlayStateSetter
         if (phase.GetPhaseId() >= (int)WorkoutNavigationUiPanelPhase.LENGTH || phase.GetPhaseId() < 0) { return; }
 
         _uiPhases.Add((WorkoutNavigationUiPanelPhase)phase.GetPhaseId(), phase);
-
-        DebugLog.Info(this.ToString(), "ui phase added / " + _uiPhases.Count);
     }
 
     /// <summary>
     /// set reference of IGamePlayStateSetter that triggers actual workout
     /// </summary>
-    /// <param name="gamePlayStateSetter"></param>
-    public void SetWorkoutStarter(IGamePlayStateSetter gamePlayStateSetter)
+    /// <param name="gamePlayStateSetters"></param>
+    public void SetGamePlayStateSetter(IGamePlayStateSetter[] gamePlayStateSetters)
     {
-        _workoutStarter = gamePlayStateSetter;
-        _workoutStarter._onGamePlayStateChange += SendGamePlayState;
+        _gamePlayStateSetters = gamePlayStateSetters;
+        foreach (IGamePlayStateSetter setter in _gamePlayStateSetters)
+        {
+            setter._onGamePlayStateChange += SendGamePlayState;
+        }
     }
 
     /// <summary>

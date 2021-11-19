@@ -176,18 +176,23 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     /// <summary>
     /// enable features for after actual gameplay
     /// </summary>
-    public void AfterGamePlay()
+    public void AfterGamePlay(bool didPlayerWin)
     {
         SetGamePlayState(GamePlayState.AfterPlay);
 
         // display "before gameplay" phase of the workout navigation ui
         if (_workoutNavigationUi != null)
         {
-            // if the player wins
-            _workoutNavigationUi.DisplayUiPhase((int)WorkoutNavigationUiPanelPhase.GameClear);
-
-            // if the player loses
-            //_workoutNavigationUi.DisplayUiPhase((int)WorkoutNavigationUiPanelPhase.GameOver);
+            if (didPlayerWin)
+            {
+                // if the player wins
+                _workoutNavigationUi.DisplayUiPhase((int)WorkoutNavigationUiPanelPhase.GameClear);
+            }
+            else
+            {
+                // if the player loses
+                _workoutNavigationUi.DisplayUiPhase((int)WorkoutNavigationUiPanelPhase.GameOver);
+            }
         }
     }
 
@@ -271,7 +276,7 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     /// <param name="args"></param>
     private void UpdateGameplyaState(object sender, GamePlayStateEventArgs args)
     {
-        NotifyGamePlayState(args.gamePlayState);
+        NotifyGamePlayState(args._gamePlayState);
     }
 
     /// <summary>

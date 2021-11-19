@@ -130,7 +130,7 @@ public class AppManager
             _currentGamePlayState = GamePlayState.BeforePlay;
 
             // notify current gameplay state
-            NotifyGamePlayState(_currentGamePlayState, prevGameplayState);
+            NotifyGamePlayState(_currentGamePlayState, prevGameplayState, null);
         }
         else if(_currentAppState == AppState.GamePlay && args.appState == AppState.MainMenu)
         {
@@ -138,7 +138,7 @@ public class AppManager
             _currentGamePlayState = GamePlayState.None;
 
             // notify current gameplay state
-            NotifyGamePlayState(_currentGamePlayState, prevGameplayState);
+            NotifyGamePlayState(_currentGamePlayState, prevGameplayState, null);
         }
         
         // update current app state
@@ -158,10 +158,10 @@ public class AppManager
     private void ChangeGamePlayState(object sender, GamePlayStateEventArgs args)
     {
         // do nothing if GamePlayState isn't change
-        if(_currentGamePlayState == args.gamePlayState) { return; }
+        if(_currentGamePlayState == args._gamePlayState) { return; }
         
         // set _currentAppState MainMenu if _currentGamePlayState turns None
-        if (_currentGamePlayState != GamePlayState.None && args.gamePlayState == GamePlayState.None)
+        if (_currentGamePlayState != GamePlayState.None && args._gamePlayState == GamePlayState.None)
         {
             _currentAppState = AppState.MainMenu;
 
@@ -170,10 +170,17 @@ public class AppManager
         }
 
         // notify current gameplay state
-        NotifyGamePlayState(args.gamePlayState, _currentGamePlayState);
+        if(args._gamePlayState != GamePlayState.AfterPlay)
+        {
+            NotifyGamePlayState(args._gamePlayState, _currentGamePlayState, null);
+        }
+        else
+        {
+            NotifyGamePlayState(args._gamePlayState, _currentGamePlayState, args._optionalArgs);
+        }
 
         // update current gameplay state
-        _currentGamePlayState = args.gamePlayState;
+        _currentGamePlayState = args._gamePlayState;
 
         DebugLog.Info(this.ToString(), "_currentAppState: " + _currentAppState + " / _currentGamePlayState :" + _currentGamePlayState);
     }
@@ -228,7 +235,7 @@ public class AppManager
     /// <summary>
     /// notify gameplay state to IGamePlayStateManager
     /// </summary>
-    private void NotifyGamePlayState(GamePlayState updatedState , GamePlayState lastState)
+    private void NotifyGamePlayState(GamePlayState updatedState , GamePlayState lastState, System.EventArgs optionalArgs)
     {
         switch (updatedState)
         {
@@ -274,10 +281,23 @@ public class AppManager
                 break;
 
             case GamePlayState.AfterPlay:
+
+                // try to get result of the last gameplay
+                bool didPlayerWin;
+                if(optionalArgs != null && optionalArgs is GamePlayEndArgs)
+                {
+                    GamePlayEndArgs gameplayResult = optionalArgs as GamePlayEndArgs;
+                    didPlayerWin = gameplayResult._didPlayerWin;
+                }
+                else
+                {
+                    didPlayerWin = false;
+                }
+
                 // display game clear or game over dialog
                 foreach (IGamePlayStateManager manager in _gamePlayManagers)
                 {
-                    manager.AfterGamePlay();
+                    manager.AfterGamePlay(didPlayerWin);
                 }
                 break;
 

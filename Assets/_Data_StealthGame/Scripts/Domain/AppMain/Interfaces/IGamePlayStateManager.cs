@@ -31,5 +31,5 @@ public interface IGamePlayStateManager
     /// <summary>
     /// enable features for after actual gameplay
     /// </summary>
-    void AfterGamePlay();
+    void AfterGamePlay(bool didPlayerWin);
 }

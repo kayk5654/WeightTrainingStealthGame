@@ -147,7 +147,10 @@ public class AppStateEventArgs : EventArgs
 public class GamePlayStateEventArgs : EventArgs
 {
     // updated gameplay state
-    public GamePlayState gamePlayState;
+    public GamePlayState _gamePlayState;
+
+    // optional information
+    public EventArgs _optionalArgs;
 
     /// <summary>
     /// constructor
@@ -155,7 +158,7 @@ public class GamePlayStateEventArgs : EventArgs
     /// <param name="state"></param>
     public GamePlayStateEventArgs(GamePlayState state)
     {
-        gamePlayState = state;
+        _gamePlayState = state;
     }
 }
 
@@ -210,5 +213,26 @@ public class InGameObjectEventArgs : EventArgs
     public InGameObjectEventArgs(int id)
     {
         _id = id;
+    }
+}
+
+/// <summary>
+/// event args for IGamePlayEndSender
+/// </summary>
+public class GamePlayEndArgs : EventArgs
+{
+    // whether the player wins or loses
+    public bool _didPlayerWin;
+
+    // experience point the player gains for level up
+    public float _experiencePoint;
+
+    /// <summary>
+    /// constructor
+    /// </summary>
+    /// <param name="didPlayerWin"></param>
+    public GamePlayEndArgs(bool didPlayerWin)
+    {
+        _didPlayerWin = didPlayerWin;
     }
 }

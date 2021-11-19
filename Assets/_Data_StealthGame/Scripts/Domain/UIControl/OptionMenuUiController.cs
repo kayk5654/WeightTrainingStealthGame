@@ -67,7 +67,7 @@ public class OptionMenuUiController : IGamePlayStateSetter
     /// <param name="args"></param>
     private void UpdateGameplyaState(object sender, GamePlayStateEventArgs args)
     {
-        NotifyGamePlayState(args.gamePlayState);
+        NotifyGamePlayState(args._gamePlayState);
     }
 
     /// <summary>

@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
@@ -33,7 +33,7 @@ public struct Connection_ComputeShader
 /// <summary>
 /// manages connected nodes
 /// </summary>
-public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, SpawnAreaDataSet>
+public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, SpawnAreaDataSet>, IGamePlayEndSender
 {
     [SerializeField, Tooltip("compute shader for node control")]
     private ComputeShader _nodeConnectionControl;
@@ -168,6 +168,9 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     // whether the nodes must be updated in this frame
     private bool _toUpdate = false;
 
+    // notify the end of current gameplay to the upper classes
+    public event EventHandler<GamePlayEndArgs> _onGamePlayEnd;
+
 
     #region MonoBehaviour
     private void Update()
@@ -177,6 +180,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
         SimulateNodes_GPU();
         //SimulateConnections_GPU();
         UpdatePositionForConnection();
+        CheckGameEndState();
     }
 
     #endregion
@@ -235,6 +239,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
             Destroy(node.gameObject);
         }
         _nodes.Clear();
+        _nodesBufferData = null;
 
         foreach (Connection connection in _connections.Values)
         {
@@ -242,6 +247,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
             Destroy(connection.gameObject);
         }
         _connections.Clear();
+        _connectionBufferData = null;
 
         // release buffers
         ReleaseBuffers();
@@ -344,7 +350,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
             Transform newNode = _objectSpawnHandler.Spawn(_nodePrefab, this.transform).transform;
 
             _nodes.Add(i, newNode.GetComponent<Node>());
-            _nodes[i].InitParams(i, this, _speed * Random.Range(0.5f, 1.2f));
+            _nodes[i].InitParams(i, this, _speed * UnityEngine.Random.Range(0.5f, 1.2f));
             _nodes[i]._onDestroyed += OnDestroyNode;
 
             // set data for compute buffer
@@ -578,6 +584,29 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
         if (!_connections.ContainsKey(args._id)) { return; }
         
         _connections.Remove(args._id);
+    }
+
+    /// <summary>
+    /// check number of rest nodes; if all nodes are destroyed, end gameplay
+    /// </summary>
+    private void CheckGameEndState()
+    {
+        // check number of rest nodes
+        // check whether there're any destroyed nodes
+        foreach (int key in _nodes.Keys)
+        {
+            if (_nodes[key] == null)
+            {
+                _nodes.Remove(key);
+            }
+        }
+
+        // check number of the nodes in the field
+        if (_nodes.Count > 0) { return; }
+
+        // notify the end of this gameplay
+        GamePlayEndArgs args = new GamePlayEndArgs(false);
+        _onGamePlayEnd?.Invoke(this, args);
     }
 
     #endregion

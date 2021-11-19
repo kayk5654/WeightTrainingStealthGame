@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
 using System.Linq;
+using System;
 /// <summary>
 /// data of single enemy
 /// </summary>
@@ -19,7 +20,7 @@ public struct Enemy_ComputeShader
 /// <summary>
 /// manage enemy objects
 /// </summary>
-public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAreaDataSet>
+public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAreaDataSet>, IGamePlayEndSender
 {
     // dictionary of _node instances
     private Dictionary<int, Enemy> _enemies;
@@ -126,6 +127,9 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     // thread size of a thread group
     private const int SIMULATION_BLOCK_SIZE = 256;
 
+    // notify the end of current gameplay to the upper classes
+    public event EventHandler<GamePlayEndArgs> _onGamePlayEnd;
+
 
     #region MonoBehaviour
 
@@ -144,6 +148,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         UpdateBuffers();
         UpdateForce();
         SetNearestNodeOnEnemies();
+        CheckGameEndState();
     }
 
     #endregion
@@ -470,6 +475,32 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     {
         if (!_enemies.ContainsKey(args._id)) { return; }
         _enemies.Remove(args._id);
+    }
+
+    /// <summary>
+    /// check number of rest enemies; if all enemies are destroyed, end gameplay
+    /// </summary>
+    private void CheckGameEndState()
+    {
+        // check number of rest enemies
+        // check id of the newesst enemy
+        if(_lastSpawnedEnemyId < _maxSpawnedEnemyNum - 1) { return; }
+
+        // check whether there're any destroyed enemies
+        foreach(int key in _enemies.Keys)
+        {
+            if(_enemies[key] == null)
+            {
+                _enemies.Remove(key);
+            }
+        }
+
+        // check number of the enemies in the field
+        if(_enemies.Count > 0) { return; }
+
+        // notify the end of this gameplay
+        GamePlayEndArgs args = new GamePlayEndArgs(true);
+        _onGamePlayEnd?.Invoke(this, args);
     }
 
     #endregion

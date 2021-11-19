@@ -33,12 +33,28 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     // get current player's level
     private IPlayerLevelHandler _playerLevelHandler;
 
+    // get notification that the gameplay ends
+    private IGamePlayEndSender[] _gameplayEndSenders;
+
     /// <summary>
     /// constructor
     /// </summary>
     public LevelManager()
     {
         InitDataBase();
+    }
+
+    /// <summary>
+    /// destructor
+    /// </summary>
+    ~LevelManager()
+    {
+        if(_gameplayEndSenders == null || _gameplayEndSenders.Length < 1) { return; }
+        
+        foreach (IGamePlayEndSender sender in _gameplayEndSenders)
+        {
+            sender._onGamePlayEnd -= NotifyGamePlayEnd;
+        }
     }
 
     /// <summary>
@@ -66,6 +82,20 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     public void SetPlayerLevelHandler(IPlayerLevelHandler playerLevelHandler)
     {
         _playerLevelHandler = playerLevelHandler;
+    }
+
+    /// <summary>
+    /// set reference of gameplay end sender
+    /// </summary>
+    /// <param name="gamePlayEndSenders"></param>
+    public void SetGamePlayEndSender(IGamePlayEndSender[] gamePlayEndSenders)
+    {
+        _gameplayEndSenders = gamePlayEndSenders;
+
+        foreach(IGamePlayEndSender sender in _gameplayEndSenders)
+        {
+            sender._onGamePlayEnd += NotifyGamePlayEnd;
+        }
     }
 
     /// <summary>
@@ -172,5 +202,18 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     public void ChangeExerciseType(ExerciseType exerciseType)
     {
         _currentExerciseType = exerciseType;
+    }
+
+    /// <summary>
+    /// notify the end of the gameplay to the upper classes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void NotifyGamePlayEnd(object sender, GamePlayEndArgs args)
+    {
+        // set game play state "AfterPlay" to show result of this play
+        GamePlayStateEventArgs stateArgs = new GamePlayStateEventArgs(GamePlayState.AfterPlay);
+        stateArgs._optionalArgs = args;
+        _onGamePlayStateChange?.Invoke(this, stateArgs);
     }
 }

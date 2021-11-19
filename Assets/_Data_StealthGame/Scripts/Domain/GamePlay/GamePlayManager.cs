@@ -20,6 +20,24 @@ public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter, IExe
     {
         _gameplayStateSetters = gameplayStateSetters;
         _exerciseInfoSetters = exerciseInforSetters;
+
+        foreach (IGamePlayStateSetter setter in _gameplayStateSetters)
+        {
+            setter._onGamePlayStateChange += NotifyGameplyaState;
+        }
+    }
+
+    /// <summary>
+    /// destructor
+    /// </summary>
+    ~GamePlayManager()
+    {
+        if (_gameplayStateSetters == null || _gameplayStateSetters.Length < 1) { return; }
+        
+        foreach (IGamePlayStateSetter setter in _gameplayStateSetters)
+        {
+            setter._onGamePlayStateChange -= NotifyGameplyaState;
+        }
     }
 
     /// <summary>
@@ -65,7 +83,7 @@ public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter, IExe
     /// <summary>
     /// enable features for after actual gameplay
     /// </summary>
-    public void AfterGamePlay()
+    public void AfterGamePlay(bool didPlayerWin)
     {
         SetGamePlayState(GamePlayState.AfterPlay);
     }
@@ -95,18 +113,8 @@ public class GamePlayManager : IGamePlayStateManager, IGamePlayStateSetter, IExe
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="args"></param>
-    private void UpdateGameplyaState(object sender, GamePlayStateEventArgs args)
+    private void NotifyGameplyaState(object sender, GamePlayStateEventArgs args)
     {
-        NotifyGamePlayState(args.gamePlayState);
-    }
-
-    /// <summary>
-    /// send update of the gameplay state to the upper classes in the system
-    /// </summary>
-    /// <param name="gamePlayState"></param>
-    private void NotifyGamePlayState(GamePlayState gamePlayState)
-    {
-        GamePlayStateEventArgs args = new GamePlayStateEventArgs(gamePlayState);
         _onGamePlayStateChange?.Invoke(this, args);
     }
 

@@ -23,5 +23,11 @@ public class LevelObjectLinker : ISceneObjectLinker<LevelManager>
         {
             parentObject.SetEnemyObjectManager(enemiesManager);
         }
+
+        IGamePlayEndSender[] gamePlayEndSenders = { nodesManager, enemiesManager };
+        if(nodesManager && enemiesManager)
+        {
+            parentObject.SetGamePlayEndSender(gamePlayEndSenders);
+        }
     }
 }
