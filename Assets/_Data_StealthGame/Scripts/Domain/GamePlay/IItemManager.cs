@@ -24,4 +24,10 @@ public interface IItemManager<T, U>
     /// delete scene objects when the gameplay ends
     /// </summary>
     void Delete();
+
+    /// <summary>
+    /// get number of items
+    /// </summary>
+    /// <returns></returns>
+    int GetItemCount();
 }

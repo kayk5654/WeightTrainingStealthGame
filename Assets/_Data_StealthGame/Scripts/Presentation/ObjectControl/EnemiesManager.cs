@@ -217,6 +217,15 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         ReleaseBuffers();
     }
 
+    /// <summary>
+    /// get number of items
+    /// </summary>
+    /// <returns></returns>
+    public int GetItemCount()
+    {
+        return _enemies.Count;
+    }
+
     #endregion
 
     #region Handle ComputeShader

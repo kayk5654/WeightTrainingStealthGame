@@ -36,12 +36,21 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     // get notification that the gameplay ends
     private IGamePlayEndSender[] _gameplayEndSenders;
 
+    // count play time
+    private TimeLimitCounter _timeLimitCounter;
+
+    // block either of callbacks in _gameplayEndSenders or _timeLimitCounter
+    private bool _isEnd;
+
+
     /// <summary>
     /// constructor
     /// </summary>
     public LevelManager()
     {
         InitDataBase();
+        _timeLimitCounter = new TimeLimitCounter();
+        _timeLimitCounter._onGamePlayStateChange += EndGamePlayByTimeLimit;
     }
 
     /// <summary>
@@ -55,6 +64,7 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
         {
             sender._onGamePlayEnd -= NotifyGamePlayEnd;
         }
+        _timeLimitCounter._onGamePlayStateChange -= EndGamePlayByTimeLimit;
     }
 
     /// <summary>
@@ -111,6 +121,11 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
                 DeleteLevel();
                 break;
 
+            case GamePlayState.BeforePlay:
+                // disable end gameplay callback lock
+                _isEnd = false;
+                break;
+
             case GamePlayState.Playing:
                 if (_lastGameplayState == GamePlayState.BeforePlay)
                 {
@@ -127,6 +142,11 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
 
             case GamePlayState.Pause:
                 PauseLevel();
+                break;
+
+            case GamePlayState.AfterPlay:
+                // TODO: disable attack target finding features
+                // TODO: enemies go away
                 break;
 
             default:
@@ -166,6 +186,10 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
         // load level
         _enemyObjectManager.Spawn(levelData, spawnArea);
         _playerObjectManagers.Spawn(playerAbility, spawnArea);
+
+        // start counting playtime
+        _timeLimitCounter.SetTimeLimit(levelData._duration);
+        _timeLimitCounter.StartCount();
     }
 
     /// <summary>
@@ -175,6 +199,7 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     {
         _enemyObjectManager.Pause();
         _playerObjectManagers.Pause();
+        _timeLimitCounter.PauseCount();
     }
 
     /// <summary>
@@ -184,6 +209,7 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     {
         _enemyObjectManager.Resume();
         _playerObjectManagers.Resume();
+        _timeLimitCounter.ResumeCount();
     }
 
     /// <summary>
@@ -193,6 +219,7 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     {
         _enemyObjectManager.Delete();
         _playerObjectManagers.Delete();
+        _timeLimitCounter.QuitTimeCount();
     }
 
     /// <summary>
@@ -211,9 +238,39 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     /// <param name="args"></param>
     private void NotifyGamePlayEnd(object sender, GamePlayEndArgs args)
     {
+        if (_isEnd) { return; }
+
         // set game play state "AfterPlay" to show result of this play
         GamePlayStateEventArgs stateArgs = new GamePlayStateEventArgs(GamePlayState.AfterPlay);
         stateArgs._optionalArgs = args;
         _onGamePlayStateChange?.Invoke(this, stateArgs);
+
+        // block other game play end callbacks
+        _isEnd = true;
+    }
+
+    /// <summary>
+    /// terminate gameplay by time limit of the level
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void EndGamePlayByTimeLimit(object sender, GamePlayStateEventArgs args)
+    {
+        if (_isEnd) { return; }
+        
+        // temporarily pause scene objects
+        _enemyObjectManager.Pause();
+        _playerObjectManagers.Pause();
+
+        // get number of alive nodes; if at least 1 node is alive, player wins.
+        GamePlayEndArgs gameplayEndArgs = new GamePlayEndArgs(_playerObjectManagers.GetItemCount() > 0);
+
+        // set game play state "AfterPlay" to show result of this play
+        GamePlayStateEventArgs stateArgs = new GamePlayStateEventArgs(GamePlayState.AfterPlay);
+        stateArgs._optionalArgs = gameplayEndArgs;
+        _onGamePlayStateChange?.Invoke(this, stateArgs);
+
+        // block other game play end callbacks
+        _isEnd = true;
     }
 }

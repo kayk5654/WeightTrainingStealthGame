@@ -253,6 +253,15 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
         ReleaseBuffers();
     }
 
+    /// <summary>
+    /// get number of items
+    /// </summary>
+    /// <returns></returns>
+    public int GetItemCount()
+    {
+        return _nodes.Count;
+    }
+
     #endregion
 
     #region NodeInfoAccessors
