@@ -81,7 +81,6 @@ public class HeadTrackingInputHandler : MonoBehaviour, IExerciseInputHandler
     {
         _currentInputType = exerciseInputData;
         InitBuffer();
-        _startHeadPos = _head.position;
     }
 
     /// <summary>
@@ -100,6 +99,8 @@ public class HeadTrackingInputHandler : MonoBehaviour, IExerciseInputHandler
     public void SetEnabled(bool toEnable)
     {
         _isEnabled = toEnable;
+        // initialize start head position
+        SetStartHeadPosition();
     }
 
     /// <summary>
@@ -115,11 +116,11 @@ public class HeadTrackingInputHandler : MonoBehaviour, IExerciseInputHandler
         // detect by position
         if(_currentInputType._peakHeightOffset < 0f)
         {
-            state = _head.position.y < _currentInputType._peakHeightOffset + _currentInputType._heightOffsetMargin;
+            state = _head.position.y < _startHeadPos.y + _currentInputType._peakHeightOffset + _currentInputType._heightOffsetMargin;
         }
         else
         {
-            state = _head.position.y > _currentInputType._peakHeightOffset - _currentInputType._heightOffsetMargin;
+            state = _head.position.y > _startHeadPos.y + _currentInputType._peakHeightOffset - _currentInputType._heightOffsetMargin;
         }
         
 
@@ -139,11 +140,11 @@ public class HeadTrackingInputHandler : MonoBehaviour, IExerciseInputHandler
         // detect by position
         if (_currentInputType._peakHeightOffset < 0f)
         {
-            state = _head.position.y > _currentInputType._peakHeightOffset + _currentInputType._heightOffsetMargin;
+            state = _head.position.y > _startHeadPos.y + _currentInputType._peakHeightOffset + _currentInputType._heightOffsetMargin;
         }
         else
         {
-            state = _head.position.y < _currentInputType._peakHeightOffset - _currentInputType._heightOffsetMargin;
+            state = _head.position.y < _startHeadPos.y + _currentInputType._peakHeightOffset - _currentInputType._heightOffsetMargin;
         }
 
 
@@ -248,5 +249,13 @@ public class HeadTrackingInputHandler : MonoBehaviour, IExerciseInputHandler
         _tempVel /= _movementDetectBuffer.Count - 1;
 
         return _tempVel;
+    }
+
+    /// <summary>
+    /// set start head position to detect movement cycle
+    /// </summary>
+    private void SetStartHeadPosition()
+    {
+        _startHeadPos = _head.position;
     }
 }

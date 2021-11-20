@@ -14,7 +14,7 @@ public class StayStillTimeChecker : MonoBehaviour, ITimeCountChecker
     public event EventHandler _onTimeCountEnd;
 
     [SerializeField, Tooltip("stay still time threshold")]
-    private float _sstayStillTimeThreshold = 5f;
+    private float _sstayStillTimeThreshold = 3f;
 
     // look direction getter
     private ILookDirectionGetter _lookDirectionGetter;
@@ -122,8 +122,7 @@ public class StayStillTimeChecker : MonoBehaviour, ITimeCountChecker
             }
             else
             {
-                _stayStillTime -= Time.deltaTime * 2;
-                _stayStillTime = Mathf.Max(_stayStillTime, 0f);
+                _stayStillTime = 0f;
 
                 _playerHeadPositionTemp = _lookDirectionGetter.GetOrigin();
             }
