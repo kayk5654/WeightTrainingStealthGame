@@ -37,7 +37,7 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     private IGamePlayEndSender[] _gameplayEndSenders;
 
     // count play time
-    private TimeLimitCounter _timeLimitCounter;
+    private IPlayTimeCounter _timeLimitCounter;
 
 
 
@@ -47,8 +47,6 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     public LevelManager()
     {
         InitDataBase();
-        _timeLimitCounter = new TimeLimitCounter();
-        _timeLimitCounter._onGamePlayStateChange += EndGamePlayByTimeLimit;
     }
 
     /// <summary>
@@ -56,7 +54,7 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     /// </summary>
     ~LevelManager()
     {
-        _timeLimitCounter._onGamePlayStateChange -= EndGamePlayByTimeLimit;
+        _timeLimitCounter._onGamePlayEnd -= EndGamePlayByTimeLimit;
         if (_gameplayEndSenders == null || _gameplayEndSenders.Length < 1) { return; }
         
         foreach (IGamePlayEndSender sender in _gameplayEndSenders)
@@ -104,6 +102,16 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
         {
             sender._onGamePlayEnd += NotifyGamePlayEnd;
         }
+    }
+
+    /// <summary>
+    /// set reference of time limit counter
+    /// </summary>
+    /// <param name="counter"></param>
+    public void SetPlayTimeCounter(IPlayTimeCounter counter)
+    {
+        _timeLimitCounter = counter;
+        _timeLimitCounter._onGamePlayEnd += EndGamePlayByTimeLimit;
     }
 
     /// <summary>
@@ -217,7 +225,7 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     {
         _enemyObjectManager.Delete();
         _playerObjectManagers.Delete();
-        _timeLimitCounter.QuitTimeCount();
+        _timeLimitCounter.QuitCount();
     }
 
     /// <summary>

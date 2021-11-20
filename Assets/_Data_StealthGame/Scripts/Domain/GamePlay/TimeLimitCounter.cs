@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Timers;
+using UnityEngine;
+using System.Collections;
 /// <summary>
 /// count time of gameplay, and notify if it reaches at the time limit
 /// </summary>
-public class TimeLimitCounter : IGamePlayStateSetter
+public class TimeLimitCounter : MonoBehaviour, IPlayTimeCounter
 {
     // event to notify the start of GamePlay phase
-    public event EventHandler<GamePlayStateEventArgs> _onGamePlayStateChange;
+    public event EventHandler<GamePlayStateEventArgs> _onGamePlayEnd;
 
     // current play time of this play
     private float _currentPlayTime;
@@ -14,29 +15,9 @@ public class TimeLimitCounter : IGamePlayStateSetter
     // time limit of the gameplay
     private float _timeLimit;
 
-    // whether time counting is paused
-    private bool _isPaused;
+    private IEnumerator _timeCountSequence;
 
-    // play time counting timer
-    private Timer _timeCountTimer;
 
-    private int incrementTimeMilliSec = 100;
-
-    /// <summary>
-    /// constructor
-    /// </summary>
-    public TimeLimitCounter()
-    {
-        
-    }
-
-    /// <summary>
-    /// destructor
-    /// </summary>
-    ~TimeLimitCounter()
-    {
-
-    }
 
     /// <summary>
     /// update the gameplay state from the classes refer this
@@ -63,10 +44,8 @@ public class TimeLimitCounter : IGamePlayStateSetter
     {
         _currentPlayTime = 0f;
 
-        _timeCountTimer = new Timer(incrementTimeMilliSec);
-        _timeCountTimer.Elapsed += Count;
-        _timeCountTimer.Disposed += NotifyGamePlayEnd;
-        _timeCountTimer.Start();
+        _timeCountSequence = TimeCountSequence();
+        StartCoroutine(_timeCountSequence);
     }
 
     /// <summary>
@@ -74,8 +53,10 @@ public class TimeLimitCounter : IGamePlayStateSetter
     /// </summary>
     public void PauseCount()
     {
-        _isPaused = true;
-        _timeCountTimer.Stop();
+        if(_timeCountSequence != null)
+        {
+            StopCoroutine(_timeCountSequence);
+        }
     }
 
     /// <summary>
@@ -83,41 +64,22 @@ public class TimeLimitCounter : IGamePlayStateSetter
     /// </summary>
     public void ResumeCount()
     {
-        _isPaused = false;
-        _timeCountTimer.Start();
+        if (_timeCountSequence != null)
+        {
+            StartCoroutine(_timeCountSequence);
+        }
     }
 
     /// <summary>
     /// terminate counting playtime
     /// </summary>
-    public void QuitTimeCount()
+    public void QuitCount()
     {
-        _isPaused = false;
-        _timeCountTimer.Stop();
-        _timeCountTimer.Disposed -= NotifyGamePlayEnd;
-        _timeCountTimer.Dispose();
-    }
-
-    private void Count(object sender, EventArgs args)
-    {
-        _currentPlayTime += (float)incrementTimeMilliSec * 0.001f;
-        DebugLog.Info(this.ToString(), "_currentPlayTime: " + _currentPlayTime);
-
-        if(_currentPlayTime >= _timeLimit)
+        if (_timeCountSequence != null)
         {
-            _timeCountTimer.Stop();
-            _timeCountTimer.Elapsed -= Count;
-            _timeCountTimer.Dispose();
+            StopCoroutine(_timeCountSequence);
+            _timeCountSequence = null;
         }
-    }
-
-    /// <summary>
-    /// notify the end of the gameplay
-    /// </summary>
-    private void NotifyGamePlayEnd(object sender, EventArgs args)
-    {
-        SendGamePlayEnd();
-        _timeCountTimer.Disposed -= NotifyGamePlayEnd;
     }
 
     /// <summary>
@@ -127,6 +89,28 @@ public class TimeLimitCounter : IGamePlayStateSetter
     {
         DebugLog.Info(this.ToString(), "NotifyGamePlayEnd is called");
         GamePlayStateEventArgs gamePlayStateargs = new GamePlayStateEventArgs(GamePlayState.AfterPlay);
-        _onGamePlayStateChange?.Invoke(this, gamePlayStateargs);
+        _onGamePlayEnd?.Invoke(this, gamePlayStateargs);
+    }
+
+    /// <summary>
+    /// count time process
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator TimeCountSequence()
+    {
+        while (true)
+        {
+            _currentPlayTime += Time.deltaTime;
+            DebugLog.Info(this.ToString(), "_currentPlayTime" + _currentPlayTime);
+            
+            if(_currentPlayTime >= _timeLimit)
+            {
+                SendGamePlayEnd();
+                _timeCountSequence = null;
+                yield break;
+            }
+            
+            yield return null;
+        }
     }
 }

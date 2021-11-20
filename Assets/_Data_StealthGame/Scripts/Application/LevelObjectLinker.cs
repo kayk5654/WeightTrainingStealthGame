@@ -29,5 +29,11 @@ public class LevelObjectLinker : ISceneObjectLinker<LevelManager>
         {
             parentObject.SetGamePlayEndSender(gamePlayEndSenders);
         }
+
+        TimeLimitCounter timeLimitCounter = MonoBehaviour.FindObjectOfType<TimeLimitCounter>();
+        if (timeLimitCounter)
+        {
+            parentObject.SetPlayTimeCounter(timeLimitCounter);
+        }
     }
 }
