@@ -56,13 +56,13 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     /// </summary>
     ~LevelManager()
     {
-        if(_gameplayEndSenders == null || _gameplayEndSenders.Length < 1) { return; }
+        _timeLimitCounter._onGamePlayStateChange -= EndGamePlayByTimeLimit;
+        if (_gameplayEndSenders == null || _gameplayEndSenders.Length < 1) { return; }
         
         foreach (IGamePlayEndSender sender in _gameplayEndSenders)
         {
             sender._onGamePlayEnd -= NotifyGamePlayEnd;
         }
-        _timeLimitCounter._onGamePlayStateChange -= EndGamePlayByTimeLimit;
     }
 
     /// <summary>
@@ -141,6 +141,8 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
                 break;
 
             case GamePlayState.AfterPlay:
+                // temporarily pause scene objects
+                PauseLevel();
                 // TODO: disable attack target finding features
                 // TODO: enemies go away
                 break;

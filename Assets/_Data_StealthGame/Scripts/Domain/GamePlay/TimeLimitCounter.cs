@@ -116,8 +116,17 @@ public class TimeLimitCounter : IGamePlayStateSetter
     /// </summary>
     private void NotifyGamePlayEnd(object sender, EventArgs args)
     {
+        SendGamePlayEnd();
+        _timeCountTimer.Disposed -= NotifyGamePlayEnd;
+    }
+
+    /// <summary>
+    /// send the end of the gameplay
+    /// </summary>
+    private void SendGamePlayEnd()
+    {
+        DebugLog.Info(this.ToString(), "NotifyGamePlayEnd is called");
         GamePlayStateEventArgs gamePlayStateargs = new GamePlayStateEventArgs(GamePlayState.AfterPlay);
         _onGamePlayStateChange?.Invoke(this, gamePlayStateargs);
-        _timeCountTimer.Disposed -= NotifyGamePlayEnd;
     }
 }

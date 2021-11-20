@@ -178,8 +178,6 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
     /// </summary>
     public void AfterGamePlay(bool didPlayerWin)
     {
-        SetGamePlayState(GamePlayState.AfterPlay);
-
         // display "before gameplay" phase of the workout navigation ui
         if (_workoutNavigationUi != null)
         {
@@ -194,6 +192,8 @@ public class UiManager : IMainMenuStateManager, IGamePlayStateManager, IAppState
                 _workoutNavigationUi.DisplayUiPhase((int)WorkoutNavigationUiPanelPhase.GameOver);
             }
         }
+
+        SetGamePlayState(GamePlayState.AfterPlay);
     }
 
     /// <summary>
