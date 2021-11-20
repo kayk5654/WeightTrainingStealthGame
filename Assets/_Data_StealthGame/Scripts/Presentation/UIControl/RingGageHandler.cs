@@ -13,7 +13,7 @@ public class RingGageHandler : MonoBehaviour
     private MeshRenderer _gage;
 
     // look time checker to start gameplay
-    private LookTimeChecker _lookTimeChecker;
+    private ITimeCountChecker _timeCountChecker;
 
     // material for the ring gage
     private Material _gageMaterial;
@@ -27,7 +27,7 @@ public class RingGageHandler : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        _lookTimeChecker = _sceneObjectContainer.GetLookTimeChecker();
+        _timeCountChecker = _sceneObjectContainer.GetStayStillTimeChecker();
         _gageMaterial = _gage.material;
     }
 
@@ -36,7 +36,7 @@ public class RingGageHandler : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        SetRingGageAngle(_lookTimeChecker.GetNormalizedLookTime());
+        SetRingGageAngle(_timeCountChecker.GetNormalizedTime());
     }
 
     /// <summary>

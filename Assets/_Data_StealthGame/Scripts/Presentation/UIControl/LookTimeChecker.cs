@@ -1,21 +1,20 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 /// <summary>
 /// count time to look at a specific object,
 /// then notify when the target object is looked at longer than the threshold
 /// </summary>
-public class LookTimeChecker : MonoBehaviour
+public class LookTimeChecker : MonoBehaviour, ITimeCountChecker
 {
     [SerializeField, Tooltip("shared references")]
     private SceneObjectContainer _sceneObjectContainer;
 
     // callback when the target object is looked at longer than the threshold
-    public delegate void OnLookTimeCountEnd();
-    public OnLookTimeCountEnd _onLookTimeCountEnd;
+    public event EventHandler _onTimeCountEnd;
 
     [SerializeField, Tooltip("look time threshold")]
-    private float _lookTimeThreshold = 2f;
+    private float _lookTimeThreshold = 4f;
 
     [SerializeField, Tooltip("target object to look at")]
     private Transform _targetObject;
@@ -116,7 +115,7 @@ public class LookTimeChecker : MonoBehaviour
         }
 
         // notify end of counting
-        _onLookTimeCountEnd?.Invoke();
+        _onTimeCountEnd?.Invoke(this, EventArgs.Empty);
         _lookTimeCountSequence = null;
     }
 
@@ -124,7 +123,7 @@ public class LookTimeChecker : MonoBehaviour
     /// get look time phase in the range of 0 to 1
     /// </summary>
     /// <returns></returns>
-    public float GetNormalizedLookTime()
+    public float GetNormalizedTime()
     {
         return Mathf.Clamp01(_lookTime / _lookTimeThreshold);
     }

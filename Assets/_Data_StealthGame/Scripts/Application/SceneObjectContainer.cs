@@ -33,6 +33,9 @@ public class SceneObjectContainer : MonoBehaviour
     [SerializeField, Tooltip("look time checker for starting gameplay")]
     private LookTimeChecker _lookTimeChecker_StartGameplay;
 
+    [SerializeField, Tooltip("check time that the player stay still for starting gameplay")]
+    private StayStillTimeChecker _stayStillTimeChecker_StartGameplay;
+
 
     /// <summary>
     /// get _offenseAction
@@ -97,5 +100,14 @@ public class SceneObjectContainer : MonoBehaviour
     public LookTimeChecker GetLookTimeChecker()
     {
         return _lookTimeChecker_StartGameplay;
+    }
+
+    /// <summary>
+    /// get stay still time checker
+    /// </summary>
+    /// <returns></returns>
+    public StayStillTimeChecker GetStayStillTimeChecker()
+    {
+        return _stayStillTimeChecker_StartGameplay;
     }
 }

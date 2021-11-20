@@ -12,7 +12,7 @@ public class WorkoutStarter : MonoBehaviour, IGamePlayStateSetter
     public event EventHandler<GamePlayStateEventArgs> _onGamePlayStateChange;
 
     // look time checker to trigger StartPlay()
-    private LookTimeChecker _lookTimeChecker;
+    private ITimeCountChecker _timeCountChecker;
 
 
     /// <summary>
@@ -20,8 +20,8 @@ public class WorkoutStarter : MonoBehaviour, IGamePlayStateSetter
     /// </summary>
     private void Start()
     {
-        _lookTimeChecker = _sceneObjectContainer.GetLookTimeChecker();
-        _lookTimeChecker._onLookTimeCountEnd += StartPlay;
+        _timeCountChecker = _sceneObjectContainer.GetStayStillTimeChecker();
+        _timeCountChecker._onTimeCountEnd += StartPlay;
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ public class WorkoutStarter : MonoBehaviour, IGamePlayStateSetter
     /// </summary>
     private void OnDestroy()
     {
-        _lookTimeChecker._onLookTimeCountEnd -= StartPlay;
+        _timeCountChecker._onTimeCountEnd -= StartPlay;
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ public class WorkoutStarter : MonoBehaviour, IGamePlayStateSetter
     /// <summary>
     /// start workout from a scene object
     /// </summary>
-    public void StartPlay()
+    private void StartPlay(object sender, EventArgs e)
     {
         GamePlayStateEventArgs args = new GamePlayStateEventArgs(GamePlayState.Playing);
         _onGamePlayStateChange?.Invoke(this, args);
