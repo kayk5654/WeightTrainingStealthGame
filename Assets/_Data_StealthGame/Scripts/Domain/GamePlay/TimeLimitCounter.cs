@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Timers;
-using Timer = System.Timers.Timer;
 /// <summary>
 /// count time of gameplay, and notify if it reaches at the time limit
 /// </summary>
@@ -17,17 +14,8 @@ public class TimeLimitCounter : IGamePlayStateSetter
     // time limit of the gameplay
     private float _timeLimit;
 
-    // cancellation token
-    private CancellationTokenSource _cancellationTokenSource;
-
-    // play time counting task
-    private Task _timeCountTask;
-
     // whether time counting is paused
     private bool _isPaused;
-
-    // do something in the main thread
-    private SynchronizationContext _mainContext;
 
     // play time counting timer
     private Timer _timeCountTimer;
@@ -39,8 +27,7 @@ public class TimeLimitCounter : IGamePlayStateSetter
     /// </summary>
     public TimeLimitCounter()
     {
-        _cancellationTokenSource = new CancellationTokenSource();
-        _mainContext = SynchronizationContext.Current;
+        
     }
 
     /// <summary>
@@ -75,7 +62,6 @@ public class TimeLimitCounter : IGamePlayStateSetter
     public void StartCount()
     {
         _currentPlayTime = 0f;
-        //_timeCountTask = Task.Run(() => CountTime(_cancellationTokenSource.Token));
 
         _timeCountTimer = new Timer(incrementTimeMilliSec);
         _timeCountTimer.Elapsed += Count;
@@ -107,45 +93,9 @@ public class TimeLimitCounter : IGamePlayStateSetter
     public void QuitTimeCount()
     {
         _isPaused = false;
-        //_cancellationTokenSource.Cancel();
-        //_timeCountTask.Dispose();
         _timeCountTimer.Stop();
         _timeCountTimer.Disposed -= NotifyGamePlayEnd;
         _timeCountTimer.Dispose();
-    }
-
-    /// <summary>
-    /// actual process to count playtime
-    /// </summary>
-    private async Task CountTime(CancellationToken token)
-    {
-        // count playtime
-        while(_currentPlayTime < _timeLimit)
-        {
-            if (token.IsCancellationRequested) { break; }
-
-            await Task.Delay(incrementTimeMilliSec);
-
-            if (!_isPaused)
-            {
-                _currentPlayTime += (float)incrementTimeMilliSec * 0.001f;
-                DebugLog.Info(this.ToString(), "_currentPlayTime: " + _currentPlayTime);
-            }
-            
-            if (token.IsCancellationRequested) { break; }
-        }
-
-        // notify the end of the gameplay
-        _mainContext.Post(_ => NotifyGamePlayEnd(), null);
-    }
-
-    /// <summary>
-    /// notify the end of the gameplay
-    /// </summary>
-    private void NotifyGamePlayEnd()
-    {
-        GamePlayStateEventArgs args = new GamePlayStateEventArgs(GamePlayState.AfterPlay);
-        _onGamePlayStateChange?.Invoke(this, args);
     }
 
     private void Count(object sender, EventArgs args)
