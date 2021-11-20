@@ -39,8 +39,6 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     // count play time
     private TimeLimitCounter _timeLimitCounter;
 
-    // block either of callbacks in _gameplayEndSenders or _timeLimitCounter
-    private bool _isEnd;
 
 
     /// <summary>
@@ -122,8 +120,6 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
                 break;
 
             case GamePlayState.BeforePlay:
-                // disable end gameplay callback lock
-                _isEnd = false;
                 break;
 
             case GamePlayState.Playing:
@@ -238,15 +234,10 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     /// <param name="args"></param>
     private void NotifyGamePlayEnd(object sender, GamePlayEndArgs args)
     {
-        if (_isEnd) { return; }
-
         // set game play state "AfterPlay" to show result of this play
         GamePlayStateEventArgs stateArgs = new GamePlayStateEventArgs(GamePlayState.AfterPlay);
         stateArgs._optionalArgs = args;
         _onGamePlayStateChange?.Invoke(this, stateArgs);
-
-        // block other game play end callbacks
-        _isEnd = true;
     }
 
     /// <summary>
@@ -256,12 +247,6 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     /// <param name="args"></param>
     private void EndGamePlayByTimeLimit(object sender, GamePlayStateEventArgs args)
     {
-        if (_isEnd) { return; }
-        
-        // temporarily pause scene objects
-        _enemyObjectManager.Pause();
-        _playerObjectManagers.Pause();
-
         // get number of alive nodes; if at least 1 node is alive, player wins.
         GamePlayEndArgs gameplayEndArgs = new GamePlayEndArgs(_playerObjectManagers.GetItemCount() > 0);
 
@@ -270,7 +255,6 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
         stateArgs._optionalArgs = gameplayEndArgs;
         _onGamePlayStateChange?.Invoke(this, stateArgs);
 
-        // block other game play end callbacks
-        _isEnd = true;
+        
     }
 }

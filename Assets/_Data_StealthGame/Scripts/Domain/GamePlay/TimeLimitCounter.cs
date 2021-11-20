@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
+using Timer = System.Timers.Timer;
 /// <summary>
 /// count time of gameplay, and notify if it reaches at the time limit
 /// </summary>
@@ -27,6 +29,10 @@ public class TimeLimitCounter : IGamePlayStateSetter
     // do something in the main thread
     private SynchronizationContext _mainContext;
 
+    // play time counting timer
+    private Timer _timeCountTimer;
+
+    private int incrementTimeMilliSec = 100;
 
     /// <summary>
     /// constructor
@@ -70,8 +76,11 @@ public class TimeLimitCounter : IGamePlayStateSetter
     {
         _currentPlayTime = 0f;
         //_timeCountTask = Task.Run(() => CountTime(_cancellationTokenSource.Token));
-        _timeCountTask = new Task(() => CountTime(_cancellationTokenSource.Token));
-        _timeCountTask.Start();
+
+        _timeCountTimer = new Timer(incrementTimeMilliSec);
+        _timeCountTimer.Elapsed += Count;
+        _timeCountTimer.Disposed += NotifyGamePlayEnd;
+        _timeCountTimer.Start();
     }
 
     /// <summary>
@@ -80,6 +89,7 @@ public class TimeLimitCounter : IGamePlayStateSetter
     public void PauseCount()
     {
         _isPaused = true;
+        _timeCountTimer.Stop();
     }
 
     /// <summary>
@@ -88,6 +98,7 @@ public class TimeLimitCounter : IGamePlayStateSetter
     public void ResumeCount()
     {
         _isPaused = false;
+        _timeCountTimer.Start();
     }
 
     /// <summary>
@@ -96,8 +107,11 @@ public class TimeLimitCounter : IGamePlayStateSetter
     public void QuitTimeCount()
     {
         _isPaused = false;
-        _cancellationTokenSource.Cancel();
+        //_cancellationTokenSource.Cancel();
         //_timeCountTask.Dispose();
+        _timeCountTimer.Stop();
+        _timeCountTimer.Disposed -= NotifyGamePlayEnd;
+        _timeCountTimer.Dispose();
     }
 
     /// <summary>
@@ -106,7 +120,6 @@ public class TimeLimitCounter : IGamePlayStateSetter
     private async Task CountTime(CancellationToken token)
     {
         // count playtime
-        int incrementTimeMilliSec = 100;
         while(_currentPlayTime < _timeLimit)
         {
             if (token.IsCancellationRequested) { break; }
@@ -133,5 +146,28 @@ public class TimeLimitCounter : IGamePlayStateSetter
     {
         GamePlayStateEventArgs args = new GamePlayStateEventArgs(GamePlayState.AfterPlay);
         _onGamePlayStateChange?.Invoke(this, args);
+    }
+
+    private void Count(object sender, EventArgs args)
+    {
+        _currentPlayTime += (float)incrementTimeMilliSec * 0.001f;
+        DebugLog.Info(this.ToString(), "_currentPlayTime: " + _currentPlayTime);
+
+        if(_currentPlayTime >= _timeLimit)
+        {
+            _timeCountTimer.Stop();
+            _timeCountTimer.Elapsed -= Count;
+            _timeCountTimer.Dispose();
+        }
+    }
+
+    /// <summary>
+    /// notify the end of the gameplay
+    /// </summary>
+    private void NotifyGamePlayEnd(object sender, EventArgs args)
+    {
+        GamePlayStateEventArgs gamePlayStateargs = new GamePlayStateEventArgs(GamePlayState.AfterPlay);
+        _onGamePlayStateChange?.Invoke(this, gamePlayStateargs);
+        _timeCountTimer.Disposed -= NotifyGamePlayEnd;
     }
 }
