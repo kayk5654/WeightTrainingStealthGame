@@ -29,4 +29,24 @@ public static class Config
 
     // max distance of the eye gaze cursor
     public static readonly float _cursorMaxDistance = 3.0f;
+
+    /* parameters of scene objects for test */
+    
+    // HP of nodes
+    public static readonly float _nodeHp = 30f;
+
+    // Attack of nodes
+    public static readonly float _nodeAttack = 40f;
+
+    // Defense (multiplier) of nodes
+    public static readonly float _nodeDefense = 1f;
+
+    // HP of enemies
+    public static readonly float _enemyHp = 30f;
+
+    // Attack of enemies per second
+    public static readonly float _enemyAttack = 3f;
+
+    // Defense (multiplier) of enemies
+    public static readonly float _enemyDefense = 1f;
 }

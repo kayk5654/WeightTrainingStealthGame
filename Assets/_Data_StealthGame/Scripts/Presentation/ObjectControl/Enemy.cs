@@ -78,6 +78,7 @@ public class Enemy : InGameObjectBase, IHitTarget
         _waitForEndOfFrame = new WaitForEndOfFrame();
         _enemyAnimationHandler = new EnemyAnimationHandler(_animator);
         _enemyMover = new EnemyMover(_speed, transform);
+        InitParams(Config._enemyHp, Config._enemyAttack, Config._enemyDefense);
     }
 
     /// <summary>

@@ -51,6 +51,7 @@ public class Node : InGameObjectBase, IHitTarget
     {
         _nodeMaterial = _mainMeshRenderer.material;
         WaitForEndOfFrame _waitForEndOfFrame = new WaitForEndOfFrame();
+        InitParams(Config._nodeHp, Config._nodeAttack, Config._nodeDefense);
     }
 
     private void Update()
