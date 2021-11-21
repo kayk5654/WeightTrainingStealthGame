@@ -1,8 +1,41 @@
 
-//#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-//#include "Packages/com.unity.render-pipelines.universal/Shaders/UnlitInput.hlsl"
-//#include "ShaderCalculationHelper.hlsl"
-#include "MainObjectFunctions.hlsl"
+// return random value, 0 to 1
+float3 Random(float3 position)
+{
+	return frac(sin(cross(position, float3(12.9898, 78.233, 41.028913))));
+}
+
+// return value noise
+float3 ValueNoise(float3 position)
+{
+	// get int and fraction of given position
+	float3 integer = floor(position);
+	float3 fraction = frac(position);
+
+	// sample 8 points
+	float3 n000 = Random(integer);
+	float3 n001 = Random(integer + float3(0, 0, 1));
+	float3 n101 = Random(integer + float3(1, 0, 1));
+	float3 n100 = Random(integer + float3(1, 0, 0));
+	float3 n010 = Random(integer + float3(0, 1, 0));
+	float3 n011 = Random(integer + float3(0, 1, 1));
+	float3 n110 = Random(integer + float3(1, 1, 0));
+	float3 n111 = Random(integer + float3(1, 1, 1));
+
+	// smooth interpolation
+	// cubic hermine curve
+	float3 u = fraction * fraction * (3.0 - 2.0 * fraction);
+
+	return lerp(lerp(lerp(n000, n100, u.x), lerp(n010, n110, u.x), u.y), lerp(lerp(n001, n101, u.x), lerp(n011, n111, u.x), u.y), u.z);
+}
+
+// define areas not to render pixels; input is assumed to be a value sampled from a grayscale texture
+float SamplePhase(float phase, float samplePoint, float range)
+{
+	float sampledPhase = abs((samplePoint % 1) - phase) < range ? 1 : 0;
+
+	return sampledPhase;
+}
 
 // shader function for "custom function" node in ShaderGraph
 // damage expressions

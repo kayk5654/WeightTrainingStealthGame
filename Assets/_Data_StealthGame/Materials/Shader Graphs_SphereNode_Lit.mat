@@ -24,6 +24,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 4f5ffb067f37050469219a02ecc6d12e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _GlitchTex:
+        m_Texture: {fileID: 2800000, guid: f5dc489580be7e1429e803cd33c7d7a1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _IridescenceTex:
         m_Texture: {fileID: 2800000, guid: ea14259fc382c234b97764c15b5fb420, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -42,8 +46,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AutoRotate: 1
+    - _DamageRange: 0.61
     - _Speed: 100
     m_Colors:
+    - _AttackPosLocal: {r: 0, g: 1, b: 0, a: 0}
     - _BaseColor: {r: 0.19607839, g: 0.75992775, b: 0.9607843, a: 0}
     - _EmitAreaColor: {r: 0.19607836, g: 0.75992775, b: 0.96078426, a: 0}
     - _EnvironmentFxColor: {r: 0, g: 0.39215687, b: 2.9960785, a: 1}
