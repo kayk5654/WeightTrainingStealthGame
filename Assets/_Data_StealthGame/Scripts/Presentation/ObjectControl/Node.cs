@@ -170,7 +170,7 @@ public class Node : InGameObjectBase, IHitTarget
     }
 
     // attack enemies nearby this node
-    private void Attack()
+    protected override void Attack()
     {
         // search enemies nearby this node
         Enemy[] enemies = FindEnemies();
@@ -210,6 +210,16 @@ public class Node : InGameObjectBase, IHitTarget
 
         return enemies.ToArray();
     }
+
+    /// <summary>
+    /// apply damage on this object
+    /// </summary>
+    /// <param name="damagePerSecond">damage applied per second</param>
+    public override void Damage(float damagePerSecond)
+    {
+
+    }
+
 
     /// <summary>
     /// process when this node is destroyed by an enemy

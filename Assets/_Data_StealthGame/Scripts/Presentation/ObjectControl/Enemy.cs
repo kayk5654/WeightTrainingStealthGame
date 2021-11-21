@@ -104,7 +104,7 @@ public class Enemy : InGameObjectBase, IHitTarget
                 if (Vector3.Distance(_nearestTarget.transform.position, transform.position) < _attackTargetDistThresh)
                 {
                     _currentState = EnemyState.Attack;
-                    StartAttack();
+                    Attack();
                 }
                 break;
 
@@ -158,7 +158,7 @@ public class Enemy : InGameObjectBase, IHitTarget
     /// <summary>
     /// start attack behaviour
     /// </summary>
-    private void StartAttack()
+    protected override void Attack()
     {
         if(_attackSequence != null)
         {
@@ -168,6 +168,7 @@ public class Enemy : InGameObjectBase, IHitTarget
         _attackSequence = AttackSequence();
         StartCoroutine(_attackSequence);
     }
+
 
     /// <summary>
     /// process of attacking player's object
@@ -262,6 +263,15 @@ public class Enemy : InGameObjectBase, IHitTarget
         // make this enemy visible
         _materialRevealHandler.SetRevealOrigin(revealOrigin);
         _materialRevealHandler.Reveal();
+    }
+
+    /// <summary>
+    /// apply damage on this object
+    /// </summary>
+    /// <param name="damagePerAction">damage of single attack action</param>
+    public override void Damage(float damagePerAction)
+    {
+
     }
 
     /// <summary>

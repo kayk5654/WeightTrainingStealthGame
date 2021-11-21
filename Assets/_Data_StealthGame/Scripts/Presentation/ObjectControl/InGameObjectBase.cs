@@ -19,4 +19,15 @@ public abstract class InGameObjectBase : MonoBehaviour
     /// destroy this in-game object
     /// </summary>
     public abstract void Destroy();
+
+    /// <summary>
+    /// apply damage on this object
+    /// </summary>
+    /// <param name="damage"></param>
+    public abstract void Damage(float damage);
+
+    /// <summary>
+    /// apply damage to the target object
+    /// </summary>
+    protected abstract void Attack();
 }
