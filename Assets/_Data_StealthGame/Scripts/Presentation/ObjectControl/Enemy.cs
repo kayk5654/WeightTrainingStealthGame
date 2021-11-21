@@ -182,16 +182,12 @@ public class Enemy : InGameObjectBase, IHitTarget
         yield return _waitForEndOfFrame;
 
         // giving damage on the attacked player's object
-        yield return new WaitForSeconds(5f);
-        yield return new WaitForSeconds(5f);
-
-        // temporarily disable destroying player's object for testing purpose
-        /*
-        while (true)
+        while(_nearestTarget.GetRemainedHP() > 0f)
         {
+            _nearestTarget.Damage(_attack);
             yield return null;
         }
-        */
+
         // check whether _nearestTarget still exists
         if (_nearestTarget)
         {
@@ -272,7 +268,7 @@ public class Enemy : InGameObjectBase, IHitTarget
     /// <param name="damagePerAction">damage of single attack action</param>
     public override void Damage(float damagePerAction)
     {
-
+        ApplyDamage_SingleAttack(damagePerAction);
     }
 
     /// <summary>

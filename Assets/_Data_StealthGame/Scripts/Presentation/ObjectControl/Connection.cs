@@ -108,4 +108,15 @@ public class Connection : InGameObjectBase
 
         }
     }
+
+    /// <summary>
+    /// apply damage on this object
+    /// </summary>
+    /// <param name="damage"></param>
+    public override void Damage(float damage) { }
+
+    /// <summary>
+    /// apply damage to the target object
+    /// </summary>
+    protected override void Attack() { }
 }

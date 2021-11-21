@@ -53,11 +53,10 @@ public abstract class InGameObjectBase : MonoBehaviour
     /// </summary>
     /// <param name="damage"></param>
     /// <returns></returns>
-    protected float GetRemainedHP_SingleAttack(float damage)
+    protected void ApplyDamage_SingleAttack(float damage)
     {
         _currentHp = _currentHp - damage * (1f/ _defense);
-        _currentHp = Mathf.Clamp(0f, _hp, _currentHp);
-        return _currentHp;
+        _currentHp = Mathf.Clamp(_currentHp, 0f, _hp);
     }
 
     /// <summary>
@@ -65,10 +64,18 @@ public abstract class InGameObjectBase : MonoBehaviour
     /// </summary>
     /// <param name="damagePerSecond"></param>
     /// <returns></returns>
-    protected float GetRemainedHP_ContinuousAttack(float damagePerSecond)
+    protected void ApplyDamage_ContinuousAttack(float damagePerSecond)
     {
         _currentHp = _currentHp - damagePerSecond * Time.deltaTime * (1f / _defense);
-        _currentHp = Mathf.Clamp(0f, _hp, _currentHp);
+        _currentHp = Mathf.Clamp(_currentHp, 0f, _hp);
+    }
+
+    /// <summary>
+    /// get current remained hp
+    /// </summary>
+    /// <returns></returns>
+    public float GetRemainedHP()
+    {
         return _currentHp;
     }
 }

@@ -178,11 +178,11 @@ public class Node : InGameObjectBase, IHitTarget
 
         if(enemies == null || enemies.Length < 1) { return; }
 
-        // apply damage in the final implementation
-
-        // destroy enemies immediately for testing
+        // apply damage
         foreach(Enemy enemy in enemies)
         {
+            enemy.Damage(_attack);
+            if(enemy.GetRemainedHP() > 0f) { continue; }
             enemy.Destroy();
         }
     }
@@ -218,7 +218,7 @@ public class Node : InGameObjectBase, IHitTarget
     /// <param name="damagePerSecond">damage applied per second</param>
     public override void Damage(float damagePerSecond)
     {
-
+        ApplyDamage_ContinuousAttack(damagePerSecond);
     }
 
 
