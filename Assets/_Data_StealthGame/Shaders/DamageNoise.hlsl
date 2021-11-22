@@ -54,13 +54,10 @@ void DamageNoise_float(half3 baseColor, half3 secondaryColor, half3 highlightCol
     float horizontalScanlines = pow(sin((worldSpacePos.y + _Time.x) * 600) * 0.5 + 1, max(2, 10 * (1 - baseMask)));
 
     mask *= horizontalScanlines;
-    //clip(mask - 0.2);
-
+    
     // apply glitch
     mask *= saturate(SamplePhase(glitchTexPattern.r, _Time.y + 0.3, 0.1) + (1 - SamplePhase(glitchTexPattern.a, _Time.y / 2 + 0.6, 0.1)));
-    //clip(mask);
     outputColor *= float3(1 + SamplePhase(glitchTexPattern.g, _Time.y, 0.1) * 4, 1, 1 + SamplePhase(glitchTexPattern.b, _Time.y, 0.1) * 6);
-
-	//outputColor = baseMask < 0.5 ? baseColor : outputColor;
+	mask = max(0, mask - 0.2);
 
 }
