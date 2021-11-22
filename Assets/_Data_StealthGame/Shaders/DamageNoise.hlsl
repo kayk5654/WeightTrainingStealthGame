@@ -39,7 +39,7 @@ float SamplePhase(float phase, float samplePoint, float range)
 
 // shader function for "custom function" node in ShaderGraph
 // damage expressions
-void DamageNoise_float(half3 baseColor, half3 secondaryColor, half3 highlightColor, float3 worldSpacePos, float baseMask, float4 glitchTexPattern, out half3 outputColor, out half mask)
+void DamageNoise_float(half3 baseColor, half3 secondaryColor, half3 highlightColor, float3 worldSpacePos, float baseMask, float4 glitchTexPattern, out half3 outputColor, out half mask, out half blocks)
 {
 	// copy of the original implementation
     float noise1 = ValueNoise(float3(floor(worldSpacePos.x * 0.01) * 1000, worldSpacePos.y * 40, floor(worldSpacePos.z * 0.01) * 1000) + _Time.zxy);
@@ -57,7 +57,10 @@ void DamageNoise_float(half3 baseColor, half3 secondaryColor, half3 highlightCol
     
     // apply glitch
     mask *= saturate(SamplePhase(glitchTexPattern.r, _Time.y + 0.3, 0.1) + (1 - SamplePhase(glitchTexPattern.a, _Time.y / 2 + 0.6, 0.1)));
-    outputColor *= float3(1 + SamplePhase(glitchTexPattern.g, _Time.y, 0.1) * 4, 1, 1 + SamplePhase(glitchTexPattern.b, _Time.y, 0.1) * 6);
 	mask = max(0, mask - 0.2);
-
+	
+	outputColor *= float3(1 + SamplePhase(glitchTexPattern.g, _Time.y, 0.1) * 4, 1, 1 + SamplePhase(glitchTexPattern.b, _Time.y, 0.1) * 6);
+	outputColor = lerp(outputColor, highlightColor, SamplePhase(glitchTexPattern.r, _Time.y / 3, 0.01));
+	
+	blocks = SamplePhase(glitchTexPattern.r, _Time.y / 3, 0.01);
 }
