@@ -254,6 +254,6 @@ public class Node : InGameObjectBase, IHitTarget
     /// <param name="worldPos"></param>
     public void SetAttackPosition(Vector3 worldPos)
     {
-        _nodeMaterial.SetVector(Config._attackPointProperty, _mainMeshRenderer.transform.InverseTransformPoint(worldPos));
+        _nodeMaterial.SetVector(Config._attackPointProperty, _mainMeshRenderer.transform.InverseTransformPoint(worldPos).normalized);
     }
 }
