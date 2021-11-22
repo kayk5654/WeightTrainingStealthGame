@@ -219,6 +219,7 @@ public class Node : InGameObjectBase, IHitTarget
     public override void Damage(float damagePerSecond)
     {
         ApplyDamage_ContinuousAttack(damagePerSecond);
+        _nodeMaterial.SetFloat(Config._damageAreaRangeProperty, _currentHp / _hp);
     }
 
 
@@ -245,5 +246,14 @@ public class Node : InGameObjectBase, IHitTarget
     {
         if (!_connectionsIds.Contains(args._id)) { return; }
         _connectionsIds.Remove(args._id);
+    }
+
+    /// <summary>
+    /// set attacked point from enemy to show damaged effect
+    /// </summary>
+    /// <param name="worldPos"></param>
+    public void SetAttackPosition(Vector3 worldPos)
+    {
+        _nodeMaterial.SetVector(Config._attackPointProperty, _mainMeshRenderer.transform.InverseTransformPoint(worldPos));
     }
 }

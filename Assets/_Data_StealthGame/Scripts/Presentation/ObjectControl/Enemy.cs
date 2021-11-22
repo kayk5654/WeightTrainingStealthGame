@@ -182,8 +182,10 @@ public class Enemy : InGameObjectBase, IHitTarget
         yield return _waitForEndOfFrame;
 
         // giving damage on the attacked player's object
-        while(_nearestTarget.GetRemainedHP() > 0f)
+
+        while (_nearestTarget.GetRemainedHP() > 0f)
         {
+            _nearestTarget.SetAttackPosition(transform.position);
             _nearestTarget.Damage(_attack);
             yield return null;
         }

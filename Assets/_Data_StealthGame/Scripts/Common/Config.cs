@@ -49,4 +49,10 @@ public static class Config
 
     // Defense (multiplier) of enemies
     public static readonly float _enemyDefense = 1f;
+
+    // material property name of damage area range
+    public static readonly string _damageAreaRangeProperty = "_DamageRange";
+
+    // material property name of local position of the attacked point
+    public static readonly string _attackPointProperty = "_AttackPosLocal";
 }
