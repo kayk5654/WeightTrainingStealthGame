@@ -21,14 +21,14 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ButtonBackplate
-  m_Shader: {fileID: -6465566751694194690, guid: e6397a88edb9ea5469c295f67872c44d,
-    type: 3}
-  m_ShaderKeywords: 
+  m_Shader: {fileID: 4800000, guid: 650dd9526735d5b46b79224bc6e94025, type: 3}
+  m_ShaderKeywords: _ALPHATEST_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 2500
+  stringTagMap:
+    RenderType: TransparentCutout
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -38,7 +38,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 7697b7bc2ecac9f4680eea936cfd3a34, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -74,7 +74,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 7697b7bc2ecac9f4680eea936cfd3a34, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -109,7 +109,7 @@ Material:
     - Feather: 0.08
     - _AlbedoAlphaMode: 0
     - _AlbedoAssignedAtRuntime: 0
-    - _AlphaClip: 0
+    - _AlphaClip: 1
     - _Blend: 0
     - _BlendOp: 0
     - _BlendedClippingWidth: 1
@@ -206,7 +206,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - Color_FE381DC: {r: 0.10104778, g: 0.16643162, b: 1.1887974, a: 1}
-    - _BaseColor: {r: 0.16420433, g: 0.34739378, b: 0.8490566, a: 1}
+    - _BaseColor: {r: 0.23137257, g: 0.52156866, b: 0.8431373, a: 1}
     - _ClippingBorderColor: {r: 1, g: 0.2, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0.23529412, g: 1.7333333, b: 0.78431374, a: 0}

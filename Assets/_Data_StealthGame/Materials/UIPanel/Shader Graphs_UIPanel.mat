@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_UIPanel_Frame
+  m_Name: Shader Graphs_UIPanel
   m_Shader: {fileID: -6465566751694194690, guid: e6397a88edb9ea5469c295f67872c44d,
     type: 3}
   m_ShaderKeywords: 
@@ -24,4 +24,4 @@ Material:
     m_Colors:
     - Color_FE381DC: {r: 0.3312717, g: 1.0957932, b: 4.867145, a: 1}
     - _PrimaryColor: {r: 0.10104778, g: 0.16643162, b: 1.1887974, a: 1}
-    - _ScaleOffset: {r: 0.09, g: 0.03, b: 0, a: 0}
+    - _ScaleOffset: {r: 0.12, g: 0.06, b: 0, a: 0}
