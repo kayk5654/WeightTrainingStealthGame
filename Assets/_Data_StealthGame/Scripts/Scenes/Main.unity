@@ -4171,26 +4171,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9150256}
     m_Modifications:
-    - target: {fileID: 1287739855539090624, guid: 241f79033cdd6cc45933601d980b2c3e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5768509419571000302, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
       propertyPath: m_Name
       value: UIPanelButton
-      objectReference: {fileID: 0}
-    - target: {fileID: 5768509420023751196, guid: 241f79033cdd6cc45933601d980b2c3e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5768509420023751264, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5768509420023751265, guid: 241f79033cdd6cc45933601d980b2c3e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 5379721039170545496, guid: d3a0597dad2fa234abac796565f52d47,
+        type: 2}
     - target: {fileID: 5768509421165360399, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
       propertyPath: m_RootOrder
@@ -4245,26 +4241,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5768509421282491505, guid: 241f79033cdd6cc45933601d980b2c3e,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6068436899500269156, guid: 241f79033cdd6cc45933601d980b2c3e,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8681265824735271301, guid: 241f79033cdd6cc45933601d980b2c3e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8791256878146282014, guid: 241f79033cdd6cc45933601d980b2c3e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 241f79033cdd6cc45933601d980b2c3e, type: 3}
