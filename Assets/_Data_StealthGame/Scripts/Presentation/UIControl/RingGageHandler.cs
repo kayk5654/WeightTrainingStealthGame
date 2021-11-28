@@ -12,6 +12,9 @@ public class RingGageHandler : MonoBehaviour
     [SerializeField, Tooltip("gage transform")]
     private MeshRenderer _gage;
 
+    [SerializeField, Tooltip("audio source for sound effects")]
+    private AudioSource _sfxSource;
+
     // look time checker to start gameplay
     private ITimeCountChecker _timeCountChecker;
 
@@ -46,5 +49,14 @@ public class RingGageHandler : MonoBehaviour
     private void SetRingGageAngle(float angle)
     {
         _gageMaterial.SetFloat(_gageAngleProperty, angle);
+
+        if(angle == 0f)
+        {
+            _sfxSource.Stop();
+        }
+        else if (!_sfxSource.isPlaying)
+        {
+            _sfxSource.Play();
+        }
     }
 }

@@ -201,6 +201,12 @@ Copyright (c) Soundmorph (https://www.soundmorph.com/)
 "Futuristic User Interface Effect - Menu browsing sound, medium glass tap."
 Copyright (c) Soundmorph (https://www.soundmorph.com/)
 
+"User Interface - data transmission elements."
+Copyright (c) Soundmorph (https://www.soundmorph.com/)
+
+"Sound design weapon - medium charge up 2."
+Copyright (c) Alexander Gastrell (http://www.alexandergastrell.com/)
+
 These sound materials are licensed by Soundsnap License (https://www.soundsnap.com/licence)
 This license is copied below;
 
