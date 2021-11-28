@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using UnityEngine.UI;
+using Microsoft.MixedReality.Toolkit.UI;
 /// <summary>
 /// set and notify information of the selected exercise
 /// </summary>
@@ -14,6 +15,10 @@ public class ExerciseInfoSetter : MonoBehaviour, IExerciseInfoSender
 
     [SerializeField, Tooltip("button to finalize exercise selection")]
     private Button _finalizeButton;
+
+    [SerializeField, Tooltip("button to finalize exercise selection")]
+    private Interactable _finalizeButton_MRTK;
+
 
     /// <summary>
     /// reset selection
@@ -67,6 +72,11 @@ public class ExerciseInfoSetter : MonoBehaviour, IExerciseInfoSender
             {
                 _finalizeButton.interactable = false;
             }
+
+            if (_finalizeButton_MRTK)
+            {
+                _finalizeButton_MRTK.IsEnabled = false;
+            }
         }
         else
         {
@@ -74,6 +84,11 @@ public class ExerciseInfoSetter : MonoBehaviour, IExerciseInfoSender
             if (_finalizeButton)
             {
                 _finalizeButton.interactable = true;
+            }
+
+            if (_finalizeButton_MRTK)
+            {
+                _finalizeButton_MRTK.IsEnabled = true;
             }
         }
         
