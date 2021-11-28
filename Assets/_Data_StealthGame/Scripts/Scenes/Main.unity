@@ -792,7 +792,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b34c5ef26c82bb544aeef216ba755e87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _projectile: {fileID: 4291132892925457062, guid: 4a73e17714837444f978bbf9a34d981b,
+  _projectile: {fileID: 7058798985941943627, guid: 4a73e17714837444f978bbf9a34d981b,
     type: 3}
   _spawnGuide: {fileID: 10145067}
   _sceneObjectContainer: {fileID: 1911032716}
@@ -7031,7 +7031,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d0f34550a47c1a40ad15fb4120ca8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inputType: 1
+  _inputType: 0
 --- !u!4 &1769826208
 Transform:
   m_ObjectHideFlags: 0
