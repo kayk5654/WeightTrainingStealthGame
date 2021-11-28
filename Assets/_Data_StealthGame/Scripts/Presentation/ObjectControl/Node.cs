@@ -23,7 +23,7 @@ public class Node : InGameObjectBase, IHitTarget
     private MeshRenderer _mainMeshRenderer;
 
     // material of node mesh
-    private Material _nodeMaterial;
+    private List<Material> _nodeMaterials = new List<Material>();
 
     [SerializeField, Tooltip("node cap prefab to instantiate")]
     private Transform _nodeCapPrefab;
@@ -53,7 +53,7 @@ public class Node : InGameObjectBase, IHitTarget
     /// </summary>
     private void Start()
     {
-        _nodeMaterial = _mainMeshRenderer.material;
+        _nodeMaterials.Add(_mainMeshRenderer.material);
         WaitForEndOfFrame _waitForEndOfFrame = new WaitForEndOfFrame();
         InitParams(Config._nodeHp, Config._nodeAttack, Config._nodeDefense);
     }
@@ -85,6 +85,13 @@ public class Node : InGameObjectBase, IHitTarget
         newNodeCap.LookAt(lookAtTarget);
         newNodeCap.gameObject.SetActive(true);
         _nodeCaps.Add(newNodeCap);
+
+        // get reference of material
+        Renderer renderer = newNodeCap.GetComponent<Renderer>();
+        if (renderer)
+        {
+            _nodeMaterials.Add(renderer.material);
+        }
     }
 
     /// <summary>
@@ -126,8 +133,20 @@ public class Node : InGameObjectBase, IHitTarget
             Connection connectionTemp = _nodesManager.GetConnection(_connectionsIds[i]);
             if (!connectionTemp) 
             {
-                // remove node cap
+                // find a node cap to remove
                 Transform removeNodecap = _nodeCaps[i];
+
+                // remove reference of node cap material
+                foreach (Material mat in _nodeMaterials)
+                {
+                    if(mat == removeNodecap.GetComponent<Renderer>().material)
+                    {
+                        _nodeMaterials.Remove(mat);
+                        break;
+                    }
+                }
+                
+                // remove node cap
                 _nodeCaps.Remove(removeNodecap);
                 Destroy(removeNodecap.gameObject);
                 i--;
@@ -226,7 +245,10 @@ public class Node : InGameObjectBase, IHitTarget
     public override void Damage(float damagePerSecond)
     {
         ApplyDamage_ContinuousAttack(damagePerSecond);
-        _nodeMaterial.SetFloat(Config._damageAreaRangeProperty, _currentHp / _hp);
+        foreach (Material mat in _nodeMaterials)
+        {
+            mat.SetFloat(Config._damageAreaRangeProperty, _currentHp / _hp);
+        }
         _audioHandler.PlayDamagedSfx(true);
     }
 
@@ -264,6 +286,9 @@ public class Node : InGameObjectBase, IHitTarget
     /// <param name="worldPos"></param>
     public void SetAttackPosition(Vector3 worldPos)
     {
-        _nodeMaterial.SetVector(Config._attackPointProperty, _mainMeshRenderer.transform.InverseTransformPoint(worldPos).normalized);
+        foreach(Material mat in _nodeMaterials)
+        {
+            mat.SetVector(Config._attackPointProperty, _mainMeshRenderer.transform.InverseTransformPoint(worldPos).normalized);
+        }
     }
 }
