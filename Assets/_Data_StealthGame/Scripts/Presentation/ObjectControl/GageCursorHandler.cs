@@ -58,6 +58,7 @@ public class GageCursorHandler : MonoBehaviour
     public void ScaleUp()
     {
         _animator.SetTrigger(_scaleUpProperty);
+        _sfxSource.PlayOneShot(_snapSfxClip);
     }
 
     /// <summary>
@@ -74,7 +75,6 @@ public class GageCursorHandler : MonoBehaviour
     public void InitScale()
     {
         _animator.SetTrigger(_initScaleProperty);
-        _sfxSource.PlayOneShot(_snapSfxClip);
     }
 
     /// <summary>
