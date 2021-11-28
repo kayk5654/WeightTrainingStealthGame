@@ -18,6 +18,12 @@ public class GageCursorHandler : MonoBehaviour
     [SerializeField, Tooltip("animator for the gage and the cursor")]
     private Animator _animator;
 
+    [SerializeField, Tooltip("sound effect audio source")]
+    private AudioSource _sfxSource;
+
+    [SerializeField, Tooltip("snap sound effect")]
+    private AudioClip _snapSfxClip;
+
     // material for the cursor plane
     private Material _cursorMaterial;
 
@@ -68,6 +74,7 @@ public class GageCursorHandler : MonoBehaviour
     public void InitScale()
     {
         _animator.SetTrigger(_initScaleProperty);
+        _sfxSource.PlayOneShot(_snapSfxClip);
     }
 
     /// <summary>

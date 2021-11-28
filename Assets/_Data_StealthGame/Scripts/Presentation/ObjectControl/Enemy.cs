@@ -37,6 +37,9 @@ public class Enemy : InGameObjectBase, IHitTarget
     [SerializeField, Tooltip("reveal enemy's material")]
     private MaterialRevealHandler _materialRevealHandler;
 
+    [SerializeField, Tooltip("sound effect control")]
+    private InGameObjectAudioHandler _audioHandler;
+
     // material of main mesh
     private Material _mainMaterial;
 
@@ -178,6 +181,7 @@ public class Enemy : InGameObjectBase, IHitTarget
     private IEnumerator AttackSequence()
     {
         _enemyAnimationHandler.SetAttack();
+        _audioHandler.PlayAttackSfx(true);
 
         yield return _waitForEndOfFrame;
 
@@ -202,7 +206,9 @@ public class Enemy : InGameObjectBase, IHitTarget
             // destroy the object
             _nearestTarget.Destroy();
         }
-        
+
+        _audioHandler.StopLoopSfx();
+
         // when the player's object is destroyed, end attack sequence
         _nearestTarget = null;
         _enemyAnimationHandler.SetSearch();
@@ -271,6 +277,7 @@ public class Enemy : InGameObjectBase, IHitTarget
     public override void Damage(float damagePerAction)
     {
         ApplyDamage_SingleAttack(damagePerAction);
+        _audioHandler.PlayDamagedSfx(false);
     }
 
     /// <summary>
@@ -280,6 +287,8 @@ public class Enemy : InGameObjectBase, IHitTarget
     {
         // if this enemy isn't found, do nothing
         if (!_isFound) { return; }
+
+        _audioHandler.PlayDestroyedSfx();
 
         // send notifycation
         InGameObjectEventArgs args = new InGameObjectEventArgs(_id);

@@ -43,6 +43,10 @@ public class Node : InGameObjectBase, IHitTarget
     // store connected node temporarily
     private Node _connectedNodeTemp;
 
+    [SerializeField, Tooltip("sound effect control")]
+    private InGameObjectAudioHandler _audioHandler;
+
+
 
     /// <summary>
     /// initialization
@@ -178,8 +182,11 @@ public class Node : InGameObjectBase, IHitTarget
 
         if(enemies == null || enemies.Length < 1) { return; }
 
+        // play sound effects
+        _audioHandler.PlayAttackSfx(false);
+
         // apply damage
-        foreach(Enemy enemy in enemies)
+        foreach (Enemy enemy in enemies)
         {
             enemy.Damage(_attack);
             if(enemy.GetRemainedHP() > 0f) { continue; }
@@ -220,6 +227,7 @@ public class Node : InGameObjectBase, IHitTarget
     {
         ApplyDamage_ContinuousAttack(damagePerSecond);
         _nodeMaterial.SetFloat(Config._damageAreaRangeProperty, _currentHp / _hp);
+        _audioHandler.PlayDamagedSfx(true);
     }
 
 
@@ -228,6 +236,8 @@ public class Node : InGameObjectBase, IHitTarget
     /// </summary>
     public override void Destroy()
     {
+        _audioHandler.PlayDestroyedSfx();
+
         InGameObjectEventArgs args = new InGameObjectEventArgs(_id);
         _onDestroyed?.Invoke(this, args);
 
