@@ -15,6 +15,9 @@ public class UiPanelBackgroundController : MonoBehaviour
     [SerializeField, Tooltip("animator of the background")]
     private Animator _animator;
 
+    [SerializeField, Tooltip("button visibility control")]
+    private MainUiButtonVisibilityController _buttonVisibilityController;
+
     // animator property to open/close background panel
     private string _openPanelAnimProperty = "Opened";
 
@@ -76,6 +79,7 @@ public class UiPanelBackgroundController : MonoBehaviour
         _background.SetActive(true);
         _animator.SetBool(_openPanelAnimProperty, true);
         yield return new WaitForSeconds(0.5f);
+        _buttonVisibilityController.Display();
         _openCloseSequence = null;
     }
 
@@ -85,6 +89,7 @@ public class UiPanelBackgroundController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator ClosePanelSequence()
     {
+        _buttonVisibilityController.Hide();
         _animator.SetBool(_openPanelAnimProperty, false);
         yield return new WaitForSeconds(0.5f);
         _background.SetActive(false);
