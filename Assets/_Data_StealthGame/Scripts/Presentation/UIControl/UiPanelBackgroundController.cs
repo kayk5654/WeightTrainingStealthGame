@@ -12,6 +12,14 @@ public class UiPanelBackgroundController : MonoBehaviour
     [SerializeField, Tooltip("other ui panels")]
     private GameObject[] _panels;
 
+    [SerializeField, Tooltip("animator of the background")]
+    private Animator _animator;
+
+    // animator property to open/close background panel
+    private string _openPanelAnimProperty = "Opened";
+
+    // process to open/close background panel
+    private IEnumerator _openCloseSequence;
 
     /// <summary>
     /// display/hide background
@@ -26,7 +34,19 @@ public class UiPanelBackgroundController : MonoBehaviour
     /// </summary>
     private void SetBackgroundVisibleState()
     {
-        _background.SetActive(AreAnyPanelsVisible());
+        if (AreAnyPanelsVisible())
+        {
+            if(_openCloseSequence != null) { return; }
+            _openCloseSequence = OpenPanelSequence();
+            StartCoroutine(_openCloseSequence);
+        }
+        else
+        {
+            if (_openCloseSequence != null) { return; }
+            _openCloseSequence = ClosePanelSequence();
+            StartCoroutine(ClosePanelSequence());
+        }
+
     }
 
     /// <summary>
@@ -45,5 +65,29 @@ public class UiPanelBackgroundController : MonoBehaviour
         }
 
         return isVisible;
+    }
+
+    /// <summary>
+    /// process to open background panel
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator OpenPanelSequence()
+    {
+        _background.SetActive(true);
+        _animator.SetBool(_openPanelAnimProperty, true);
+        yield return new WaitForSeconds(0.5f);
+        _openCloseSequence = null;
+    }
+
+    /// <summary>
+    /// process to close background panel
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ClosePanelSequence()
+    {
+        _animator.SetBool(_openPanelAnimProperty, false);
+        yield return new WaitForSeconds(0.5f);
+        _background.SetActive(false);
+        _openCloseSequence = null;
     }
 }
