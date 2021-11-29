@@ -12,7 +12,7 @@ public class DeathParticlesController : MonoBehaviour
     private VisualEffect _projectileDeathParticle;
 
     // duration between emission of particles and destroying this object
-    private float _waitDuration = 1f;
+    private float _waitDuration = 2f;
 
     /// <summary>
     /// emit particles when this projectile dies
@@ -30,6 +30,7 @@ public class DeathParticlesController : MonoBehaviour
     {
         _projectileDeathParticle.SendEvent("OnPlay");
         yield return new WaitForSeconds(_waitDuration);
+        Debug.Log("death particle emittion");
         Destroy(this.gameObject);
     }
 }

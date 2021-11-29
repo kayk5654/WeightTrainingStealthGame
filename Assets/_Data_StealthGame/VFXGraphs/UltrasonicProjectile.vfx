@@ -485,9 +485,10 @@ VisualEffectResource:
       = (float)attributes.particleId;\n\t\t\t        float tmp_bb = attributes.lifetime
       * tmp_ba;\n\t\t\t        \n\t\t\t        _RandomFactor__ = tmp_bb;\n\t\t\t   
       }\n\t\t\t    o._RandomFactor = _RandomFactor__;float4 _Color__ = (float4)0;{\n\t\t\t       
-      float tmp_ba = attributes.age / attributes.lifetime;\n\t\t\t        float tmp_bb
-      = saturate(tmp_ba);\n\t\t\t        float4 tmp_bc = SampleGradient(uniform_a,tmp_bb);\n\t\t\t       
-      \n\t\t\t        _Color__ = tmp_bc;\n\t\t\t    }\n\t\t\t    o._Color = _Color__;\n\n\t\t\t\t\n\t\t\t\treturn
+      float tmp_ba = attributes.age / attributes.lifetime;\n\t\t\t        float tmp_bc
+      = max(tmp_ba, (float)0);\n\t\t\t        float tmp_be = min(tmp_bc, (float)1);\n\t\t\t       
+      float4 tmp_bf = SampleGradient(uniform_a,tmp_be);\n\t\t\t        \n\t\t\t       
+      _Color__ = tmp_bf;\n\t\t\t    }\n\t\t\t    o._Color = _Color__;\n\n\t\t\t\t\n\t\t\t\treturn
       o;\n\t\t\t}\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t#include \"Packages/com.unity.visualeffectgraph/Shaders/VFXCommonOutput.hlsl\"\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\t\t#include
       \"Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl\"\n\t\t\t\t\t#include
       \"Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl\"\n\t\t\t\t\t#include
@@ -718,9 +719,10 @@ VisualEffectResource:
       = (float)attributes.particleId;\n\t\t\t        float tmp_bb = attributes.lifetime
       * tmp_ba;\n\t\t\t        \n\t\t\t        _RandomFactor__ = tmp_bb;\n\t\t\t   
       }\n\t\t\t    o._RandomFactor = _RandomFactor__;float4 _Color__ = (float4)0;{\n\t\t\t       
-      float tmp_ba = attributes.age / attributes.lifetime;\n\t\t\t        float tmp_bb
-      = saturate(tmp_ba);\n\t\t\t        float4 tmp_bc = SampleGradient(uniform_a,tmp_bb);\n\t\t\t       
-      \n\t\t\t        _Color__ = tmp_bc;\n\t\t\t    }\n\t\t\t    o._Color = _Color__;\n\n\t\t\t\t\n\t\t\t\treturn
+      float tmp_ba = attributes.age / attributes.lifetime;\n\t\t\t        float tmp_bc
+      = max(tmp_ba, (float)0);\n\t\t\t        float tmp_be = min(tmp_bc, (float)1);\n\t\t\t       
+      float4 tmp_bf = SampleGradient(uniform_a,tmp_be);\n\t\t\t        \n\t\t\t       
+      _Color__ = tmp_bf;\n\t\t\t    }\n\t\t\t    o._Color = _Color__;\n\n\t\t\t\t\n\t\t\t\treturn
       o;\n\t\t\t}\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t#include \"Packages/com.unity.visualeffectgraph/Shaders/VFXCommonOutput.hlsl\"\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\t\t#include
       \"Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl\"\n\t\t\t\t\t#include
       \"Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl\"\n\t\t\t\t\t#include
@@ -1767,37 +1769,37 @@ VisualEffectResource:
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 1
+        data[3]: 3
       - op: 1
-        valueIndex: 41
+        valueIndex: 43
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 3
       - op: 1
-        valueIndex: 44
+        valueIndex: 46
         data[0]: -1
         data[1]: -1
         data[2]: -1
         data[3]: 5
       - op: 57
-        valueIndex: 45
+        valueIndex: 47
         data[0]: 13
         data[1]: -1
         data[2]: -1
         data[3]: 1
       - op: 56
-        valueIndex: 46
+        valueIndex: 48
         data[0]: 9
         data[1]: -1
         data[2]: -1
         data[3]: 2
       - op: 1
-        valueIndex: 50
+        valueIndex: 52
         data[0]: -1
         data[1]: -1
         data[2]: -1
-        data[3]: 3
+        data[3]: 1
       - op: 1
         valueIndex: 53
         data[0]: -1
@@ -1920,7 +1922,7 @@ VisualEffectResource:
           m_Value: 0.75
         - m_ExpressionIndex: 16
           m_Value: 5
-        - m_ExpressionIndex: 17
+        - m_ExpressionIndex: 22
           m_Value: 30
         - m_ExpressionIndex: 23
           m_Value: 1.5
@@ -1938,9 +1940,9 @@ VisualEffectResource:
         m_Array:
         - m_ExpressionIndex: 12
           m_Value: {x: 0.05, y: 0.05, z: 0.05}
-        - m_ExpressionIndex: 18
+        - m_ExpressionIndex: 17
           m_Value: {x: -0.3, y: -0.3, z: -0.2}
-        - m_ExpressionIndex: 22
+        - m_ExpressionIndex: 18
           m_Value: {x: 0.3, y: 0.3, z: -1}
         - m_ExpressionIndex: 27
           m_Value: {x: 0, y: 0, z: -0.008}

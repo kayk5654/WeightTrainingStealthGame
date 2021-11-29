@@ -87,7 +87,6 @@ public class TimeLimitCounter : MonoBehaviour, IPlayTimeCounter
     /// </summary>
     private void SendGamePlayEnd()
     {
-        DebugLog.Info(this.ToString(), "NotifyGamePlayEnd is called");
         GamePlayStateEventArgs gamePlayStateargs = new GamePlayStateEventArgs(GamePlayState.AfterPlay);
         _onGamePlayEnd?.Invoke(this, gamePlayStateargs);
     }
@@ -101,7 +100,6 @@ public class TimeLimitCounter : MonoBehaviour, IPlayTimeCounter
         while (true)
         {
             _currentPlayTime += Time.deltaTime;
-            DebugLog.Info(this.ToString(), "_currentPlayTime" + _currentPlayTime);
             
             if(_currentPlayTime >= _timeLimit)
             {
