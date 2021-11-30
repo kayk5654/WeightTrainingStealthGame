@@ -207,7 +207,7 @@ Material:
     - _ZWrite: 0
     m_Colors:
     - Color_FE381DC: {r: 0.10104778, g: 0.16643162, b: 1.1887974, a: 1}
-    - _BaseColor: {r: 0.31835172, g: 0.7657678, b: 0.9245283, a: 0.42745098}
+    - _BaseColor: {r: 0.5594963, g: 0.8349099, b: 0.9339623, a: 0.42745098}
     - _ClippingBorderColor: {r: 1, g: 0.2, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0.23529412, g: 1.7333333, b: 0.78431374, a: 0}
