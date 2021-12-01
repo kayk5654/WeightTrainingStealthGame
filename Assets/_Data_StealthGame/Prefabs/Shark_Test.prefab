@@ -82,7 +82,7 @@ MonoBehaviour:
   _attackTargetDistThresh: 0.25
   _mainMeshRenderer: {fileID: 6790867210079989606}
   _environmentVfxRenderer: {fileID: 2635273329496651423}
-  _animator: {fileID: 0}
+  _animator: {fileID: 1807168610130907146}
   _materialRevealHandler: {fileID: 4234519700654513467}
   _audioHandler: {fileID: 1366663330328767766}
 --- !u!114 &4234519700654513467
@@ -98,8 +98,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _renderers:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 6790867210079989606}
+  - {fileID: 2635273329496651423}
   _speed: 0.4
   _testRevealOrigin: {x: 0, y: 0, z: 0}
 --- !u!82 &4213589568199493272
