@@ -26,10 +26,10 @@ public class Enemy : InGameObjectBase, IHitTarget
     private float _attackTargetDistThresh = 0.25f;
 
     [SerializeField, Tooltip("main mesh")]
-    private MeshRenderer _mainMeshRenderer;
+    private Renderer _mainMeshRenderer;
 
     [SerializeField, Tooltip("environment vfx mesh")]
-    private MeshRenderer _environmentVfxRenderer;
+    private Renderer _environmentVfxRenderer;
 
     [SerializeField, Tooltip("enemy's animator")]
     private Animator _animator;
