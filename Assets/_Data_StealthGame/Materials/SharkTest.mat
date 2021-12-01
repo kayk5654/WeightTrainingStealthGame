@@ -90,7 +90,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Feather: 0.05
+    - Feather: 0.03
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -123,5 +123,5 @@ Material:
     - _NoiseTllingOffset1: {r: 3.87, g: 2.59, b: 2.73, a: -0.12}
     - _NoiseTllingOffset1_1: {r: 0.42, g: 0.42, b: -0.22, a: 0.21}
     - _PatternTilingOffset: {r: 10, g: 20, b: 0, a: 0}
-    - _RevealArea: {r: 0, g: -0.1, b: 1.3899992, a: 3.007988}
+    - _RevealArea: {r: 0, g: -0.1, b: 1.3899992, a: 0.84}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
