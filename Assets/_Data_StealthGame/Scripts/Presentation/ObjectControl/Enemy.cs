@@ -187,7 +187,7 @@ public class Enemy : InGameObjectBase, IHitTarget
 
         // giving damage on the attacked player's object
 
-        while (_nearestTarget.GetRemainedHP() > 0f)
+        while (_nearestTarget != null && _nearestTarget.GetRemainedHP() > 0f)
         {
             _nearestTarget.SetAttackPosition(transform.position);
             _nearestTarget.Damage(_attack);
