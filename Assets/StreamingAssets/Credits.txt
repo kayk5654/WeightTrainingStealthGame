@@ -291,3 +291,12 @@ This License, which is part of and is governed by, the Terms of Service Agreemen
 
 
 Powered by "CRIWARE".CRIWARE is a trademark of CRI Middleware Co., Ltd.
+
+*** Animations ***
+
+"PA Shark"
+Copyright (c) 2014 Popup Asylum (http://popupasylum.co.uk/)
+
+Workout animations are made with Cascadeur (https://cascadeur.com/)
+
+Workout animations are powered by Adobe mixamo (https://www.mixamo.com/)
