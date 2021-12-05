@@ -89,6 +89,7 @@ public class VfxGraphButtonFeedback : MonoBehaviour, IButtonFeedback
     private void ExecuteOnPressed()
     {
         if (!_onPressedVfx) { return; }
+        _onPressedVfx.gameObject.SetActive(true);
         _onPressedVfx.Play(default);
     }
 
@@ -99,6 +100,7 @@ public class VfxGraphButtonFeedback : MonoBehaviour, IButtonFeedback
     {
         if (!_onPressedVfx) { return; }
         _onPressedVfx.Stop();
+        _onPressedVfx.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -107,6 +109,7 @@ public class VfxGraphButtonFeedback : MonoBehaviour, IButtonFeedback
     private void ExecuteOnPointed()
     {
         if (!_onPointedVfx) { return; }
+        _onPointedVfx.gameObject.SetActive(true);
         _onPointedVfx.Play(default);
     }
 
@@ -117,6 +120,7 @@ public class VfxGraphButtonFeedback : MonoBehaviour, IButtonFeedback
     {
         if (!_onPointedVfx) { return; }
         _onPointedVfx.Stop();
+        _onPointedVfx.gameObject.SetActive(false);
     }
 
 }
