@@ -93,9 +93,9 @@ MonoBehaviour:
   uiBounds:
     serializedVersion: 2
     x: 1673
-    y: -242
+    y: -245
     width: 2428
-    height: 2040
+    height: 2043
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -590,8 +590,8 @@ VisualEffectResource:
       Initialize built-in needed attributes\n\t\t\t\t\t\t#if HAS_STRIPS\n\t\t\t\t\t\tInitStripAttributes(index,
       attributes, stripData);\n\t\t\t\t\t\t#endif\n\t\t\t\t\t\t\t\n\t\t\t\tAttributeFromCurve_7BA3F6A(
       /*inout */attributes.alpha, attributes.age, attributes.lifetime, Alpha_a);\n\t\t\t\t{\n\t\t\t\t   
-      SetAttribute_FDD06EC7( /*inout */attributes.color, float3(0.716104269, 2.62219715,
-      4.02282143));\n\t\t\t\t}\n\t\t\t\t\n\n\t\t\t\t\n\t\t\t#if !HAS_STRIPS\n\t\t\t\tif
+      SetAttribute_FDD06EC7( /*inout */attributes.color, float3(0.491605014, 1.50212634,
+      2.60823774));\n\t\t\t\t}\n\t\t\t\t\n\n\t\t\t\t\n\t\t\t#if !HAS_STRIPS\n\t\t\t\tif
       (!attributes.alive)\n\t\t\t\t\treturn o;\n\t\t\t#endif\n\t\t\t\t\n\t\t\t#if
       VFX_PRIMITIVE_QUAD\n\t\t\t\n\t\t\t#if HAS_STRIPS\n\t\t\t#if VFX_STRIPS_UV_STRECHED\n\t\t\t\to.VFX_VARYING_UV.x
       = (float)(currentIndex) / (stripData.nextIndex - 1);\n\t\t\t#elif VFX_STRIPS_UV_PER_SEGMENT\n\t\t\t\to.VFX_VARYING_UV.x
@@ -780,8 +780,8 @@ VisualEffectResource:
       Initialize built-in needed attributes\n\t\t\t\t\t\t#if HAS_STRIPS\n\t\t\t\t\t\tInitStripAttributes(index,
       attributes, stripData);\n\t\t\t\t\t\t#endif\n\t\t\t\t\t\t\t\n\t\t\t\tAttributeFromCurve_7BA3F6A(
       /*inout */attributes.alpha, attributes.age, attributes.lifetime, Alpha_a);\n\t\t\t\t{\n\t\t\t\t   
-      SetAttribute_FDD06EC7( /*inout */attributes.color, float3(0.716104269, 2.62219715,
-      4.02282143));\n\t\t\t\t}\n\t\t\t\t\n\n\t\t\t\t\n\t\t\t#if !HAS_STRIPS\n\t\t\t\tif
+      SetAttribute_FDD06EC7( /*inout */attributes.color, float3(0.491605014, 1.50212634,
+      2.60823774));\n\t\t\t\t}\n\t\t\t\t\n\n\t\t\t\t\n\t\t\t#if !HAS_STRIPS\n\t\t\t\tif
       (!attributes.alive)\n\t\t\t\t\treturn o;\n\t\t\t#endif\n\t\t\t\t\n\t\t\t#if
       VFX_PRIMITIVE_QUAD\n\t\t\t\n\t\t\t#if HAS_STRIPS\n\t\t\t#if VFX_STRIPS_UV_STRECHED\n\t\t\t\to.VFX_VARYING_UV.x
       = (float)(currentIndex) / (stripData.nextIndex - 1);\n\t\t\t#elif VFX_STRIPS_UV_PER_SEGMENT\n\t\t\t\to.VFX_VARYING_UV.x
@@ -1149,7 +1149,7 @@ VisualEffectResource:
         - m_ExpressionIndex: 20
           m_Value: {x: 0, y: 0, z: 0.003}
         - m_ExpressionIndex: 22
-          m_Value: {x: 0.71610427, y: 2.6221972, z: 4.0228214}
+          m_Value: {x: 0.491605, y: 1.5021263, z: 2.6082377}
       m_Vector4f:
         m_Array: []
       m_Uint:
@@ -5409,7 +5409,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.71610426902771,"y":2.622197151184082,"z":4.022821426391602}'
+      m_SerializableObject: '{"x":0.4916050136089325,"y":1.5021263360977173,"z":2.6082377433776857}'
     m_Space: 2147483647
   m_Property:
     name: Color

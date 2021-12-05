@@ -1794,7 +1794,13 @@ VisualEffect:
     m_Vector2f:
       m_Array: []
     m_Vector3f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: -0.1, y: -0.04, z: 0.003}
+        m_Name: SpawnArea_Min
+        m_Overridden: 1
+      - m_Value: {x: 0.1, y: 0.04, z: 0.003}
+        m_Name: SpawnArea_Max
+        m_Overridden: 1
     m_Vector4f:
       m_Array: []
     m_Uint:
