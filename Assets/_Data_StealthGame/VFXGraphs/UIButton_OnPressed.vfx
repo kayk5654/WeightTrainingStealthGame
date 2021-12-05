@@ -322,8 +322,8 @@ VisualEffectResource:
       float tmp_s = SampleCurve(uniform_a,tmp_r);\n\t\t\t    float tmp_t = tmp_q
       * tmp_s;\n\t\t\t    float tmp_u = tmp_p[1];\n\t\t\t    float tmp_w = (float)1
       - tmp_s;\n\t\t\t    float tmp_x = tmp_u * tmp_w;\n\t\t\t    float3 tmp_z =
-      float3(tmp_t, tmp_x, (float)0);\n\t\t\t    float3 tmp_bb = tmp_z * float3(0.300000012,
-      0.300000012, 0.300000012);\n\t\t\t    SetAttribute_E629755( /*inout */attributes.velocity,
+      float3(tmp_t, tmp_x, (float)0);\n\t\t\t    float3 tmp_bb = tmp_z * float3(0.400000006,
+      0.400000006, 0.400000006);\n\t\t\t    SetAttribute_E629755( /*inout */attributes.velocity,
       tmp_bb);\n\t\t\t}\n\t\t\t{\n\t\t\t    attributes.eventCount = 0u;\n\t\t\t   
       GPUEventRate_1( /*inout */attributes.rateCount_b,  /*inout */attributes.eventCount,
       (float)30, deltaTime_b);\n\t\t\t    eventCount_a += attributes.eventCount;\n\t\t\t}\n\t\t\tEulerIntegration(
@@ -368,8 +368,8 @@ VisualEffectResource:
       tmp_r = attributes.age / attributes.lifetime;\n\t\t    float tmp_s = SampleCurve(uniform_a,tmp_r);\n\t\t   
       float tmp_t = tmp_q * tmp_s;\n\t\t    float tmp_u = tmp_p[1];\n\t\t    float
       tmp_w = (float)1 - tmp_s;\n\t\t    float tmp_x = tmp_u * tmp_w;\n\t\t    float3
-      tmp_z = float3(tmp_t, tmp_x, (float)0);\n\t\t    float3 tmp_bb = tmp_z * float3(0.300000012,
-      0.300000012, 0.300000012);\n\t\t    SetAttribute_E629755( /*inout */attributes.velocity,
+      tmp_z = float3(tmp_t, tmp_x, (float)0);\n\t\t    float3 tmp_bb = tmp_z * float3(0.400000006,
+      0.400000006, 0.400000006);\n\t\t    SetAttribute_E629755( /*inout */attributes.velocity,
       tmp_bb);\n\t\t}\n\t\t{\n\t\t    attributes.eventCount = 0u;\n\t\t    GPUEventRate_1(
       /*inout */attributes.rateCount_b,  /*inout */attributes.eventCount, (float)30,
       deltaTime_b);\n\t\t    eventCount_a += attributes.eventCount;\n\t\t}\n\t\tEulerIntegration(
@@ -1133,7 +1133,7 @@ VisualEffectResource:
         - m_ExpressionIndex: 2
           m_Value: {x: -1, y: -1, z: -1}
         - m_ExpressionIndex: 7
-          m_Value: {x: 0.3, y: 0.3, z: 0.3}
+          m_Value: {x: 0.4, y: 0.4, z: 0.4}
         - m_ExpressionIndex: 14
           m_Value: {x: 0, y: 0, z: 0.5}
         - m_ExpressionIndex: 15
@@ -4540,7 +4540,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 0.3
+      m_SerializableObject: 0.4
     m_Space: 2147483647
   m_Property:
     name: b

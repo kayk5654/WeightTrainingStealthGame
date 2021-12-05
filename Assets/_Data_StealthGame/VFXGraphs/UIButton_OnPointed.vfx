@@ -119,9 +119,9 @@ MonoBehaviour:
   uiBounds:
     serializedVersion: 2
     x: 424
-    y: -276
+    y: -277
     width: 3539
-    height: 2078
+    height: 2079
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2105,28 +2105,28 @@ VisualEffectResource:
               inWeight: 0
               outWeight: 0
             - serializedVersion: 3
-              time: 0.08716056
-              value: 0.32043412
-              inSlope: -0.6521883
-              outSlope: -0.6521883
+              time: 0.055428337
+              value: 0.3133693
+              inSlope: -1.6359571
+              outSlope: -1.6359571
               tangentMode: 34
               weightedMode: 0
               inWeight: 0
               outWeight: 0
             - serializedVersion: 3
-              time: 0.15698445
+              time: 0.078532755
               value: 0.25304255
-              inSlope: -1.677927
-              outSlope: -1.677927
+              inSlope: -4.726104
+              outSlope: -4.726104
               tangentMode: 0
               weightedMode: 0
               inWeight: 0
               outWeight: 0
             - serializedVersion: 3
-              time: 0.19985892
+              time: 0.099981055
               value: 0.25304255
-              inSlope: 2.2426429
-              outSlope: 2.2426429
+              inSlope: 5.785986
+              outSlope: 5.785986
               tangentMode: 0
               weightedMode: 0
               inWeight: 0
@@ -2220,8 +2220,8 @@ VisualEffectResource:
             ctime6: 0
             ctime7: 0
             atime0: 0
-            atime1: 12143
-            atime2: 65535
+            atime1: 46067
+            atime2: 54741
             atime3: 0
             atime4: 0
             atime5: 0
@@ -3340,7 +3340,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Gradient, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"colorKeys":[{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":0.0},{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":1.0,"time":0.18529030680656434},{"alpha":1.0,"time":1.0}],"gradientMode":0}'
+      m_SerializableObject: '{"colorKeys":[{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":0.0},{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":1.0,"time":0.7029373645782471},{"alpha":1.0,"time":0.8352941274642944}],"gradientMode":0}'
     m_Space: 2147483647
   m_Property:
     name: Color
@@ -3519,7 +3519,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.AnimationCurve, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"frames":[{"time":0.0,"value":0.3499999940395355,"inTangent":-0.05730796232819557,"outTangent":-0.05730796232819557,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.08716055750846863,"value":0.3204341232776642,"inTangent":-0.6521883010864258,"outTangent":-0.6521883010864258,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false},{"time":0.15698444843292237,"value":0.2530425488948822,"inTangent":-1.677927017211914,"outTangent":-1.677927017211914,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.1998589187860489,"value":0.2530425488948822,"inTangent":2.242642879486084,"outTangent":2.242642879486084,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
+      m_SerializableObject: '{"frames":[{"time":0.0,"value":0.3499999940395355,"inTangent":-0.05730796232819557,"outTangent":-0.05730796232819557,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.055428337305784228,"value":0.3133693039417267,"inTangent":-1.63595712184906,"outTangent":-1.63595712184906,"tangentMode":0,"leftTangentMode":1,"rightTangentMode":1,"broken":false},{"time":0.07853275537490845,"value":0.2530425488948822,"inTangent":-4.726103782653809,"outTangent":-4.726103782653809,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false},{"time":0.09998105466365814,"value":0.2530425488948822,"inTangent":5.785985946655273,"outTangent":5.785985946655273,"tangentMode":0,"leftTangentMode":0,"rightTangentMode":0,"broken":false}],"preWrapMode":8,"postWrapMode":8,"version":1}'
     m_Space: 2147483647
   m_Property:
     name: Size
