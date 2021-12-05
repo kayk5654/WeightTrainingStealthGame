@@ -1753,7 +1753,7 @@ VisualEffect:
       - m_Value: {x: 0.04, y: 0.04, z: 0.003}
         m_Name: SpawnArea_Max
         m_Overridden: 1
-      - m_Value: {x: 0.47, y: 0.47, z: 1}
+      - m_Value: {x: 0.5, y: 0.5, z: 1}
         m_Name: FrameTexSize
         m_Overridden: 1
     m_Vector4f:
@@ -1770,7 +1770,7 @@ VisualEffect:
       m_Array: []
     m_NamedObject:
       m_Array:
-      - m_Value: {fileID: 2800000, guid: 30950dc040599e84db319dfaa75f04d9, type: 3}
+      - m_Value: {fileID: 2800000, guid: c5717bef88e1d7242a40181d6c5f6742, type: 3}
         m_Name: FrameTex
         m_Overridden: 1
     m_Bool:

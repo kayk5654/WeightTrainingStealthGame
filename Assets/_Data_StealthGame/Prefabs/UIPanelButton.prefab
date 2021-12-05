@@ -1814,7 +1814,10 @@ VisualEffect:
     m_Gradient:
       m_Array: []
     m_NamedObject:
-      m_Array: []
+      m_Array:
+      - m_Value: {fileID: 2800000, guid: 99ad54ccaade6904087cb3e6db42ff3f, type: 3}
+        m_Name: FrameTex
+        m_Overridden: 1
     m_Bool:
       m_Array: []
 --- !u!73398921 &8114198392802562557
