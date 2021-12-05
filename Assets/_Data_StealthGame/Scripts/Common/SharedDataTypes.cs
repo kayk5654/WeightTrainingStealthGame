@@ -124,6 +124,18 @@ public enum LookDirectionGetterType
 }
 
 /// <summary>
+/// type of button feedback
+/// </summary>
+public enum ButtonFeedbackType
+{
+    OnPressed,
+    OnReleased,
+    OnPointed,
+    OnPointedEnd,
+    LENGTH
+}
+
+/// <summary>
 /// notify the status of the app state
 /// </summary>
 public class AppStateEventArgs : EventArgs
