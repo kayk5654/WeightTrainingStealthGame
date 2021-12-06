@@ -46,6 +46,8 @@ public class Node : InGameObjectBase, IHitTarget
     [SerializeField, Tooltip("sound effect control")]
     private InGameObjectAudioHandler _audioHandler;
 
+    [SerializeField, Tooltip("visual effect control")]
+    private InGameObjectVfxHandler _vfxHandler;
 
 
     /// <summary>
@@ -203,6 +205,9 @@ public class Node : InGameObjectBase, IHitTarget
 
         // play sound effects
         _audioHandler.PlayAttackSfx(false);
+
+        // play visual effects
+        _vfxHandler.PlayAttackVfx();
 
         // apply damage
         foreach (Enemy enemy in enemies)
