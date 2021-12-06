@@ -237,6 +237,10 @@ public class Node : InGameObjectBase, IHitTarget
         {
             enemyTemp = collider.GetComponent<Enemy>();
             if (enemyTemp == null) { continue; }
+
+            // check whether the enemies are found
+            if (!enemyTemp.GetIsFound()) { continue; }
+
             enemies.Add(enemyTemp);
         }
 

@@ -276,6 +276,9 @@ public class Enemy : InGameObjectBase, IHitTarget
     /// <param name="damagePerAction">damage of single attack action</param>
     public override void Damage(float damagePerAction)
     {
+        // if this enemy isn't found, do nothing
+        if (!_isFound) { return; }
+
         ApplyDamage_SingleAttack(damagePerAction);
         _audioHandler.PlayDamagedSfx(false);
     }
@@ -299,5 +302,14 @@ public class Enemy : InGameObjectBase, IHitTarget
 
         // destroy this enemy object
         Destroy(gameObject);
+    }
+
+    /// <summary>
+    /// check whether this enemy is found by the player
+    /// </summary>
+    /// <returns></returns>
+    public bool GetIsFound()
+    {
+        return _isFound;
     }
 }
