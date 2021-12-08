@@ -40,6 +40,9 @@ public class Enemy : InGameObjectBase, IHitTarget
     [SerializeField, Tooltip("sound effect control")]
     private InGameObjectAudioHandler _audioHandler;
 
+    [SerializeField, Tooltip("visual effect control")]
+    private InGameObjectVfxHandler _vfxHandler;
+
     // material of main mesh
     private Material _mainMaterial;
 
@@ -291,7 +294,11 @@ public class Enemy : InGameObjectBase, IHitTarget
         // if this enemy isn't found, do nothing
         if (!_isFound) { return; }
 
+        // play sound effect
         _audioHandler.PlayDestroyedSfx();
+        
+        // play visual effects
+        _vfxHandler.PlayDestroyedVfx();
 
         // send notifycation
         InGameObjectEventArgs args = new InGameObjectEventArgs(_id);

@@ -32,7 +32,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d4c867f6b72b714dbb5fd1780afe208, type: 3}
-  m_Name: NodeDestroyedVFX
+  m_Name: EnemyDestroyedVFX
   m_EditorClassIdentifier: 
   m_Parent: {fileID: 0}
   m_Children:
@@ -74,7 +74,7 @@ VisualEffectResource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NodeDestroyedVFX
+  m_Name: EnemyDestroyedVFX
   m_Graph: {fileID: 114350483966674976}
   m_ShaderSources:
   - compute: 1
@@ -164,8 +164,8 @@ VisualEffectResource:
       }\n        {\n            uint tmp_z = attributes.particleId ^ asuint(uniform_a);\n           
       uint tmp_ba = attributes.particleId ^ tmp_z;\n            float tmp_bb = FixedRand(tmp_ba);\n           
       float4 tmp_bc = float4(tmp_bb, tmp_bb, tmp_bb, tmp_bb);\n            float4
-      tmp_be = tmp_bc * float4(-1.89197397, 0.383147478, 2.50056148, 0);\n           
-      float4 tmp_bf = float4(1.89197397, 0.00900940038, 0.495516986, 1) + tmp_be;\n           
+      tmp_be = tmp_bc * float4(6.01472473, 0.217677817, -0.0099056419, 0);\n           
+      float4 tmp_bf = float4(1.89197397, 0.0099056419, 0.0099056419, 1) + tmp_be;\n           
       float tmp_bg = tmp_bf[0];\n            float tmp_bh = tmp_bf[1];\n           
       float tmp_bi = tmp_bf[2];\n            float3 tmp_bj = float3(tmp_bg, tmp_bh,
       tmp_bi);\n            SetAttribute_FDD06EC7( /*inout */attributes.color, tmp_bj);\n       
@@ -301,7 +301,7 @@ VisualEffectResource:
       = index;\r\n#endif\r\n#endif\r\n\t}\r\n}\r\n"
   - compute: 0
     name: '[System 1]Output Particle Quad'
-    source: "Shader \"Hidden/VFX/NodeDestroyedVFX/System 1/Output Particle Quad\"\n{\r\n\tSubShader\r\n\t{\t\r\n\t\tCull
+    source: "Shader \"Hidden/VFX/EnemyDestroyedVFX/System 1/Output Particle Quad\"\n{\r\n\tSubShader\r\n\t{\t\r\n\t\tCull
       Off\r\n\t\t\r\n\t\tTags { \"Queue\"=\"Transparent\" \"IgnoreProjector\"=\"True\"
       \"RenderType\"=\"Transparent\" }\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\tBlend
       SrcAlpha OneMinusSrcAlpha\n\t\tZTest LEqual\n\t\tZWrite Off\n\t\tCull Off\n\t\t\n\t\n\t\t\t\n\t\tHLSLINCLUDE\n\t\t\n\t\t#define
@@ -962,9 +962,9 @@ VisualEffectResource:
       m_Vector4f:
         m_Array:
         - m_ExpressionIndex: 6
-          m_Value: {x: -1.891974, y: 0.38314748, z: 2.5005615, w: 0}
+          m_Value: {x: 6.0147247, y: 0.21767782, z: -0.009905642, w: 0}
         - m_ExpressionIndex: 7
-          m_Value: {x: 1.891974, y: 0.0090094, z: 0.495517, w: 1}
+          m_Value: {x: 1.891974, y: 0.009905642, z: 0.009905642, w: 1}
       m_Uint:
         m_Array: []
       m_Int:
@@ -5602,7 +5602,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":1.8919739723205567,"g":0.009009400382637978,"b":0.49551698565483096,"a":1.0}'
+      m_SerializableObject: '{"r":1.8919739723205567,"g":0.00990564189851284,"b":0.00990564189851284,"a":1.0}'
     m_Space: 2147483647
   m_Property:
     name: 
@@ -9218,7 +9218,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.0,"g":0.3921568691730499,"b":2.9960784912109377,"a":1.0}'
+      m_SerializableObject: '{"r":7.906698703765869,"g":0.22758345305919648,"b":0.0,"a":1.0}'
     m_Space: 2147483647
   m_Property:
     name: 

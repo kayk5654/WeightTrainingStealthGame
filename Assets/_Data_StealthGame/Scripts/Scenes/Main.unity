@@ -1737,6 +1737,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 437206398150155763, guid: a542aa676b662a14684ac10f094eebdc,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5781225494059896585, guid: a542aa676b662a14684ac10f094eebdc,
         type: 3}
       propertyPath: m_Materials.Array.size
@@ -9395,7 +9400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d0f34550a47c1a40ad15fb4120ca8a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inputType: 0
+  _inputType: 1
 --- !u!4 &1769826208
 Transform:
   m_ObjectHideFlags: 0

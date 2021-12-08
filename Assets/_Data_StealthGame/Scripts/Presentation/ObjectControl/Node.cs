@@ -269,6 +269,7 @@ public class Node : InGameObjectBase, IHitTarget
     {
         // play sound effect
         _audioHandler.PlayDestroyedSfx();
+
         // play visual effects
         _vfxHandler.PlayDestroyedVfx();
 
