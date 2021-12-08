@@ -69,5 +69,23 @@ public class InGameObjectVfxHandler : MonoBehaviour
     public void PlayDestroyedVfx()
     {
         if (!_destroyedVfx) { return; }
+        StartCoroutine(DestroyedVfxSequence());
+    }
+
+    /// <summary>
+    /// process of playing destroyed vfx
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DestroyedVfxSequence()
+    {
+        // unparent vfx from the node
+        transform.SetParent(null);
+
+        // play vfx
+        _destroyedVfx.gameObject.SetActive(true);
+        yield return new WaitForSeconds(_destroyedVfxDuration);
+
+        // destroy gameobject
+        Destroy(gameObject);
     }
 }

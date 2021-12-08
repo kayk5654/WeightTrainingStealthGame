@@ -267,7 +267,10 @@ public class Node : InGameObjectBase, IHitTarget
     /// </summary>
     public override void Destroy()
     {
+        // play sound effect
         _audioHandler.PlayDestroyedSfx();
+        // play visual effects
+        _vfxHandler.PlayDestroyedVfx();
 
         InGameObjectEventArgs args = new InGameObjectEventArgs(_id);
         _onDestroyed?.Invoke(this, args);
