@@ -10,14 +10,8 @@ public class InGameObjectVfxHandler : MonoBehaviour
     [SerializeField, Tooltip("attack vfx")]
     private VisualEffect _attackVfx;
 
-    [SerializeField, Tooltip("duration of attack vfx")]
-    private float _attackVfxDuration = 1f;
-
     [SerializeField, Tooltip("damaged vfx")]
     private VisualEffect _damagedVfx;
-
-    [SerializeField, Tooltip("duration of damaged vfx")]
-    private float _damagedVfxDuration = 1f;
 
     [SerializeField, Tooltip("destroyed vfx")]
     private VisualEffect _destroyedVfx;
@@ -45,14 +39,7 @@ public class InGameObjectVfxHandler : MonoBehaviour
     public void PlayAttackVfx()
     {
         if (!_attackVfx) { return; }
-        StartCoroutine(PlayAttackVfxSequence());
-    }
-
-    private IEnumerator PlayAttackVfxSequence()
-    {
-        _attackVfx.gameObject.SetActive(true);
-        yield return new WaitForSeconds(_attackVfxDuration);
-        _attackVfx.gameObject.SetActive(false);
+        _attackVfx.Play();
     }
 
     /// <summary>
@@ -61,6 +48,7 @@ public class InGameObjectVfxHandler : MonoBehaviour
     public void PlayDamagedVfx()
     {
         if (!_damagedVfx) { return; }
+        _damagedVfx.Play();
     }
 
     /// <summary>
@@ -82,7 +70,7 @@ public class InGameObjectVfxHandler : MonoBehaviour
         transform.SetParent(null);
 
         // play vfx
-        _destroyedVfx.gameObject.SetActive(true);
+        _destroyedVfx.Play();
         yield return new WaitForSeconds(_destroyedVfxDuration);
 
         // destroy gameobject

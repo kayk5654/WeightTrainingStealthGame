@@ -246,9 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attackVfx: {fileID: 0}
-  _attackVfxDuration: 1
   _damagedVfx: {fileID: 0}
-  _damagedVfxDuration: 1
   _destroyedVfx: {fileID: 3284671837685985990}
   _destroyedVfxDuration: 1
 --- !u!1 &4699615776513047568
@@ -509,7 +507,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5300359850458816589
 Transform:
   m_ObjectHideFlags: 0
@@ -533,8 +531,8 @@ VisualEffect:
   m_GameObject: {fileID: 8361405858682053007}
   m_Enabled: 1
   m_Asset: {fileID: 8926484042661614526, guid: 238113409c32b5e409a9c341adc9df35, type: 3}
-  m_InitialEventName: OnPlay
-  m_InitialEventNameOverriden: 0
+  m_InitialEventName: 
+  m_InitialEventNameOverriden: 1
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
   m_PropertySheet:
@@ -567,7 +565,7 @@ VFXRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8361405858682053007}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1

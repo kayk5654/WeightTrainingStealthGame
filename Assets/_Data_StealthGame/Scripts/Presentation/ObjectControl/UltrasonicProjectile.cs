@@ -29,7 +29,6 @@ public class UltrasonicProjectile : ProjectileBase
     private void OnDestroy()
     {
         _deathParticlesController.transform.parent = null;
-        _deathParticlesController.gameObject.SetActive(true);
         _deathParticlesController.EmitParticles();
     }
 
