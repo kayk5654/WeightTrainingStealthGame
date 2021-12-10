@@ -1903,9 +1903,9 @@ VisualEffectResource:
       = uvData.blend;\n\t\t\t\t\t\t#if USE_FLIPBOOK_MOTIONVECTORS && defined(VFX_VARYING_MOTIONVECTORSCALE)\n\t\t\t\t\t\t\n\t\t\t\t\t\to.VFX_VARYING_MOTIONVECTORSCALE
       = motionVectorScale * invFlipBookSize;\n\t\t\t\t\t\t#endif\n\t\t\t\t\t\t#endif\n\t\t\t\t\t\t#endif\n\t\t\t\t\t\t\n\t\t\t\n\t\t\t\t\n\t\t\t   
       \n\t\t\t    float4 _Color__ = (float4)0;{\n\t\t\t        float tmp_y = attributes.age
-      / attributes.lifetime;\n\t\t\t        float tmp_z = saturate(tmp_y);\n\t\t\t       
-      float4 tmp_ba = SampleGradient(uniform_a,tmp_z);\n\t\t\t        \n\t\t\t       
-      _Color__ = tmp_ba;\n\t\t\t    }\n\t\t\t    o._Color = _Color__;\n\n\t\t\t\t\n\t\t\t\treturn
+      / attributes.lifetime;\n\t\t\t        float tmp_ba = max(tmp_y, (float)0);\n\t\t\t       
+      float tmp_bc = min(tmp_ba, (float)1);\n\t\t\t        float4 tmp_bd = SampleGradient(uniform_a,tmp_bc);\n\t\t\t       
+      \n\t\t\t        _Color__ = tmp_bd;\n\t\t\t    }\n\t\t\t    o._Color = _Color__;\n\n\t\t\t\t\n\t\t\t\treturn
       o;\n\t\t\t}\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t#include \"Packages/com.unity.visualeffectgraph/Shaders/VFXCommonOutput.hlsl\"\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\t\t#include
       \"Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl\"\n\t\t\t\t\t#include
       \"Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl\"\n\t\t\t\t\t#include
@@ -2090,9 +2090,9 @@ VisualEffectResource:
       = uvData.blend;\n\t\t\t\t\t\t#if USE_FLIPBOOK_MOTIONVECTORS && defined(VFX_VARYING_MOTIONVECTORSCALE)\n\t\t\t\t\t\t\n\t\t\t\t\t\to.VFX_VARYING_MOTIONVECTORSCALE
       = motionVectorScale * invFlipBookSize;\n\t\t\t\t\t\t#endif\n\t\t\t\t\t\t#endif\n\t\t\t\t\t\t#endif\n\t\t\t\t\t\t\n\t\t\t\n\t\t\t\t\n\t\t\t   
       \n\t\t\t    float4 _Color__ = (float4)0;{\n\t\t\t        float tmp_y = attributes.age
-      / attributes.lifetime;\n\t\t\t        float tmp_z = saturate(tmp_y);\n\t\t\t       
-      float4 tmp_ba = SampleGradient(uniform_a,tmp_z);\n\t\t\t        \n\t\t\t       
-      _Color__ = tmp_ba;\n\t\t\t    }\n\t\t\t    o._Color = _Color__;\n\n\t\t\t\t\n\t\t\t\treturn
+      / attributes.lifetime;\n\t\t\t        float tmp_ba = max(tmp_y, (float)0);\n\t\t\t       
+      float tmp_bc = min(tmp_ba, (float)1);\n\t\t\t        float4 tmp_bd = SampleGradient(uniform_a,tmp_bc);\n\t\t\t       
+      \n\t\t\t        _Color__ = tmp_bd;\n\t\t\t    }\n\t\t\t    o._Color = _Color__;\n\n\t\t\t\t\n\t\t\t\treturn
       o;\n\t\t\t}\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t#include \"Packages/com.unity.visualeffectgraph/Shaders/VFXCommonOutput.hlsl\"\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\t\t#include
       \"Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl\"\n\t\t\t\t\t#include
       \"Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl\"\n\t\t\t\t\t#include
