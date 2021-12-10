@@ -9,4 +9,10 @@ public interface IHitTarget
     /// </summary>
     /// <param name="hitPosition"></param>
     void OnHit(Vector3 hitPosition);
+
+    /// <summary>
+    /// whether this object can be hit
+    /// </summary>
+    /// <returns></returns>
+    bool CanBeHit();
 }

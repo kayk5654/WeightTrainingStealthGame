@@ -49,10 +49,11 @@ public class ProjectileBase : MonoBehaviour
     {
         // check whether the hit object is enemy or node
         IHitTarget hitTarget = other.GetComponent<IHitTarget>();
-        if (hitTarget != null) 
-        {
-            hitTarget.OnHit(transform.position);
-        }
+        if (hitTarget == null) { return; }
+
+        if (!hitTarget.CanBeHit()) { return; }
+
+        hitTarget.OnHit(transform.position);
 
         // destroy itself
         Destroy(this.gameObject);

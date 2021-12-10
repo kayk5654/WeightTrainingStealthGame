@@ -256,6 +256,15 @@ public class Enemy : InGameObjectBase, IHitTarget
     }
 
     /// <summary>
+    /// whether this object can be hit by projectiles
+    /// </summary>
+    /// <returns></returns>
+    public bool CanBeHit()
+    {
+        return !_isFound;
+    }
+
+    /// <summary>
     /// find and visualize this enemy when a projectile hits this
     /// </summary>
     public void Find(Vector3 revealOrigin)

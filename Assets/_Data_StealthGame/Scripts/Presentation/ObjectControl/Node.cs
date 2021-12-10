@@ -195,6 +195,15 @@ public class Node : InGameObjectBase, IHitTarget
         // notify the order to attack to the other nodes connected with it
     }
 
+    /// <summary>
+    /// whether this object can be hit by projectiles
+    /// </summary>
+    /// <returns></returns>
+    public bool CanBeHit()
+    {
+        return true;
+    }
+
     // attack enemies nearby this node
     protected override void Attack()
     {
