@@ -248,7 +248,7 @@ MonoBehaviour:
   _attackVfx: {fileID: 0}
   _damagedVfx: {fileID: 0}
   _destroyedVfx: {fileID: 3284671837685985990}
-  _destroyedVfxDuration: 1
+  _destroyedVfxDuration: 1.5
 --- !u!1 &4699615776513047568
 GameObject:
   m_ObjectHideFlags: 0
@@ -576,6 +576,7 @@ VFXRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 0}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
