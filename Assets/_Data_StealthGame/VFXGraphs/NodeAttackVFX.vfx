@@ -125,6 +125,9 @@ MonoBehaviour:
     - model: {fileID: 8926484042661615169}
       id: 0
       isStickyNote: 0
+    - model: {fileID: 8926484042661615162}
+      id: 0
+      isStickyNote: 0
   stickyNoteInfos: []
   systemInfos: []
   categories: []
@@ -133,7 +136,7 @@ MonoBehaviour:
     x: -81
     y: -804
     width: 5329
-    height: 3169
+    height: 3124
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13523,7 +13526,7 @@ MonoBehaviour:
   m_Children:
   - {fileID: 8926484042661615165}
   - {fileID: 8926484042661615168}
-  m_UIPosition: {x: 4816.2563, y: 1912.8007}
+  m_UIPosition: {x: 4789, y: 1843}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
