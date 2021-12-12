@@ -24,6 +24,9 @@ public class GageCursorHandler : MonoBehaviour
     [SerializeField, Tooltip("snap sound effect")]
     private AudioClip _snapSfxClip;
 
+    [SerializeField, Tooltip("charge sound effect")]
+    private AudioSource _chargeSfxSource;
+
     // material for the cursor plane
     private Material _cursorMaterial;
 
@@ -84,5 +87,14 @@ public class GageCursorHandler : MonoBehaviour
     public void SetRingGageAngle(float angle)
     {
         _gageMaterial.SetFloat(_gageAngleProperty, angle);
+
+        if (angle > 0f && angle < 1f && !_chargeSfxSource.isPlaying)
+        {
+            _chargeSfxSource.Play();
+        }
+        else if (angle <= 0f || angle >= 1f)
+        {
+            _chargeSfxSource.Stop();
+        }
     }
 }
