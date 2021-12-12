@@ -11,7 +11,11 @@ public class ProjectileBase : MonoBehaviour
     // move direction for calculation
     protected Vector3 _moveDirection;
 
+    // initial position of the projectile to spawn
     protected Vector3 _spawnPosition;
+
+    // target to attack
+    protected Transform _moveTarget;
 
     // a coroutine to delete this projectile when it lost attack target
     protected IEnumerator _destroySelfSequence;
@@ -35,7 +39,7 @@ public class ProjectileBase : MonoBehaviour
     /// </summary>
     protected virtual void Update()
     {
-        // if attack target is loast and lost target sequence isn't started yet, start sequence
+        // if attack target is lost and lost target sequence isn't started yet, start sequence
         StartLostTaretSeuqnce();
 
         // update transform of this projectile
@@ -78,6 +82,15 @@ public class ProjectileBase : MonoBehaviour
     }
 
     /// <summary>
+    /// set attack target
+    /// </summary>
+    /// <param name="target"></param>
+    public void SetMoveTarget(Transform target)
+    {
+        _moveTarget = target;
+    }
+
+    /// <summary>
     /// initialize reference of MaterialRevealHandler
     /// </summary>
     /// <param name="handler"></param>
@@ -108,16 +121,22 @@ public class ProjectileBase : MonoBehaviour
         // if lost target sequence is already started, never calculate inside of update
         if (_destroySelfSequence != null) { return; }
 
+        // if _moveTarget exixts, calculate move direction based on it
+        if (_moveTarget)
+        {
+            _moveDirection = Vector3.Normalize(_moveTarget.position - this.transform.position);
+        }
+        
         this.transform.position += _moveDirection * ItemConfig._projectileSpeed;
         this.transform.rotation *= Quaternion.FromToRotation(this.transform.forward, _moveDirection);
     }
 
     /// <summary>
-    /// if attack target is loast and lost target sequence isn't started yet, start sequence
+    /// if attack target is lost and lost target sequence isn't started yet, start sequence
     /// </summary>
     protected void StartLostTaretSeuqnce()
     {
-        if (Vector3.Distance(_spawnPosition, transform.position) > ItemConfig._maxProjectileDistance && _destroySelfSequence == null)
+        if (Vector3.Distance(_spawnPosition, transform.position) > ItemConfig._maxProjectileDistance && !_moveTarget && _destroySelfSequence == null)
         {
             _destroySelfSequence = DestroySelfSequence();
             StartCoroutine(_destroySelfSequence);
