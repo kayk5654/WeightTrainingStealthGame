@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 /// <summary>
 /// control direction and status of cursor
 /// depending on the result of searching enemies and player's objects
@@ -43,6 +44,12 @@ public class CursorManager : MonoBehaviour, ICursor
     // whether the cursor object is enabled
     private bool _isEnabled;
 
+    // whether the ring gage should be filled
+    private bool _fillRingGage;
+
+    // fill amount of the ring gage
+    private float _ringGageFillAmount;
+
 
     /// <summary>
     /// initialization
@@ -51,6 +58,15 @@ public class CursorManager : MonoBehaviour, ICursor
     {
         _lookDirectionGetter = _sceneObjectContainer.GetLookDirectionGetter();
         _cursorSnapper = _sceneObjectContainer.GetCursorSnapper();
+        InitGageFillingStatusSwitching();
+    }
+
+    /// <summary>
+    /// remove callback
+    /// </summary>
+    private void OnDestroy()
+    {
+        DisableGageFillingStatusSwitching();
     }
 
     /// <summary>
@@ -61,38 +77,11 @@ public class CursorManager : MonoBehaviour, ICursor
         if (!_isEnabled) { return; }
         if (!_gageCursorHandler) { return; }
 
-        // search any objects
-        bool isHit = Physics.Raycast(_lookDirectionGetter.GetOrigin(), _lookDirectionGetter.GetDirection(), out _hit, _maxDistance, _layerMask.value, QueryTriggerInteraction.Collide);
+        // update cursor transform
+        UpdateCursorTransform();
 
-        // get snapped cursor position
-        _cursorSnapper.SetRayCastingInfo(_lookDirectionGetter.GetOrigin(), _lookDirectionGetter.GetDirection(), isHit, _hit);
-        
-        // update position of the cursor
-        _gageCursorHandler.transform.position = _cursorSnapper.GetSnappedCursorPosition();
-
-        if (isHit)
-        {
-            // animation and the hit status
-            // if the object is found in this frame, scale the cursor up
-            if (!_lastFrameHitStatus)
-            {
-                _gageCursorHandler.ScaleUp();
-            }
-            _lastFrameHitStatus = true;
-        }
-        else
-        {
-            // update animation and the hit status
-            // if the object is lost in this frame, scale the cursor down
-            if (_lastFrameHitStatus)
-            {
-                _gageCursorHandler.ScaleDown();
-            }
-            _lastFrameHitStatus = false;
-        }
-
-        // update rotation
-        _gageCursorHandler.transform.LookAt(_cameraTransform, Vector3.up);
+        // fill ring gage
+        FillRingGage();
     }
 
     /// <summary>
@@ -123,5 +112,105 @@ public class CursorManager : MonoBehaviour, ICursor
         _gageCursorHandler = Instantiate(_cursorPrefab, _lookDirectionGetter.GetOrigin() + _lookDirectionGetter.GetDirection() * Config._cursorMaxDistance, Quaternion.identity, transform);
         _gageCursorHandler.transform.LookAt(_cameraTransform, Vector3.up);
         _cursorSnapper.Init(_gageCursorHandler.transform.position);
+    }
+
+    /// <summary>
+    /// update cursor transform
+    /// </summary>
+    private void UpdateCursorTransform()
+    {
+        // search any objects
+        bool isHit = Physics.Raycast(_lookDirectionGetter.GetOrigin(), _lookDirectionGetter.GetDirection(), out _hit, _maxDistance, _layerMask.value, QueryTriggerInteraction.Collide);
+
+        // get snapped cursor position
+        _cursorSnapper.SetRayCastingInfo(_lookDirectionGetter.GetOrigin(), _lookDirectionGetter.GetDirection(), isHit, _hit);
+
+        // update position of the cursor
+        _gageCursorHandler.transform.position = _cursorSnapper.GetSnappedCursorPosition();
+
+        if (isHit)
+        {
+            // animation and the hit status
+            // if the object is found in this frame, scale the cursor up
+            if (!_lastFrameHitStatus)
+            {
+                _gageCursorHandler.ScaleUp();
+            }
+            _lastFrameHitStatus = true;
+
+            // notify that the hittable target is found
+            _sceneObjectContainer.GetProjectileTargetFinder().SetTargetObject(_hit.collider.transform);
+        }
+        else
+        {
+            // update animation and the hit status
+            // if the object is lost in this frame, scale the cursor down
+            if (_lastFrameHitStatus)
+            {
+                _gageCursorHandler.ScaleDown();
+            }
+            _lastFrameHitStatus = false;
+
+            // notify that the hittable target is lost
+            _sceneObjectContainer.GetProjectileTargetFinder().SetTargetObject(null);
+        }
+
+        // update rotation
+        _gageCursorHandler.transform.LookAt(_cameraTransform, Vector3.up);
+    }
+
+    /// <summary>
+    /// set start/stop gage filling as callbacks of the exercise input 
+    /// </summary>
+    private void InitGageFillingStatusSwitching()
+    {
+        _sceneObjectContainer.GetExerciseInput()._onStartHold += StartGageFilling;
+        _sceneObjectContainer.GetExerciseInput()._onStopHold += StopGageFilling;
+    }
+
+    /// <summary>
+    /// remove start/stop gage filling from the event of the exercise input
+    /// </summary>
+    private void DisableGageFillingStatusSwitching()
+    {
+        _sceneObjectContainer.GetExerciseInput()._onStartHold -= StartGageFilling;
+        _sceneObjectContainer.GetExerciseInput()._onStopHold -= StopGageFilling;
+    }
+
+    /// <summary>
+    /// start filling the ring gage
+    /// </summary>
+    private void StartGageFilling(object sender, EventArgs args)
+    {
+        _fillRingGage = true;
+        _ringGageFillAmount = 0f;
+        _gageCursorHandler.SetRingGageAngle(Mathf.Clamp01(_ringGageFillAmount));
+        _sceneObjectContainer.GetProjectileTargetFinder().EnableFinding();
+    }
+
+    /// <summary>
+    /// stop filling the ring gage
+    /// </summary>
+    private void StopGageFilling(object sender, EventArgs args)
+    {
+        _fillRingGage = false;
+        _sceneObjectContainer.GetProjectileTargetFinder().DisableFinding();
+    }
+
+    /// <summary>
+    /// fill the ring gage while the player is "holding"
+    /// </summary>
+    private void FillRingGage()
+    {
+        if (_fillRingGage) 
+        {
+            _ringGageFillAmount = Mathf.Clamp01(_ringGageFillAmount + Time.deltaTime / Config._ringGageFillDuration);
+        }
+        else
+        {
+            _ringGageFillAmount = Mathf.Clamp01(_ringGageFillAmount - Time.deltaTime / Config._ringGageFillDuration * 2f);
+        }
+        
+        _gageCursorHandler.SetRingGageAngle(_ringGageFillAmount);
     }
 }

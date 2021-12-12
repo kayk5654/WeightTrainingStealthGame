@@ -968,6 +968,7 @@ GameObject:
   - component: {fileID: 224255300}
   - component: {fileID: 224255303}
   - component: {fileID: 224255302}
+  - component: {fileID: 224255304}
   m_Layer: 0
   m_Name: ProjectileSpawnHandler
   m_TagString: Untagged
@@ -1038,6 +1039,18 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &224255304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224255299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375a9f3c88022054c894943c141947fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &230135594 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7239482652462964143, guid: 241f79033cdd6cc45933601d980b2c3e,
@@ -9791,17 +9804,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainUiPhases:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 9150257}
+  - {fileID: 1123036288}
+  - {fileID: 466522120}
+  - {fileID: 1746289223}
+  - {fileID: 365741861}
   _lookDirectionGetterType: 1
   _cameraLookDirectionGetter: {fileID: 1769826213}
   _mrtkLookDirectionGetter: {fileID: 1769826214}
   _cursorSnapper: {fileID: 224255302}
   _lookTimeChecker_StartGameplay: {fileID: 100849009}
   _stayStillTimeChecker_StartGameplay: {fileID: 100849014}
+  _projectileTargetFinder: {fileID: 224255304}
+  _exerciseInput: {fileID: 1769826211}
 --- !u!4 &1911032717
 Transform:
   m_ObjectHideFlags: 0

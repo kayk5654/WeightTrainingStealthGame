@@ -36,6 +36,12 @@ public class SceneObjectContainer : MonoBehaviour
     [SerializeField, Tooltip("check time that the player stay still for starting gameplay")]
     private StayStillTimeChecker _stayStillTimeChecker_StartGameplay;
 
+    [SerializeField, Tooltip("search and find target object to shoot projectiles toward")]
+    private ProjectileTargetFinder _projectileTargetFinder;
+
+    [SerializeField, Tooltip("get exercise input")]
+    private ExerciseInput _exerciseInput;
+
 
     /// <summary>
     /// get _offenseAction
@@ -109,5 +115,23 @@ public class SceneObjectContainer : MonoBehaviour
     public StayStillTimeChecker GetStayStillTimeChecker()
     {
         return _stayStillTimeChecker_StartGameplay;
+    }
+
+    /// <summary>
+    /// get projectile target finder
+    /// </summary>
+    /// <returns></returns>
+    public ProjectileTargetFinder GetProjectileTargetFinder()
+    {
+        return _projectileTargetFinder;
+    }
+
+    /// <summary>
+    /// get exercise input
+    /// </summary>
+    /// <returns></returns>
+    public ExerciseInput GetExerciseInput()
+    {
+        return _exerciseInput;
     }
 }

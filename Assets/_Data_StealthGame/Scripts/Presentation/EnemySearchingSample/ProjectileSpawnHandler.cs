@@ -23,6 +23,9 @@ public class ProjectileSpawnHandler : MonoBehaviour, IInGameOffenseAction
     // id to set each projectiles
     private int _nextId = 0;
 
+    // buffer to store target to shoot
+    private Transform _tempTargetTransform;
+
 
 
     /// <summary>
@@ -57,7 +60,21 @@ public class ProjectileSpawnHandler : MonoBehaviour, IInGameOffenseAction
     {
         ProjectileBase projectile = Instantiate(_projectile, _spawnGuide.position, _spawnGuide.rotation, null);
         projectile.SetId(_nextId);
-        projectile.SetMoveDirection(_cursorSnapper.GetSnappedCursorPosition() - _spawnGuide.position);
+
+        // try to find target object
+        _tempTargetTransform = _sceneObjectContainer.GetProjectileTargetFinder().GetTargetObject();
+
+        if (_tempTargetTransform)
+        {
+            // if the target object is avaiable, set target on the projectile
+            projectile.SetMoveTarget(_tempTargetTransform);
+        }
+        else
+        {
+           // if the target is unavailable, set move direction
+            projectile.SetMoveDirection(_cursorSnapper.GetSnappedCursorPosition() - _spawnGuide.position);
+        }
+        
         projectile.SetSpawnPosition(_spawnGuide.position);
         
         _nextId++;

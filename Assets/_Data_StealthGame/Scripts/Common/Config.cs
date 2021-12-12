@@ -55,4 +55,6 @@ public static class Config
 
     // material property name of local position of the attacked point
     public static readonly string _attackPointProperty = "_AttackPosLocal";
+
+    public static readonly float _ringGageFillDuration = 1f;
 }
