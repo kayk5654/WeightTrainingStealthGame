@@ -11,7 +11,12 @@ public class UiLinkerProvider
     // link workout navigation ui classes
     private WorkoutNavigationUiLinker _workoutNavigationUiLinker;
 
+    // link option menu ui classes
     private OptionMenuUiLinker _optionMenuUiLinker;
+
+    // link tutorial phase classes
+    private TutorialObjectLinker _tutorialObjectLinker;
+
 
     /// <summary>
     /// constructor
@@ -21,6 +26,7 @@ public class UiLinkerProvider
         _mainUiLinker = new MainUiLinker();
         _workoutNavigationUiLinker = new WorkoutNavigationUiLinker();
         _optionMenuUiLinker = new OptionMenuUiLinker();
+        _tutorialObjectLinker = new TutorialObjectLinker();
     }
 
     /// <summary>
@@ -41,8 +47,21 @@ public class UiLinkerProvider
         _workoutNavigationUiLinker.LinkObject(workoutNavigationUiController);
     }
 
+    /// <summary>
+    /// link option menu ui classes
+    /// </summary>
+    /// <param name="optionMenuUiController"></param>
     public void LinkObject(OptionMenuUiController optionMenuUiController)
     {
         _optionMenuUiLinker.LinkObject(optionMenuUiController);
+    }
+
+    /// <summary>
+    /// link tutorial phase classes
+    /// </summary>
+    /// <param name="tutorialUiController"></param>
+    public void LinkObject(TutorialUiController tutorialUiController)
+    {
+        _tutorialObjectLinker.LinkObject(tutorialUiController);
     }
 }

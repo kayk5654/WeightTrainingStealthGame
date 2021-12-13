@@ -23,7 +23,10 @@ public class TutorialUiController : IMultiPhaseUi
     /// </summary>
     ~TutorialUiController()
     {
-
+        foreach(IUiPhase phase in _uiPhases.Values)
+        {
+            phase._onMoveToSelectedPhase -= MoveToSelectedPhase;
+        }
     }
 
     /// <summary>
@@ -35,7 +38,11 @@ public class TutorialUiController : IMultiPhaseUi
         // check whether the phase id of the phase is valid
         if (phase.GetPhaseId() >= (int)TutorialPhase.LENGTH || phase.GetPhaseId() < 0) { return; }
 
+        // add phase to the dictionary
         _uiPhases.Add((TutorialPhase)phase.GetPhaseId(), phase);
+
+        // set callback of the button on the phase
+        phase._onMoveToSelectedPhase += MoveToSelectedPhase;
     }
 
     /// <summary>
@@ -69,5 +76,15 @@ public class TutorialUiController : IMultiPhaseUi
                 _uiPhases[key].Hide();
             }
         }
+    }
+
+    /// <summary>
+    /// switch  ui phase to display depending on the button input from any ui phases under this class
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void MoveToSelectedPhase(object sender, UiPhaseEventArgs args)
+    {
+        DisplayUiPhase(args._selectedPhaseId);
     }
 }

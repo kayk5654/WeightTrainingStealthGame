@@ -11,10 +11,10 @@ public class MainUiPhase : MonoBehaviour, IUiPhase
     public event EventHandler<UiPhaseEventArgs> _onMoveToSelectedPhase;
 
     [SerializeField, Tooltip("identify role of this phase")]
-    private MainUiPanelPhase _phaseType;
+    protected MainUiPanelPhase _phaseType;
 
     [SerializeField, Tooltip("root gameobject of this ui phase")]
-    private GameObject _panel;
+    protected GameObject _panel;
 
 
     // Start is called before the first frame update
@@ -26,7 +26,7 @@ public class MainUiPhase : MonoBehaviour, IUiPhase
     /// <summary>
     /// display this ui phase
     /// </summary>
-    public void Display()
+    public virtual void Display()
     {
         _panel.SetActive(true);
     }
@@ -34,7 +34,7 @@ public class MainUiPhase : MonoBehaviour, IUiPhase
     /// <summary>
     /// hide this ui phase
     /// </summary>
-    public void Hide()
+    public virtual void Hide()
     {
         _panel.SetActive(false);
     }

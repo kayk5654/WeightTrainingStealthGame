@@ -25,7 +25,7 @@ public class WorkoutNavigationUiController : IMultiPhaseUi, IGamePlayStateSetter
     }
 
     /// <summary>
-    /// destructor
+    /// remove callback
     /// </summary>
     ~WorkoutNavigationUiController()
     {
@@ -46,6 +46,7 @@ public class WorkoutNavigationUiController : IMultiPhaseUi, IGamePlayStateSetter
         // check whether the phase id of the phase is valid
         if (phase.GetPhaseId() >= (int)WorkoutNavigationUiPanelPhase.LENGTH || phase.GetPhaseId() < 0) { return; }
 
+        // add phase to the dictionary
         _uiPhases.Add((WorkoutNavigationUiPanelPhase)phase.GetPhaseId(), phase);
     }
 

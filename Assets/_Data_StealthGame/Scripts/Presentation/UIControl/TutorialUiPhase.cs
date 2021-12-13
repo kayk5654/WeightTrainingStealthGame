@@ -54,7 +54,8 @@ public class TutorialUiPhase : MonoBehaviour, IUiPhase
     /// <param name="phaseId"></param>
     public void MoveToSelectedPhase(int phaseId)
     {
-
+        UiPhaseEventArgs args = new UiPhaseEventArgs(phaseId);
+        _onMoveToSelectedPhase.Invoke(this, args);
     }
 
     /// <summary>

@@ -1219,7 +1219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0c73c8633f1b64086a3475ad455bbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _phaseType: 1
+  _phaseType: 2
   _rootObjects:
   - {fileID: 1321232328}
   - {fileID: 101052953}
@@ -2213,7 +2213,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _onClicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 9150257}
+      objectReference: {fileID: 1123036289}
     - target: {fileID: 7432635140823320777, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
       propertyPath: _onClicked.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -6729,7 +6729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0c73c8633f1b64086a3475ad455bbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _phaseType: 0
+  _phaseType: 1
   _rootObjects:
   - {fileID: 760071243}
   - {fileID: 795286516}
@@ -7560,7 +7560,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _onClicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 9150257}
+      objectReference: {fileID: 1123036289}
     - target: {fileID: 7432635140823320777, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
       propertyPath: _onClicked.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -7674,7 +7674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0c73c8633f1b64086a3475ad455bbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _phaseType: 5
+  _phaseType: 6
   _rootObjects:
   - {fileID: 1943140469}
   - {fileID: 945185307}
@@ -7948,7 +7948,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1123036287}
-  - component: {fileID: 1123036288}
+  - component: {fileID: 1123036289}
   m_Layer: 0
   m_Name: Panel_Tutorial
   m_TagString: Untagged
@@ -7977,7 +7977,7 @@ Transform:
   m_Father: {fileID: 543450653231832927}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1123036288
+--- !u!114 &1123036289
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7986,11 +7986,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1123036286}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 766148a21e517e74083d9d3579702dc8, type: 3}
+  m_Script: {fileID: 11500000, guid: 363aa74078f219e42bf13b67c4ebf52b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _phaseType: 1
   _panel: {fileID: 1123036286}
+  _tutorialPhases:
+  - {fileID: 1563730524}
+  - {fileID: 795286518}
+  - {fileID: 101052955}
+  - {fileID: 1656274000}
+  - {fileID: 2049872886}
+  - {fileID: 1674218975}
+  - {fileID: 945185309}
 --- !u!1001 &1125266995
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10580,7 +10588,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.0069}
+  m_AnchoredPosition: {x: 0, y: -0.0025}
   m_SizeDelta: {x: 0.14, y: 0.01}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1394367962
@@ -10989,7 +10997,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.0367}
+  m_AnchoredPosition: {x: 0, y: 0.0024}
   m_SizeDelta: {x: 0.14, y: 0.01}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1424079801
@@ -13526,7 +13534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0c73c8633f1b64086a3475ad455bbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _phaseType: 2
+  _phaseType: 3
   _rootObjects:
   - {fileID: 1074136891}
   - {fileID: 1656273998}
@@ -13610,7 +13618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0c73c8633f1b64086a3475ad455bbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _phaseType: 4
+  _phaseType: 5
   _rootObjects:
   - {fileID: 1821515697}
   - {fileID: 1674218973}
@@ -14847,7 +14855,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0.0196}
+  m_AnchoredPosition: {x: 0, y: -0.0013}
   m_SizeDelta: {x: 0.14, y: 0.01}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1858659684
@@ -15275,7 +15283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainUiPhases:
   - {fileID: 9150257}
-  - {fileID: 1123036288}
+  - {fileID: 0}
   - {fileID: 466522120}
   - {fileID: 1746289223}
   - {fileID: 365741861}
@@ -16940,7 +16948,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d0c73c8633f1b64086a3475ad455bbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _phaseType: 3
+  _phaseType: 4
   _rootObjects:
   - {fileID: 1270655543}
   - {fileID: 2049872884}
@@ -18261,7 +18269,7 @@ PrefabInstance:
     - target: {fileID: 2051771253341803025, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2051771253341803025, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
@@ -18392,11 +18400,6 @@ PrefabInstance:
     - target: {fileID: 5768509421165360399, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7239482652462964143, guid: 241f79033cdd6cc45933601d980b2c3e,
-        type: 3}
-      propertyPath: enabledOnStart
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7432635140823320777, guid: 241f79033cdd6cc45933601d980b2c3e,
