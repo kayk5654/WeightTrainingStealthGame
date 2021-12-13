@@ -14,7 +14,7 @@ public class TutorialUiPhase : MonoBehaviour, IUiPhase
     private TutorialPhase _phaseType;
 
     [SerializeField, Tooltip("root gameobject of this ui phase")]
-    private GameObject _panel;
+    private GameObject[] _rootObjects;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +33,10 @@ public class TutorialUiPhase : MonoBehaviour, IUiPhase
     /// </summary>
     public void Display()
     {
-        _panel.SetActive(true);
+        foreach(GameObject root in _rootObjects)
+        {
+            root.SetActive(true);
+        }
     }
 
     /// <summary>
@@ -41,7 +44,10 @@ public class TutorialUiPhase : MonoBehaviour, IUiPhase
     /// </summary>
     public void Hide()
     {
-        _panel.SetActive(false);
+        foreach (GameObject root in _rootObjects)
+        {
+            root.SetActive(false);
+        }
     }
 
     /// <summary>

@@ -60,6 +60,13 @@ public enum MainUiPanelPhase
 public enum TutorialPhase
 {
     None = -1,
+    Intro,
+    ExerciseSelection,
+    InitialPosture,
+    PlayersAction,
+    FindEnemy,
+    AttackEnemy,
+    EndTutorial,
     LENGTH,
 }
 
