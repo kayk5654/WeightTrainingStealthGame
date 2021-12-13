@@ -54,6 +54,16 @@ public enum MainUiPanelPhase
 }
 
 /// <summary>
+/// names of phases of tutorial
+/// </summary>
+[System.Serializable]
+public enum TutorialPhase
+{
+    None = -1,
+    LENGTH,
+}
+
+/// <summary>
 /// available exercise types
 /// </summary>
 public enum ExerciseType
