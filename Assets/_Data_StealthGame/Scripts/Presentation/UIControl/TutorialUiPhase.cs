@@ -11,19 +11,17 @@ public class TutorialUiPhase : MonoBehaviour, IUiPhase
     public event EventHandler<UiPhaseEventArgs> _onMoveToSelectedPhase;
 
     [SerializeField, Tooltip("identify role of this phase")]
-    private TutorialPhase _phaseType;
+    protected TutorialPhase _phaseType;
 
     [SerializeField, Tooltip("root gameobject of this ui phase")]
-    private GameObject[] _rootObjects;
+    protected GameObject[] _rootObjects;
 
-    // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         
     }
