@@ -5,14 +5,11 @@ using UnityEngine;
 /// </summary>
 public class WorkoutStarter : MonoBehaviour, IGamePlayStateSetter
 {
-    [SerializeField, Tooltip("shared references")]
-    private SceneObjectContainer _sceneObjectContainer;
-
     // event to notify the start of GamePlay phase
     public event EventHandler<GamePlayStateEventArgs> _onGamePlayStateChange;
 
-    // look time checker to trigger StartPlay()
-    private ITimeCountChecker _timeCountChecker;
+    [SerializeField, Tooltip("look time checker to trigger StartPlay()")]
+    private StayStillTimeChecker _timeCountChecker;
 
 
     /// <summary>
@@ -20,7 +17,6 @@ public class WorkoutStarter : MonoBehaviour, IGamePlayStateSetter
     /// </summary>
     private void Start()
     {
-        _timeCountChecker = _sceneObjectContainer.GetStayStillTimeChecker();
         _timeCountChecker._onTimeCountEnd += StartPlay;
     }
 

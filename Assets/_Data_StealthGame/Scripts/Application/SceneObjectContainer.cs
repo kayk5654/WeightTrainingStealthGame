@@ -30,12 +30,6 @@ public class SceneObjectContainer : MonoBehaviour
     [SerializeField, Tooltip("get snapped cursor position")]
     private CursorSnapper _cursorSnapper;
 
-    [SerializeField, Tooltip("look time checker for starting gameplay")]
-    private LookTimeChecker _lookTimeChecker_StartGameplay;
-
-    [SerializeField, Tooltip("check time that the player stay still for starting gameplay")]
-    private StayStillTimeChecker _stayStillTimeChecker_StartGameplay;
-
     [SerializeField, Tooltip("search and find target object to shoot projectiles toward")]
     private ProjectileTargetFinder _projectileTargetFinder;
 
@@ -97,24 +91,6 @@ public class SceneObjectContainer : MonoBehaviour
     public CursorSnapper GetCursorSnapper()
     {
         return _cursorSnapper;
-    }
-
-    /// <summary>
-    /// get look time checker
-    /// </summary>
-    /// <returns></returns>
-    public LookTimeChecker GetLookTimeChecker()
-    {
-        return _lookTimeChecker_StartGameplay;
-    }
-
-    /// <summary>
-    /// get stay still time checker
-    /// </summary>
-    /// <returns></returns>
-    public StayStillTimeChecker GetStayStillTimeChecker()
-    {
-        return _stayStillTimeChecker_StartGameplay;
     }
 
     /// <summary>

@@ -6,17 +6,14 @@ using UnityEngine;
 /// </summary>
 public class RingGageHandler : MonoBehaviour
 {
-    [SerializeField, Tooltip("shared references")]
-    private SceneObjectContainer _sceneObjectContainer;
-
     [SerializeField, Tooltip("gage transform")]
     private MeshRenderer _gage;
 
     [SerializeField, Tooltip("audio source for sound effects")]
     private AudioSource _sfxSource;
 
-    // look time checker to start gameplay
-    private ITimeCountChecker _timeCountChecker;
+    [SerializeField, Tooltip("look time checker to start gameplay")]
+    private StayStillTimeChecker _timeCountChecker;
 
     // material for the ring gage
     private Material _gageMaterial;
@@ -24,14 +21,29 @@ public class RingGageHandler : MonoBehaviour
     // property name of the displayed angle of the ring gage
     private string _gageAngleProperty = "_Angle";
 
+    [Tooltip("enable updating ring gage filling")]
+    public bool _enableUpdating = true;
+
 
     /// <summary>
     /// initialize
     /// </summary>
     private void Start()
     {
-        _timeCountChecker = _sceneObjectContainer.GetStayStillTimeChecker();
         _gageMaterial = _gage.material;
+    }
+
+    private void OnEnable()
+    {
+        if (_gageMaterial)
+        {
+            _gageMaterial.SetFloat(_gageAngleProperty, 0f);
+        }
+    }
+
+    private void OnDisable()
+    {
+        _sfxSource.Stop();
     }
 
     /// <summary>
@@ -39,6 +51,8 @@ public class RingGageHandler : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        if (!_enableUpdating) { return; }
+        
         SetRingGageAngle(_timeCountChecker.GetNormalizedTime());
     }
 

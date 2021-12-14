@@ -1057,9 +1057,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd45ab974c8fcf44d890a7e61fe4f130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneObjectContainer: {fileID: 1911032716}
   _gage: {fileID: 100849012}
   _sfxSource: {fileID: 100849015}
+  _timeCountChecker: {fileID: 100849014}
+  _enableUpdating: 1
 --- !u!114 &100849014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1216,13 +1217,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 101052953}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d0c73c8633f1b64086a3475ad455bbb, type: 3}
+  m_Script: {fileID: 11500000, guid: 44409086ae5dbef40adea1f231dfa8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _phaseType: 2
   _rootObjects:
-  - {fileID: 1321232328}
   - {fileID: 101052953}
+  - {fileID: 1321232328}
+  _stayStillTimeChecker: {fileID: 306788813}
+  _nextButton: {fileID: 514913836}
+  _ringGageHandler: {fileID: 306788814}
 --- !u!1001 &109165801
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2944,14 +2948,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 306788812}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd45ab974c8fcf44d890a7e61fe4f130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneObjectContainer: {fileID: 1911032716}
   _gage: {fileID: 306788811}
   _sfxSource: {fileID: 306788815}
+  _timeCountChecker: {fileID: 306788813}
+  _enableUpdating: 0
 --- !u!82 &306788815
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4677,6 +4682,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 495228671}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &514913836 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7239482652462964143, guid: 241f79033cdd6cc45933601d980b2c3e,
+    type: 3}
+  m_PrefabInstance: {fileID: 559568826}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1410eac1ae94b4d4492a09cc368e152c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &546846069
 GameObject:
   m_ObjectHideFlags: 0
@@ -4857,6 +4874,11 @@ PrefabInstance:
     - target: {fileID: 5768509421165360399, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239482652462964143, guid: 241f79033cdd6cc45933601d980b2c3e,
+        type: 3}
+      propertyPath: enabledOnStart
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7432635140823320777, guid: 241f79033cdd6cc45933601d980b2c3e,
@@ -13970,6 +13992,8 @@ GameObject:
   - component: {fileID: 1769826212}
   - component: {fileID: 1769826213}
   - component: {fileID: 1769826214}
+  - component: {fileID: 1769826216}
+  - component: {fileID: 1769826215}
   m_Layer: 0
   m_Name: InGameInput
   m_TagString: Untagged
@@ -14079,6 +14103,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73bd169ec7d663d4f8e71be4866672f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1769826215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769826206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 055ab7194a4a0af43912a2ecdcb6ab62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sceneObjectContainer: {fileID: 1911032716}
+  _sstayStillTimeThreshold: 3
+--- !u!114 &1769826216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769826206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88d6bc786bb64f7459d6b6b18e31e340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sceneObjectContainer: {fileID: 1911032716}
+  _lookTimeThreshold: 4
+  _targetObject: {fileID: 100849007}
 --- !u!1 &1772541534
 GameObject:
   m_ObjectHideFlags: 0
@@ -15222,7 +15275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainUiPhases:
   - {fileID: 9150257}
-  - {fileID: 0}
+  - {fileID: 1123036289}
   - {fileID: 466522120}
   - {fileID: 1746289223}
   - {fileID: 365741861}
@@ -15230,8 +15283,6 @@ MonoBehaviour:
   _cameraLookDirectionGetter: {fileID: 1769826213}
   _mrtkLookDirectionGetter: {fileID: 1769826214}
   _cursorSnapper: {fileID: 224255302}
-  _lookTimeChecker_StartGameplay: {fileID: 100849009}
-  _stayStillTimeChecker_StartGameplay: {fileID: 100849014}
   _projectileTargetFinder: {fileID: 224255304}
   _exerciseInput: {fileID: 1769826211}
 --- !u!4 &1911032717
@@ -17420,7 +17471,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb3eda0e3d94cc42835507f35587297, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sceneObjectContainer: {fileID: 1911032716}
+  _timeCountChecker: {fileID: 100849014}
 --- !u!1001 &2131844504
 PrefabInstance:
   m_ObjectHideFlags: 0
