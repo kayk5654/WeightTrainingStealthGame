@@ -15,8 +15,9 @@ public class TutorialUiPhase_ExerciseSelection : TutorialUiPhase
     /// <summary>
     /// initialize when this phase is activated
     /// </summary>
-    private void OnEnable()
+    public override void Display()
     {
+        base.Display();
         InitButtonState();
     }
 

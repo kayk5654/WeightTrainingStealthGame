@@ -29,7 +29,7 @@ public class TutorialUiPhase : MonoBehaviour, IUiPhase
     /// <summary>
     /// display this ui phase
     /// </summary>
-    public void Display()
+    public virtual void Display()
     {
         foreach(GameObject root in _rootObjects)
         {
@@ -40,7 +40,7 @@ public class TutorialUiPhase : MonoBehaviour, IUiPhase
     /// <summary>
     /// hide this ui phase
     /// </summary>
-    public void Hide()
+    public virtual void Hide()
     {
         foreach (GameObject root in _rootObjects)
         {
