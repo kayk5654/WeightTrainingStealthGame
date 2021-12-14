@@ -123,5 +123,5 @@ Material:
     - _NoiseTllingOffset1: {r: 3.87, g: 2.59, b: 2.73, a: -0.12}
     - _NoiseTllingOffset1_1: {r: 0.42, g: 0.42, b: -0.22, a: 0.21}
     - _PatternTilingOffset: {r: 10, g: 20, b: 0, a: 0}
-    - _RevealArea: {r: 0, g: -0.1, b: 1.3899992, a: 0.84}
+    - _RevealArea: {r: 0, g: -0.1, b: 1.3899992, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

@@ -30,5 +30,5 @@ Material:
     - _BaseColor: {r: 1.0754716, g: 0.011261484, b: 0, a: 1}
     - _FarTintColor: {r: 0, g: 0.39215687, b: 2.9960785, a: 1}
     - _HighlihgtColor: {r: 1.5137544, g: 3.9999995, b: 0.2513089, a: 1}
-    - _RevealArea: {r: 0, g: -0.1, b: 1.3899992, a: 3.007988}
+    - _RevealArea: {r: 0, g: -0.1, b: 1.3899992, a: 0}
     - _SecondaryColor: {r: 0, g: 0.07400327, b: 1.4980392, a: 1}

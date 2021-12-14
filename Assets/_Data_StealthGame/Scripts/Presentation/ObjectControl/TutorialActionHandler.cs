@@ -16,9 +16,21 @@ public class TutorialActionHandler : MonoBehaviour
     [SerializeField, Tooltip("cursor manager")]
     private CursorManager _cursorManager;
 
+    [SerializeField, Tooltip("enemy object")]
+    private Enemy _enemyPrefab;
+
+    [SerializeField, Tooltip("enemy spawn guide")]
+    private Transform _enemySpawnGuide;
+
+    // enemy sample for tutorial
+    private Enemy _sampleEnemy;
+
     // callback of attack action
     public delegate void TutorialActionCallback();
     public TutorialActionCallback _tutorialActionCallback;
+
+    // whether the sample enemy is destroyed;
+    private bool _isEnemyDestroyed;
 
 
     /// <summary>
@@ -74,5 +86,64 @@ public class TutorialActionHandler : MonoBehaviour
     {
         _projectileSpawnHandler.Attack();
         _tutorialActionCallback?.Invoke();
+    }
+
+    /// <summary>
+    /// show/hide enemy
+    /// </summary>
+    /// <param name="toDisplay"></param>
+    public void DisplayEnemy(bool toDisplay)
+    {
+        if (toDisplay)
+        {
+            _sampleEnemy = Instantiate(_enemyPrefab, _enemySpawnGuide);
+            _sampleEnemy.transform.localPosition = Vector3.zero;
+            _sampleEnemy.transform.localRotation = Quaternion.identity;
+            _sampleEnemy._onDestroyed += SetIsEnemyDestroyed;
+            _isEnemyDestroyed = false;
+        }
+        else
+        {
+            if (_sampleEnemy)
+            {
+                _sampleEnemy._onDestroyed -= SetIsEnemyDestroyed;
+                Destroy(_sampleEnemy.gameObject);
+                _sampleEnemy = null;
+            }
+        }
+    }
+
+    /// <summary>
+    /// check whether the enemy is found
+    /// </summary>
+    /// <returns></returns>
+    public bool IsEnemyFound()
+    {
+        if (_sampleEnemy)
+        {
+            return _sampleEnemy.GetIsFound();
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// set flag of _isEnemyDestroyed
+    /// </summary>
+    /// <returns></returns>
+    public void SetIsEnemyDestroyed(object sender, EventArgs args)
+    {
+        _isEnemyDestroyed = true;
+    }
+
+    /// <summary>
+    /// check whether the enemy is destroyed
+    /// </summary>
+    /// <returns></returns>
+    public bool IsEnemyDestroyed()
+    {
+        return _isEnemyDestroyed;
     }
 }
