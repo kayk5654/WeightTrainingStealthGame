@@ -7,6 +7,9 @@ using Microsoft.MixedReality.Toolkit.UI;
 /// </summary>
 public class TutorialUiPhase_InitialPosture : TutorialUiPhase
 {
+    [SerializeField, Tooltip("tutorial action control")]
+    private TutorialActionHandler _tutorialActionHandler;
+
     [SerializeField, Tooltip("stay still time checker")]
     private StayStillTimeChecker _stayStillTimeChecker;
 
@@ -62,13 +65,25 @@ public class TutorialUiPhase_InitialPosture : TutorialUiPhase
         float interval = 2f;
         yield return new WaitForSeconds(interval);
 
+        // initialize time counting
         _stayStillTimeChecker.ResetTimeCount();
+
+        // enable ring gage update
         _ringGageHandler._enableUpdating = true;
+        
+        // start time counting
         _stayStillTimeChecker.StartTimeCount();
 
+        // wait until the ring gage is filled
         yield return new WaitUntil(() => _stayStillTimeChecker.GetNormalizedTime() == 1f);
+
+        // initialize exercise input
+        _tutorialActionHandler.InitAction();
+
+        // disable ring gage update
         _ringGageHandler.enabled = false;
 
+        // enable next button
         _nextButton.IsEnabled = true;
         _mainSequence = null;
     }

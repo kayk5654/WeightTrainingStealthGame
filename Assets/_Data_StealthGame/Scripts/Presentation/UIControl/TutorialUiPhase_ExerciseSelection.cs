@@ -5,6 +5,9 @@ using Microsoft.MixedReality.Toolkit.UI;
 
 public class TutorialUiPhase_ExerciseSelection : TutorialUiPhase
 {
+    [SerializeField, Tooltip("tutorial action control")]
+    private TutorialActionHandler _tutorialActionHandler;
+
     [SerializeField, Tooltip("button to go to the next phase")]
     private Interactable _nextButton;
 
@@ -28,5 +31,13 @@ public class TutorialUiPhase_ExerciseSelection : TutorialUiPhase
     {
         _nextButton.IsEnabled = false;
         _squatTogglePlate.SetActive(false);
+    }
+
+    /// <summary>
+    /// initialize exercise input with the squat setting
+    /// </summary>
+    public void SelectSquat()
+    {
+        _tutorialActionHandler.SelectSquat();
     }
 }
