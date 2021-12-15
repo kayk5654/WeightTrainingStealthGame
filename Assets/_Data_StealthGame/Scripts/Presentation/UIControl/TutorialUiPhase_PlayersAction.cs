@@ -13,11 +13,20 @@ public class TutorialUiPhase_PlayersAction : TutorialUiPhase
     [SerializeField, Tooltip("next button")]
     private Interactable _nextButton;
 
+    [SerializeField, Tooltip("object for squat down step")]
+    private GameObject _squatDownObject;
+
+    [SerializeField, Tooltip("object for stand up step")]
+    private GameObject _standUpObject;
+
     // flow of describing player's action
     private IEnumerator _mainSequence;
 
     // whether the attack action is detected once in this phase
     private bool _isAttackedOnce;
+
+    // whether the negative movement is detected once in this phase
+    private bool _isSquatDownOnce;
 
     public override void Display()
     {
@@ -39,7 +48,11 @@ public class TutorialUiPhase_PlayersAction : TutorialUiPhase
     {
         _nextButton.IsEnabled = false;
         _isAttackedOnce = false;
-        _tutorialActionHandler._tutorialActionCallback += DetectAttackAction;
+        _isSquatDownOnce = false;
+        _tutorialActionHandler._pushCallback += DetectAttackAction;
+        _tutorialActionHandler._startHoldCallback += DetectSquatDownAction;
+        _squatDownObject.SetActive(true);
+        _standUpObject.SetActive(false);
     }
 
     /// <summary>
@@ -61,7 +74,8 @@ public class TutorialUiPhase_PlayersAction : TutorialUiPhase
     /// </summary>
     private void RemoveCallback()
     {
-        _tutorialActionHandler._tutorialActionCallback -= DetectAttackAction;
+        _tutorialActionHandler._pushCallback -= DetectAttackAction;
+        _tutorialActionHandler._startHoldCallback -= DetectSquatDownAction;
     }
 
     /// <summary>
@@ -72,6 +86,13 @@ public class TutorialUiPhase_PlayersAction : TutorialUiPhase
     {
         // activate input
         _tutorialActionHandler.EnableAction();
+
+        // wait until the squat down action is detected
+        yield return new WaitUntil(() => _isSquatDownOnce);
+
+        // switch text
+        _squatDownObject.SetActive(false);
+        _standUpObject.SetActive(true);
 
         // wait until the attack action is detected
         yield return new WaitUntil(() => _isAttackedOnce);
@@ -87,5 +108,13 @@ public class TutorialUiPhase_PlayersAction : TutorialUiPhase
     private void DetectAttackAction()
     {
         _isAttackedOnce = true;
+    }
+
+    /// <summary>
+    /// detect squat down movement and record it
+    /// </summary>
+    private void DetectSquatDownAction()
+    {
+        _isSquatDownOnce = true;
     }
 }

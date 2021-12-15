@@ -213,7 +213,6 @@ public class PlayerActionManager : IGamePlayStateSetter, IExerciseInfoSetter
     {
         if(_offenseAction == null) { return; }
         _offenseAction.Attack();
-        DebugLog.Info(this.ToString(), "Attack");
     }
 
     /// <summary>

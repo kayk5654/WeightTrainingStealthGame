@@ -25,9 +25,14 @@ public class TutorialActionHandler : MonoBehaviour
     // enemy sample for tutorial
     private Enemy _sampleEnemy;
 
-    // callback of attack action
+    // callback of player's action
     public delegate void TutorialActionCallback();
-    public TutorialActionCallback _tutorialActionCallback;
+
+    // callback of pushing action
+    public TutorialActionCallback _pushCallback;
+
+    // callback of start holding negative posture
+    public TutorialActionCallback _startHoldCallback;
 
     // whether the sample enemy is destroyed;
     private bool _isEnemyDestroyed;
@@ -55,6 +60,7 @@ public class TutorialActionHandler : MonoBehaviour
     public void EnableAction()
     {
         _exerciseInput._onPush += Attack;
+        _exerciseInput._onStartHold += SquatDown;
         _exerciseInput.StartAction();
         _cursorManager.SetActive(true);
     }
@@ -66,6 +72,7 @@ public class TutorialActionHandler : MonoBehaviour
     {
         _exerciseInput.StopAction();
         _exerciseInput._onPush -= Attack;
+        _exerciseInput._onStartHold -= SquatDown;
         _cursorManager.SetActive(false);
     }
 
@@ -84,9 +91,12 @@ public class TutorialActionHandler : MonoBehaviour
     /// <param name="args"></param>
     private void Attack(object sender, EventArgs args)
     {
-        //_projectileSpawnHandler.Attack();
-        _tutorialActionCallback?.Invoke();
-        Debug.Log(this.ToString() + " / Attack");
+        _pushCallback?.Invoke();
+    }
+
+    private void SquatDown(object sender, EventArgs args)
+    {
+        _startHoldCallback?.Invoke();
     }
 
     /// <summary>
