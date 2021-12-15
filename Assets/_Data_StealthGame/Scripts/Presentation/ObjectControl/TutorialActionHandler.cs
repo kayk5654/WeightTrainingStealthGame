@@ -84,8 +84,9 @@ public class TutorialActionHandler : MonoBehaviour
     /// <param name="args"></param>
     private void Attack(object sender, EventArgs args)
     {
-        _projectileSpawnHandler.Attack();
+        //_projectileSpawnHandler.Attack();
         _tutorialActionCallback?.Invoke();
+        Debug.Log(this.ToString() + " / Attack");
     }
 
     /// <summary>

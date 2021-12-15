@@ -7714,7 +7714,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1074136891}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 210d172ffab04e147aaee6a56baa6a5a, type: 3}
   m_Name: 
@@ -7732,7 +7732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e17d72b515ef1f346a7cf041d587cb1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _exerciseInput: {fileID: 1074136893}
+  _exerciseInput: {fileID: 1769826211}
   _projectileSpawnHandler: {fileID: 224255300}
   _cursorManager: {fileID: 224255303}
   _enemyPrefab: {fileID: 7982059814241919118, guid: 2ee7adaa01fdc004f9b3ce53604dfbc3,
