@@ -13,6 +13,9 @@ public class TutorialUiPhase_AtatckEnemy : TutorialUiPhase
     [SerializeField, Tooltip("next button")]
     private Interactable _nextButton;
 
+    [SerializeField, Tooltip("color setter for next button")]
+    private ButtonBackplateColorSetter _nextButtonColorSetter;
+
     // flow of describing player's action
     private IEnumerator _mainSequence;
 
@@ -36,6 +39,7 @@ public class TutorialUiPhase_AtatckEnemy : TutorialUiPhase
     private void InitializeObjects()
     {
         _nextButton.IsEnabled = false;
+        _nextButtonColorSetter.SetColor(false);
     }
 
     /// <summary>
@@ -68,6 +72,7 @@ public class TutorialUiPhase_AtatckEnemy : TutorialUiPhase
         _tutorialActionHandler.DisableAction();
 
         // enable next button
+        _nextButtonColorSetter.SetColor(true);
         _nextButton.IsEnabled = true;
         _mainSequence = null;
     }

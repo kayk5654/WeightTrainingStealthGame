@@ -19,6 +19,9 @@ public class TutorialUiPhase_InitialPosture : TutorialUiPhase
     [SerializeField, Tooltip("control ring gage")]
     private RingGageHandler _ringGageHandler;
 
+    [SerializeField, Tooltip("color setter for next button")]
+    private ButtonBackplateColorSetter _nextButtonColorSetter;
+
     // flow of posture calibration
     private IEnumerator _mainSequence;
 
@@ -40,6 +43,7 @@ public class TutorialUiPhase_InitialPosture : TutorialUiPhase
     {
         _nextButton.IsEnabled = false;
         _ringGageHandler.enabled = true;
+        _nextButtonColorSetter.SetColor(false);
     }
 
     /// <summary>
@@ -84,6 +88,7 @@ public class TutorialUiPhase_InitialPosture : TutorialUiPhase
         _ringGageHandler.enabled = false;
 
         // enable next button
+        _nextButtonColorSetter.SetColor(true);
         _nextButton.IsEnabled = true;
         _mainSequence = null;
     }

@@ -14,6 +14,9 @@ public class TutorialUiPhase_ExerciseSelection : TutorialUiPhase
     [SerializeField, Tooltip("toggle plate of the squat button")]
     private GameObject _squatTogglePlate;
 
+    [SerializeField, Tooltip("color setter for next button")]
+    private ButtonBackplateColorSetter _nextButtonColorSetter;
+
 
     /// <summary>
     /// initialize when this phase is activated
@@ -31,6 +34,7 @@ public class TutorialUiPhase_ExerciseSelection : TutorialUiPhase
     {
         _nextButton.IsEnabled = false;
         _squatTogglePlate.SetActive(false);
+        _nextButtonColorSetter.SetColor(false);
     }
 
     /// <summary>
@@ -39,5 +43,6 @@ public class TutorialUiPhase_ExerciseSelection : TutorialUiPhase
     public void SelectSquat()
     {
         _tutorialActionHandler.SelectSquat();
+        _nextButtonColorSetter.SetColor(true);
     }
 }

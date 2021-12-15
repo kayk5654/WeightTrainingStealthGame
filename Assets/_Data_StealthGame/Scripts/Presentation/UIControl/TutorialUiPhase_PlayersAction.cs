@@ -19,6 +19,9 @@ public class TutorialUiPhase_PlayersAction : TutorialUiPhase
     [SerializeField, Tooltip("object for stand up step")]
     private GameObject _standUpObject;
 
+    [SerializeField, Tooltip("color setter for next button")]
+    private ButtonBackplateColorSetter _nextButtonColorSetter;
+
     // flow of describing player's action
     private IEnumerator _mainSequence;
 
@@ -53,6 +56,7 @@ public class TutorialUiPhase_PlayersAction : TutorialUiPhase
         _tutorialActionHandler._startHoldCallback += DetectSquatDownAction;
         _squatDownObject.SetActive(true);
         _standUpObject.SetActive(false);
+        _nextButtonColorSetter.SetColor(false);
     }
 
     /// <summary>
@@ -98,6 +102,7 @@ public class TutorialUiPhase_PlayersAction : TutorialUiPhase
         yield return new WaitUntil(() => _isAttackedOnce);
 
         // enable next button
+        _nextButtonColorSetter.SetColor(true);
         _nextButton.IsEnabled = true;
         _mainSequence = null;
     }
