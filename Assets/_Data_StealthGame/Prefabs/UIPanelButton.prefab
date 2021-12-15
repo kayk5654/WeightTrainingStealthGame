@@ -1009,7 +1009,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enabledColor: {r: 0.491605, g: 1.5021263, b: 2.6082377, a: 1}
-  _disabledColor: {r: 1, g: 1, b: 1, a: 1}
+  _disabledColor: {r: 0.254539, g: 0.26436308, b: 0.9811321, a: 1}
   _backplateRenderer: {fileID: 8932821814558819002}
 --- !u!1 &551350684929445847
 GameObject:
