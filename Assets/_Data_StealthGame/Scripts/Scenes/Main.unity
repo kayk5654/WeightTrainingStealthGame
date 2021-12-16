@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1214,6 +1214,9 @@ MonoBehaviour:
   _phaseType: 2
   _rootObjects:
   - {fileID: 101052953}
+  _solverHandler: {fileID: 919132149496808935}
+  _panelPositionOffset: {x: 0, y: 0, z: 0}
+  _panelRotationOffset: {x: 0, y: 0, z: 0}
   _tutorialActionHandler: {fileID: 1074136894}
   _stayStillTimeChecker: {fileID: 306788813}
   _nextButton: {fileID: 514913836}
@@ -6732,6 +6735,9 @@ MonoBehaviour:
   _phaseType: 1
   _rootObjects:
   - {fileID: 795286516}
+  _solverHandler: {fileID: 919132149496808935}
+  _panelPositionOffset: {x: 0, y: 0, z: 0}
+  _panelRotationOffset: {x: 0, y: 0, z: 0}
   _tutorialActionHandler: {fileID: 1074136894}
   _nextButton: {fileID: 2111841373}
   _squatTogglePlate: {fileID: 2049194855}
@@ -7693,6 +7699,9 @@ MonoBehaviour:
   _rootObjects:
   - {fileID: 1943140469}
   - {fileID: 945185307}
+  _solverHandler: {fileID: 919132149496808935}
+  _panelPositionOffset: {x: 0, y: 0, z: 0}
+  _panelRotationOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -12861,6 +12870,9 @@ MonoBehaviour:
   _phaseType: 0
   _rootObjects:
   - {fileID: 1563730522}
+  _solverHandler: {fileID: 919132149496808935}
+  _panelPositionOffset: {x: 0, y: 0, z: 0}
+  _panelRotationOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1566937351 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 231028906330223372, guid: 241f79033cdd6cc45933601d980b2c3e,
@@ -13848,6 +13860,9 @@ MonoBehaviour:
   _phaseType: 3
   _rootObjects:
   - {fileID: 1656273998}
+  _solverHandler: {fileID: 919132149496808935}
+  _panelPositionOffset: {x: 0, y: 0, z: 0}
+  _panelRotationOffset: {x: 0, y: 35, z: 0}
   _tutorialActionHandler: {fileID: 1074136894}
   _nextButton: {fileID: 610851608}
   _squatDownObject: {fileID: 1245896039}
@@ -13937,6 +13952,9 @@ MonoBehaviour:
   _rootObjects:
   - {fileID: 1674218973}
   - {fileID: 2047673285}
+  _solverHandler: {fileID: 919132149496808935}
+  _panelPositionOffset: {x: 0, y: 0, z: 0}
+  _panelRotationOffset: {x: 0, y: 35, z: 0}
   _tutorialActionHandler: {fileID: 1074136894}
   _nextButton: {fileID: 1094206608}
   _nextButtonColorSetter: {fileID: 1654951116}
@@ -17492,6 +17510,9 @@ MonoBehaviour:
   _rootObjects:
   - {fileID: 2049872884}
   - {fileID: 1780259517}
+  _solverHandler: {fileID: 919132149496808935}
+  _panelPositionOffset: {x: 0, y: 0, z: 0}
+  _panelRotationOffset: {x: 0, y: 35, z: 0}
   _tutorialActionHandler: {fileID: 1074136894}
   _nextButton: {fileID: 1757697101}
   _nextButtonColorSetter: {fileID: 1888005519}

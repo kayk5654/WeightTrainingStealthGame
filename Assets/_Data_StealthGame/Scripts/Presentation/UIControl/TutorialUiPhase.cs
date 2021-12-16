@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Microsoft.MixedReality.Toolkit.Utilities.Solvers;
 /// <summary>
 /// phase of tutorial
 /// </summary>
@@ -15,6 +16,15 @@ public class TutorialUiPhase : MonoBehaviour, IUiPhase
 
     [SerializeField, Tooltip("root gameobject of this ui phase")]
     protected GameObject[] _rootObjects;
+
+    [SerializeField, Tooltip("solver handler of the menu panel")]
+    protected SolverHandler _solverHandler;
+
+    [SerializeField, Tooltip("offset of solver handler")]
+    private Vector3 _panelPositionOffset;
+
+    [SerializeField, Tooltip("offset of solver handler")]
+    private Vector3 _panelRotationOffset;
 
     protected virtual void Start()
     {
@@ -35,6 +45,9 @@ public class TutorialUiPhase : MonoBehaviour, IUiPhase
         {
             root.SetActive(true);
         }
+
+        _solverHandler.AdditionalOffset = _panelPositionOffset;
+        _solverHandler.AdditionalRotation = _panelRotationOffset;
     }
 
     /// <summary>
