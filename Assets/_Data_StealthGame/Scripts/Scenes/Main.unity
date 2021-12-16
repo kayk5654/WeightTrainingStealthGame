@@ -4188,6 +4188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _finalizeButton: {fileID: 0}
   _finalizeButton_MRTK: {fileID: 1222634008}
+  _finalizeButtonBackPlateColorSetter: {fileID: 912011708}
 --- !u!114 &466522122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7612,6 +7613,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1222634006}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &912011708 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3838496841435203508, guid: 241f79033cdd6cc45933601d980b2c3e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1222634006}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912011703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f12342968270d964491b8c9b04d9d24c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &912838327 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 813140543302549108, guid: 7e3a8206633955745acbe9362f473d48,
@@ -8610,7 +8623,7 @@ PrefabInstance:
     - target: {fileID: 231028904735864301, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.076
+      value: 0.076
       objectReference: {fileID: 0}
     - target: {fileID: 231028904735864301, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
@@ -18039,7 +18052,7 @@ PrefabInstance:
     - target: {fileID: 231028904735864301, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.076
+      value: -0.076
       objectReference: {fileID: 0}
     - target: {fileID: 231028904735864301, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}

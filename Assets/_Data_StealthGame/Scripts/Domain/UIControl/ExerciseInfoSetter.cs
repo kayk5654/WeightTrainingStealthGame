@@ -19,6 +19,9 @@ public class ExerciseInfoSetter : MonoBehaviour, IExerciseInfoSender
     [SerializeField, Tooltip("button to finalize exercise selection")]
     private Interactable _finalizeButton_MRTK;
 
+    [SerializeField, Tooltip("finalize button feedback for pressable button")]
+    private ButtonBackplateColorSetter _finalizeButtonBackPlateColorSetter;
+
 
     /// <summary>
     /// reset selection
@@ -77,6 +80,11 @@ public class ExerciseInfoSetter : MonoBehaviour, IExerciseInfoSender
             {
                 _finalizeButton_MRTK.IsEnabled = false;
             }
+
+            if (_finalizeButtonBackPlateColorSetter)
+            {
+                _finalizeButtonBackPlateColorSetter.SetColor(false);
+            }
         }
         else
         {
@@ -90,8 +98,11 @@ public class ExerciseInfoSetter : MonoBehaviour, IExerciseInfoSender
             {
                 _finalizeButton_MRTK.IsEnabled = true;
             }
+
+            if (_finalizeButtonBackPlateColorSetter)
+            {
+                _finalizeButtonBackPlateColorSetter.SetColor(true);
+            }
         }
-        
-        
     }
 }
