@@ -10,6 +10,13 @@ public class DeathParticlesController : MonoBehaviour
     [SerializeField, Tooltip("particles to emit when this projectile dies")]
     private ParticleSystem _projectileDeathParticle;
 
+    [SerializeField, Tooltip("hit sound effect audio source")]
+    private AudioSource _hitSfxSource;
+
+    [SerializeField, Tooltip("hit sound effect")]
+    private AudioClip _hitSfxClip;
+
+
     // duration between emission of particles and destroying this object
     private float _waitDuration = 2f;
 
@@ -28,6 +35,7 @@ public class DeathParticlesController : MonoBehaviour
     private IEnumerator EmitParticlesSequence()
     {
         _projectileDeathParticle.Play();
+        _hitSfxSource.PlayOneShot(_hitSfxClip);
         yield return new WaitForSeconds(_waitDuration);
         Debug.Log("death particle emittion");
         Destroy(this.gameObject);
