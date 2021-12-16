@@ -39,7 +39,13 @@ public class TutorialUiPhase_FindEnemy : TutorialUiPhase
     private void InitializeObjects()
     {
         _nextButton.IsEnabled = false;
+
+        // if the previous phase is AttackEnemy, destroy sample enemy
+        _tutorialActionHandler.DisplayEnemy(false);
+
+        // generate new sample enemy
         _tutorialActionHandler.DisplayEnemy(true);
+        
         _nextButtonColorSetter.SetColor(false);
     }
 

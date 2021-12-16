@@ -36,6 +36,9 @@ public class TutorialUiPhase_PlayersAction : TutorialUiPhase
         base.Display();
         InitializeObjects();
         InitializeSequence();
+
+        // if the previous phase is FindEnemy, destroy sample enemy
+        _tutorialActionHandler.DisplayEnemy(false);
     }
 
     public override void Hide()
