@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.VFX;
 /// <summary>
 /// emit particles when a projecile dies, then destroy itself afterwards
 /// </summary>
@@ -9,7 +8,7 @@ public class DeathParticlesController : MonoBehaviour
 {
 
     [SerializeField, Tooltip("particles to emit when this projectile dies")]
-    private VisualEffect _projectileDeathParticle;
+    private ParticleSystem _projectileDeathParticle;
 
     // duration between emission of particles and destroying this object
     private float _waitDuration = 2f;
@@ -28,7 +27,7 @@ public class DeathParticlesController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator EmitParticlesSequence()
     {
-        _projectileDeathParticle.SendEvent("OnPlay");
+        _projectileDeathParticle.Play();
         yield return new WaitForSeconds(_waitDuration);
         Debug.Log("death particle emittion");
         Destroy(this.gameObject);
