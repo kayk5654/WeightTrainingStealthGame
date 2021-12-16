@@ -57,4 +57,10 @@ public static class Config
     public static readonly string _attackPointProperty = "_AttackPosLocal";
 
     public static readonly float _ringGageFillDuration = 1f;
+
+    // speed of projectiles
+    public static float _projectileSpeed = 0.06f;
+
+    // maximum distance projectiles can travel
+    public static float _maxProjectileDistance = 6.0f;
 }

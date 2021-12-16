@@ -40,7 +40,7 @@ public class ProjectileBase : MonoBehaviour
     protected virtual void Update()
     {
         // if attack target is lost and lost target sequence isn't started yet, start sequence
-        StartLostTaretSeuqnce();
+        StartLostTargetSeuqnce();
 
         // update transform of this projectile
         UpdateTransform();
@@ -127,16 +127,16 @@ public class ProjectileBase : MonoBehaviour
             _moveDirection = Vector3.Normalize(_moveTarget.position - this.transform.position);
         }
         
-        this.transform.position += _moveDirection * ItemConfig._projectileSpeed;
+        this.transform.position += _moveDirection * Config._projectileSpeed;
         this.transform.rotation *= Quaternion.FromToRotation(this.transform.forward, _moveDirection);
     }
 
     /// <summary>
     /// if attack target is lost and lost target sequence isn't started yet, start sequence
     /// </summary>
-    protected void StartLostTaretSeuqnce()
+    protected void StartLostTargetSeuqnce()
     {
-        if (Vector3.Distance(_spawnPosition, transform.position) > ItemConfig._maxProjectileDistance && !_moveTarget && _destroySelfSequence == null)
+        if (Vector3.Distance(_spawnPosition, transform.position) > Config._maxProjectileDistance && !_moveTarget && _destroySelfSequence == null)
         {
             _destroySelfSequence = DestroySelfSequence();
             StartCoroutine(_destroySelfSequence);
@@ -164,7 +164,7 @@ public class ProjectileBase : MonoBehaviour
         while (phase < 1f)
         {
             phase += Time.deltaTime / duration;
-            this.transform.position += _moveDirection * ItemConfig._projectileSpeed;
+            this.transform.position += _moveDirection * Config._projectileSpeed;
             yield return wait;
         }
 
