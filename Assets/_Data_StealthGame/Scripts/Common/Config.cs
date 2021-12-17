@@ -68,5 +68,5 @@ public static class Config
     public static float _maxProjectileDistance = 6.0f;
 
     // time to activate features in the remained time defined by its argument
-    public static float _lastRushTime = 20f;
+    public static float _lastRushTime = 25f;
 }

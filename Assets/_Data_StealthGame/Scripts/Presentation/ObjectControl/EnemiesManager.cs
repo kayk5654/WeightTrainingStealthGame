@@ -524,7 +524,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     /// <param name="mul"></param>
     private void SetNodeSearchingRangeMultiplier()
     {
-        float increasedMultiplier = 3.5f;
+        float increasedMultiplier = 4f;
         _nodeSearchingRangeMul = increasedMultiplier;
         Debug.Log("node searching range is increased");
     }
