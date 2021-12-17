@@ -22,6 +22,7 @@ public class LevelObjectLinker : ISceneObjectLinker<LevelManager>
         if (enemiesManager)
         {
             parentObject.SetEnemyObjectManager(enemiesManager);
+            parentObject.SetLastRushEventReceiver(new ILastRushEventReceiver[]{ enemiesManager});
         }
 
         IGamePlayEndSender[] gamePlayEndSenders = { nodesManager, enemiesManager };

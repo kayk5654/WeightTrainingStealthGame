@@ -17,7 +17,7 @@ public class Enemy : InGameObjectBase, IHitTarget
     private int _id = -1;
 
     // speed to extend lines to connect
-    private float _speed = 1f;
+    private float _speed = 1.3f;
 
     // external force to avoid other enemies and boundary
     private Vector3 _externalForce = Vector3.zero;

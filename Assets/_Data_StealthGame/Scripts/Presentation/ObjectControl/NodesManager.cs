@@ -546,8 +546,11 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     /// </summary>
     /// <param name="origin"></param>
     /// <returns></returns>
-    public void GetNearestNode(ComputeBuffer nearestNodeBuffer, ComputeBuffer originPositionBuffer)
+    public void GetNearestNode(ComputeBuffer nearestNodeBuffer, ComputeBuffer originPositionBuffer, float searchRange)
     {
+        // set variables on the compute shader
+        _nodeConnectionControl.SetFloat(_nodeSearchingRangeName, searchRange);
+
         // set compute buffers
         _nodeConnectionControl.SetBuffer(_findNearestNodeKernel._index, _nearestNodeBufferName, nearestNodeBuffer);
         _nodeConnectionControl.SetBuffer(_findNearestNodeKernel._index, _nearestNodeOriginBufferName, originPositionBuffer);

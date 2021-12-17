@@ -7,6 +7,9 @@ public interface IPlayTimeCounter
     // notify that the gameplay ends
     event EventHandler<GamePlayStateEventArgs> _onGamePlayEnd;
 
+    // notify the time count reaches at the time to activate features for last several seconds of the gameplay
+    event EventHandler _lastRushTimeEvent;
+
     /// <summary>
     /// set time limit of this play
     /// </summary>
@@ -32,4 +35,10 @@ public interface IPlayTimeCounter
     /// terminate counting playtime
     /// </summary>
     void QuitCount();
+
+    /// <summary>
+    /// set time to activate features in the remained time defined by its argument
+    /// </summary>
+    /// <param name="lastRushTime"></param>
+    void SetLastRushTime(float lastRushTime);
 }

@@ -20,7 +20,7 @@ public struct Enemy_ComputeShader
 /// <summary>
 /// manage enemy objects
 /// </summary>
-public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAreaDataSet>, IGamePlayEndSender
+public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAreaDataSet>, IGamePlayEndSender, ILastRushEventReceiver
 {
     // dictionary of _node instances
     private Dictionary<int, Enemy> _enemies;
@@ -33,6 +33,9 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
 
     [SerializeField, Tooltip("range to search nearby nodes")]
     private float _nodeSearchingRange = 0.6f;
+
+    // multiplier of node searching range; increased during last 15 seconds of the gameplay
+    private float _nodeSearchingRangeMul = 1f;
 
     [SerializeField, Tooltip("base move speed of an enemy")]
     private float _baseMoveSpeed = 1f;
@@ -172,11 +175,14 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         // initialize enemy id
         _lastSpawnedEnemyId = -1;
 
+        // initialize node searching range multiplier
+        _nodeSearchingRangeMul = 1f;
+
         // initialize enemy control data
         InitializeEnemyDictionary();
         InitializeBuffers();
         InitializeParams();
-        _nodesManager.InitializeFindNearestNodeKernel(_maxSpawnedEnemyNum, _nodeSearchingRange);
+        _nodesManager.InitializeFindNearestNodeKernel(_maxSpawnedEnemyNum, _nodeSearchingRange * _nodeSearchingRangeMul);
 
         // start spawning
         StartSpawnEnemies();
@@ -325,7 +331,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
 
         // calculate the nearest nodes in _nodesManager using compute shader
         _enemyPositionBuffer.SetData(_enemyPositionBufferData);
-        _nodesManager.GetNearestNode(_nearestNodeBuffer, _enemyPositionBuffer);
+        _nodesManager.GetNearestNode(_nearestNodeBuffer, _enemyPositionBuffer, _nodeSearchingRange * _nodeSearchingRangeMul);
 
         // receive calculated position
         _nearestNodeBuffer.GetData(_nearestNodeBufferData);
@@ -510,6 +516,27 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         // notify the end of this gameplay
         GamePlayEndArgs args = new GamePlayEndArgs(true);
         _onGamePlayEnd?.Invoke(this, args);
+    }
+
+    /// <summary>
+    /// set node searching range multiplier
+    /// </summary>
+    /// <param name="mul"></param>
+    private void SetNodeSearchingRangeMultiplier()
+    {
+        float increasedMultiplier = 3.5f;
+        _nodeSearchingRangeMul = increasedMultiplier;
+        Debug.Log("node searching range is increased");
+    }
+
+    /// <summary>
+    /// callback of LastRushEvent
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    public void LastRushEventCallback(object sender, EventArgs args)
+    {
+        SetNodeSearchingRangeMultiplier();
     }
 
     #endregion

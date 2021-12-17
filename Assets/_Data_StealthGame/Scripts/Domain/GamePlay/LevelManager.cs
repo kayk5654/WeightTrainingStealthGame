@@ -39,6 +39,9 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     // count play time
     private IPlayTimeCounter _timeLimitCounter;
 
+    // receivers to event to activate features for last several seconds of current gameplay
+    private ILastRushEventReceiver[] _lastRushEventReceivers;
+
 
 
     /// <summary>
@@ -55,6 +58,7 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     ~LevelManager()
     {
         _timeLimitCounter._onGamePlayEnd -= EndGamePlayByTimeLimit;
+        _timeLimitCounter._lastRushTimeEvent -= ActivateLastRushTimeFeature;
         if (_gameplayEndSenders == null || _gameplayEndSenders.Length < 1) { return; }
         
         foreach (IGamePlayEndSender sender in _gameplayEndSenders)
@@ -112,6 +116,16 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     {
         _timeLimitCounter = counter;
         _timeLimitCounter._onGamePlayEnd += EndGamePlayByTimeLimit;
+        _timeLimitCounter._lastRushTimeEvent += ActivateLastRushTimeFeature;
+    }
+
+    /// <summary>
+    /// set reference of last rush event receiver
+    /// </summary>
+    /// <param name="receivers"></param>
+    public void SetLastRushEventReceiver(ILastRushEventReceiver[] receivers)
+    {
+        _lastRushEventReceivers = receivers;
     }
 
     /// <summary>
@@ -195,6 +209,7 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
 
         // start counting playtime
         _timeLimitCounter.SetTimeLimit(levelData._duration);
+        _timeLimitCounter.SetLastRushTime(Config._lastRushTime);
         _timeLimitCounter.StartCount();
     }
 
@@ -266,5 +281,18 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
         _onGamePlayStateChange?.Invoke(this, stateArgs);
 
         
+    }
+
+    /// <summary>
+    /// activate features in the remained time defined by its argument
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void ActivateLastRushTimeFeature(object sender, EventArgs args)
+    {
+        foreach(ILastRushEventReceiver receiver in _lastRushEventReceivers)
+        {
+            receiver.LastRushEventCallback(sender, args);
+        }
     }
 }

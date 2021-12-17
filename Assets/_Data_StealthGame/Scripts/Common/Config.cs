@@ -66,4 +66,7 @@ public static class Config
 
     // maximum distance projectiles can travel
     public static float _maxProjectileDistance = 6.0f;
+
+    // time to activate features in the remained time defined by its argument
+    public static float _lastRushTime = 20f;
 }
