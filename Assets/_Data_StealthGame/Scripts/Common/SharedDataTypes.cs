@@ -50,6 +50,7 @@ public enum MainUiPanelPhase
     SelectExercise = 2,
     Settings = 3,
     Quit = 4,
+    Credits = 5,
     LENGTH,
 }
 

@@ -13,7 +13,10 @@ public static class Config
     // path of database of the spawn area
     public static readonly string _spawnAreaDataPath = Application.streamingAssetsPath + "/" + "spawnAreaData.json";
 
+    // path of database of the exercise input
     public static readonly string _exerciseInputDataPath = Application.streamingAssetsPath + "/" + "exerciseInputData.json";
+
+    public static readonly string _creditsTextPath = Application.streamingAssetsPath + "/" + "Credits.txt";
 
     // player's level as a default
     public static readonly int _defaultPlayerLevel = 1;
