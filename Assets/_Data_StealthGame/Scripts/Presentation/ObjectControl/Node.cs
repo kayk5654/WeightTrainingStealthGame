@@ -193,6 +193,14 @@ public class Node : InGameObjectBase, IHitTarget
         Attack();
 
         // notify the order to attack to the other nodes connected with it
+        if(_connectionsIds.Count > 0)
+        {
+            foreach(int id in _connectionsIds)
+            {
+                int anotherNodeId = _nodesManager.GetConnection(id).GetAnotherNode(_id);
+                _nodesManager.GetNode(anotherNodeId).AttackByConnection();
+            }
+        }
     }
 
     /// <summary>
@@ -225,6 +233,14 @@ public class Node : InGameObjectBase, IHitTarget
             if(enemy.GetRemainedHP() > 0f) { continue; }
             enemy.Destroy();
         }
+    }
+
+    /// <summary>
+    /// trigger attack from connected node
+    /// </summary>
+    public void AttackByConnection()
+    {
+        Attack();
     }
 
     /// <summary>
