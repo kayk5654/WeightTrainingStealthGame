@@ -198,7 +198,15 @@ public class Node : InGameObjectBase, IHitTarget
             foreach(int id in _connectionsIds)
             {
                 int anotherNodeId = _nodesManager.GetConnection(id).GetAnotherNode(_id);
-                _nodesManager.GetNode(anotherNodeId).AttackByConnection();
+                
+                try
+                {
+                    _nodesManager.GetNode(anotherNodeId).AttackByConnection();
+                }
+                catch
+                {
+
+                }
             }
         }
     }

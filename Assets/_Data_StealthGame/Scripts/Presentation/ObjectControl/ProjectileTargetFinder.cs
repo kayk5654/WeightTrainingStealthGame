@@ -6,6 +6,8 @@ using UnityEngine;
 /// </summary>
 public class ProjectileTargetFinder : MonoBehaviour
 {
+    [SerializeField, Tooltip("target focus guide")]
+    private GameObject _focusGuide;
 
     // target object to shoot projectiles
     private Transform _targetObject;
@@ -20,7 +22,7 @@ public class ProjectileTargetFinder : MonoBehaviour
 
     private void Update()
     {
-        
+        SetFocusGuideStatus();
     }
 
     /// <summary>
@@ -38,6 +40,7 @@ public class ProjectileTargetFinder : MonoBehaviour
     public void DisableFinding()
     {
         _canFindTarget = false;
+        _focusGuide.SetActive(false);
     }
 
     /// <summary>
@@ -49,7 +52,7 @@ public class ProjectileTargetFinder : MonoBehaviour
         if (!_canFindTarget) { return; }
 
         // if the given target is null, keep previous reference
-        if(targetObject == null) { return; }
+        if(targetObject == null) {  return; }
         _targetObject = targetObject;
     }
 
@@ -59,7 +62,36 @@ public class ProjectileTargetFinder : MonoBehaviour
     /// <returns></returns>
     public Transform GetTargetObject()
     {
-        if (!_canFindTarget) { return null; }
+        // return the object that was watched last time
         return _targetObject;
+    }
+
+    /// <summary>
+    /// display/hide focus guide depending on the status of _targetObject
+    /// </summary>
+    private void SetFocusGuideStatus()
+    {
+        if (!_canFindTarget) 
+        {
+            // hide focus guide
+            _focusGuide.SetActive(false);
+            return; 
+        }
+
+        if (_targetObject)
+        {
+            // display focus guide
+            if (!_focusGuide.activeSelf)
+            {
+                _focusGuide.SetActive(true);
+            }
+            // set transform of the focus guide
+            _focusGuide.transform.position = _targetObject.transform.position;
+        }
+        else
+        {
+            // hide focus guide
+            _focusGuide.SetActive(false);
+        }
     }
 }
