@@ -62,7 +62,7 @@ public static class Config
     public static readonly float _ringGageFillDuration = 1f;
 
     // speed of projectiles
-    public static float _projectileSpeed = 0.06f;
+    public static float _projectileSpeed = 4.0f;
 
     // maximum distance projectiles can travel
     public static float _maxProjectileDistance = 6.0f;

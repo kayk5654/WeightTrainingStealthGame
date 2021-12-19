@@ -127,7 +127,7 @@ public class ProjectileBase : MonoBehaviour
             _moveDirection = Vector3.Normalize(_moveTarget.position - this.transform.position);
         }
         
-        this.transform.position += _moveDirection * Config._projectileSpeed;
+        this.transform.position += _moveDirection * Config._projectileSpeed * Time.deltaTime;
         this.transform.rotation *= Quaternion.FromToRotation(this.transform.forward, _moveDirection);
     }
 
