@@ -113,7 +113,7 @@ LineRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 876c7e981edab3a44918b5c51482a286, type: 2}
+  - {fileID: 2100000, guid: 2a26691939e12a44cbb6b7e556c994ba, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -505,9 +505,9 @@ MonoBehaviour:
   lineBase: {fileID: 1664051764725921544}
   lineRenderers:
   - {fileID: 1664051764725921570}
-  lineMaterialSelected: {fileID: 2100000, guid: 11727442de02c1d4b8d37a063c748aec,
+  lineMaterialSelected: {fileID: 2100000, guid: caf497b1327baec4d84f43eb684e8bb9,
     type: 2}
-  lineMaterialNoTarget: {fileID: 2100000, guid: 876c7e981edab3a44918b5c51482a286,
+  lineMaterialNoTarget: {fileID: 2100000, guid: 2a26691939e12a44cbb6b7e556c994ba,
     type: 2}
   inertia: {fileID: 1664051764725921592}
   startPointLerp: 0.267
