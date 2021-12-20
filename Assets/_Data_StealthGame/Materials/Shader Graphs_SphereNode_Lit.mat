@@ -47,6 +47,7 @@ Material:
     m_Floats:
     - _AutoRotate: 1
     - _DamageRange: 0
+    - _HitEffect: 0
     - _Speed: 100
     m_Colors:
     - _AttackPosLocal: {r: 0, g: 1.4, b: 0, a: 0}

@@ -189,6 +189,9 @@ public class Node : InGameObjectBase, IHitTarget
     /// <param name="hitPosition"></param>
     public void OnHit(Vector3 hitPosition)
     {
+        // show hit feedback
+        StartCoroutine(HitFeedbackSequence());
+        
         // attack nearby enemies
         Attack();
 
@@ -207,6 +210,40 @@ public class Node : InGameObjectBase, IHitTarget
                 {
 
                 }
+            }
+        }
+    }
+
+    /// <summary>
+    /// show visual feedback by setting material property of the node mesh
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator HitFeedbackSequence()
+    {
+        float phase = 0f;
+        float duration = 0.3f;
+        WaitForEndOfFrame wait = new WaitForEndOfFrame();
+
+        while(phase < 1f)
+        {
+            phase += Time.deltaTime / duration;
+
+            foreach (Material mat in _nodeMaterials)
+            {
+                if (mat.HasProperty(Config._hitProperty))
+                {
+                    mat.SetFloat(Config._hitProperty, Mathf.InverseLerp(-1, 1, -Mathf.Cos(phase * 2 * Mathf.PI)));
+                }
+            }
+
+            yield return wait;
+        }
+
+        foreach (Material mat in _nodeMaterials)
+        {
+            if (mat.HasProperty(Config._hitProperty))
+            {
+                mat.SetFloat(Config._hitProperty, 0f);
             }
         }
     }
