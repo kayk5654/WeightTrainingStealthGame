@@ -9870,6 +9870,7 @@ GameObject:
   - component: {fileID: 963194229}
   - component: {fileID: 963194231}
   - component: {fileID: 963194232}
+  - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -9958,6 +9959,29 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!114 &963194230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf98dd1206224111a38765365e98e207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockCursorWhenFocusLocked: 1
+  setCursorInvisibleWhenFocusLocked: 0
+  maxGazeCollisionDistance: 10
+  raycastLayerMasks:
+  - serializedVersion: 2
+    m_Bits: 4294967291
+  stabilizer:
+    storedStabilitySamples: 60
+  gazeTransform: {fileID: 0}
+  minHeadVelocityThreshold: 0.5
+  maxHeadVelocityThreshold: 2
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17286,8 +17310,8 @@ MonoBehaviour:
   - {fileID: 1656273998}
   - {fileID: 2123372001}
   _solverHandler: {fileID: 919132149496808935}
-  _panelPositionOffset: {x: 0, y: 0, z: 0}
-  _panelRotationOffset: {x: 0, y: 35, z: 0}
+  _panelPositionOffset: {x: 0, y: -0.4, z: 0}
+  _panelRotationOffset: {x: 45, y: 0, z: 0}
   _tutorialActionHandler: {fileID: 1074136894}
   _nextButton: {fileID: 610851608}
   _squatDownObject: {fileID: 1245896039}
@@ -17378,8 +17402,8 @@ MonoBehaviour:
   - {fileID: 1674218973}
   - {fileID: 2047673285}
   _solverHandler: {fileID: 919132149496808935}
-  _panelPositionOffset: {x: 0, y: 0, z: 0}
-  _panelRotationOffset: {x: 0, y: 35, z: 0}
+  _panelPositionOffset: {x: 0, y: -0.4, z: 0}
+  _panelRotationOffset: {x: 45, y: 0, z: 0}
   _tutorialActionHandler: {fileID: 1074136894}
   _nextButton: {fileID: 1094206608}
   _nextButtonColorSetter: {fileID: 1654951116}
@@ -18871,8 +18895,8 @@ MonoBehaviour:
   - {fileID: 1784580280}
   - {fileID: 624816672}
   _solverHandler: {fileID: 919132149496808935}
-  _panelPositionOffset: {x: 0, y: 0, z: 0}
-  _panelRotationOffset: {x: 0, y: 35, z: 0}
+  _panelPositionOffset: {x: 0, y: -0.4, z: 0}
+  _panelRotationOffset: {x: 45, y: 0, z: 0}
   _nextButton: {fileID: 1955492364}
   _nextButtonColorSetter: {fileID: 1955492363}
 --- !u!1 &1788212225 stripped
@@ -22076,8 +22100,8 @@ MonoBehaviour:
   - {fileID: 2049872884}
   - {fileID: 1780259517}
   _solverHandler: {fileID: 919132149496808935}
-  _panelPositionOffset: {x: 0, y: 0, z: 0}
-  _panelRotationOffset: {x: 0, y: 35, z: 0}
+  _panelPositionOffset: {x: 0, y: -0.4, z: 0}
+  _panelRotationOffset: {x: 45, y: 0, z: 0}
   _tutorialActionHandler: {fileID: 1074136894}
   _nextButton: {fileID: 1757697101}
   _nextButtonColorSetter: {fileID: 1888005519}
