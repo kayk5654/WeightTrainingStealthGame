@@ -592,7 +592,7 @@ MonoBehaviour:
   CanSelect: 0
   CanDeselect: 0
   VoiceCommand: Select
-  voiceRequiresFocus: 1
+  voiceRequiresFocus: 0
   profiles:
   - Target: {fileID: 551350684929445847}
     Themes:
