@@ -8120,8 +8120,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'When the ring gage in front of you is filled,
 
-    stand up to send a
-    signal.
+    look at where you send
+    a signal and stand up.
 
 '
   m_isRightToLeft: 0
