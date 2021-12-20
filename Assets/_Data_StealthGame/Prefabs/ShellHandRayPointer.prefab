@@ -334,7 +334,7 @@ MonoBehaviour:
     description: Pointer Pose
     axisConstraint: 7
   handedness: 1
-  cursorPrefab: {fileID: 1203913656703810113, guid: 946d575687886304291be32204d48ae9,
+  cursorPrefab: {fileID: 3543579782494590126, guid: 6f9f01718ddc481479ceed20cdca00e6,
     type: 3}
   disableCursorOnStart: 0
   setCursorVisibilityOnSourceDetected: 0
