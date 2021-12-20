@@ -13,6 +13,11 @@ public class UltrasonicProjectile : ProjectileBase
     private AudioClip _spawnSfx;
 
     [SerializeField, Tooltip("particles to emit when this projectile dies")]
+    protected GameObject _deathParticlesPrefab;
+
+    [SerializeField, Tooltip("particle system")]
+    private ParticleSystem _mainParticle;
+
     protected DeathParticlesController _deathParticlesController;
 
     /// <summary>
@@ -26,10 +31,13 @@ public class UltrasonicProjectile : ProjectileBase
     /// <summary>
     /// emit particles when this projectile dies
     /// </summary>
-    private void OnDestroy()
+    protected override void OnHit()
     {
-        _deathParticlesController.transform.parent = null;
+        _deathParticlesController = Instantiate(_deathParticlesPrefab, transform.position, transform.rotation).GetComponent<DeathParticlesController>();
         _deathParticlesController.EmitParticles();
+        _mainParticle.transform.SetParent(_deathParticlesController.transform);
+        _mainParticle.Stop();
+        base.OnHit();
     }
 
     /// <summary>

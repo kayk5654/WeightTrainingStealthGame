@@ -59,8 +59,8 @@ public class ProjectileBase : MonoBehaviour
 
         hitTarget.OnHit(transform.position);
 
-        // destroy itself
-        Destroy(this.gameObject);
+        // show feedback
+        OnHit();
     }
 
     /// <summary>
@@ -168,6 +168,15 @@ public class ProjectileBase : MonoBehaviour
             yield return wait;
         }
 
+        Destroy(this.gameObject);
+    }
+
+    /// <summary>
+    /// feedback when this projectile hits something
+    /// </summary>
+    protected virtual void OnHit()
+    {
+        // destroy itself
         Destroy(this.gameObject);
     }
 }
