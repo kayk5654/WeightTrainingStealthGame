@@ -17310,7 +17310,7 @@ MonoBehaviour:
   - {fileID: 1656273998}
   - {fileID: 2123372001}
   _solverHandler: {fileID: 919132149496808935}
-  _panelPositionOffset: {x: 0, y: -0.4, z: 0}
+  _panelPositionOffset: {x: 0, y: -0.1, z: 0}
   _panelRotationOffset: {x: 45, y: 0, z: 0}
   _tutorialActionHandler: {fileID: 1074136894}
   _nextButton: {fileID: 610851608}
@@ -17402,7 +17402,7 @@ MonoBehaviour:
   - {fileID: 1674218973}
   - {fileID: 2047673285}
   _solverHandler: {fileID: 919132149496808935}
-  _panelPositionOffset: {x: 0, y: -0.4, z: 0}
+  _panelPositionOffset: {x: 0, y: -0.1, z: 0}
   _panelRotationOffset: {x: 45, y: 0, z: 0}
   _tutorialActionHandler: {fileID: 1074136894}
   _nextButton: {fileID: 1094206608}
@@ -18895,7 +18895,7 @@ MonoBehaviour:
   - {fileID: 1784580280}
   - {fileID: 624816672}
   _solverHandler: {fileID: 919132149496808935}
-  _panelPositionOffset: {x: 0, y: -0.4, z: 0}
+  _panelPositionOffset: {x: 0, y: -0.1, z: 0}
   _panelRotationOffset: {x: 45, y: 0, z: 0}
   _nextButton: {fileID: 1955492364}
   _nextButtonColorSetter: {fileID: 1955492363}
@@ -22100,7 +22100,7 @@ MonoBehaviour:
   - {fileID: 2049872884}
   - {fileID: 1780259517}
   _solverHandler: {fileID: 919132149496808935}
-  _panelPositionOffset: {x: 0, y: -0.4, z: 0}
+  _panelPositionOffset: {x: 0, y: -0.1, z: 0}
   _panelRotationOffset: {x: 45, y: 0, z: 0}
   _tutorialActionHandler: {fileID: 1074136894}
   _nextButton: {fileID: 1757697101}
