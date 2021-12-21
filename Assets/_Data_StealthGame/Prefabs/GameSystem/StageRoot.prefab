@@ -54,7 +54,7 @@ MonoBehaviour:
     type: 3}
   _nodeCount: 30
   _maxConnectionPerNode: 3
-  _lineMaterial: {fileID: 2100000, guid: 244df7de04ae73340bd74b0dcd6a5166, type: 2}
+  _lineMaterial: {fileID: 2100000, guid: 58c758f68e209c746a09f88798600e80, type: 2}
   _speed: 1
   _neighbourRadious: 1
   _connectRadious: 0.6
@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31528649471a9bd4084f4108d82855ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefab: {fileID: 142686241028879583, guid: 2ee7adaa01fdc004f9b3ce53604dfbc3,
+  _enemyPrefab: {fileID: 142686241028879583, guid: 9f3925adddc623641b25d787925916ec,
     type: 3}
   _enemyBehaviourControl: {fileID: 7200000, guid: 2490b72493280054d87cd99b7f682567,
     type: 3}
