@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nodeConnectionControl: {fileID: 7200000, guid: 183ed04d465564a4a8e56640f2fbfd7a,
     type: 3}
-  _nodePrefab: {fileID: 7947004599680539123, guid: a542aa676b662a14684ac10f094eebdc,
+  _nodePrefab: {fileID: 7947004599680539123, guid: e93dacc177df79c449616a8baf0eab73,
     type: 3}
   _connectionPrefab: {fileID: 5835073924209826635, guid: a1cc412cfb5761b46a3c9a5dd99f7e97,
     type: 3}

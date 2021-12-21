@@ -619,7 +619,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attackRadius: 0.4
   _mainMeshRenderer: {fileID: 9151175865598346956}
-  _nodeCapPrefab: {fileID: 5250617221069817821, guid: 8abcafa8be0ab064b87f655dae077508,
+  _nodeCapPrefab: {fileID: 5250617221069817821, guid: 8d589d67ffc342348b7ae593fb7af257,
     type: 3}
   _audioHandler: {fileID: 2310157996151221636}
   _vfxHandler: {fileID: 8366470630867346274}
