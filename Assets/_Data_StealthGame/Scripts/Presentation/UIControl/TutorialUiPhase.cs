@@ -20,6 +20,9 @@ public class TutorialUiPhase : MonoBehaviour, IUiPhase
     [SerializeField, Tooltip("solver handler of the menu panel")]
     protected SolverHandler _solverHandler;
 
+    [SerializeField, Tooltip("adjust ui panel transform")]
+    private UITransformModifier _uiTransformModifier;
+
     [SerializeField, Tooltip("offset of solver handler")]
     private Vector3 _panelPositionOffset;
 
@@ -46,8 +49,18 @@ public class TutorialUiPhase : MonoBehaviour, IUiPhase
             root.SetActive(true);
         }
 
-        _solverHandler.AdditionalOffset = _panelPositionOffset;
-        _solverHandler.AdditionalRotation = _panelRotationOffset;
+        if (_solverHandler)
+        {
+            _solverHandler.AdditionalOffset = _panelPositionOffset;
+            _solverHandler.AdditionalRotation = _panelRotationOffset;
+        }
+
+        // if  UITransformModifier is used, only height can be adjusted currently
+        if (_uiTransformModifier)
+        {
+            _uiTransformModifier._relativeHeight = _panelPositionOffset.y;
+            _uiTransformModifier._localXAngle = _panelRotationOffset.x;
+        }
     }
 
     /// <summary>
