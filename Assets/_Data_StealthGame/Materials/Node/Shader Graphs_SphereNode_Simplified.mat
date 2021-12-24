@@ -48,6 +48,34 @@ Material:
         m_Texture: {fileID: 2800000, guid: 0e2e6ef29c08c704692379e1eaf80f39, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_CB57BCEE_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 79fa18fc5bcc80944bd4ac70177b6082, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_E69DBB39_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 79fa18fc5bcc80944bd4ac70177b6082, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ScreenSpaceTextureSample_1702A5B3_Texture2DEB59F508_4280999087:
+        m_Texture: {fileID: 2800000, guid: 79fa18fc5bcc80944bd4ac70177b6082, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ScreenSpaceTextureSample_735A5F98_Texture2DEB59F508_4280999087:
+        m_Texture: {fileID: 2800000, guid: 79fa18fc5bcc80944bd4ac70177b6082, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ScreenSpaceTextureSample_C2FFFA89_Texture2DEB59F508_4280999087:
+        m_Texture: {fileID: 2800000, guid: 79fa18fc5bcc80944bd4ac70177b6082, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ScreenSpaceTextureSample_F1FB43D9_Texture2DEB59F508_4280999087:
+        m_Texture: {fileID: 2800000, guid: 79fa18fc5bcc80944bd4ac70177b6082, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_878B6521_Out_0:
+        m_Texture: {fileID: 2800000, guid: 79fa18fc5bcc80944bd4ac70177b6082, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AutoRotate: 1
     - _DamageRange: 0
