@@ -9,6 +9,7 @@ public class CameraLookDirectionGetter : MonoBehaviour, ILookDirectionGetter
     [SerializeField, Tooltip("transform of the main camera")]
     private Transform _cameraTransform;
 
+
     /// <summary>
     /// looking direction
     /// </summary>
