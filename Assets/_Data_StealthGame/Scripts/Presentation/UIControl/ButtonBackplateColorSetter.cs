@@ -45,6 +45,12 @@ public class ButtonBackplateColorSetter : MonoBehaviour
     /// </summary>
     public void SetColor(bool setEnabledColor)
     {
+        // if the material is null, get reference
+        if (!_backplateMaterial)
+        {
+            _backplateMaterial = _backplateRenderer.material;
+        }
+        
         if (setEnabledColor)
         {
             // set enabled color

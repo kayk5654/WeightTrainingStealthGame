@@ -47,7 +47,7 @@ public enum MainUiPanelPhase
     None = -1,
     Root = 0,
     Tutorial = 1,
-    SelectExercise = 2,
+    StartGame = 2,
     Settings = 3,
     Quit = 4,
     Credits = 5,
@@ -69,6 +69,18 @@ public enum TutorialPhase
     AttackEnemy,
     PlayersMission,
     EndTutorial,
+    LENGTH,
+}
+
+/// <summary>
+/// names of phases of "start game"
+/// </summary>
+[System.Serializable]
+public enum StartGamePhase
+{
+    None = -1,
+    SelectDifficulty,
+    SelectExercise,
     LENGTH,
 }
 

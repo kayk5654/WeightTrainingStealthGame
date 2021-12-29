@@ -115,7 +115,7 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
         levelManager.SetPlayerLevelHandler(playerLevelHandler);
 
         // link playerLevelHandler and reset button
-        PlayerLevelResetterLinker playerLevelResetterLinker = new PlayerLevelResetterLinker();
+        PlayerLevelObjectsLinker playerLevelResetterLinker = new PlayerLevelObjectsLinker();
         playerLevelResetterLinker.LinkObject(playerLevelHandler);
 
         IGamePlayStateSetter[] gamePlayStateSetters = { levelManager, playerActionManager };
@@ -138,6 +138,7 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
         OptionMenuUiController optionMenuUiController = new OptionMenuUiController();
         CursorManager cursorManager = FindObjectOfType<CursorManager>();
         TutorialUiController tutorialUiController = new TutorialUiController();
+        StartGameUiController startGameUiController = new StartGameUiController();
 
         // link ui objects in the scene
         UiLinkerProvider uiLinkerProvider = new UiLinkerProvider();
@@ -145,6 +146,7 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
         uiLinkerProvider.LinkObject(workoutNavigationUiController);
         uiLinkerProvider.LinkObject(optionMenuUiController);
         uiLinkerProvider.LinkObject(tutorialUiController);
+        uiLinkerProvider.LinkObject(startGameUiController);
 
         // create ui manager
         UiManager uiManager = new UiManager

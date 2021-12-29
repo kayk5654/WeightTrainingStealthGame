@@ -19,7 +19,7 @@ public static class Config
     public static readonly string _creditsTextPath = Application.streamingAssetsPath + "/" + "Credits.txt";
 
     // player's level as a default
-    public static readonly int _defaultPlayerLevel = 1;
+    public static readonly int _defaultPlayerLevel = 0;
 
     // unit time for spawning enemies
     public static readonly float _enemySpawnUnitTime = 10f;

@@ -15,12 +15,13 @@ public class PlayerLevelHandler_PlayerPrefs : IPlayerLevelHandler
     /// </summary>
     public int GetPlayerLevel()
     {
-        // if the key isn't created, initialize key with level 1
+        // if the key isn't created, initialize key with level 0
         if (!PlayerPrefs.HasKey(_playerLevelKey))
         {
             SetPlayerLevel(Config._defaultPlayerLevel);
         }
 
+        Debug.Log("selected level: " + PlayerPrefs.GetInt(_playerLevelKey));
         return PlayerPrefs.GetInt(_playerLevelKey);
     }
 

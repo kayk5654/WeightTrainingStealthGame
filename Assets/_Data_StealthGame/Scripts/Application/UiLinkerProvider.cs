@@ -17,6 +17,8 @@ public class UiLinkerProvider
     // link tutorial phase classes
     private TutorialObjectLinker _tutorialObjectLinker;
 
+    // link start game ui phase classes
+    private StartGameUiLinker _startGameUiLinker;
 
     /// <summary>
     /// constructor
@@ -27,6 +29,7 @@ public class UiLinkerProvider
         _workoutNavigationUiLinker = new WorkoutNavigationUiLinker();
         _optionMenuUiLinker = new OptionMenuUiLinker();
         _tutorialObjectLinker = new TutorialObjectLinker();
+        _startGameUiLinker = new StartGameUiLinker();
     }
 
     /// <summary>
@@ -63,5 +66,14 @@ public class UiLinkerProvider
     public void LinkObject(TutorialUiController tutorialUiController)
     {
         _tutorialObjectLinker.LinkObject(tutorialUiController);
+    }
+
+    /// <summary>
+    /// link start game ui phase classes
+    /// </summary>
+    /// <param name="startGameUiController"></param>
+    public void LinkObject(StartGameUiController startGameUiController)
+    {
+        _startGameUiLinker.LinkObject(startGameUiController);
     }
 }
