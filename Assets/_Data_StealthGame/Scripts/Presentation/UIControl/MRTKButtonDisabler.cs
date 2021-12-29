@@ -13,13 +13,15 @@ public class MRTKButtonDisabler : MonoBehaviour, IButtonFeedback
     [SerializeField, Tooltip("this button interaction")]
     private Interactable _thisInteractable;
 
+    [SerializeField, Tooltip("default enable/disable state of this button's interaction")]
+    private bool _thisInteractableDefaultState = true;
 
     /// <summary>
     /// when the GameObject of this button is active, enable button input
     /// </summary>
     private void OnEnable()
     {
-        _thisInteractable.IsEnabled = true;
+        _thisInteractable.IsEnabled = _thisInteractableDefaultState;
     }
 
     /// <summary>

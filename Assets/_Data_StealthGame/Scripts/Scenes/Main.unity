@@ -1494,6 +1494,11 @@ PrefabInstance:
       propertyPath: _interactables.Array.data[5]
       value: 
       objectReference: {fileID: 357311155}
+    - target: {fileID: 2051771253341803025, guid: 241f79033cdd6cc45933601d980b2c3e,
+        type: 3}
+      propertyPath: _thisInteractableDefaultState
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2162258849702450806, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
       propertyPath: m_RootOrder
@@ -2382,6 +2387,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Button_Next
+      objectReference: {fileID: 0}
+    - target: {fileID: 2051771253341803025, guid: 241f79033cdd6cc45933601d980b2c3e,
+        type: 3}
+      propertyPath: _thisInteractableDefaultState
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2162258849702450806, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
@@ -6670,6 +6680,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Button_Next
+      objectReference: {fileID: 0}
+    - target: {fileID: 2051771253341803025, guid: 241f79033cdd6cc45933601d980b2c3e,
+        type: 3}
+      propertyPath: _thisInteractableDefaultState
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2162258849702450806, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
@@ -13026,6 +13041,11 @@ PrefabInstance:
       propertyPath: _interactables.Array.data[5]
       value: 
       objectReference: {fileID: 357311155}
+    - target: {fileID: 2051771253341803025, guid: 241f79033cdd6cc45933601d980b2c3e,
+        type: 3}
+      propertyPath: _thisInteractableDefaultState
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2162258849702450806, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
       propertyPath: m_RootOrder
@@ -19085,6 +19105,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button_Next
       objectReference: {fileID: 0}
+    - target: {fileID: 2051771253341803025, guid: 241f79033cdd6cc45933601d980b2c3e,
+        type: 3}
+      propertyPath: _thisInteractableDefaultState
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2162258849702450806, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
       propertyPath: m_RootOrder
@@ -21526,6 +21551,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button_Next
       objectReference: {fileID: 0}
+    - target: {fileID: 2051771253341803025, guid: 241f79033cdd6cc45933601d980b2c3e,
+        type: 3}
+      propertyPath: _thisInteractableDefaultState
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2162258849702450806, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
       propertyPath: m_RootOrder
@@ -22774,6 +22804,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Button_Next
+      objectReference: {fileID: 0}
+    - target: {fileID: 2051771253341803025, guid: 241f79033cdd6cc45933601d980b2c3e,
+        type: 3}
+      propertyPath: _thisInteractableDefaultState
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2162258849702450806, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
@@ -24878,6 +24913,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Button_Next
+      objectReference: {fileID: 0}
+    - target: {fileID: 2051771253341803025, guid: 241f79033cdd6cc45933601d980b2c3e,
+        type: 3}
+      propertyPath: _thisInteractableDefaultState
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2162258849702450806, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
