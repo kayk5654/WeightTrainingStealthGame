@@ -1,13 +1,13 @@
 ﻿using System.Linq;
 /// <summary>
-/// enable to access database of levels
+/// enable to access database of texts to be translated by the language setting
 /// </summary>
-public class LevelDatabase : ObjectDatabaseBase<LevelDataSet>
+public class TextTranslationDatabase : ObjectDatabaseBase<TextTranslationDataSet>
 {
     /// <summary>
     /// constructor
     /// </summary>
-    public LevelDatabase(IDatabaseReader<LevelDataSet> databaseReader, string dataPath)
+    public TextTranslationDatabase(IDatabaseReader<TextTranslationDataSet> databaseReader, string dataPath)
     {
         // set reference of a database reader
         _databaseReader = databaseReader;
@@ -19,13 +19,13 @@ public class LevelDatabase : ObjectDatabaseBase<LevelDataSet>
     /// <summary>
     /// get player ability data tied with a specific player's level
     /// </summary>
-    /// <param name="level"></param>
+    /// <param name="id"></param>
     /// <returns></returns>
-    public override LevelDataSet GetData(int level)
+    public override TextTranslationDataSet GetData(int id)
     {
         // if the database isn't initialized or hasn't been read, do nothing
         if (_database == null || _database.Length < 1) { return null; }
 
-        return _database.FirstOrDefault(dataset => dataset._level == level);
+        return _database.FirstOrDefault(dataset => dataset._id == id);
     }
 }

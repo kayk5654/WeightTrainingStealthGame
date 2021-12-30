@@ -1,0 +1,338 @@
+{"_item":[
+  {
+    "_id": 1,
+    "_en": "Main Menu",
+    "_jp": "メインメニュー",
+    "_label": "MainUI_Root_1"
+  },
+  {
+    "_id": 2,
+    "_en": "Tutorial",
+    "_jp": "チュートリアル",
+    "_label": "MainUI_Root_2"
+  },
+  {
+    "_id": 3,
+    "_en": "Start Game",
+    "_jp": "ゲームスタート",
+    "_label": "MainUI_Root_3"
+  },
+  {
+    "_id": 4,
+    "_en": "Settings",
+    "_jp": "設定",
+    "_label": "MainUI_Root_4"
+  },
+  {
+    "_id": 5,
+    "_en": "Credits",
+    "_jp": "クレジット",
+    "_label": "MainUI_Root_5"
+  },
+  {
+    "_id": 6,
+    "_en": "Quit",
+    "_jp": "終了",
+    "_label": "MainUI_Root_6"
+  },
+  {
+    "_id": 7,
+    "_en": "Next",
+    "_jp": "次へ",
+    "_label": "MainUI_Next"
+  },
+  {
+    "_id": 8,
+    "_en": "Back",
+    "_jp": "戻る",
+    "_label": "MainUI_Back"
+  },
+  {
+    "_id": 9,
+    "_en": "Back to Main Menu",
+    "_jp": "メインメニューへ戻る",
+    "_label": "MainUI_BackToMainMenu"
+  },
+  {
+    "_id": 10,
+    "_en": "Tutorial",
+    "_jp": "チュートリアル",
+    "_label": "MainUI_Tutorial_Intro_1"
+  },
+  {
+    "_id": 11,
+    "_en": "Your mission is to find invisible enemies \nand to intercept them.\nLet's take a look at how to search and attack enemies.",
+    "_jp": "あなたのミッションは見えない敵を発見し、迎撃することです。\n敵を発見し、攻撃する方法を見ていきましょう。",
+    "_label": "MainUI_Tutorial_Intro_2"
+  },
+  {
+    "_id": 12,
+    "_en": "Select Exercise",
+    "_jp": "エクササイズの選択",
+    "_label": ""
+  },
+  {
+    "_id": 13,
+    "_en": "First, you'll select an exercise for input.\nIn this tutorial, let's try Squat as an example.",
+    "_jp": "まずは入力に使う種目を選択します。\n例としてスクワットを選択してみましょう。",
+    "_label": "MainUI_Tutorial_ExerciseSelection_2"
+  },
+  {
+    "_id": 14,
+    "_en": "Squat",
+    "_jp": "スクワット",
+    "_label": "MainUI_Tutorial_ExerciseSelection_3"
+  },
+  {
+    "_id": 15,
+    "_en": "Check Initial Posture",
+    "_jp": "姿勢の確認",
+    "_label": "MainUI_Tutorial_InitialPosture_1"
+  },
+  {
+    "_id": 16,
+    "_en": "Next, take the form of the exrecise you selected,\nuntil the ring gage is completely filled.",
+    "_jp": "次に、選択した種目の姿勢をとります。\nゲージが全てオレンジになるまで姿勢を維持して下さい。",
+    "_label": "MainUI_Tutorial_InitialPosture_2"
+  },
+  {
+    "_id": 17,
+    "_en": "Take the form of the exrecise you selected.",
+    "_jp": "選択した種目の姿勢をとってください",
+    "_label": "MainUI_Tutorial_InitialPosture_3"
+  },
+  {
+    "_id": 18,
+    "_en": "Send Signals",
+    "_jp": "信号の送信",
+    "_label": "MainUI_Tutorial_PlayersAction_1"
+  },
+  {
+    "_id": 19,
+    "_en": "Now you can send ultrasonic signals by doing squat.\nSquat down once to charge energy to send a signal.",
+    "_jp": "これでスクワットで信号を送れるようになりました。\nまずはしゃがみこんで、信号を送るエネルギーを充填しましょう。",
+    "_label": "MainUI_Tutorial_PlayersAction_2"
+  },
+  {
+    "_id": 20,
+    "_en": "Next, look at an object you want to send a signal.\nThe cursor is snapped on the object\nand the lock-on guide is displayed on it.",
+    "_jp": "次に、信号を送る対象物を見ましょう。\n信号を送れる対象には視線のカーソルがスナップされ、\nロックオンガイドが表示されます。",
+    "_label": "MainUI_Tutorial_PlayersAction_3"
+  },
+  {
+    "_id": 21,
+    "_en": "Lock-on Guide\nSignals are sent to the object highlighted with this guide",
+    "_jp": "ロックオンガイド\nこのガイドが対象物に付いたら信号は必ず対象物に送られる",
+    "_label": "MainUI_Tutorial_PlayersAction_4"
+  },
+  {
+    "_id": 22,
+    "_en": "When the ring gage in front of you is filled,\nlook at where you send a signal and stand up.",
+    "_jp": "視線のカーソルのゲージが一杯になったら、\n信号を送る対象を見たまま立ち上がりましょう。",
+    "_label": "MainUI_Tutorial_PlayersAction_5"
+  },
+  {
+    "_id": 23,
+    "_en": "Find Enemy",
+    "_jp": "索敵",
+    "_label": "MainUI_Tutorial_FindEnemy_1"
+  },
+  {
+    "_id": 24,
+    "_en": "Ultrasonic signals enable you to find invisible enemy.\nSend a signal to the guide.\nThere should be something threatening you!",
+    "_jp": "信号は隠れた敵の発見に使用できます。\n信号をガイドに向けて送ってみましょう。\nガイド付近に敵が潜んでいます！",
+    "_label": "MainUI_Tutorial_FindEnemy_2"
+  },
+  {
+    "_id": 25,
+    "_en": "Attack Enemy",
+    "_jp": "敵の攻撃方法",
+    "_label": "MainUI_Tutorial_AttackEnemy_1"
+  },
+  {
+    "_id": 26,
+    "_en": "You've found an enemy.\n\nNow you should attack it using a sphere node in front of you.\n\nSend a signal to the node to order it to attack the enemy!",
+    "_jp": "敵を発見することが出来ました。\n\nそれでは、目の前の球体のノードを使って敵を攻撃しましょう。\n球体のノードに信号を送ることで、攻撃命令を出しましょう。",
+    "_label": "MainUI_Tutorial_AttackEnemy_2"
+  },
+  {
+    "_id": 27,
+    "_en": "Your Mission",
+    "_jp": "あなたのミッション",
+    "_label": "MainUI_Tutorial_PlayersMission_1"
+  },
+  {
+    "_id": 28,
+    "_en": "The enemies search the nodes, and try destroying them.\nSo, your mission is destroying enemies before they destroy all of the nodes.\nIf all nodes are destroyed, enemies will destroy you as well.",
+    "_jp": "敵は球体のノードを探知し、破壊してきます。\nそのため、敵が全てのノードを破壊する前に敵を破壊して下さい。\n全てのノードが破壊されるとゲームオーバーになります。",
+    "_label": "MainUI_Tutorial_PlayersMission_2"
+  },
+  {
+    "_id": 29,
+    "_en": "Tutorial",
+    "_jp": "チュートリアル",
+    "_label": "MainUI_Tutorial_EndTutorial_1"
+  },
+  {
+    "_id": 30,
+    "_en": "Now you've learned how to find and attack enemies.\n\nMove on the actual missions,\nand intercept enemies attacking us.\nGood luck!",
+    "_jp": "それでは実際のミッションに移り、\n襲ってくる敵を迎撃していきましょう。\n健闘を祈ります！",
+    "_label": "MainUI_Tutorial_EndTutorial_2"
+  },
+  {
+    "_id": 31,
+    "_en": "Select Difficulty",
+    "_jp": "難易度",
+    "_label": "MainUI_StartGame_SelectDifficulty_1"
+  },
+  {
+    "_id": 32,
+    "_en": "Easy",
+    "_jp": "Easy",
+    "_label": "MainUI_StartGame_SelectDifficulty_2"
+  },
+  {
+    "_id": 33,
+    "_en": "Normal",
+    "_jp": "Normal",
+    "_label": "MainUI_StartGame_SelectDifficulty_3"
+  },
+  {
+    "_id": 34,
+    "_en": "Hard",
+    "_jp": "Hard",
+    "_label": "MainUI_StartGame_SelectDifficulty_4"
+  },
+  {
+    "_id": 35,
+    "_en": "Select Exercise",
+    "_jp": "エクササイズ",
+    "_label": "MainUI_StartGame_SelectExercise_1"
+  },
+  {
+    "_id": 36,
+    "_en": "Push Up",
+    "_jp": "腕立て伏せ",
+    "_label": "MainUI_StartGame_SelectExercise_2"
+  },
+  {
+    "_id": 37,
+    "_en": "Sit Up",
+    "_jp": "腹筋",
+    "_label": "MainUI_StartGame_SelectExercise_3"
+  },
+  {
+    "_id": 38,
+    "_en": "Squat",
+    "_jp": "スクワット",
+    "_label": "MainUI_StartGame_SelectExercise_4"
+  },
+  {
+    "_id": 39,
+    "_en": "Chin Up",
+    "_jp": "懸垂",
+    "_label": "MainUI_StartGame_SelectExercise_5"
+  },
+  {
+    "_id": 40,
+    "_en": "Play",
+    "_jp": "Play",
+    "_label": "MainUI_StartGame_SelectExercise_6"
+  },
+  {
+    "_id": 41,
+    "_en": "Settings",
+    "_jp": "設定",
+    "_label": "MianUI_Settings_Root_1"
+  },
+  {
+    "_id": 42,
+    "_en": "Reset",
+    "_jp": "リセット",
+    "_label": "MianUI_Settings_Root_2"
+  },
+  {
+    "_id": 43,
+    "_en": "Language",
+    "_jp": "言語",
+    "_label": "MianUI_Settings_Root_3"
+  },
+  {
+    "_id": 44,
+    "_en": "Are you sure you want to reset your progress?",
+    "_jp": "プレイ履歴を削除しますか？",
+    "_label": "MianUI_Settings_Reset_1"
+  },
+  {
+    "_id": 45,
+    "_en": "Yes",
+    "_jp": "はい",
+    "_label": "MianUI_Settings_Reset_2"
+  },
+  {
+    "_id": 46,
+    "_en": "No",
+    "_jp": "いいえ",
+    "_label": "MianUI_Settings_Reset_3"
+  },
+  {
+    "_id": 47,
+    "_en": "Quit",
+    "_jp": "終了",
+    "_label": "MainUI_Quit_1"
+  },
+  {
+    "_id": 48,
+    "_en": "Are you sure you want to quit?",
+    "_jp": "アプリケーションを終了しますか？",
+    "_label": "MainUI_Quit_2"
+  },
+  {
+    "_id": 49,
+    "_en": "Yes",
+    "_jp": "はい",
+    "_label": "MainUI_Quit_3"
+  },
+  {
+    "_id": 50,
+    "_en": "No",
+    "_jp": "いいえ",
+    "_label": "MainUI_Quit_4"
+  },
+  {
+    "_id": 51,
+    "_en": "Credits",
+    "_jp": "クレジット",
+    "_label": "MainUI_Credit_1"
+  },
+  {
+    "_id": 52,
+    "_en": "Take the form of the exrecise you selected.",
+    "_jp": "選択した種目の姿勢をとってください",
+    "_label": "WorkoutUI_BeforeGamePlay_1"
+  },
+  {
+    "_id": 53,
+    "_en": "You win!",
+    "_jp": "You win!",
+    "_label": "WorkoutUI_GameClear_1"
+  },
+  {
+    "_id": 54,
+    "_en": "Game Over",
+    "_jp": "ゲームオーバー",
+    "_label": "WorkoutUI_GameOver_1"
+  },
+  {
+    "_id": 55,
+    "_en": "Pause",
+    "_jp": "一時停止",
+    "_label": "HandMenu_1"
+  },
+  {
+    "_id": 56,
+    "_en": "Resume",
+    "_jp": "再開",
+    "_label": "HandMenu_2"
+  }
+]}

@@ -16,7 +16,11 @@ public static class Config
     // path of database of the exercise input
     public static readonly string _exerciseInputDataPath = Application.streamingAssetsPath + "/" + "exerciseInputData.json";
 
+    // path of credit text
     public static readonly string _creditsTextPath = Application.streamingAssetsPath + "/" + "Credits.txt";
+
+    // path of database of the text translation
+    public static readonly string _textTranslationDataPath = Application.streamingAssetsPath + "/" + "TextTranslationData.json";
 
     // player's level as a default
     public static readonly int _defaultPlayerLevel = 0;
@@ -65,11 +69,17 @@ public static class Config
     public static readonly float _ringGageFillDuration = 1f;
 
     // speed of projectiles
-    public static float _projectileSpeed = 4.0f;
+    public static readonly float _projectileSpeed = 4.0f;
 
     // maximum distance projectiles can travel
-    public static float _maxProjectileDistance = 6.0f;
+    public static readonly float _maxProjectileDistance = 6.0f;
 
     // time to activate features in the remained time defined by its argument
-    public static float _lastRushTime = 25f;
+    public static readonly float _lastRushTime = 25f;
+
+    // language identifier for English
+    public static readonly string _english = "EN";
+
+    // language identifier for Japanese
+    public static readonly string _japanese = "JP";
 }
