@@ -13963,7 +13963,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Lock-on Guide
+  m_text: 'Lock-on Guide
+
+    Signals are sent to the object highlighted with this
+    guide'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d3a0597dad2fa234abac796565f52d47, type: 2}
   m_sharedMaterial: {fileID: 5379721039170545496, guid: d3a0597dad2fa234abac796565f52d47,
@@ -13991,8 +13994,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.05
-  m_fontSizeBase: 0.05
+  m_fontSize: 0.04
+  m_fontSizeBase: 0.04
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -20559,7 +20562,7 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: 0.42, y: 0.06, z: 0.28}
+  - {x: 0.3, y: 0.06, z: 0.28}
   - {x: 0.12, y: 0, z: 0.08}
   m_Parameters:
     serializedVersion: 3
