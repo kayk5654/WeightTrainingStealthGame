@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -4889,7 +4889,7 @@ MonoBehaviour:
   _cameraTransform: {fileID: 963194228}
   _transformStyle: 2
   _dist: 0.5
-  _relativeHeight: 0
+  _relativeHeight: -0.1
   _localXAngle: 0
   _lookDirDiffThresh: 0.8
   _heightDiffThresh: 0.1
@@ -12525,7 +12525,7 @@ MonoBehaviour:
   _cameraTransform: {fileID: 963194228}
   _transformStyle: 2
   _dist: 0.5
-  _relativeHeight: 0
+  _relativeHeight: -0.1
   _localXAngle: 0
   _lookDirDiffThresh: 0.8
   _heightDiffThresh: 0.1
@@ -16260,9 +16260,19 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2753043170753212946, guid: e93dacc177df79c449616a8baf0eab73,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4357168018675881424, guid: e93dacc177df79c449616a8baf0eab73,
         type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4951235102469572775, guid: e93dacc177df79c449616a8baf0eab73,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5781225494059896585, guid: e93dacc177df79c449616a8baf0eab73,
@@ -16355,12 +16365,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7672025912475698693, guid: e93dacc177df79c449616a8baf0eab73,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7947004599680539123, guid: e93dacc177df79c449616a8baf0eab73,
         type: 3}
       propertyPath: m_Name
       value: SphereNode_Simplified
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7930301717661666825, guid: e93dacc177df79c449616a8baf0eab73, type: 3}
+    - {fileID: 6067769570845383364, guid: e93dacc177df79c449616a8baf0eab73, type: 3}
+    - {fileID: 4357168018675881424, guid: e93dacc177df79c449616a8baf0eab73, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e93dacc177df79c449616a8baf0eab73, type: 3}
 --- !u!4 &1404147296 stripped
 Transform:
@@ -27160,7 +27178,7 @@ MonoBehaviour:
   _cameraTransform: {fileID: 963194228}
   _transformStyle: 2
   _dist: 0.5
-  _relativeHeight: 0
+  _relativeHeight: -0.1
   _localXAngle: 0
   _lookDirDiffThresh: 0.8
   _heightDiffThresh: 0.1
