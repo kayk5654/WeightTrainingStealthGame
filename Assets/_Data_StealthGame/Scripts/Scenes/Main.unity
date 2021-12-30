@@ -1748,7 +1748,7 @@ MonoBehaviour:
   _phaseType: 2
   _rootObjects:
   - {fileID: 101052953}
-  _solverHandler: {fileID: 919132149496808935}
+  _solverHandler: {fileID: 0}
   _uiTransformModifier: {fileID: 919132149496808939}
   _panelPositionOffset: {x: 0, y: 0, z: 0}
   _panelRotationOffset: {x: 0, y: 0, z: 0}
@@ -4779,8 +4779,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 376989252}
-  - component: {fileID: 376989254}
-  - component: {fileID: 376989253}
   - component: {fileID: 376989255}
   m_Layer: 0
   m_Name: GameClearUI
@@ -4806,55 +4804,6 @@ Transform:
   m_Father: {fileID: 1549359286}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &376989253
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 376989251}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4684083f6dff4a1d8a790bccc354fcf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  updateLinkedTransform: 0
-  moveLerpTime: 0.1
-  rotateLerpTime: 0.1
-  scaleLerpTime: 0
-  maintainScaleOnInitialization: 1
-  smoothing: 1
-  lifetime: 0
-  referenceDirection: 1
-  minDistance: 0.2
-  maxDistance: 0.65
-  minViewDegrees: 0
-  maxViewDegrees: 30
-  aspectV: 1
-  ignoreAngleClamp: 0
-  ignoreDistanceClamp: 0
-  useFixedVerticalPosition: 0
-  fixedVerticalPosition: -0.4
-  orientToReferenceDirection: 0
---- !u!114 &376989254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 376989251}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b55691ad5b034fe6966763a6e23818d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trackedTargetType: 0
-  trackedHandness: 3
-  trackedHandJoint: 2
-  transformOverride: {fileID: 0}
-  additionalOffset: {x: 0, y: 0, z: 0}
-  additionalRotation: {x: 0, y: 0, z: 0}
-  updateSolvers: 1
 --- !u!114 &376989255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10079,7 +10028,7 @@ MonoBehaviour:
   _phaseType: 1
   _rootObjects:
   - {fileID: 795286516}
-  _solverHandler: {fileID: 919132149496808935}
+  _solverHandler: {fileID: 0}
   _uiTransformModifier: {fileID: 919132149496808939}
   _panelPositionOffset: {x: 0, y: 0, z: 0}
   _panelRotationOffset: {x: 0, y: 0, z: 0}
@@ -11291,7 +11240,7 @@ MonoBehaviour:
   _rootObjects:
   - {fileID: 1943140469}
   - {fileID: 945185307}
-  _solverHandler: {fileID: 919132149496808935}
+  _solverHandler: {fileID: 0}
   _uiTransformModifier: {fileID: 919132149496808939}
   _panelPositionOffset: {x: 0, y: 0, z: 0}
   _panelRotationOffset: {x: 0, y: 0, z: 0}
@@ -12671,8 +12620,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1127773492}
-  - component: {fileID: 1127773494}
-  - component: {fileID: 1127773493}
   - component: {fileID: 1127773495}
   m_Layer: 0
   m_Name: GameOverUI
@@ -12698,55 +12645,6 @@ Transform:
   m_Father: {fileID: 708916985}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1127773493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1127773491}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4684083f6dff4a1d8a790bccc354fcf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  updateLinkedTransform: 0
-  moveLerpTime: 0.1
-  rotateLerpTime: 0.1
-  scaleLerpTime: 0
-  maintainScaleOnInitialization: 1
-  smoothing: 1
-  lifetime: 0
-  referenceDirection: 1
-  minDistance: 0.2
-  maxDistance: 0.65
-  minViewDegrees: 0
-  maxViewDegrees: 30
-  aspectV: 1
-  ignoreAngleClamp: 0
-  ignoreDistanceClamp: 0
-  useFixedVerticalPosition: 0
-  fixedVerticalPosition: -0.4
-  orientToReferenceDirection: 0
---- !u!114 &1127773494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1127773491}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b55691ad5b034fe6966763a6e23818d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trackedTargetType: 0
-  trackedHandness: 3
-  trackedHandJoint: 2
-  transformOverride: {fileID: 0}
-  additionalOffset: {x: 0, y: 0, z: 0}
-  additionalRotation: {x: 0, y: 0, z: 0}
-  updateSolvers: 1
 --- !u!114 &1127773495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18777,7 +18675,7 @@ MonoBehaviour:
   _phaseType: 0
   _rootObjects:
   - {fileID: 1563730522}
-  _solverHandler: {fileID: 919132149496808935}
+  _solverHandler: {fileID: 0}
   _uiTransformModifier: {fileID: 919132149496808939}
   _panelPositionOffset: {x: 0, y: 0, z: 0}
   _panelRotationOffset: {x: 0, y: 0, z: 0}
@@ -20074,7 +19972,7 @@ MonoBehaviour:
   _rootObjects:
   - {fileID: 1656273998}
   - {fileID: 2123372001}
-  _solverHandler: {fileID: 919132149496808935}
+  _solverHandler: {fileID: 0}
   _uiTransformModifier: {fileID: 919132149496808939}
   _panelPositionOffset: {x: 0, y: -0.25, z: 0}
   _panelRotationOffset: {x: 40, y: 0, z: 0}
@@ -20167,7 +20065,7 @@ MonoBehaviour:
   _rootObjects:
   - {fileID: 1674218973}
   - {fileID: 2047673285}
-  _solverHandler: {fileID: 919132149496808935}
+  _solverHandler: {fileID: 0}
   _uiTransformModifier: {fileID: 919132149496808939}
   _panelPositionOffset: {x: 0, y: -0.25, z: 0}
   _panelRotationOffset: {x: 40, y: 0, z: 0}
@@ -21771,7 +21669,7 @@ MonoBehaviour:
   _rootObjects:
   - {fileID: 1784580280}
   - {fileID: 624816672}
-  _solverHandler: {fileID: 919132149496808935}
+  _solverHandler: {fileID: 0}
   _uiTransformModifier: {fileID: 919132149496808939}
   _panelPositionOffset: {x: 0, y: -0.25, z: 0}
   _panelRotationOffset: {x: 40, y: 0, z: 0}
@@ -25167,7 +25065,7 @@ MonoBehaviour:
   _rootObjects:
   - {fileID: 2049872884}
   - {fileID: 1780259517}
-  _solverHandler: {fileID: 919132149496808935}
+  _solverHandler: {fileID: 0}
   _uiTransformModifier: {fileID: 919132149496808939}
   _panelPositionOffset: {x: 0, y: -0.25, z: 0}
   _panelRotationOffset: {x: 40, y: 0, z: 0}
@@ -26585,8 +26483,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543450653231832927}
-  - component: {fileID: 919132149496808935}
-  - component: {fileID: 919132149496808934}
   - component: {fileID: 919132149496808939}
   - component: {fileID: 919132149496808936}
   - component: {fileID: 919132149496808937}
@@ -26598,55 +26494,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &919132149496808934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132149496808933}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4684083f6dff4a1d8a790bccc354fcf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  updateLinkedTransform: 0
-  moveLerpTime: 0.1
-  rotateLerpTime: 0.1
-  scaleLerpTime: 0
-  maintainScaleOnInitialization: 1
-  smoothing: 1
-  lifetime: 0
-  referenceDirection: 1
-  minDistance: 0.2
-  maxDistance: 0.65
-  minViewDegrees: 0
-  maxViewDegrees: 30
-  aspectV: 1
-  ignoreAngleClamp: 0
-  ignoreDistanceClamp: 0
-  useFixedVerticalPosition: 0
-  fixedVerticalPosition: -0.4
-  orientToReferenceDirection: 0
---- !u!114 &919132149496808935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132149496808933}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b55691ad5b034fe6966763a6e23818d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trackedTargetType: 0
-  trackedHandness: 3
-  trackedHandJoint: 2
-  transformOverride: {fileID: 0}
-  additionalOffset: {x: 0, y: 0, z: 0}
-  additionalRotation: {x: 0, y: 0, z: 0}
-  updateSolvers: 1
 --- !u!82 &919132149496808936
 AudioSource:
   m_ObjectHideFlags: 0

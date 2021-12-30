@@ -67,7 +67,7 @@ public class UITransformModifier : MonoBehaviour {
 
         // position adjustment is activated when the canvas is almost outside of the player's eyesight
         
-        bool whenPosModActivated = GetLookDirDiffXZ() < _lookDirDiffThresh || GetHeightDiff() > _heightDiffThresh;
+        bool whenPosModActivated = GetLookDirDiffXZ() < _lookDirDiffThresh || GetHeightDiff() > _heightDiffThresh || GetDistanceDiff() > _dist;
 
         if (!whenPosModActivated) { return; }
         SetTrackTargetXZ();
@@ -144,6 +144,13 @@ public class UITransformModifier : MonoBehaviour {
         Vector2 PlayerToCanvasDir = new Vector2((transform.position - _cameraTransform.position).x, (transform.position - _cameraTransform.position).z).normalized;
 
         return Vector2.Dot(XZForwardVec, PlayerToCanvasDir);
+    }
+
+    private float GetDistanceDiff()
+    {
+        _tempVector = transform.position - _cameraTransform.position;
+        _tempVector.y = 0f;
+        return _tempVector.magnitude;
     }
 
     private float GetLookDirDiff3D()
