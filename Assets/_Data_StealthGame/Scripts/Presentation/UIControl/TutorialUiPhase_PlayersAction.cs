@@ -16,8 +16,14 @@ public class TutorialUiPhase_PlayersAction : TutorialUiPhase
     [SerializeField, Tooltip("object for squat down step")]
     private GameObject _squatDownObject;
 
+    [SerializeField, Tooltip("object for lock on step")]
+    private GameObject _lockOnObject;
+
     [SerializeField, Tooltip("object for stand up step")]
     private GameObject _standUpObject;
+
+    [SerializeField, Tooltip("detect whether any objects are locked on")]
+    private ProjectileTargetFinder _projectileTargetFinder;
 
     [SerializeField, Tooltip("color setter for next button")]
     private ButtonBackplateColorSetter _nextButtonColorSetter;
@@ -99,6 +105,13 @@ public class TutorialUiPhase_PlayersAction : TutorialUiPhase
 
         // switch text
         _squatDownObject.SetActive(false);
+        _lockOnObject.SetActive(true);
+
+        // wait until any objects are locked on
+        yield return new WaitUntil(() => _projectileTargetFinder.GetTargetObject() != null);
+
+        // switch text
+        _lockOnObject.SetActive(false);
         _standUpObject.SetActive(true);
 
         // wait until the attack action is detected
