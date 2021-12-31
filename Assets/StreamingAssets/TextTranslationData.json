@@ -260,7 +260,7 @@
   {
     "_id": 44,
     "_en": "Are you sure you want to reset your progress?",
-    "_jp": "プレイ履歴を削除しますか？",
+    "_jp": "プレイ履歴を削除しますか?",
     "_label": "MianUI_Settings_Reset_1"
   },
   {
@@ -284,7 +284,7 @@
   {
     "_id": 48,
     "_en": "Are you sure you want to quit?",
-    "_jp": "アプリケーションを終了しますか？",
+    "_jp": "アプリケーションを終了しますか?",
     "_label": "MainUI_Quit_2"
   },
   {
