@@ -140,7 +140,7 @@
   {
     "_id": 24,
     "_en": "Ultrasonic signals enable you to find invisible enemy.\nSend a signal to the guide.\nThere should be something threatening you!",
-    "_jp": "信号は隠れた敵の発見に使用できます。\n信号をガイドに向けて送ってみましょう。\nガイド付近に敵が潜んでいます！",
+    "_jp": "信号は隠れた敵の発見に使用できます。\n信号をガイドに向けて送ってみましょう。\nガイド付近に敵が潜んでいます!",
     "_label": "MainUI_Tutorial_FindEnemy_2"
   },
   {
@@ -164,7 +164,7 @@
   {
     "_id": 28,
     "_en": "The enemies search the nodes, and try destroying them.\nSo, your mission is destroying enemies before they destroy all of the nodes.\nIf all nodes are destroyed, enemies will destroy you as well.",
-    "_jp": "敵は球体のノードを探知し、破壊してきます。\nそのため、敵が全てのノードを破壊する前に敵を破壊して下さい。\n全てのノードが破壊されるとゲームオーバーになります。",
+    "_jp": "敵は球体のノードを探知し、破壊してきます。\nそのため、敵が全てのノードを破壊する前に\n敵を破壊して下さい。\n全てのノードが破壊されるとゲームオーバーになります。",
     "_label": "MainUI_Tutorial_PlayersMission_2"
   },
   {
@@ -176,7 +176,7 @@
   {
     "_id": 30,
     "_en": "Now you've learned how to find and attack enemies.\n\nMove on the actual missions,\nand intercept enemies attacking us.\nGood luck!",
-    "_jp": "それでは実際のミッションに移り、\n襲ってくる敵を迎撃していきましょう。\n健闘を祈ります！",
+    "_jp": "それでは実際のミッションに移り、\n襲ってくる敵を迎撃していきましょう。\n健闘を祈ります!",
     "_label": "MainUI_Tutorial_EndTutorial_2"
   },
   {

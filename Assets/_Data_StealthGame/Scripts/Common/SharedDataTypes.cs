@@ -85,6 +85,18 @@ public enum StartGamePhase
 }
 
 /// <summary>
+/// name of pages of the "settings" section
+/// </summary>
+[System.Serializable]
+public enum SettingsPhase
+{
+    None = -1,
+    Root,
+    Language,
+    LENGTH,
+}
+
+/// <summary>
 /// available exercise types
 /// </summary>
 public enum ExerciseType

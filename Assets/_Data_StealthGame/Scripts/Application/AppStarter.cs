@@ -139,6 +139,7 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
         CursorManager cursorManager = FindObjectOfType<CursorManager>();
         TutorialUiController tutorialUiController = new TutorialUiController();
         StartGameUiController startGameUiController = new StartGameUiController();
+        SettingsUiController settingsUiController = new SettingsUiController();
 
         // link ui objects in the scene
         UiLinkerProvider uiLinkerProvider = new UiLinkerProvider();
@@ -147,6 +148,7 @@ public class AppStarter : MonoBehaviour, IAppStateSetter, IGamePlayStateSetter
         uiLinkerProvider.LinkObject(optionMenuUiController);
         uiLinkerProvider.LinkObject(tutorialUiController);
         uiLinkerProvider.LinkObject(startGameUiController);
+        uiLinkerProvider.LinkObject(settingsUiController);
 
         // create ui manager
         UiManager uiManager = new UiManager

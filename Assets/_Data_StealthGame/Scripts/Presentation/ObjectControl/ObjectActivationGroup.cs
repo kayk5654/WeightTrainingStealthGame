@@ -7,11 +7,15 @@ public class ObjectActivationGroup : MonoBehaviour {
     [SerializeField]
     private List<GameObject> _objects = new List<GameObject>();
 
+    [SerializeField, Tooltip("whether all referred objects are disabled when this object is set active")]
+    private bool _disableObjectsOnEnable = true;
+
     /// <summary>
     /// reset selection when this gameobject is enableds
     /// </summary>
     private void OnEnable()
     {
+        if (!_disableObjectsOnEnable) { return; }
         SetActive(false);
     }
 
