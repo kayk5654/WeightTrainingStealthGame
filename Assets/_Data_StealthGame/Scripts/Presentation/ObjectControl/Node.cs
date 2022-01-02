@@ -40,6 +40,9 @@ public class Node : InGameObjectBase, IHitTarget
     // event to notify nodeManager when this node is destroyed
     public override event EventHandler<InGameObjectEventArgs> _onDestroyed;
 
+    // event to notify nodeManager when this node is attacked
+    public event EventHandler<InGameObjectEventArgs> _onAttacked;
+
     // store connected node temporarily
     private Node _connectedNodeTemp;
 
@@ -331,6 +334,14 @@ public class Node : InGameObjectBase, IHitTarget
         _audioHandler.PlayDamagedSfx(true);
     }
 
+    /// <summary>
+    /// let this node notify that it's damaged
+    /// </summary>
+    public void StartDamage()
+    {
+        InGameObjectEventArgs args = new InGameObjectEventArgs(_id);
+        _onAttacked?.Invoke(this, args);
+    }
 
     /// <summary>
     /// process when this node is destroyed by an enemy

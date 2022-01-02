@@ -171,6 +171,12 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     // notify the end of current gameplay to the upper classes
     public event EventHandler<GamePlayEndArgs> _onGamePlayEnd;
 
+    // callback when the node's state is changed
+    public delegate void NodeStateCallback();
+
+    // callback when a node is attacked
+    public NodeStateCallback _onNodeAttacked;
+
 
     #region MonoBehaviour
     private void Update()
@@ -361,6 +367,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
             _nodes.Add(i, newNode.GetComponent<Node>());
             _nodes[i].InitParams(i, this, _speed * UnityEngine.Random.Range(0.5f, 1.2f));
             _nodes[i]._onDestroyed += OnDestroyNode;
+            _nodes[i]._onAttacked += OnNodeDamaged;
 
             // set data for compute buffer
             _nodesBufferData[i]._id = i;
@@ -584,6 +591,17 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
         if (!_nodes.ContainsKey(args._id)) { return; }
         
         _nodes.Remove(args._id);
+    }
+
+    /// <summary>
+    /// callback function when any of nodes are attacked
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void OnNodeDamaged(object sender, InGameObjectEventArgs args)
+    {
+        if (!_nodes.ContainsKey(args._id)) { return; }
+        _onNodeAttacked?.Invoke();
     }
 
     /// <summary>
