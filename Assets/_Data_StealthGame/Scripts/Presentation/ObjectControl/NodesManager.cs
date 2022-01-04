@@ -175,7 +175,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     public delegate void NodeStateCallback();
 
     // callback when a node is attacked
-    public NodeStateCallback _onNodeAttacked;
+    public EventHandler<InGameObjectEventArgs> _onNodeAttacked;
 
 
     #region MonoBehaviour
@@ -601,7 +601,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     private void OnNodeDamaged(object sender, InGameObjectEventArgs args)
     {
         if (!_nodes.ContainsKey(args._id)) { return; }
-        _onNodeAttacked?.Invoke();
+        _onNodeAttacked?.Invoke(sender, args);
     }
 
     /// <summary>

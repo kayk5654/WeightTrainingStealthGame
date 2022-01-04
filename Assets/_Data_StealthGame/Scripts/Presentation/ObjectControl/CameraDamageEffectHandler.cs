@@ -51,7 +51,7 @@ public class CameraDamageEffectHandler : MonoBehaviour
     /// <summary>
     /// start playing damage efect
     /// </summary>
-    private void PlayDamageEffect()
+    private void PlayDamageEffect(object sender, InGameObjectEventArgs args)
     {
         if(_damageEffectSequence != null)
         {
