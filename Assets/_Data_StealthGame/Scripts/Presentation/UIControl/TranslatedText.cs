@@ -11,6 +11,8 @@ public class TranslatedText : MonoBehaviour
     [SerializeField, Tooltip("id of text")]
     private int _id;
 
+    [SerializeField, Tooltip(" type of text")]
+    private TextType _textType;
 
     private void Start()
     {
@@ -38,5 +40,14 @@ public class TranslatedText : MonoBehaviour
     public int GetId()
     {
         return _id;
+    }
+
+    /// <summary>
+    /// check text type of this text
+    /// </summary>
+    /// <returns></returns>
+    public TextType GetTextType()
+    {
+        return _textType;
     }
 }

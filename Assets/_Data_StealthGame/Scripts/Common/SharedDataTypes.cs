@@ -27,7 +27,7 @@ public enum GamePlayState
 /// <summary>
 /// identify phases of workout navigation ui
 /// </summary>
-[System.Serializable]
+[Serializable]
 public enum WorkoutNavigationUiPanelPhase
 {
     None = -1,
@@ -41,7 +41,7 @@ public enum WorkoutNavigationUiPanelPhase
 /// <summary>
 /// names of phases in MainUiPanelController
 /// </summary>
-[System.Serializable]
+[Serializable]
 public enum MainUiPanelPhase
 {
     None = -1,
@@ -57,7 +57,7 @@ public enum MainUiPanelPhase
 /// <summary>
 /// names of phases of tutorial
 /// </summary>
-[System.Serializable]
+[Serializable]
 public enum TutorialPhase
 {
     None = -1,
@@ -76,7 +76,7 @@ public enum TutorialPhase
 /// <summary>
 /// names of phases of "start game"
 /// </summary>
-[System.Serializable]
+[Serializable]
 public enum StartGamePhase
 {
     None = -1,
@@ -88,7 +88,7 @@ public enum StartGamePhase
 /// <summary>
 /// name of pages of the "settings" section
 /// </summary>
-[System.Serializable]
+[Serializable]
 public enum SettingsPhase
 {
     None = -1,
@@ -123,7 +123,7 @@ public enum EnemyState
 /// <summary>
 /// types of input
 /// </summary>
-[System.Serializable]
+[Serializable]
 public enum InputType
 {
     Keyboard,
@@ -159,7 +159,7 @@ public enum ExerciseInputType
 /// <summary>
 /// type of look direction getter
 /// </summary>
-[System.Serializable]
+[Serializable]
 public enum LookDirectionGetterType
 {
     CameraTransform,
@@ -177,6 +177,16 @@ public enum ButtonFeedbackType
     OnPointed,
     OnPointedEnd,
     LENGTH
+}
+
+/// <summary>
+/// type of ui text
+/// </summary>
+[Serializable]
+public enum TextType
+{
+    PlainText,
+    Header,
 }
 
 /// <summary>
