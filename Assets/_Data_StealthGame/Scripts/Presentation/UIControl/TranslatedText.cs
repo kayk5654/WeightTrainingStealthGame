@@ -34,6 +34,15 @@ public class TranslatedText : MonoBehaviour
     }
 
     /// <summary>
+    /// set font to display
+    /// </summary>
+    /// <param name="font"></param>
+    public void SetFont(TMP_FontAsset font)
+    {
+        _textMeshPro.font = font;
+    }
+
+    /// <summary>
     /// check id of this text
     /// </summary>
     /// <returns></returns>

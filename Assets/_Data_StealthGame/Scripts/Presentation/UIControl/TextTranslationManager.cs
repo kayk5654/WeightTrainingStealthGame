@@ -76,6 +76,16 @@ public class TextTranslationManager : MonoBehaviour
         foreach (TranslatedText text in _translatedTexts)
         {
             // assign fonts
+            if(text.GetTextType() == TextType.Header)
+            {
+                // assign font for headers
+                text.SetFont(tempFontSet._headerFontAsset);
+            }
+            else
+            {
+                // assing font for plain texts
+                text.SetFont(tempFontSet._plainTextFontAsset);
+            }
             
             // assign texts
             tempTranslationDataset = _textTranslationDatabase.GetData(text.GetId());
