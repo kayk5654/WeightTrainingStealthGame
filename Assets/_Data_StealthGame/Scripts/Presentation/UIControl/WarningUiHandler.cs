@@ -18,9 +18,6 @@ public class WarningUiHandler : MonoBehaviour
     [SerializeField, Tooltip("camera transform")]
     private Transform _cameraTransform;
 
-    // manage spawned warning icons
-    private List<WarningIcon> _warningIcons = new List<WarningIcon>();
-
     /// <summary>
     /// set callback
     /// </summary>
@@ -47,7 +44,7 @@ public class WarningUiHandler : MonoBehaviour
 
     private void Update()
     {
-        UpdateIconList();
+        
     }
 
     /// <summary>
@@ -58,34 +55,9 @@ public class WarningUiHandler : MonoBehaviour
         WarningIcon newIcon = Instantiate(_warningIconPrefab, transform).GetComponent<WarningIcon>();
         newIcon.SetRelativeNodeTransform(_nodesManager.GetNode(args._id).transform);
         newIcon.SetCameraTransform(_cameraTransform);
-        newIcon.SetRelativeNodeId(args._id);
         newIcon.SetDistFromCenter(_radius);
-        _warningIcons.Add(newIcon);
-    }
-
-    /// <summary>
-    /// update status of the icons
-    /// </summary>
-    private void UpdateIconList()
-    {
-        if (_warningIcons == null || _warningIcons.Count < 1) { return; }
-
-        try
-        {
-            foreach (WarningIcon icon in _warningIcons)
-            {
-                // remove icon reference if the relative node is deleted
-                if (icon == null)
-                {
-                    _warningIcons.Remove(icon);
-                    continue;
-                }
-            }
-        }
-        catch
-        {
-
-        }
+        newIcon.SetRelativeNodeId(args._id);
+        Debug.Log("warning icon spawn / id: " + args._id);
     }
 
     /// <summary>
@@ -93,11 +65,11 @@ public class WarningUiHandler : MonoBehaviour
     /// </summary>
     private void DeleteAllIcons()
     {
-        foreach(WarningIcon icon in _warningIcons)
+        WarningIcon[] icons = GetComponentsInChildren<WarningIcon>();
+        
+        foreach(WarningIcon icon in icons)
         {
             Destroy(icon.gameObject);
         }
-        
-        _warningIcons.Clear();
     }
 }

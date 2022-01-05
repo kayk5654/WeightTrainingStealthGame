@@ -13,13 +13,13 @@ public class WarningIcon : MonoBehaviour
     private Transform _cameraTransform;
 
     // id of the relative node
-    private int _relativeNodeId;
+    private int _relativeNodeId = -1;
 
     [SerializeField, Tooltip("line to connect this icon and relative node")]
     private LineRenderer _lineRenderer;
 
     // threshold to compare angle of view direction of this icon and view direction of the relative node
-    private float _dotThreshold = 0.9f;
+    private float _dotThreshold = 0.99f;
 
     // distance from the center of the icon placement area of the parent of this icon
     private float _distFromCenter;
@@ -41,14 +41,23 @@ public class WarningIcon : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        // if this icon isn't initialized, do nothing
+        if(_relativeNodeId == -1) { return; }
+        
         // update position
         CalculateIconPosition();
 
         // draw line connecting this icon and the relative node properly
         UpdateLine();
 
-        // if the relative node is looked, delete this icon
+        // if the relative node is looked, hide this icon
         if (IsRelativeNodeLooked())
+        {
+            StartCoroutine(HideIconSequence());
+        }
+
+        // if the relative node is destroyed delete this icon
+        if (IsRelativeNodeDestroyed())
         {
             Destroy(gameObject);
         }
@@ -130,5 +139,34 @@ public class WarningIcon : MonoBehaviour
         _localPositionTemp.z = 0f;
         _localPositionTemp = _localPositionTemp.normalized;
         transform.localPosition = _localPositionTemp * _distFromCenter;
+    }
+
+    /// <summary>
+    /// hide this icon after certain period of time
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator HideIconSequence()
+    {
+        float hidePeriodDuration = 3f;
+        float phase = 0f;
+        WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
+
+        while(phase < 1f)
+        {
+            phase += Time.deltaTime / hidePeriodDuration;
+
+            yield return waitForEndOfFrame;
+        }
+
+        Destroy(gameObject);
+    }
+
+    /// <summary>
+    /// check whether the relative node is destroyed
+    /// </summary>
+    /// <returns></returns>
+    private bool IsRelativeNodeDestroyed()
+    {
+        return _relativeNode == null;
     }
 }

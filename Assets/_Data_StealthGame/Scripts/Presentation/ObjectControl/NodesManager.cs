@@ -175,8 +175,10 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     public delegate void NodeStateCallback();
 
     // callback when a node is attacked
-    public EventHandler<InGameObjectEventArgs> _onNodeAttacked;
+    public event EventHandler<InGameObjectEventArgs> _onNodeAttacked;
 
+    // callback when a node is destroyed
+    public event EventHandler<InGameObjectEventArgs> _onNodeDestroyed;
 
     #region MonoBehaviour
     private void Update()
@@ -591,6 +593,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
         if (!_nodes.ContainsKey(args._id)) { return; }
         
         _nodes.Remove(args._id);
+        _onNodeDestroyed?.Invoke(sender, args);
     }
 
     /// <summary>
