@@ -57,7 +57,6 @@ public class WarningUiHandler : MonoBehaviour
         newIcon.SetCameraTransform(_cameraTransform);
         newIcon.SetDistFromCenter(_radius);
         newIcon.SetRelativeNodeId(args._id);
-        Debug.Log("warning icon spawn / id: " + args._id);
     }
 
     /// <summary>

@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -5194,7 +5194,7 @@ MonoBehaviour:
   _cameraTransform: {fileID: 963194228}
   _transformStyle: 2
   _dist: 0.5
-  _relativeHeight: -0.1
+  _relativeHeight: -0.2
   _localXAngle: 0
   _lookDirDiffThresh: 0.8
   _heightDiffThresh: 0.1
@@ -13186,7 +13186,7 @@ MonoBehaviour:
   _cameraTransform: {fileID: 963194228}
   _transformStyle: 2
   _dist: 0.5
-  _relativeHeight: -0.1
+  _relativeHeight: -0.2
   _localXAngle: 0
   _lookDirDiffThresh: 0.8
   _heightDiffThresh: 0.1
@@ -27004,7 +27004,7 @@ MonoBehaviour:
   _cameraTransform: {fileID: 963194228}
   _transformStyle: 2
   _dist: 0.7
-  _relativeHeight: -0.1
+  _relativeHeight: -0.2
   _localXAngle: 0
   _lookDirDiffThresh: 0.8
   _heightDiffThresh: 0.1
@@ -27022,7 +27022,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _warningIconPrefab: {fileID: 4252060216166413532, guid: de526302dab9f6f4aaa093b30b8f73f9,
     type: 3}
-  _radius: 0.3
+  _radius: 0.08
   _nodesManager: {fileID: 156703948}
   _cameraTransform: {fileID: 963194228}
 --- !u!1 &2011812987
@@ -29517,7 +29517,7 @@ MonoBehaviour:
   _cameraTransform: {fileID: 963194228}
   _transformStyle: 2
   _dist: 0.5
-  _relativeHeight: -0.1
+  _relativeHeight: -0.2
   _localXAngle: 0
   _lookDirDiffThresh: 0.8
   _heightDiffThresh: 0.1

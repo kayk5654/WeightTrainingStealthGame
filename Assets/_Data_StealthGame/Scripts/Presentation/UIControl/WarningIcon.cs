@@ -19,7 +19,7 @@ public class WarningIcon : MonoBehaviour
     private LineRenderer _lineRenderer;
 
     // threshold to compare angle of view direction of this icon and view direction of the relative node
-    private float _dotThreshold = 0.99f;
+    private float _dotThreshold = 0.995f;
 
     // distance from the center of the icon placement area of the parent of this icon
     private float _distFromCenter;
@@ -43,7 +43,13 @@ public class WarningIcon : MonoBehaviour
     {
         // if this icon isn't initialized, do nothing
         if(_relativeNodeId == -1) { return; }
-        
+
+        // if the relative node is destroyed delete this icon
+        if (IsRelativeNodeDestroyed())
+        {
+            Destroy(gameObject);
+        }
+
         // update position
         CalculateIconPosition();
 
@@ -54,12 +60,6 @@ public class WarningIcon : MonoBehaviour
         if (IsRelativeNodeLooked())
         {
             StartCoroutine(HideIconSequence());
-        }
-
-        // if the relative node is destroyed delete this icon
-        if (IsRelativeNodeDestroyed())
-        {
-            Destroy(gameObject);
         }
     }
 
