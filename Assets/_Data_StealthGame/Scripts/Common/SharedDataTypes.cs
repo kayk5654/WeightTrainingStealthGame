@@ -69,6 +69,7 @@ public enum TutorialPhase
     AttackEnemy,
     PlayersMission,
     EndTutorial,
+    EnemysAttack,
     LENGTH,
 }
 

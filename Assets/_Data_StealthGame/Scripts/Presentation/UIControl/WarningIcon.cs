@@ -27,6 +27,9 @@ public class WarningIcon : MonoBehaviour
     // for calculation of the local position
     private Vector3 _localPositionTemp = Vector3.zero;
 
+    [SerializeField, Tooltip("how to hide this object; destroy or disable gameobject")]
+    private bool _disableByDestroy = true;
+
 
     /// <summary>
     /// initialization
@@ -47,7 +50,7 @@ public class WarningIcon : MonoBehaviour
         // if the relative node is destroyed delete this icon
         if (IsRelativeNodeDestroyed())
         {
-            Destroy(gameObject);
+            HideIcon();
         }
 
         // update position
@@ -159,7 +162,22 @@ public class WarningIcon : MonoBehaviour
             yield return waitForEndOfFrame;
         }
 
-        Destroy(gameObject);
+        HideIcon();
+    }
+
+    /// <summary>
+    /// hide this icon
+    /// </summary>
+    private void HideIcon()
+    {
+        if (_disableByDestroy)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     /// <summary>
