@@ -711,7 +711,7 @@ MonoBehaviour:
       type: 2}
   - _language: JP
     _headerFontAsset: {fileID: 11400000, guid: 1aa7d0bbc741a274588d05e69e46e28f, type: 2}
-    _plainTextFontAsset: {fileID: 11400000, guid: 1aa7d0bbc741a274588d05e69e46e28f,
+    _plainTextFontAsset: {fileID: 11400000, guid: d4544bb4cd6c9fa43af704cfaa04cafc,
       type: 2}
 --- !u!4 &45065844
 Transform:
@@ -12673,7 +12673,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_fontAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 1aa7d0bbc741a274588d05e69e46e28f,
+      objectReference: {fileID: 11400000, guid: d4544bb4cd6c9fa43af704cfaa04cafc,
         type: 2}
     - target: {fileID: 231028905743246076, guid: 241f79033cdd6cc45933601d980b2c3e,
         type: 3}
