@@ -97,8 +97,8 @@
   },
   {
     "_id": 17,
-    "_en": "Take the form of the exrecise you selected.",
-    "_jp": "選択した種目の姿勢をとってください",
+    "_en": "Take the form of \nthe exrecise you selected.",
+    "_jp": "選択した種目の\n姿勢をとってください",
     "_label": "MainUI_Tutorial_InitialPosture_3"
   },
   {
