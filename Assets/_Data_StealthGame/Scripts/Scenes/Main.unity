@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2063,7 +2063,7 @@ MonoBehaviour:
   - {fileID: 101052953}
   _solverHandler: {fileID: 0}
   _uiTransformModifier: {fileID: 919132149496808939}
-  _panelPositionOffset: {x: 0, y: 0, z: 0}
+  _panelPositionOffset: {x: 0, y: -0.1, z: 0}
   _panelRotationOffset: {x: 0, y: 0, z: 0}
   _tutorialActionHandler: {fileID: 1074136894}
   _stayStillTimeChecker: {fileID: 306788813}
@@ -5194,7 +5194,7 @@ MonoBehaviour:
   _cameraTransform: {fileID: 963194228}
   _transformStyle: 2
   _dist: 0.5
-  _relativeHeight: -0.2
+  _relativeHeight: -0.1
   _localXAngle: 0
   _lookDirDiffThresh: 0.8
   _heightDiffThresh: 0.1
@@ -10168,6 +10168,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &778867679
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 778867680}
+  m_Layer: 0
+  m_Name: WarningUITransformReference
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &778867680
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778867679}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 963194228}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &789786924
 GameObject:
   m_ObjectHideFlags: 0
@@ -10270,7 +10300,7 @@ MonoBehaviour:
   - {fileID: 795286516}
   _solverHandler: {fileID: 0}
   _uiTransformModifier: {fileID: 919132149496808939}
-  _panelPositionOffset: {x: 0, y: 0, z: 0}
+  _panelPositionOffset: {x: 0, y: -0.1, z: 0}
   _panelRotationOffset: {x: 0, y: 0, z: 0}
   _tutorialActionHandler: {fileID: 1074136894}
   _nextButton: {fileID: 2111841373}
@@ -11527,7 +11557,7 @@ MonoBehaviour:
   - {fileID: 945185307}
   _solverHandler: {fileID: 0}
   _uiTransformModifier: {fileID: 919132149496808939}
-  _panelPositionOffset: {x: 0, y: 0, z: 0}
+  _panelPositionOffset: {x: 0, y: -0.1, z: 0}
   _panelRotationOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
@@ -11615,6 +11645,7 @@ Transform:
   m_Children:
   - {fileID: 10145067}
   - {fileID: 323999849}
+  - {fileID: 778867680}
   m_Father: {fileID: 818701529}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13186,7 +13217,7 @@ MonoBehaviour:
   _cameraTransform: {fileID: 963194228}
   _transformStyle: 2
   _dist: 0.5
-  _relativeHeight: -0.2
+  _relativeHeight: -0.1
   _localXAngle: 0
   _lookDirDiffThresh: 0.8
   _heightDiffThresh: 0.1
@@ -20384,7 +20415,7 @@ MonoBehaviour:
   - {fileID: 1563730522}
   _solverHandler: {fileID: 0}
   _uiTransformModifier: {fileID: 919132149496808939}
-  _panelPositionOffset: {x: 0, y: 0, z: 0}
+  _panelPositionOffset: {x: 0, y: -0.1, z: 0}
   _panelRotationOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1566937351 stripped
 GameObject:
@@ -26968,6 +26999,7 @@ GameObject:
   - component: {fileID: 2007664681}
   - component: {fileID: 2007664682}
   - component: {fileID: 2007664683}
+  - component: {fileID: 2007664684}
   m_Layer: 0
   m_Name: WarningUIRig
   m_TagString: Untagged
@@ -26996,7 +27028,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2007664680}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c16e10f6205a5484cacac0c8920aa080, type: 3}
   m_Name: 
@@ -27025,6 +27057,19 @@ MonoBehaviour:
   _radius: 0.08
   _nodesManager: {fileID: 156703948}
   _cameraTransform: {fileID: 963194228}
+--- !u!114 &2007664684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007664680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85a6f297042178747ad84453978f85e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _trackingTarget: {fileID: 778867680}
 --- !u!1 &2011812987
 GameObject:
   m_ObjectHideFlags: 0
@@ -29517,7 +29562,7 @@ MonoBehaviour:
   _cameraTransform: {fileID: 963194228}
   _transformStyle: 2
   _dist: 0.5
-  _relativeHeight: -0.2
+  _relativeHeight: -0.1
   _localXAngle: 0
   _lookDirDiffThresh: 0.8
   _heightDiffThresh: 0.1

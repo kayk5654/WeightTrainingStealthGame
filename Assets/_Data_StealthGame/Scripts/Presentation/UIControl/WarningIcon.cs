@@ -19,7 +19,7 @@ public class WarningIcon : MonoBehaviour
     private LineRenderer _lineRenderer;
 
     // threshold to compare angle of view direction of this icon and view direction of the relative node
-    private float _dotThreshold = 0.995f;
+    private float _angleThreshold = 10f;
 
     // distance from the center of the icon placement area of the parent of this icon
     private float _distFromCenter;
@@ -114,7 +114,8 @@ public class WarningIcon : MonoBehaviour
     /// <returns></returns>
     private bool IsRelativeNodeLooked()
     {
-        return Vector3.Dot((transform.position - _cameraTransform.position).normalized, (_relativeNode.position - _cameraTransform.position)) > _dotThreshold;
+        if(IsRelativeNodeDestroyed()) { return false; }
+        return Vector3.Angle((transform.position - _cameraTransform.position).normalized, (_relativeNode.position - _cameraTransform.position)) < _angleThreshold;
     }
 
     /// <summary>
