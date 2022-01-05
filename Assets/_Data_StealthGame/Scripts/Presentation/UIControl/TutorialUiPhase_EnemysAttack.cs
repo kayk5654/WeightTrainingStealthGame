@@ -16,11 +16,31 @@ public class TutorialUiPhase_EnemysAttack : TutorialUiPhase
     [SerializeField, Tooltip("color setter for next button")]
     private ButtonBackplateColorSetter _nextButtonColorSetter;
 
+    [SerializeField, Tooltip("warning icon")]
+    private WarningIcon _warningIcon;
+
+    [SerializeField, Tooltip("camera transform")]
+    private Transform _cameraTransform;
+
+    [SerializeField, Tooltip("node")]
+    private Node _node;
+
+    [SerializeField, Tooltip("animator of enemy")]
+    private Animator _enemyAnimator;
+
+    // control enemy's animation
+    private string _enemyAttackProperty = "IsAttack";
+
+    // distance from center of the warning icon's display area
+    private float _distFromCenter = 0.08f;
+
+    // dummy node id for the warning icon
+    private int _dummyNodeId = 1000;
+
     // flow of describing player's action
     private IEnumerator _mainSequence;
 
-
-
+    
     public override void Display()
     {
         base.Display();
@@ -39,8 +59,22 @@ public class TutorialUiPhase_EnemysAttack : TutorialUiPhase
     /// </summary>
     private void InitializeObjects()
     {
+        // set next button status
         _nextButton.IsEnabled = false;
         _nextButtonColorSetter.SetColor(false);
+        
+        // set warning icon status
+        _warningIcon.SetCameraTransform(_cameraTransform);
+        _warningIcon.SetRelativeNodeTransform(_node.transform);
+        _warningIcon.SetDistFromCenter(_distFromCenter);
+        _warningIcon.SetRelativeNodeId(_dummyNodeId);
+        _warningIcon.gameObject.SetActive(true);
+
+        // set enemy status
+        _enemyAnimator.SetBool(_enemyAttackProperty, true);
+
+        // set node status
+        //_node.Damage(-Config._enemyAttack);
     }
 
     /// <summary>
@@ -63,15 +97,12 @@ public class TutorialUiPhase_EnemysAttack : TutorialUiPhase
     /// <returns></returns>
     private IEnumerator MainSequence()
     {
-        // activate input
-        _tutorialActionHandler.EnableAction();
 
-        // wait until the attack action is detected
-        //yield return new WaitUntil(() => _tutorialActionHandler.IsEnemyDestroyed());
+        // apply damage of node
+        //_node.Damage(Config._enemyAttack);
+
+        // wait for certain period of time
         yield return new WaitForSeconds(4f);
-
-        // disable input action
-        _tutorialActionHandler.DisableAction();
 
         // enable next button
         _nextButtonColorSetter.SetColor(true);

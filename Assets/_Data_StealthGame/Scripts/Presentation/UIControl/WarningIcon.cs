@@ -27,8 +27,8 @@ public class WarningIcon : MonoBehaviour
     // for calculation of the local position
     private Vector3 _localPositionTemp = Vector3.zero;
 
-    [SerializeField, Tooltip("how to hide this object; destroy or disable gameobject")]
-    private bool _disableByDestroy = true;
+    [SerializeField, Tooltip("disable hiding this icon by destroying")]
+    private bool _disableHiding;
 
 
     /// <summary>
@@ -170,14 +170,9 @@ public class WarningIcon : MonoBehaviour
     /// </summary>
     private void HideIcon()
     {
-        if (_disableByDestroy)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            gameObject.SetActive(false);
-        }
+        if (_disableHiding) { return; }
+
+        Destroy(gameObject);
     }
 
     /// <summary>

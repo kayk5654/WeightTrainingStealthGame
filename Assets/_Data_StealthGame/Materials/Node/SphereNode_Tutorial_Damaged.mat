@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SphereNode_Tutorial_Damaged
+  m_Shader: {fileID: -6465566751694194690, guid: e143f47a23ecae84b93d06ae0339d24f,
+    type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3001
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _EnvironmentFxTex:
+        m_Texture: {fileID: 2800000, guid: 4f5ffb067f37050469219a02ecc6d12e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GlitchTex:
+        m_Texture: {fileID: 2800000, guid: f5dc489580be7e1429e803cd33c7d7a1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _IridescenceTex:
+        m_Texture: {fileID: 2800000, guid: ea14259fc382c234b97764c15b5fb420, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalTex:
+        m_Texture: {fileID: 2800000, guid: 49db80089bf138142a6ca06cda15451f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionTex:
+        m_Texture: {fileID: 2800000, guid: 25649ffd84ab27845b739640dc58c3d7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RoughnessTex:
+        m_Texture: {fileID: 2800000, guid: 0e2e6ef29c08c704692379e1eaf80f39, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AutoRotate: 1
+    - _DamageRange: 0.5
+    - _HitEffect: 0
+    - _Speed: 100
+    m_Colors:
+    - _AttackPosLocal: {r: 0, g: 1.4, b: 0, a: 0}
+    - _BaseColor: {r: 0.19607839, g: 0.75992775, b: 0.9607843, a: 0}
+    - _EmitAreaColor: {r: 0.19607836, g: 0.75992775, b: 0.96078426, a: 0}
+    - _EnvironmentFxColor: {r: 0, g: 0.39215687, b: 2.9960785, a: 1}
+    - _NearTintColor: {r: 0, g: 0.39215687, b: 2.9960785, a: 1}
+    - _Rotation: {r: 0, g: 0, b: 0, a: 0}
+    - _TilingOffset: {r: 2, g: 2, b: 0, a: 0}

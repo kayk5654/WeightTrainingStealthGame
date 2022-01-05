@@ -346,5 +346,11 @@
     "_en": "The enemies search the nodes, and try destroying them.\nIf one of the nodes is attacked,\na warning icon indicates the attacked node.",
     "_jp": "敵は球体のノードを探知し、破壊してきます。\nノードが攻撃された場合、\n警告アイコンにより攻撃を受けたノードが示されます。",
     "_label": "MainUI_Tutorial_EnemysAttack_2"
+  },
+  {
+    "_id": 59,
+    "_en": "Warning Icon",
+    "_jp": "警告アイコン",
+    "_label": "MainUI_Tutorial_EnemysAttack_3"
   }
 ]}
