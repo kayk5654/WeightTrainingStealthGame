@@ -16,6 +16,9 @@ Copyright (c) 2011, Matthew Desmond (http://www.madtype.com | mattdesmond@gmail.
 with Reserved Font Name Quantico.
 This Font Software is licensed under the SIL Open Font License, Version 1.1.
 
+Copyright (c) 2013-2022, Moji-Waku KenkyuÅ^HIROKI-CHAN (https://moji-waku.com | info@moji-waku.com),
+with Reserved Font Name Kaiso-tai NextÅ@UP B.
+This Font Software is licensed under https://moji-waku.com/mj_work_license/.
 
 
 This license is copied below, and is also available with a FAQ at:
