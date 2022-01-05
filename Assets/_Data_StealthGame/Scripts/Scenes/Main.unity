@@ -704,6 +704,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bb9a8db020e2064eaa7ec72e519b3f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fontSets:
+  - _language: EN
+    _headerFontAsset: {fileID: 11400000, guid: f6926c7a6b61ea3489c5b0261d055fc7, type: 2}
+    _plainTextFontAsset: {fileID: 11400000, guid: d3a0597dad2fa234abac796565f52d47,
+      type: 2}
+  - _language: JP
+    _headerFontAsset: {fileID: 11400000, guid: d3a0597dad2fa234abac796565f52d47, type: 2}
+    _plainTextFontAsset: {fileID: 11400000, guid: d3a0597dad2fa234abac796565f52d47,
+      type: 2}
 --- !u!4 &45065844
 Transform:
   m_ObjectHideFlags: 0

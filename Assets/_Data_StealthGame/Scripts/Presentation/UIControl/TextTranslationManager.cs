@@ -2,11 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
+/// <summary>
+/// dataset of fonts and language setting
+/// </summary>
+[System.Serializable]
+public class FontSet
+{
+    // identifier of the relative language setting
+    public string _language;
+    
+    // font for headers
+    public TMP_FontAsset _headerFontAsset;
+    
+    // font for plain texts
+    public TMP_FontAsset _plainTextFontAsset;
+}
+
 /// <summary>
 /// switch text depending on the language settings
 /// </summary>
 public class TextTranslationManager : MonoBehaviour
 {
+    [SerializeField, Tooltip("list of fonts")]
+    private FontSet[] _fontSets;
+
     // texts to translate
     private TranslatedText[] _translatedTexts;
 
@@ -47,10 +67,17 @@ public class TextTranslationManager : MonoBehaviour
     /// </summary>
     public void SetLanguage(string language)
     {
+        // set fonts
+        FontSet tempFontSet = _fontSets.SingleOrDefault(set => set._language == language);
+
+        // set texts
         TextTranslationDataSet tempTranslationDataset;
         
         foreach (TranslatedText text in _translatedTexts)
         {
+            // assign fonts
+            
+            // assign texts
             tempTranslationDataset = _textTranslationDatabase.GetData(text.GetId());
             
             if (language == Config._english)
