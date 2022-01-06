@@ -5272,7 +5272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraTransform: {fileID: 963194228}
-  _transformStyle: 2
+  _transformStyle: 3
   _dist: 0.5
   _relativeHeight: -0.1
   _localXAngle: 0
@@ -13937,7 +13937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraTransform: {fileID: 963194228}
-  _transformStyle: 2
+  _transformStyle: 3
   _dist: 0.5
   _relativeHeight: -0.1
   _localXAngle: 0
