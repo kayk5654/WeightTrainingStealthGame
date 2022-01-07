@@ -30,13 +30,18 @@ public class WarningIcon : MonoBehaviour
     [SerializeField, Tooltip("disable hiding this icon by destroying")]
     private bool _disableHiding;
 
+    // material for the line renderer 
+    private Material _lineMaterial;
+
+    // material property name of the origin of the line renderer
+    private string _lineOriginPropertyName = "_Origin";
 
     /// <summary>
     /// initialization
     /// </summary>
     private void Start()
     {
-        
+        _lineMaterial = _lineRenderer.material;
     }
 
     /// <summary>
@@ -58,6 +63,9 @@ public class WarningIcon : MonoBehaviour
 
         // draw line connecting this icon and the relative node properly
         UpdateLine();
+
+        // set position of this icon on the line material
+        SetOriginForMaterial();
 
         // if the relative node is looked, hide this icon
         if (IsRelativeNodeLooked())
@@ -182,5 +190,13 @@ public class WarningIcon : MonoBehaviour
     private bool IsRelativeNodeDestroyed()
     {
         return _relativeNode == null;
+    }
+
+    /// <summary>
+    /// set origin of this icon on the line renderer material
+    /// </summary>
+    private void SetOriginForMaterial()
+    {
+        _lineMaterial.SetVector(_lineOriginPropertyName, transform.position);
     }
 }
