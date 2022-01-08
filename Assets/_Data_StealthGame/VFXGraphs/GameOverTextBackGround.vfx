@@ -115,7 +115,7 @@ MonoBehaviour:
     x: 769
     y: -503
     width: 3332
-    height: 2303
+    height: 2301
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d4c867f6b72b714dbb5fd1780afe208, type: 3}
-  m_Name: GameClearTextBackGround
+  m_Name: GameOverTextBackGround
   m_EditorClassIdentifier: 
   m_Parent: {fileID: 0}
   m_Children:
@@ -198,7 +198,7 @@ VisualEffectResource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GameClearTextBackGround
+  m_Name: GameOverTextBackGround
   m_Graph: {fileID: 114350483966674976}
   m_ShaderSources:
   - compute: 1
@@ -487,7 +487,7 @@ VisualEffectResource:
       \n\r\n        }\r\n    }\r\n}\r\n"
   - compute: 0
     name: '[System 2]Output ParticleStrip Quad'
-    source: "Shader \"Hidden/VFX/GameClearTextBackGround/System 2/Output ParticleStrip
+    source: "Shader \"Hidden/VFX/GameOverTextBackGround/System 2/Output ParticleStrip
       Quad\"\n{\r\n\tSubShader\r\n\t{\t\r\n\t\tCull Off\r\n\t\t\r\n\t\tTags { \"Queue\"=\"Transparent\"
       \"IgnoreProjector\"=\"True\" \"RenderType\"=\"Transparent\" }\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\tBlend
       SrcAlpha OneMinusSrcAlpha\n\t\tZTest LEqual\n\t\tZWrite Off\n\t\tCull Off\n\t\t\n\t\n\t\t\t\n\t\tHLSLINCLUDE\n\t\t\n\t\t#define
@@ -615,8 +615,8 @@ VisualEffectResource:
       Initialize built-in needed attributes\n\t\t\t\t\t\t#if HAS_STRIPS\n\t\t\t\t\t\tInitStripAttributes(index,
       attributes, stripData);\n\t\t\t\t\t\t#endif\n\t\t\t\t\t\t\t\n\t\t\t\tAttributeFromCurve_7BA3F6A(
       /*inout */attributes.alpha, attributes.age, attributes.lifetime, Alpha_a);\n\t\t\t\t{\n\t\t\t\t   
-      SetAttribute_FDD06EC7( /*inout */attributes.color, float3(0.491605014, 1.50212634,
-      2.60823774));\n\t\t\t\t}\n\t\t\t\t\n\n\t\t\t\t\n\t\t\t#if !HAS_STRIPS\n\t\t\t\tif
+      SetAttribute_FDD06EC7( /*inout */attributes.color, float3(0.535458207, 0.505260587,
+      2.6082375));\n\t\t\t\t}\n\t\t\t\t\n\n\t\t\t\t\n\t\t\t#if !HAS_STRIPS\n\t\t\t\tif
       (!attributes.alive)\n\t\t\t\t\treturn o;\n\t\t\t#endif\n\t\t\t\t\n\t\t\t#if
       VFX_PRIMITIVE_QUAD\n\t\t\t\n\t\t\t#if HAS_STRIPS\n\t\t\t#if VFX_STRIPS_UV_STRECHED\n\t\t\t\to.VFX_VARYING_UV.x
       = (float)(currentIndex) / (stripData.nextIndex - 1);\n\t\t\t#elif VFX_STRIPS_UV_PER_SEGMENT\n\t\t\t\to.VFX_VARYING_UV.x
@@ -805,8 +805,8 @@ VisualEffectResource:
       Initialize built-in needed attributes\n\t\t\t\t\t\t#if HAS_STRIPS\n\t\t\t\t\t\tInitStripAttributes(index,
       attributes, stripData);\n\t\t\t\t\t\t#endif\n\t\t\t\t\t\t\t\n\t\t\t\tAttributeFromCurve_7BA3F6A(
       /*inout */attributes.alpha, attributes.age, attributes.lifetime, Alpha_a);\n\t\t\t\t{\n\t\t\t\t   
-      SetAttribute_FDD06EC7( /*inout */attributes.color, float3(0.491605014, 1.50212634,
-      2.60823774));\n\t\t\t\t}\n\t\t\t\t\n\n\t\t\t\t\n\t\t\t#if !HAS_STRIPS\n\t\t\t\tif
+      SetAttribute_FDD06EC7( /*inout */attributes.color, float3(0.535458207, 0.505260587,
+      2.6082375));\n\t\t\t\t}\n\t\t\t\t\n\n\t\t\t\t\n\t\t\t#if !HAS_STRIPS\n\t\t\t\tif
       (!attributes.alive)\n\t\t\t\t\treturn o;\n\t\t\t#endif\n\t\t\t\t\n\t\t\t#if
       VFX_PRIMITIVE_QUAD\n\t\t\t\n\t\t\t#if HAS_STRIPS\n\t\t\t#if VFX_STRIPS_UV_STRECHED\n\t\t\t\to.VFX_VARYING_UV.x
       = (float)(currentIndex) / (stripData.nextIndex - 1);\n\t\t\t#elif VFX_STRIPS_UV_PER_SEGMENT\n\t\t\t\to.VFX_VARYING_UV.x
@@ -984,7 +984,7 @@ VisualEffectResource:
       = index;\r\n#endif\r\n#endif\r\n\t}\r\n}\r\n"
   - compute: 0
     name: '[System 3]Output Particle Quad'
-    source: "Shader \"Hidden/VFX/GameClearTextBackGround/System 3/Output Particle
+    source: "Shader \"Hidden/VFX/GameOverTextBackGround/System 3/Output Particle
       Quad\"\n{\r\n\tSubShader\r\n\t{\t\r\n\t\tCull Off\r\n\t\t\r\n\t\tTags { \"Queue\"=\"Transparent\"
       \"IgnoreProjector\"=\"True\" \"RenderType\"=\"Transparent\" }\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\t\n\t\tBlend
       SrcAlpha OneMinusSrcAlpha\n\t\tZTest LEqual\n\t\tZWrite Off\n\t\tCull Off\n\t\t\n\t\n\t\t\t\n\t\tHLSLINCLUDE\n\t\t\n\t\t#define
@@ -1930,7 +1930,7 @@ VisualEffectResource:
         - m_ExpressionIndex: 9
           m_Value: {x: 0.4, y: 0.4, z: 0.4}
         - m_ExpressionIndex: 20
-          m_Value: {x: 0.491605, y: 1.5021263, z: 2.6082377}
+          m_Value: {x: 0.5354582, y: 0.5052606, z: 2.6082375}
         - m_ExpressionIndex: 28
           m_Value: {x: 0, y: 0, z: 0.5}
         - m_ExpressionIndex: 29
@@ -2148,7 +2148,7 @@ VisualEffectResource:
         - m_ExpressionIndex: 7
           m_Value:
             serializedVersion: 2
-            key0: {r: 0.5137075, g: 1.0984572, b: 1.7286665, a: 0}
+            key0: {r: 0.99610823, g: 0.5158849, b: 1.7286668, a: 0}
             key1: {r: 0.09495238, g: 0.49517703, b: 1.8299912, a: 0.47058824}
             key2: {r: 0, g: 0, b: 0, a: 0.47058824}
             key3: {r: 0, g: 0, b: 0, a: 0}
@@ -6568,7 +6568,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Vector3, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"x":0.4916050136089325,"y":1.5021263360977173,"z":2.6082377433776857}'
+      m_SerializableObject: '{"x":0.5354582071304321,"y":0.5052605867385864,"z":2.6082375049591066}'
     m_Space: 2147483647
   m_Property:
     name: Color
@@ -9041,7 +9041,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Gradient, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"colorKeys":[{"color":{"r":0.5137075185775757,"g":1.0984572172164918,"b":1.7286665439605713,"a":1.0},"time":0.0},{"color":{"r":0.09495238214731217,"g":0.4951770305633545,"b":1.8299912214279175,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":0.47058823704719546,"time":0.03529411926865578},{"alpha":0.47058823704719546,"time":0.23234912753105164},{"alpha":0.0,"time":1.0}],"gradientMode":0}'
+      m_SerializableObject: '{"colorKeys":[{"color":{"r":0.9961082339286804,"g":0.5158848762512207,"b":1.7286667823791505,"a":1.0},"time":0.0},{"color":{"r":0.09495238214731217,"g":0.4951770305633545,"b":1.8299912214279175,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":0.47058823704719546,"time":0.03529411926865578},{"alpha":0.47058823704719546,"time":0.23234912753105164},{"alpha":0.0,"time":1.0}],"gradientMode":0}'
     m_Space: 2147483647
   m_Property:
     name: Color
@@ -9422,7 +9422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d78581a96eae8bf4398c282eb0b098bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Parent: {fileID: 0}
+  m_Parent: {fileID: 114350483966674976}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
   m_UICollapsed: 1
