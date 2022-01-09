@@ -13,10 +13,10 @@ public class PlayerInputActionLinker : ISceneObjectLinker<PlayerActionManager>
         // get action activators in the scene
         InGameInputSwitcher inGameInputSwitcher = MonoBehaviour.FindObjectOfType<InGameInputSwitcher>();
 
-        //IActionActivator optionMenu = MonoBehaviour.FindObjectOfType<IActionActivator>();
-        //parentObject.SetOptionMenuUi(optionMenu);
+        RepsCounter repsCounter = MonoBehaviour.FindObjectOfType<RepsCounter>();
 
-        IActionActivator[] actionActivators = new IActionActivator[] { inGameInputSwitcher };
+
+        IActionActivator[] actionActivators = new IActionActivator[] { inGameInputSwitcher, repsCounter };
 
         // set action activators
         parentObject.SetActionActivators(actionActivators);

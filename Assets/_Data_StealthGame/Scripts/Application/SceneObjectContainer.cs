@@ -14,9 +14,6 @@ public class SceneObjectContainer : MonoBehaviour
     [SerializeField, Tooltip("in game defense action")]
     private IInGameDefenseAction _defenseAction;
 
-    [SerializeField, Tooltip("main ui phases")]
-    private MainUiPhase[] _mainUiPhases;
-
     [Header("Look Direction Getter")]
     [SerializeField, Tooltip("type of look direction getter")]
     private LookDirectionGetterType _lookDirectionGetterType;
@@ -53,15 +50,6 @@ public class SceneObjectContainer : MonoBehaviour
     public IInGameDefenseAction GetIInGameDefenseAction()
     {
         return _defenseAction;
-    }
-
-    /// <summary>
-    /// get _mainUiPhases
-    /// </summary>
-    /// <returns></returns>
-    public MainUiPhase[] GetMainUiPhaseArray()
-    {
-        return _mainUiPhases;
     }
 
     /// <summary>
