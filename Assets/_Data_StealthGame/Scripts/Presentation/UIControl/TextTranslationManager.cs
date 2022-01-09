@@ -100,4 +100,14 @@ public class TextTranslationManager : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// access specified text translation dataset
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public TextTranslationDataSet GetTextTranslationData(int id)
+    {
+        return _textTranslationDatabase.GetData(id);
+    }
 }

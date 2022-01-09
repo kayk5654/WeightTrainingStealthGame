@@ -5236,6 +5236,7 @@ GameObject:
   - component: {fileID: 376989252}
   - component: {fileID: 376989255}
   - component: {fileID: 376989253}
+  - component: {fileID: 376989254}
   m_Layer: 0
   m_Name: GameClearUI
   m_TagString: Untagged
@@ -5281,6 +5282,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &376989254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376989251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e668480c0d7dacc4eb1aa626a7825fcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textMeshPro: {fileID: 1304915787}
+  _id: 60
+  _textType: 1
+  _repsCounter: {fileID: 1542903547}
+  _numberText: {fileID: 876345149}
 --- !u!114 &376989255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14409,6 +14427,7 @@ GameObject:
   - component: {fileID: 1127773492}
   - component: {fileID: 1127773495}
   - component: {fileID: 1127773493}
+  - component: {fileID: 1127773494}
   m_Layer: 0
   m_Name: GameOverUI
   m_TagString: Untagged
@@ -14454,6 +14473,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1127773494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127773491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e668480c0d7dacc4eb1aa626a7825fcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textMeshPro: {fileID: 1738813719}
+  _id: 60
+  _textType: 1
+  _repsCounter: {fileID: 1542903547}
+  _numberText: {fileID: 1063708754}
 --- !u!114 &1127773495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18217,7 +18253,6 @@ GameObject:
   - component: {fileID: 1304915789}
   - component: {fileID: 1304915788}
   - component: {fileID: 1304915787}
-  - component: {fileID: 1304915786}
   m_Layer: 9
   m_Name: RepsNumText
   m_TagString: Untagged
@@ -18244,21 +18279,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.05, y: 0.001}
   m_SizeDelta: {x: 0.08, y: 0.01}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1304915786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1304915784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5e3acaa3dd479041a3ff55f1902f7a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _textMeshPro: {fileID: 1304915787}
-  _id: 53
-  _textType: 0
 --- !u!114 &1304915787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24903,7 +24923,6 @@ GameObject:
   - component: {fileID: 1738813721}
   - component: {fileID: 1738813720}
   - component: {fileID: 1738813719}
-  - component: {fileID: 1738813718}
   m_Layer: 9
   m_Name: RepsNumText
   m_TagString: Untagged
@@ -24930,21 +24949,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.05, y: 0.001}
   m_SizeDelta: {x: 0.08, y: 0.01}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1738813718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1738813716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5e3acaa3dd479041a3ff55f1902f7a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _textMeshPro: {fileID: 1738813719}
-  _id: 53
-  _textType: 1
 --- !u!114 &1738813719
 MonoBehaviour:
   m_ObjectHideFlags: 0

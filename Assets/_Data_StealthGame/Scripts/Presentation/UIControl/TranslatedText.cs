@@ -6,20 +6,20 @@ using UnityEngine;
 public class TranslatedText : MonoBehaviour
 {
     [SerializeField, Tooltip("text box")]
-    private TextMeshPro _textMeshPro;
+    protected TextMeshPro _textMeshPro;
 
     [SerializeField, Tooltip("id of text")]
-    private int _id;
+    protected int _id;
 
     [SerializeField, Tooltip(" type of text")]
-    private TextType _textType;
+    protected TextType _textType;
 
-    private void Start()
+    protected virtual void Start()
     {
         
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         
     }
@@ -28,7 +28,7 @@ public class TranslatedText : MonoBehaviour
     /// set text to display
     /// </summary>
     /// <param name="language"></param>
-    public void SetText(string text)
+    public virtual void SetText(string text)
     {
         _textMeshPro.text = text;
     }
