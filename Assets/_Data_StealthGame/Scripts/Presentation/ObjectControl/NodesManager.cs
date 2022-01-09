@@ -235,6 +235,14 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     }
 
     /// <summary>
+    /// show after gameplay state
+    /// </summary>
+    public void AfterPlay(bool didPlayerWin)
+    {
+        _toUpdate = false;
+    }
+
+    /// <summary>
     /// delete scene objects when the gameplay ends
     /// </summary>
     public void Delete()

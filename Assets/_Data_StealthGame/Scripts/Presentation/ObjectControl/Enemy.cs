@@ -333,4 +333,39 @@ public class Enemy : InGameObjectBase, IHitTarget
     {
         return _isFound;
     }
+
+    /// <summary>
+    /// let this enemy attack the player agter gameplay in the case of "game over"
+    /// </summary>
+    public void AttackPlayer(Transform playerTransform)
+    {
+        StartCoroutine(AttackPlayerSequence(playerTransform));
+    }
+
+    /// <summary>
+    /// let enemy attack the player
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator AttackPlayerSequence(Transform playerTransform)
+    {
+        WaitForEndOfFrame wait = new WaitForEndOfFrame();
+        bool isAttacking = false;
+
+        while (true)
+        {
+            // move enemy to search the player
+            _enemyMover.Move(playerTransform.position, _externalForce * 0.1f);
+            //_enemyMover.Move(playerTransform.position, Vector3.zero);
+
+            // if this enemy gets sufficiently close to the attack target, start attack it
+            if (!isAttacking && Vector3.Distance(playerTransform.position, transform.position) < _attackTargetDistThresh)
+            {
+                _enemyAnimationHandler.SetAttack();
+                _audioHandler.PlayAttackSfx(true);
+                isAttacking = true;
+                break;
+            }
+            yield return wait;
+        }
+    }
 }

@@ -52,6 +52,9 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     [SerializeField, Tooltip("spawn enemy objects in the spawn area")]
     private ObjectSpawnHandler _objectSpawnHandler;
 
+    [SerializeField, Tooltip("player's transform")]
+    private Transform _playerTransform;
+
     // process to keep spawning enemies
     private IEnumerator _spawnEnemySequence;
 
@@ -133,6 +136,9 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     // notify the end of current gameplay to the upper classes
     public event EventHandler<GamePlayEndArgs> _onGamePlayEnd;
 
+    // enemy state update for "after play" phase
+    private IEnumerator _afterPlayUpdateSequence;
+
 
     #region MonoBehaviour
 
@@ -213,11 +219,40 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     }
 
     /// <summary>
+    /// show after gameplay state
+    /// </summary>
+    public void AfterPlay(bool didPlayerWin)
+    {
+        StopSpawnEnemies();
+        EnableUpdateEnemies(false);
+
+        _toUpdate = false;
+
+        // split state of the enemies depending on the game end types
+        if (didPlayerWin)
+        {
+            // if the player won
+        }
+        else
+        {
+            // if the player lose, enemies try to attack the player
+            foreach(Enemy enemy in _enemies.Values)
+            {
+                enemy.AttackPlayer(_playerTransform);
+            }
+
+            _afterPlayUpdateSequence = AfterPlayUpdateSequence();
+            StartCoroutine(_afterPlayUpdateSequence);
+        }
+    }
+
+    /// <summary>
     /// delete scene objects when the gameplay ends
     /// </summary>
     public void Delete()
     {
         _toUpdate = false;
+        EndAfterPlayUpdate();
         StopSpawnEnemies();
         DeleteAllEnemies();
         ReleaseBuffers();
@@ -537,6 +572,33 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     public void LastRushEventCallback(object sender, EventArgs args)
     {
         SetNodeSearchingRangeMultiplier();
+    }
+
+
+    /// <summary>
+    /// update sequence for after gameplay state
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator AfterPlayUpdateSequence()
+    {
+        WaitForEndOfFrame waitForEndOfFrame = new WaitForEndOfFrame();
+        while (true)
+        {
+            UpdateBuffers();
+            UpdateForce();
+
+            yield return waitForEndOfFrame;
+        }
+    }
+
+    /// <summary>
+    /// end update sequence for after gameplay phase
+    /// </summary>
+    private void EndAfterPlayUpdate()
+    {
+        if(_afterPlayUpdateSequence == null) { return; }
+        StopCoroutine(_afterPlayUpdateSequence);
+        _afterPlayUpdateSequence = null;
     }
 
     #endregion

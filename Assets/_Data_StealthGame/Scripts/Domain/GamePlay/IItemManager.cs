@@ -26,6 +26,11 @@ public interface IItemManager<T, U>
     void Delete();
 
     /// <summary>
+    /// show after gameplay state
+    /// </summary>
+    void AfterPlay(bool didPlayerWin);
+
+    /// <summary>
     /// get number of items
     /// </summary>
     /// <returns></returns>

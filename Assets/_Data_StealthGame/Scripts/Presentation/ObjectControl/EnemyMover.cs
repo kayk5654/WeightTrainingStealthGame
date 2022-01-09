@@ -16,8 +16,8 @@ public class EnemyMover
     // store velocity in the last frame to smooth out the movement
     private Vector3 _lastVelocity;
 
-    // delay factor of rotation
-    private float _lerpFactor = 0.005f;
+    // delay factor of rotation; original value is 0.005f
+    private float _lerpFactor = 0.01f;
 
 
     /// <summary>

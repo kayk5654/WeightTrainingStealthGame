@@ -42,6 +42,8 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     // receivers to event to activate features for last several seconds of current gameplay
     private ILastRushEventReceiver[] _lastRushEventReceivers;
 
+    // whether the player won the last gameplay
+    private bool _didPlayerWin;
 
 
     /// <summary>
@@ -163,10 +165,9 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
                 break;
 
             case GamePlayState.AfterPlay:
-                // temporarily pause scene objects
-                PauseLevel();
-                // TODO: disable attack target finding features
-                // TODO: enemies go away
+                // disable attack target finding features
+                // show "after play" condition of the level
+                SetLevelAfterPlay();
                 break;
 
             default:
@@ -244,6 +245,16 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     }
 
     /// <summary>
+    /// show "after play" condition of the level
+    /// </summary>
+    private void SetLevelAfterPlay()
+    {
+        _enemyObjectManager.AfterPlay(_didPlayerWin);
+        _playerObjectManagers.AfterPlay(_didPlayerWin);
+        _timeLimitCounter.PauseCount();
+    }
+
+    /// <summary>
     /// set exercise type
     /// </summary>
     /// <param name="exerciseType"></param>
@@ -263,6 +274,7 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
         GamePlayStateEventArgs stateArgs = new GamePlayStateEventArgs(GamePlayState.AfterPlay);
         stateArgs._optionalArgs = args;
         _onGamePlayStateChange?.Invoke(this, stateArgs);
+        _didPlayerWin = args._didPlayerWin;
     }
 
     /// <summary>
@@ -273,7 +285,8 @@ public class LevelManager : IGamePlayStateSetter, IExerciseInfoSetter
     private void EndGamePlayByTimeLimit(object sender, GamePlayStateEventArgs args)
     {
         // get number of alive nodes; if at least 1 node is alive, player wins.
-        GamePlayEndArgs gameplayEndArgs = new GamePlayEndArgs(_playerObjectManagers.GetItemCount() > 0);
+        _didPlayerWin = _playerObjectManagers.GetItemCount() > 0;
+        GamePlayEndArgs gameplayEndArgs = new GamePlayEndArgs(_didPlayerWin);
 
         // set game play state "AfterPlay" to show result of this play
         GamePlayStateEventArgs stateArgs = new GamePlayStateEventArgs(GamePlayState.AfterPlay);
