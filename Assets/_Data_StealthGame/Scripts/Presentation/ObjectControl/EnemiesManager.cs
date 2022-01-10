@@ -136,6 +136,9 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     // notify the end of current gameplay to the upper classes
     public event EventHandler<GamePlayEndArgs> _onGamePlayEnd;
 
+    // callback when the enemies attack the player after the gameplay
+    public event EventHandler<InGameObjectEventArgs> _onEnemyAttackAfterPlay;
+
     // enemy state update for "after play" phase
     private IEnumerator _afterPlayUpdateSequence;
 
@@ -239,6 +242,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
             foreach(Enemy enemy in _enemies.Values)
             {
                 enemy.AttackPlayer(_playerTransform);
+                enemy._onAttackAfterPlay += OnEnemyAttackAfterPlay;
             }
 
             _afterPlayUpdateSequence = AfterPlayUpdateSequence();
@@ -599,6 +603,16 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         if(_afterPlayUpdateSequence == null) { return; }
         StopCoroutine(_afterPlayUpdateSequence);
         _afterPlayUpdateSequence = null;
+    }
+
+    /// <summary>
+    /// callback when the enemy attack the player after the gameplay
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
+    private void OnEnemyAttackAfterPlay(object sender, InGameObjectEventArgs args)
+    {
+        _onEnemyAttackAfterPlay?.Invoke(sender, args);
     }
 
     #endregion

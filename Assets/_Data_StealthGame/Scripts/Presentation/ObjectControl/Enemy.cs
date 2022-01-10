@@ -73,6 +73,9 @@ public class Enemy : InGameObjectBase, IHitTarget
     // whether this enemy is found by the player
     private bool _isFound;
 
+    // event to notify EnemiesManager when this enemy is attacking after the gameplay
+    public event EventHandler<InGameObjectEventArgs> _onAttackAfterPlay;
+
 
     /// <summary>
     /// initialization
@@ -350,18 +353,21 @@ public class Enemy : InGameObjectBase, IHitTarget
     {
         WaitForEndOfFrame wait = new WaitForEndOfFrame();
         bool isAttacking = false;
+        float playerAttackDistThreshold = 0.55f;
 
         while (true)
         {
             // move enemy to search the player
-            _enemyMover.Move(playerTransform.position, _externalForce * 0.1f);
-            //_enemyMover.Move(playerTransform.position, Vector3.zero);
+            _enemyMover.Move(playerTransform.position, _externalForce * 0.5f);
 
             // if this enemy gets sufficiently close to the attack target, start attack it
-            if (!isAttacking && Vector3.Distance(playerTransform.position, transform.position) < _attackTargetDistThresh)
+            if (!isAttacking && Vector3.Distance(playerTransform.position, transform.position) < playerAttackDistThreshold)
             {
                 _enemyAnimationHandler.SetAttack();
                 _audioHandler.PlayAttackSfx(true);
+
+                InGameObjectEventArgs args = new InGameObjectEventArgs(_id);
+                _onAttackAfterPlay?.Invoke(this, args);
                 isAttacking = true;
                 break;
             }
