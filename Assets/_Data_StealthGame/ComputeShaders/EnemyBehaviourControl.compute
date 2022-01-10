@@ -49,6 +49,9 @@ float3 _boundarySize;
 // rotation of the boundary of the node generation area
 float4x4 _boundaryRotation;
 
+// whether enable avoid boundary velocity
+int _enableBoundary;
+
 // if a enemy reaches at the boundary (assuming AABB) return velocity to avoid it
 float3 AvoidBoundary(float3 position, float3 center, float3 size, float4x4 rotMatrix)
 {
@@ -151,7 +154,7 @@ void GetEnemyForce
         float3 avoidBoundary = AvoidBoundary(thisEnemyPos, _boundaryCenter, _boundarySize, _boundaryRotation) * _avoidBoundaryVelWeight;
 
         // calculate velocity
-        float3 velocity = (separateVel + avoidBoundary) * _deltaTime;
+        float3 velocity = (separateVel + avoidBoundary * _enableBoundary) * _deltaTime;
 
         // write updated velocity
         _enemyForceBuffer[DTid.x] = velocity;

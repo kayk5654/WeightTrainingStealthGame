@@ -358,7 +358,7 @@ public class Enemy : InGameObjectBase, IHitTarget
         while (true)
         {
             // move enemy to search the player
-            _enemyMover.Move(playerTransform.position, _externalForce * 0.5f);
+            _enemyMover.Move(playerTransform.position, _externalForce);
 
             // if this enemy gets sufficiently close to the attack target, start attack it
             if (!isAttacking && Vector3.Distance(playerTransform.position, transform.position) < playerAttackDistThreshold)

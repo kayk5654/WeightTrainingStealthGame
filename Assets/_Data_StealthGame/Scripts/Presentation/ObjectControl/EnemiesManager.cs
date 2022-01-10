@@ -127,6 +127,9 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     // parameter name of _boundaryRotation
     private string _boundaryRotationName = "_boundaryRotation";
 
+    // parameter name of _enableBoundary
+    private string _enableBoundaryName = "_enableBoundary";
+
     // parameter name of _deltaTime
     private string _deltaTimeName = "_deltaTime";
 
@@ -245,6 +248,9 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
                 enemy._onAttackAfterPlay += OnEnemyAttackAfterPlay;
             }
 
+            // disable avoid boundary force
+            _enemyBehaviourControl.SetInt(_enableBoundaryName, 0);
+
             _afterPlayUpdateSequence = AfterPlayUpdateSequence();
             StartCoroutine(_afterPlayUpdateSequence);
         }
@@ -316,6 +322,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
         _enemyBehaviourControl.SetInt(_maxSpawnedEnemyNumName, _maxSpawnedEnemyNum);
         _enemyBehaviourControl.SetFloat(_neighbourRadiousName, _neighbourRadious);
         _enemyBehaviourControl.SetFloat(_avoidBoundaryVelWeightName, _avoidBoundaryVelWeight);
+        _enemyBehaviourControl.SetInt(_enableBoundaryName, 1);
         _enemyBehaviourControl.SetVector(_boundaryCenterName, _objectSpawnHandler.GetSpawnAreaCenter());
         _enemyBehaviourControl.SetVector(_boundarySizeName, _objectSpawnHandler.GetSpawnAreaSize());
         _enemyBehaviourControl.SetMatrix(_boundaryRotationName, _objectSpawnHandler.GetSpawnAreaTransformMatrix());
