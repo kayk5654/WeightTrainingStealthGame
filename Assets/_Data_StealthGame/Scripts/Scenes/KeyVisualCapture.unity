@@ -320,7 +320,7 @@ PrefabInstance:
     - target: {fileID: 7947004599680539123, guid: a542aa676b662a14684ac10f094eebdc,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a542aa676b662a14684ac10f094eebdc, type: 3}
@@ -771,7 +771,7 @@ PrefabInstance:
     - target: {fileID: 7947004599680539123, guid: a542aa676b662a14684ac10f094eebdc,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a542aa676b662a14684ac10f094eebdc, type: 3}
@@ -966,12 +966,12 @@ PrefabInstance:
     - target: {fileID: 142686241028879583, guid: 2ee7adaa01fdc004f9b3ce53604dfbc3,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 663001553453212609, guid: 2ee7adaa01fdc004f9b3ce53604dfbc3,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 663001553453212609, guid: 2ee7adaa01fdc004f9b3ce53604dfbc3,
         type: 3}
@@ -1016,7 +1016,7 @@ PrefabInstance:
     - target: {fileID: 1547903347527470670, guid: 2ee7adaa01fdc004f9b3ce53604dfbc3,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1547903347527470670, guid: 2ee7adaa01fdc004f9b3ce53604dfbc3,
         type: 3}
@@ -1231,7 +1231,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &518996182
 Transform:
   m_ObjectHideFlags: 0
@@ -1521,6 +1521,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SphereNode (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7947004599680539123, guid: a542aa676b662a14684ac10f094eebdc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a542aa676b662a14684ac10f094eebdc, type: 3}
 --- !u!4 &616361529 stripped
@@ -1613,7 +1618,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &878908898
 Transform:
   m_ObjectHideFlags: 0
@@ -1735,6 +1740,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Connection (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5835073924209826630, guid: a1cc412cfb5761b46a3c9a5dd99f7e97,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1cc412cfb5761b46a3c9a5dd99f7e97, type: 3}
 --- !u!4 &904819679 stripped
@@ -1839,6 +1849,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Connection
+      objectReference: {fileID: 0}
+    - target: {fileID: 5835073924209826630, guid: a1cc412cfb5761b46a3c9a5dd99f7e97,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1cc412cfb5761b46a3c9a5dd99f7e97, type: 3}
@@ -2136,7 +2151,7 @@ PrefabInstance:
     - target: {fileID: 7947004599680539123, guid: a542aa676b662a14684ac10f094eebdc,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a542aa676b662a14684ac10f094eebdc, type: 3}
@@ -2257,6 +2272,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SphereNode_Close
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947004599680539123, guid: a542aa676b662a14684ac10f094eebdc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a542aa676b662a14684ac10f094eebdc, type: 3}
@@ -2466,7 +2486,7 @@ PrefabInstance:
     - target: {fileID: 663001553453212609, guid: 2ee7adaa01fdc004f9b3ce53604dfbc3,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 663001553453212609, guid: 2ee7adaa01fdc004f9b3ce53604dfbc3,
         type: 3}
@@ -2511,7 +2531,7 @@ PrefabInstance:
     - target: {fileID: 1547903347527470670, guid: 2ee7adaa01fdc004f9b3ce53604dfbc3,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1547903347527470670, guid: 2ee7adaa01fdc004f9b3ce53604dfbc3,
         type: 3}
@@ -3098,6 +3118,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SphereNode (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7947004599680539123, guid: a542aa676b662a14684ac10f094eebdc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a542aa676b662a14684ac10f094eebdc, type: 3}
 --- !u!4 &1773667301 stripped
@@ -3217,6 +3242,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SphereNode (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947004599680539123, guid: a542aa676b662a14684ac10f094eebdc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9151175865598346956, guid: a542aa676b662a14684ac10f094eebdc,
         type: 3}
