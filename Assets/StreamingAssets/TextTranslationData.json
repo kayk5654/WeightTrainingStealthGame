@@ -355,8 +355,14 @@
   },
   {
     "_id": 60,
+    "_en": "Type of exercise:",
+    "_jp": "エクササイズの種類:",
+    "_label": "WorkoutUI_GameClear_2"
+  },
+  {
+    "_id": 61,
     "_en": "Number of exercise:",
     "_jp": "エクササイズの回数:",
-    "_label": "WorkoutUI_GameClear_2"
+    "_label": "WorkoutUI_GameClear_3"
   }
 ]}

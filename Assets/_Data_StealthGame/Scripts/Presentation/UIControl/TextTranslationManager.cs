@@ -33,6 +33,9 @@ public class TextTranslationManager : MonoBehaviour
     // database of texts
     private TextTranslationDatabase _textTranslationDatabase;
 
+    // selected language
+    private string _selectedLanguage = Config._english;
+
 
     /// <summary>
     /// initialization
@@ -42,7 +45,7 @@ public class TextTranslationManager : MonoBehaviour
         _textTranslationDatabase = new TextTranslationDatabase(new JsonDatabaseReader<TextTranslationDataSet>(), Config._textTranslationDataPath);
         _translatedTexts = Resources.FindObjectsOfTypeAll(typeof(TranslatedText)) as TranslatedText[];
         _translatedTexts = _translatedTexts.Where(text => !string.IsNullOrEmpty(text.gameObject.scene.name)).ToArray();
-        SetLanguage(Config._english);
+        SetLanguage(_selectedLanguage);
     }
 
     /// <summary>
@@ -67,8 +70,11 @@ public class TextTranslationManager : MonoBehaviour
     /// </summary>
     public void SetLanguage(string language)
     {
+        // record language
+        _selectedLanguage = language;
+
         // set fonts
-        FontSet tempFontSet = _fontSets.SingleOrDefault(set => set._language == language);
+        FontSet tempFontSet = _fontSets.SingleOrDefault(set => set._language == _selectedLanguage);
 
         // set texts
         TextTranslationDataSet tempTranslationDataset;
@@ -90,11 +96,11 @@ public class TextTranslationManager : MonoBehaviour
             // assign texts
             tempTranslationDataset = _textTranslationDatabase.GetData(text.GetId());
             
-            if (language == Config._english)
+            if (_selectedLanguage == Config._english)
             {
                 text.SetText(tempTranslationDataset._en);
             }
-            else if (language == Config._japanese)
+            else if (_selectedLanguage == Config._japanese)
             {
                 text.SetText(tempTranslationDataset._jp);
             }
@@ -106,8 +112,21 @@ public class TextTranslationManager : MonoBehaviour
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public TextTranslationDataSet GetTextTranslationData(int id)
+    public string GetTextTranslationData(int id)
     {
-        return _textTranslationDatabase.GetData(id);
+        TextTranslationDataSet tempTranslationDataset = _textTranslationDatabase.GetData(id);
+
+        if (_selectedLanguage == Config._english)
+        {
+            return tempTranslationDataset._en;
+        }
+        else if (_selectedLanguage == Config._japanese)
+        {
+            return tempTranslationDataset._jp;
+        }
+        else
+        {
+            return null;
+        }
     }
 }

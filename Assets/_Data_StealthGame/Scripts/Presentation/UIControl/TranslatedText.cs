@@ -46,7 +46,7 @@ public class TranslatedText : MonoBehaviour
     /// check id of this text
     /// </summary>
     /// <returns></returns>
-    public int GetId()
+    public virtual int GetId()
     {
         return _id;
     }
