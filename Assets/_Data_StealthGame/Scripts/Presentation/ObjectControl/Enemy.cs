@@ -374,4 +374,32 @@ public class Enemy : InGameObjectBase, IHitTarget
             yield return wait;
         }
     }
+
+    /// <summary>
+    /// pause object's behaviour
+    /// </summary>
+    public override void Pause()
+    {
+        // pause attack process
+        if(_attackSequence != null)
+        {
+            StopCoroutine(_attackSequence);
+        }
+
+        _enemyAnimationHandler.Pause();
+    }
+
+    /// <summary>
+    /// resume object's behaviour
+    /// </summary>
+    public override void Resume()
+    {
+        // resume attack process
+        if (_attackSequence != null)
+        {
+            StartCoroutine(_attackSequence);
+        }
+
+        _enemyAnimationHandler.Resume();
+    }
 }

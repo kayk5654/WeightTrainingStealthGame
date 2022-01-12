@@ -78,4 +78,14 @@ public abstract class InGameObjectBase : MonoBehaviour
     {
         return _currentHp;
     }
+
+    /// <summary>
+    /// pause object's behaviour
+    /// </summary>
+    public virtual void Pause() { }
+
+    /// <summary>
+    /// resume object's behaviour
+    /// </summary>
+    public virtual void Resume() { }
 }

@@ -40,4 +40,20 @@ public class EnemyAnimationHandler
         if (!_animator) { return; }
         _animator.SetTrigger(_attackAnimProperty);
     }
+
+    /// <summary>
+    /// pause animation
+    /// </summary>
+    public void Pause()
+    {
+        _animator.speed = 0f;
+    }
+
+    /// <summary>
+    /// resume animation
+    /// </summary>
+    public void Resume()
+    {
+        _animator.speed = 1f;
+    }
 }

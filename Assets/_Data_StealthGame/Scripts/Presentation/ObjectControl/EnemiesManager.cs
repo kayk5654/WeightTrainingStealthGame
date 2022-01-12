@@ -209,7 +209,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     {
         StopSpawnEnemies();
         EnableUpdateEnemies(false);
-
+        PauseEnemies();
         _toUpdate = false;
     }
 
@@ -220,7 +220,7 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     {
         StartSpawnEnemies();
         EnableUpdateEnemies(true);
-
+        ResumeEnemies();
         _toUpdate = true;
     }
 
@@ -620,6 +620,28 @@ public class EnemiesManager : MonoBehaviour, IItemManager<LevelDataSet, SpawnAre
     private void OnEnemyAttackAfterPlay(object sender, InGameObjectEventArgs args)
     {
         _onEnemyAttackAfterPlay?.Invoke(sender, args);
+    }
+
+    /// <summary>
+    /// pause enemies' behaviour
+    /// </summary>
+    private void PauseEnemies()
+    {
+        foreach (Enemy enemy in _enemies.Values)
+        {
+            enemy.Pause();
+        }
+    }
+
+    /// <summary>
+    /// resume enemies' behaviour
+    /// </summary>
+    private void ResumeEnemies()
+    {
+        foreach (Enemy enemy in _enemies.Values)
+        {
+            enemy.Resume();
+        }
     }
 
     #endregion
