@@ -187,7 +187,7 @@ public class Enemy : InGameObjectBase, IHitTarget
     private IEnumerator AttackSequence()
     {
         _enemyAnimationHandler.SetAttack();
-        _audioHandler.PlayAttackSfx(true);
+        _audioHandler.PlayAttackSfx(false);
 
         yield return _waitForEndOfFrame;
 
@@ -364,7 +364,7 @@ public class Enemy : InGameObjectBase, IHitTarget
             if (!isAttacking && Vector3.Distance(playerTransform.position, transform.position) < playerAttackDistThreshold)
             {
                 _enemyAnimationHandler.SetAttack();
-                _audioHandler.PlayAttackSfx(true);
+                _audioHandler.PlayAttackSfx(false);
 
                 InGameObjectEventArgs args = new InGameObjectEventArgs(_id);
                 _onAttackAfterPlay?.Invoke(this, args);

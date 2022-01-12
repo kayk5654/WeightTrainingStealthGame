@@ -29,8 +29,11 @@ public class InGameObjectAudioHandler : MonoBehaviour
     {
         if (isLoop)
         {
-            _sfxSource.clip = _attackSfx;
-            _sfxSource.Play();
+            if (!_sfxSource.isPlaying || _sfxSource.clip != _attackSfx)
+            {
+                _sfxSource.clip = _attackSfx;
+                _sfxSource.Play();
+            }
         }
         else
         {
@@ -46,9 +49,11 @@ public class InGameObjectAudioHandler : MonoBehaviour
     {
         if (isLoop)
         {
-            _sfxSource.clip = _damagedSfx;
-            _sfxSource.Play();
-        }
+            if (!_sfxSource.isPlaying || _sfxSource.clip != _damagedSfx)
+            {
+                _sfxSource.clip = _damagedSfx;
+                _sfxSource.Play();
+            }        }
         else
         {
             _sfxSource.PlayOneShot(_damagedSfx);
