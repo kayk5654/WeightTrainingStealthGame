@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lineRenderer: {fileID: 5428663184384113617}
+  _disableHiding: 0
 --- !u!120 &5428663184384113617
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -90,7 +91,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.001
+    widthMultiplier: 0.002
     widthCurve:
       serializedVersion: 2
       m_Curve:
