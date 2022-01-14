@@ -32,7 +32,11 @@ public class AfterPlayDamageEffectHandler : MonoBehaviour
     {
         _material = _meshRenderer.material;
         _waitForEndOfFrame = new WaitForEndOfFrame();
-        _enemiesManager._onEnemyAttackAfterPlay += PlayDamageEffect;
+
+        if (_enemiesManager)
+        {
+            _enemiesManager._onEnemyAttackAfterPlay += PlayDamageEffect;
+        }
     }
 
     /// <summary>
@@ -40,8 +44,10 @@ public class AfterPlayDamageEffectHandler : MonoBehaviour
     /// </summary>
     private void OnDestroy()
     {
-        _enemiesManager._onEnemyAttackAfterPlay -= PlayDamageEffect;
-        
+        if (_enemiesManager)
+        {
+            _enemiesManager._onEnemyAttackAfterPlay -= PlayDamageEffect;
+        }
     }
 
     /// <summary>
@@ -60,7 +66,7 @@ public class AfterPlayDamageEffectHandler : MonoBehaviour
     /// <summary>
     /// start playing damage efect
     /// </summary>
-    private void PlayDamageEffect(object sender, InGameObjectEventArgs args)
+    public void PlayDamageEffect(object sender, InGameObjectEventArgs args)
     {
         if (!_isRedVignetteActivated)
         {

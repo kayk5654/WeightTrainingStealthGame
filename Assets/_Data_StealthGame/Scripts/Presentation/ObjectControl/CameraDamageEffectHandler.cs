@@ -35,8 +35,16 @@ public class CameraDamageEffectHandler : MonoBehaviour
     {
         _material = _meshRenderer.material;
         _waitForEndOfFrame = new WaitForEndOfFrame();
-        _nodesManager._onNodeAttacked += PlayDamageEffect;
-        _enemiesManager._onEnemyAttackAfterPlay += PlayDamageEffect;
+
+        if (_nodesManager)
+        {
+            _nodesManager._onNodeAttacked += PlayDamageEffect;
+        }
+
+        if (_enemiesManager)
+        {
+            _enemiesManager._onEnemyAttackAfterPlay += PlayDamageEffect;
+        }
     }
 
     /// <summary>
@@ -44,8 +52,15 @@ public class CameraDamageEffectHandler : MonoBehaviour
     /// </summary>
     private void OnDestroy()
     {
-        _nodesManager._onNodeAttacked -= PlayDamageEffect;
-        _enemiesManager._onEnemyAttackAfterPlay -= PlayDamageEffect;
+        if (_nodesManager)
+        {
+            _nodesManager._onNodeAttacked -= PlayDamageEffect;
+        }
+
+        if (_enemiesManager)
+        {
+            _enemiesManager._onEnemyAttackAfterPlay -= PlayDamageEffect;
+        }
     }
 
     private void Update()
@@ -56,7 +71,7 @@ public class CameraDamageEffectHandler : MonoBehaviour
     /// <summary>
     /// start playing damage efect
     /// </summary>
-    private void PlayDamageEffect(object sender, InGameObjectEventArgs args)
+    public void PlayDamageEffect(object sender, InGameObjectEventArgs args)
     {
         if(_damageEffectSequence != null)
         {
