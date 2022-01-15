@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.VFX;
 /// <summary>
@@ -10,6 +10,9 @@ public class TrailerEnemy : MonoBehaviour
     [SerializeField, Tooltip("sound effect control")]
     private AudioSource _destroyAudio;
 
+    [SerializeField, Tooltip("sound effect control for attacking")]
+    private AudioSource _attackAudio;
+
     [SerializeField, Tooltip("visual effect control")]
     private VisualEffect _destroyVfx;
 
@@ -19,12 +22,19 @@ public class TrailerEnemy : MonoBehaviour
     [SerializeField, Tooltip("mesh renderer")]
     private Renderer[] _renderers;
 
-    // control enemy's animation
-    private EnemyAnimationHandler _enemyAnimationHandler;
+    // callback when attacking something
+    public event EventHandler<InGameObjectEventArgs> _onAttack;
+
+    // whether this enemy is "attacking" state
+    private bool _isAttacking;
+
+    // animator property
+    private string _attackAnimationProperty = "IsAttack";
+
 
     private void Start()
     {
-        _enemyAnimationHandler = new EnemyAnimationHandler(_animator);
+        
     }
 
     private void Update()
@@ -37,7 +47,13 @@ public class TrailerEnemy : MonoBehaviour
     /// </summary>
     public void Attack()
     {
-        _enemyAnimationHandler.SetAttack();
+        if (_isAttacking) { return; }
+
+        _animator.SetBool(_attackAnimationProperty, true);
+        _attackAudio.Play();
+        InGameObjectEventArgs args = new InGameObjectEventArgs(0);
+        _onAttack?.Invoke(this, args);
+        _isAttacking = true;
     }
 
     /// <summary>
@@ -63,6 +79,8 @@ public class TrailerEnemy : MonoBehaviour
             renderer.enabled = true;
         }
 
-        _enemyAnimationHandler.SetSearch();
+        _animator.SetBool(_attackAnimationProperty, false);
+
+        _isAttacking = false;
     }
 }

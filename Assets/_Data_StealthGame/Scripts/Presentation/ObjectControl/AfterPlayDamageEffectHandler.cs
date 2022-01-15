@@ -101,7 +101,7 @@ public class AfterPlayDamageEffectHandler : MonoBehaviour
     /// <summary>
     /// revert condition of the damage effect
     /// </summary>
-    private void RevertDamageEffect()
+    public void RevertDamageEffect()
     {
         _isRedVignetteActivated = false;
         _material.SetFloat(_redVignetteProperty, 0f);
