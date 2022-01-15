@@ -1058,6 +1058,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: StageRoot
       objectReference: {fileID: 0}
+    - target: {fileID: 1193968915547156701, guid: 46b42252616c0ca4fb8db03df8105c51,
+        type: 3}
+      propertyPath: _nodePrefab
+      value: 
+      objectReference: {fileID: 7947004599680539123, guid: a542aa676b662a14684ac10f094eebdc,
+        type: 3}
+    - target: {fileID: 1193968915547156701, guid: 46b42252616c0ca4fb8db03df8105c51,
+        type: 3}
+      propertyPath: _lineMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 244df7de04ae73340bd74b0dcd6a5166, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46b42252616c0ca4fb8db03df8105c51, type: 3}
 --- !u!1 &1048565682 stripped
@@ -1328,7 +1339,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1251801470
 Transform:
   m_ObjectHideFlags: 0
