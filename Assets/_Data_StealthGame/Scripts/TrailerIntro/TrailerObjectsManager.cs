@@ -144,7 +144,7 @@ public class TrailerObjectsManager : MonoBehaviour
     /// </summary>
     public void DestroyEnemies()
     {
-        _node.Attack();
+        //_node.Attack();
         
         foreach (TrailerEnemy enemy in _enemiesForTrailer)
         {
