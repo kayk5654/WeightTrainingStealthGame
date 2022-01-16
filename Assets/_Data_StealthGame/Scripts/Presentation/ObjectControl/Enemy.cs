@@ -325,6 +325,20 @@ public class Enemy : InGameObjectBase, IHitTarget
         _onDestroyed = null;
 
         // destroy this enemy object
+        float delay = 0.3f;
+        StartCoroutine(DelayedDestroySequence(delay));
+    }
+
+    /// <summary>
+    /// destroy this enemy after delay
+    /// </summary>
+    /// <param name="delay"></param>
+    /// <returns></returns>
+    private IEnumerator DelayedDestroySequence(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        // destroy this enemy object
         Destroy(gameObject);
     }
 
