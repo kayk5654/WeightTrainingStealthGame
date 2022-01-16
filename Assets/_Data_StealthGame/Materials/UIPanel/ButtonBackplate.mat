@@ -27,7 +27,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2001
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
@@ -103,6 +103,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ScanlineTextureBased_10B4A257_Texture2DBC9E0884_3628062544:
+        m_Texture: {fileID: 2800000, guid: 078fef4e9a8d32547ab713ebf396482e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ScanlineTextureBased_6662283E_Texture2DBC9E0884_3628062544:
+        m_Texture: {fileID: 2800000, guid: 078fef4e9a8d32547ab713ebf396482e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
