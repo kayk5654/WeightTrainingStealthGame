@@ -163,7 +163,7 @@ public class NodesManager : MonoBehaviour, IItemManager<PlayerAbilityDataSet, Sp
     private const int WRITE = 1;
 
     // thread size of a thread group
-    private const int SIMULATION_BLOCK_SIZE = 256;
+    private const int SIMULATION_BLOCK_SIZE = 64;
 
     // whether the nodes must be updated in this frame
     private bool _toUpdate = false;

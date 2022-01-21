@@ -55,7 +55,7 @@ int _maxConnectionPerNode;
 float _connectRadious;
 
 // size of thread group
-#define SIMULATION_BLOCK_SIZE 256
+#define SIMULATION_BLOCK_SIZE 64
 
 // shared memory to contain node data
 groupshared Node _nodeData[SIMULATION_BLOCK_SIZE];
