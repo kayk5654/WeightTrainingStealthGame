@@ -1,5 +1,12 @@
+Silent Invasion
+Copyright (c) 2022 Kei Kitamura
+
 Concept, Visual Design, Programming: Kei Kitamura
 
+*** Libraries ***
+MixedRealityToolkit-Unity
+Copyright (c) Microsoft Corporation.
+This library is licensed under MIT License (https://github.com/microsoft/MixedRealityToolkit-Unity/blob/main/LICENSE.md)
 
 *** Audio ***
 
