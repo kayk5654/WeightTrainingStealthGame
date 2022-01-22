@@ -85,6 +85,9 @@ public class InGameObjectAudioHandler : MonoBehaviour
         // unparent gameobject
         transform.parent = null;
 
+        // stop looping sound
+        StopLoopSfx();
+
         // play sound effect
         _sfxSource.PlayOneShot(_destroyedSfx);
         yield return new WaitForSeconds(_destroyedSfx.length);
