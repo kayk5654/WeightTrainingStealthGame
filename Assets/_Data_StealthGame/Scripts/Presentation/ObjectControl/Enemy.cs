@@ -100,6 +100,8 @@ public class Enemy : InGameObjectBase, IHitTarget
         switch (_currentState)
         {
             case EnemyState.Search:
+                _enemyMover.SetLerpFactorType(true);
+
                 if (!_nearestTarget)
                 {
                     // if _nearestTarget is null, enemy moves forward 
@@ -119,6 +121,8 @@ public class Enemy : InGameObjectBase, IHitTarget
                 break;
 
             case EnemyState.Attack:
+                _enemyMover.SetLerpFactorType(false);
+
                 // move enemy to search attack target
                 if (!_nearestTarget) { return; }
                 transform.SetParent(_nearestTarget.transform);

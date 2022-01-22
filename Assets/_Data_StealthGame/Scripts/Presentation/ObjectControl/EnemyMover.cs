@@ -16,8 +16,14 @@ public class EnemyMover
     // store velocity in the last frame to smooth out the movement
     private Vector3 _lastVelocity;
 
-    // delay factor of rotation; original value is 0.005f
+    // delay factor of position and rotation
     private float _lerpFactor = 0.01f;
+
+    // rotation lerp factor for "searching" state
+    private float _searchLerpFactor = 0.01f;
+
+    // rotation lerp factor for "attack" state
+    private float _attackLerpFactor = 0.02f;
 
 
     /// <summary>
@@ -43,5 +49,14 @@ public class EnemyMover
         _moveTransform.rotation = Quaternion.Lerp(_moveTransform.rotation, Quaternion.FromToRotation(_moveTransform.forward, _moveDirection) * _moveTransform.rotation, _lerpFactor);
 
         _lastVelocity = _moveDirection;
+    }
+
+    /// <summary>
+    /// switch lerp factor depending on the state of the enemy
+    /// </summary>
+    /// <param name="isSearching"></param>
+    public void SetLerpFactorType(bool isSearching)
+    {
+        _lerpFactor = isSearching ? _searchLerpFactor : _attackLerpFactor;
     }
 }
