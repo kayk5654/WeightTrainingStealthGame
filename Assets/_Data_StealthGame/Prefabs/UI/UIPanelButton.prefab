@@ -364,6 +364,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _textMeshPro: {fileID: 231028905743246076}
   _id: 0
+  _textType: 0
 --- !u!1 &231028905824245873
 GameObject:
   m_ObjectHideFlags: 0
@@ -1827,10 +1828,10 @@ VisualEffect:
       m_Array: []
     m_Vector3f:
       m_Array:
-      - m_Value: {x: -0.1, y: -0.04, z: 0.003}
+      - m_Value: {x: -0.05, y: -0.025, z: 0.003}
         m_Name: SpawnArea_Min
         m_Overridden: 1
-      - m_Value: {x: 0.1, y: 0.04, z: 0.003}
+      - m_Value: {x: 0.05, y: 0.025, z: 0.003}
         m_Name: SpawnArea_Max
         m_Overridden: 1
     m_Vector4f:
