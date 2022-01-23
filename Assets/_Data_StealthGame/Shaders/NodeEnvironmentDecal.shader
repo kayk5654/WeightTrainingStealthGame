@@ -121,24 +121,6 @@
                 float3 viewVector = input.viewDirectionOS.xyz / input.viewDirectionOS.w;
                 float3 objectSpacePosBehind = input.cameraPositionOS + viewVector * sceneDepth;
 
-                // the object space coordinates of unity's cube or quad are [-1, 1]
-                // so, they should be converted to[0, 1] to sample textures appropriately
-                /*
-                float2 decalUv1 = objectSpacePosBehind.xy + 0.5;
-                float2 decalUv2 = objectSpacePosBehind.yz + 0.5;
-                float2 decalUv3 = objectSpacePosBehind.xz + 0.5;
-
-                // apply tiling and offset on uv
-                decalUv1 = decalUv1 * _MainTex_ST.xy + _MainTex_ST.zw;
-                decalUv2 = decalUv2 * _MainTex_ST.xy + _MainTex_ST.zw;
-                decalUv3 = decalUv3 * _MainTex_ST.xy + _MainTex_ST.zw;
-
-                // sample texture by object space opaque mesh position
-                float4 texPattern = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, decalUv1);
-                texPattern += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, decalUv2);
-                texPattern += SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, decalUv3);
-                texPattern /= 3;
-                */
                 float4 texPattern = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv);
 
                 float dist_thisMesh = length(mul(unity_WorldToObject, input.positionWS).xyz);
